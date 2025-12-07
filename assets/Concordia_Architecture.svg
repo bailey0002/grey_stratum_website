@@ -1,0 +1,177 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 650">
+  <defs>
+    <linearGradient id="layer1Grad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#2d333b"/>
+      <stop offset="100%" style="stop-color:#22272e"/>
+    </linearGradient>
+    <linearGradient id="layer2Grad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#1e2228"/>
+      <stop offset="100%" style="stop-color:#252a31"/>
+    </linearGradient>
+    <linearGradient id="cyanGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#5BA4B5"/>
+      <stop offset="100%" style="stop-color:#4a8a99"/>
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="140%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="900" height="650" fill="#f8f9fa"/>
+  
+  <!-- Title -->
+  <text x="450" y="45" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="#1a1a1a" text-anchor="middle">Concordia NDA+ Architecture</text>
+  <text x="450" y="70" font-family="Arial, sans-serif" font-size="12" fill="#7d8590" text-anchor="middle">Three-Layer Hybrid System</text>
+  
+  <!-- Layer 1: Electron Desktop -->
+  <g transform="translate(50, 100)">
+    <rect width="800" height="130" rx="8" fill="url(#layer1Grad)" filter="url(#shadow)"/>
+    <text x="20" y="28" font-family="Arial, sans-serif" font-size="11" fill="#5BA4B5" font-weight="bold">LAYER 1</text>
+    <text x="20" y="50" font-family="Arial, sans-serif" font-size="16" fill="#e6edf3" font-weight="bold">Electron Desktop Application</text>
+    
+    <!-- Components -->
+    <g transform="translate(20, 70)">
+      <!-- React UI -->
+      <rect width="150" height="45" rx="4" fill="#3d444d"/>
+      <text x="75" y="20" font-family="Arial, sans-serif" font-size="11" fill="#5BA4B5" text-anchor="middle" font-weight="bold">React + Fluent UI</text>
+      <text x="75" y="35" font-family="Arial, sans-serif" font-size="9" fill="#adbac7" text-anchor="middle">Document Viewer</text>
+    </g>
+    <g transform="translate(190, 70)">
+      <!-- Provision Cards -->
+      <rect width="150" height="45" rx="4" fill="#3d444d"/>
+      <text x="75" y="20" font-family="Arial, sans-serif" font-size="11" fill="#5BA4B5" text-anchor="middle" font-weight="bold">Provision Cards</text>
+      <text x="75" y="35" font-family="Arial, sans-serif" font-size="9" fill="#adbac7" text-anchor="middle">Decision Interface</text>
+    </g>
+    <g transform="translate(360, 70)">
+      <!-- mammoth.js -->
+      <rect width="150" height="45" rx="4" fill="#3d444d"/>
+      <text x="75" y="20" font-family="Arial, sans-serif" font-size="11" fill="#5BA4B5" text-anchor="middle" font-weight="bold">mammoth.js</text>
+      <text x="75" y="35" font-family="Arial, sans-serif" font-size="9" fill="#adbac7" text-anchor="middle">.docx → HTML</text>
+    </g>
+    <g transform="translate(530, 70)">
+      <!-- IPC Bridge -->
+      <rect width="120" height="45" rx="4" fill="#3d444d"/>
+      <text x="60" y="20" font-family="Arial, sans-serif" font-size="11" fill="#5BA4B5" text-anchor="middle" font-weight="bold">IPC Bridge</text>
+      <text x="60" y="35" font-family="Arial, sans-serif" font-size="9" fill="#adbac7" text-anchor="middle">preload.js</text>
+    </g>
+    <g transform="translate(670, 70)">
+      <!-- File System -->
+      <rect width="110" height="45" rx="4" fill="#3d444d"/>
+      <text x="55" y="20" font-family="Arial, sans-serif" font-size="11" fill="#5BA4B5" text-anchor="middle" font-weight="bold">File System</text>
+      <text x="55" y="35" font-family="Arial, sans-serif" font-size="9" fill="#adbac7" text-anchor="middle">Load / Export</text>
+    </g>
+  </g>
+  
+  <!-- Arrow 1→2 -->
+  <g transform="translate(450, 235)">
+    <line x1="0" y1="0" x2="0" y2="30" stroke="#5BA4B5" stroke-width="2" marker-end="url(#arrowhead)"/>
+    <text x="15" y="18" font-family="Arial, sans-serif" font-size="9" fill="#7d8590">HTTP/REST</text>
+  </g>
+  
+  <!-- Layer 2: FastAPI Backend -->
+  <g transform="translate(50, 270)">
+    <rect width="800" height="130" rx="8" fill="url(#layer2Grad)" filter="url(#shadow)"/>
+    <text x="20" y="28" font-family="Arial, sans-serif" font-size="11" fill="#5BA4B5" font-weight="bold">LAYER 2</text>
+    <text x="20" y="50" font-family="Arial, sans-serif" font-size="16" fill="#e6edf3" font-weight="bold">FastAPI Backend (Python)</text>
+    
+    <!-- Components -->
+    <g transform="translate(20, 70)">
+      <rect width="140" height="45" rx="4" fill="#3d444d"/>
+      <text x="70" y="20" font-family="Arial, sans-serif" font-size="11" fill="#5BA4B5" text-anchor="middle" font-weight="bold">api_server.py</text>
+      <text x="70" y="35" font-family="Arial, sans-serif" font-size="9" fill="#adbac7" text-anchor="middle">v0.4.1-negation</text>
+    </g>
+    <g transform="translate(180, 70)">
+      <rect width="140" height="45" rx="4" fill="#3d444d"/>
+      <text x="70" y="20" font-family="Arial, sans-serif" font-size="11" fill="#5BA4B5" text-anchor="middle" font-weight="bold">gpt_service.py</text>
+      <text x="70" y="35" font-family="Arial, sans-serif" font-size="9" fill="#adbac7" text-anchor="middle">Chunked Processing</text>
+    </g>
+    <g transform="translate(340, 70)">
+      <rect width="150" height="45" rx="4" fill="#3d444d"/>
+      <text x="75" y="20" font-family="Arial, sans-serif" font-size="11" fill="#5BA4B5" text-anchor="middle" font-weight="bold">negation_detector</text>
+      <text x="75" y="35" font-family="Arial, sans-serif" font-size="9" fill="#adbac7" text-anchor="middle">23 Patterns</text>
+    </g>
+    <g transform="translate(510, 70)">
+      <rect width="130" height="45" rx="4" fill="#3d444d"/>
+      <text x="65" y="20" font-family="Arial, sans-serif" font-size="11" fill="#5BA4B5" text-anchor="middle" font-weight="bold">YAML Loader</text>
+      <text x="65" y="35" font-family="Arial, sans-serif" font-size="9" fill="#adbac7" text-anchor="middle">43 Provisions</text>
+    </g>
+    <g transform="translate(660, 70)">
+      <rect width="120" height="45" rx="4" fill="#3d444d"/>
+      <text x="60" y="20" font-family="Arial, sans-serif" font-size="11" fill="#5BA4B5" text-anchor="middle" font-weight="bold">python-docx</text>
+      <text x="60" y="35" font-family="Arial, sans-serif" font-size="9" fill="#adbac7" text-anchor="middle">Export Engine</text>
+    </g>
+  </g>
+  
+  <!-- Arrows 2→3 -->
+  <g transform="translate(300, 405)">
+    <line x1="0" y1="0" x2="0" y2="30" stroke="#5BA4B5" stroke-width="2"/>
+    <text x="15" y="18" font-family="Arial, sans-serif" font-size="9" fill="#7d8590">Rules</text>
+  </g>
+  <g transform="translate(600, 405)">
+    <line x1="0" y1="0" x2="0" y2="30" stroke="#5BA4B5" stroke-width="2"/>
+    <text x="15" y="18" font-family="Arial, sans-serif" font-size="9" fill="#7d8590">AI</text>
+  </g>
+  
+  <!-- Layer 3: Analysis Engine -->
+  <g transform="translate(50, 440)">
+    <rect width="380" height="130" rx="8" fill="url(#cyanGrad)" filter="url(#shadow)"/>
+    <text x="20" y="28" font-family="Arial, sans-serif" font-size="11" fill="#ffffff" font-weight="bold" opacity="0.8">LAYER 3A</text>
+    <text x="20" y="50" font-family="Arial, sans-serif" font-size="16" fill="#ffffff" font-weight="bold">Analysis Engine (YAML)</text>
+    
+    <g transform="translate(20, 70)">
+      <rect width="100" height="40" rx="4" fill="rgba(255,255,255,0.15)"/>
+      <text x="50" y="17" font-family="Arial, sans-serif" font-size="10" fill="#ffffff" text-anchor="middle" font-weight="bold">34 NDA</text>
+      <text x="50" y="32" font-family="Arial, sans-serif" font-size="9" fill="#ffffff" text-anchor="middle" opacity="0.8">Provisions</text>
+    </g>
+    <g transform="translate(135, 70)">
+      <rect width="100" height="40" rx="4" fill="rgba(255,255,255,0.15)"/>
+      <text x="50" y="17" font-family="Arial, sans-serif" font-size="10" fill="#ffffff" text-anchor="middle" font-weight="bold">5 NRL</text>
+      <text x="50" y="32" font-family="Arial, sans-serif" font-size="9" fill="#ffffff" text-anchor="middle" opacity="0.8">Provisions</text>
+    </g>
+    <g transform="translate(250, 70)">
+      <rect width="110" height="40" rx="4" fill="rgba(255,255,255,0.15)"/>
+      <text x="55" y="17" font-family="Arial, sans-serif" font-size="10" fill="#ffffff" text-anchor="middle" font-weight="bold">4 Standards</text>
+      <text x="55" y="32" font-family="Arial, sans-serif" font-size="9" fill="#ffffff" text-anchor="middle" opacity="0.8">Definitions</text>
+    </g>
+  </g>
+  
+  <!-- Azure OpenAI -->
+  <g transform="translate(470, 440)">
+    <rect width="380" height="130" rx="8" fill="#0078D4" filter="url(#shadow)"/>
+    <text x="20" y="28" font-family="Arial, sans-serif" font-size="11" fill="#ffffff" font-weight="bold" opacity="0.8">LAYER 3B</text>
+    <text x="20" y="50" font-family="Arial, sans-serif" font-size="16" fill="#ffffff" font-weight="bold">Azure OpenAI GPT-4o</text>
+    
+    <g transform="translate(20, 70)">
+      <rect width="105" height="40" rx="4" fill="rgba(255,255,255,0.15)"/>
+      <text x="52" y="17" font-family="Arial, sans-serif" font-size="10" fill="#ffffff" text-anchor="middle" font-weight="bold">Semantic</text>
+      <text x="52" y="32" font-family="Arial, sans-serif" font-size="9" fill="#ffffff" text-anchor="middle" opacity="0.8">Analysis</text>
+    </g>
+    <g transform="translate(140, 70)">
+      <rect width="105" height="40" rx="4" fill="rgba(255,255,255,0.15)"/>
+      <text x="52" y="17" font-family="Arial, sans-serif" font-size="10" fill="#ffffff" text-anchor="middle" font-weight="bold">Remediation</text>
+      <text x="52" y="32" font-family="Arial, sans-serif" font-size="9" fill="#ffffff" text-anchor="middle" opacity="0.8">Synthesis</text>
+    </g>
+    <g transform="translate(260, 70)">
+      <rect width="100" height="40" rx="4" fill="rgba(255,255,255,0.15)"/>
+      <text x="50" y="17" font-family="Arial, sans-serif" font-size="10" fill="#ffffff" text-anchor="middle" font-weight="bold">Final Check</text>
+      <text x="50" y="32" font-family="Arial, sans-serif" font-size="9" fill="#ffffff" text-anchor="middle" opacity="0.8">Validation</text>
+    </g>
+  </g>
+  
+  <!-- Data Flow Legend -->
+  <g transform="translate(50, 595)">
+    <text x="0" y="0" font-family="Arial, sans-serif" font-size="10" fill="#7d8590" font-weight="bold">DATA FLOW:</text>
+    <text x="75" y="0" font-family="Arial, sans-serif" font-size="10" fill="#7d8590">.docx → mammoth.js → Backend Analysis → YAML Rules + GPT Enhancement → Attorney Decisions → Export</text>
+  </g>
+  
+  <!-- Version info -->
+  <text x="850" y="635" font-family="Arial, sans-serif" font-size="9" fill="#adbac7" text-anchor="end">v2025-12 | Grey Stratum</text>
+  
+  <!-- Arrowhead marker -->
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#5BA4B5"/>
+    </marker>
+  </defs>
+</svg>
