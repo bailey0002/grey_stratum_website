@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light only">
+    <meta name="supported-color-schemes" content="light only">
+    <title>Grey Stratum</title>
+    
+    <!-- Preconnect for faster font loading -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Archivo:wght@300;400;500&family=Fira+Code:wght@400&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --gray-900: #1a1a1a;
+            --gray-600: #4a4f54;
+            --gray-500: #5a6068;
+            --gray-400: #7a818a;
+            --gray-muted: #99ACB0;
+            --gray-200: #d8dce0;
+            --gray-150: #c8ccd0;
+            --gray-100: #e8ebed;
+            --off-white: #f8f9fa;
+            --white: #ffffff;
+            --cyan-accent: #5BA4B5;
+            --slate-bg: #99ACB0;
+        }
+
+        html {
+            background-color: var(--off-white);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--off-white);
+            color: var(--gray-900);
+            line-height: 1.7;
+            font-weight: 300;
+        }
+
+        /* Animations */
+        @keyframes pulse {
+            0%, 100% { 
+                opacity: 0.6; 
+                box-shadow: 0 0 8px rgba(91, 164, 181, 0.3); 
+            }
+            50% { 
+                opacity: 1; 
+                box-shadow: 0 0 16px rgba(91, 164, 181, 0.6); 
+            }
+        }
+
+        @keyframes breathe {
+            0%, 100% { transform: scaleY(1); }
+            50% { transform: scaleY(1.1); }
+        }
+
+        @keyframes fadeUp {
+            from { 
+                opacity: 0; 
+                transform: translateY(20px); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
+            }
+        }
+
+        .cyan-bar {
+            animation: pulse 3s ease-in-out infinite, breathe 3s ease-in-out infinite;
+        }
+
+        .fade-in {
+            opacity: 0;
+            animation: fadeUp 0.8s ease-out forwards;
+        }
+
+        .fade-in-delay-1 { animation-delay: 0.2s; }
+        .fade-in-delay-2 { animation-delay: 0.4s; }
+        .fade-in-delay-3 { animation-delay: 0.6s; }
+
+        /* Header */
+        header {
+            padding: 2.5rem 2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-bottom: 1px solid var(--gray-200);
+            background-color: var(--off-white);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-family: 'Archivo', sans-serif;
+            font-size: 2.1rem;
+            font-weight: 300;
+            letter-spacing: 0.35em;
+            text-transform: uppercase;
+        }
+
+        .logo-grey { color: var(--gray-muted); }
+        .logo-stratum { color: var(--gray-900); }
+
+        .logo-divider {
+            width: 2px;
+            height: 1.3em;
+            background-color: var(--cyan-accent);
+            margin: 0 1rem;
+            border-radius: 1px;
+        }
+
+        /* Navigation */
+        nav {
+            padding: 1.25rem 2rem;
+            display: flex;
+            justify-content: center;
+            gap: 3.5rem;
+            border-bottom: 1px solid var(--gray-200);
+            background-color: var(--off-white);
+        }
+
+        nav a {
+            position: relative;
+            font-size: 0.7rem;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            text-decoration: none;
+            color: var(--gray-500);
+            transition: color 0.3s ease;
+        }
+
+        nav a:hover { color: var(--gray-900); }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background-color: var(--cyan-accent);
+            transition: width 0.3s ease;
+        }
+
+        nav a:hover::after { width: 100%; }
+
+        /* Code text */
+        .code-text {
+            font-family: 'Fira Code', 'SF Mono', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 0.15em;
+            color: var(--gray-400);
+        }
+
+        .code-text.cyan { color: var(--cyan-accent); }
+
+        /* Hero Section */
+        .hero {
+            padding: 6rem 2rem 5rem;
+            text-align: center;
+            max-width: 850px;
+            margin: 0 auto;
+            background-color: var(--off-white);
+        }
+
+        .hero-tag {
+            margin-bottom: 2rem;
+        }
+
+        .hero h1 {
+            font-family: 'Archivo', sans-serif;
+            font-size: 2.4rem;
+            font-weight: 300;
+            letter-spacing: 0.06em;
+            color: var(--gray-900);
+            margin-bottom: 1.75rem;
+            line-height: 1.35;
+        }
+
+        .hero p {
+            font-size: 1.05rem;
+            color: var(--gray-600);
+            max-width: 520px;
+            margin: 0 auto 3rem auto;
+            line-height: 1.85;
+        }
+
+        /* Buttons */
+        .btn-ghost {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            border: 1px solid var(--gray-900);
+            color: var(--gray-900);
+            text-decoration: none;
+            font-size: 0.7rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            transition: all 0.4s ease;
+            background: transparent;
+            cursor: pointer;
+        }
+
+        .btn-ghost:hover {
+            background-color: var(--gray-900);
+            color: var(--off-white);
+        }
+
+        /* Divider */
+        .divider-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem 0;
+            background-color: var(--off-white);
+        }
+
+        .divider-line {
+            width: 80px;
+            height: 1px;
+            background-color: var(--gray-150);
+        }
+
+        .divider-dot {
+            width: 6px;
+            height: 6px;
+            background-color: var(--cyan-accent);
+            margin: 0 1rem;
+            border-radius: 50%;
+        }
+
+        /* Capabilities Section */
+        .capabilities {
+            padding: 5rem 2rem;
+            text-align: center;
+            background-color: var(--slate-bg);
+        }
+
+        .capabilities .code-text {
+            margin-bottom: 3rem;
+            color: var(--white);
+            opacity: 0.85;
+        }
+
+        .capabilities-grid {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            max-width: 950px;
+            margin: 0 auto;
+        }
+
+        .card {
+            flex: 1;
+            min-width: 280px;
+            max-width: 420px;
+            text-align: left;
+            padding: 2.5rem;
+            background: var(--white);
+            border: 1px solid var(--gray-200);
+            transition: all 0.4s ease;
+        }
+
+        .card:hover {
+            border-color: var(--cyan-accent);
+            box-shadow: 0 8px 32px rgba(91, 164, 181, 0.15);
+        }
+
+        .card .code-text {
+            margin-bottom: 1rem;
+            color: var(--cyan-accent);
+        }
+
+        .card h3 {
+            font-family: 'Archivo', sans-serif;
+            font-size: 1.15rem;
+            font-weight: 400;
+            letter-spacing: 0.08em;
+            color: var(--gray-900);
+            margin-bottom: 1rem;
+        }
+
+        .card p {
+            font-size: 0.9rem;
+            color: var(--gray-600);
+            line-height: 1.9;
+        }
+
+        /* Featured Section */
+        .featured {
+            padding: 6rem 2rem;
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto;
+            background-color: var(--off-white);
+        }
+
+        .featured-divider {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .featured-divider .line {
+            width: 40px;
+            height: 1px;
+            background-color: var(--gray-150);
+        }
+
+        .featured-divider .bar {
+            width: 3px;
+            height: 24px;
+            background-color: var(--cyan-accent);
+            margin: 0 1.25rem;
+            border-radius: 2px;
+        }
+
+        .featured .code-text {
+            margin-bottom: 1.5rem;
+            color: var(--cyan-accent);
+        }
+
+        .featured h2 {
+            font-family: 'Archivo', sans-serif;
+            font-size: 2rem;
+            font-weight: 300;
+            letter-spacing: 0.12em;
+            color: var(--gray-900);
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+        }
+
+        .featured p {
+            font-size: 0.95rem;
+            color: var(--gray-600);
+            margin-bottom: 1rem;
+            line-height: 1.9;
+        }
+
+        .featured .subtext {
+            font-size: 0.85rem;
+            color: var(--gray-400);
+            margin-bottom: 2.5rem;
+            font-style: italic;
+        }
+
+        /* Closing */
+        .closing {
+            padding: 4rem 2rem;
+            text-align: center;
+            border-top: 1px solid var(--gray-200);
+            background-color: var(--slate-bg);
+        }
+
+        .closing p {
+            font-family: 'Archivo', sans-serif;
+            font-size: 1rem;
+            letter-spacing: 0.15em;
+            color: var(--white);
+            font-weight: 300;
+            opacity: 0.9;
+        }
+
+        /* Footer */
+        footer {
+            padding: 3rem 2rem;
+            text-align: center;
+            border-top: 1px solid var(--gray-200);
+            background-color: var(--off-white);
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Archivo', sans-serif;
+            font-size: 1rem;
+            font-weight: 400;
+            letter-spacing: 0.35em;
+            text-transform: uppercase;
+            margin-bottom: 1.25rem;
+        }
+
+        .footer-logo .divider {
+            width: 2px;
+            height: 1em;
+            background-color: var(--cyan-accent);
+            margin: 0 0.9rem;
+            border-radius: 1px;
+        }
+
+        footer .code-text {
+            margin-top: 0.5rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .logo { font-size: 1.5rem; }
+            .hero h1 { font-size: 1.75rem; }
+            .featured h2 { font-size: 1.5rem; }
+            nav { gap: 2rem; }
+            .capabilities-grid { gap: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            <span class="logo-grey">GREY</span>
+            <div class="logo-divider cyan-bar"></div>
+            <span class="logo-stratum">STRATUM</span>
+        </div>
+    </header>
+
+    <nav>
+        <a href="#">Protocol</a>
+        <a href="#">Genesis</a>
+        <a href="#">Signal</a>
+    </nav>
+
+    <section class="hero">
+        <p class="code-text hero-tag fade-in">[ TRANSMISSION ACTIVE ]</p>
+        <h1 class="fade-in fade-in-delay-1">Real expertise. Unreal intelligence.</h1>
+        <p class="fade-in fade-in-delay-2">Precision instruments for those who read between the lines. Built for the meticulous. Invisible to the rest.</p>
+        <a href="#" class="btn-ghost fade-in fade-in-delay-3">Request Access</a>
+    </section>
+
+    <div class="divider-row">
+        <div class="divider-line"></div>
+        <div class="divider-dot cyan-bar"></div>
+        <div class="divider-line"></div>
+    </div>
+
+    <section class="capabilities">
+        <p class="code-text">[ CAPABILITY MATRIX ]</p>
+        <div class="capabilities-grid">
+            <div class="card">
+                <p class="code-text">001</p>
+                <h3>Pattern Recognition</h3>
+                <p>Language models trained on institutional memory. Surfaces what others miss. Flags what matters.</p>
+            </div>
+            <div class="card">
+                <p class="code-text">002</p>
+                <h3>Native Integration</h3>
+                <p>Operates where you operate. No new windows. No context switching. The tool disappears into the work.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="featured">
+        <div class="featured-divider">
+            <div class="line"></div>
+            <div class="bar cyan-bar"></div>
+            <div class="line"></div>
+        </div>
+        <p class="code-text">[ FIRST PROTOCOL ]</p>
+        <h2>Concordia</h2>
+        <p>Automated document intelligence for legal professionals.</p>
+        <p class="subtext">NDAs. Non-reliance letters. Benchmarked against your standards.<br>Gaps identified before they become problems.</p>
+        <a href="#" class="btn-ghost">Enter</a>
+    </section>
+
+    <section class="closing">
+        <p>Some doors are found. Others find you.</p>
+    </section>
+
+    <footer>
+        <div class="footer-logo">
+            <span class="logo-grey">GREY</span>
+            <div class="divider cyan-bar"></div>
+            <span class="logo-stratum">STRATUM</span>
+        </div>
+        <p class="code-text">© 2025 — All transmissions monitored</p>
+    </footer>
+
+</body>
+</html>
