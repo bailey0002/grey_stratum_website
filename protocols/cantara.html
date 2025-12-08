@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="color-scheme" content="light dark">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>Cantara | Grey Stratum</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Archivo:wght@300;400;500&family=Fira+Code:wght@400&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root, [data-theme="light"] {
+            --bg-primary: #f8f9fa;
+            --bg-secondary: #ffffff;
+            --bg-card: #ffffff;
+            --text-primary: #1a1a1a;
+            --text-secondary: #4a4f54;
+            --text-muted: #5a6068;
+            --text-faint: #7a818a;
+            --gray-muted: #99ACB0;
+            --border-color: #d8dce0;
+            --cyan-accent: #5BA4B5;
+            --dropdown-bg: #ffffff;
+            --dropdown-border: #d8dce0;
+            --dropdown-shadow: rgba(0, 0, 0, 0.1);
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #1a1d21;
+            --bg-secondary: #22272e;
+            --bg-card: #2d333b;
+            --text-primary: #e6edf3;
+            --text-secondary: #adbac7;
+            --text-muted: #768390;
+            --text-faint: #636e7b;
+            --gray-muted: #768390;
+            --border-color: #373e47;
+            --cyan-accent: #5BA4B5;
+            --dropdown-bg: #22272e;
+            --dropdown-border: #373e47;
+            --dropdown-shadow: rgba(0, 0, 0, 0.3);
+        }
+
+        html {
+            background-color: var(--bg-primary);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            font-weight: 300;
+            transition: background-color 0.4s ease, color 0.4s ease;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* Header */
+        header {
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            background-color: var(--bg-primary);
+            transition: background-color 0.4s ease, border-color 0.4s ease;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-family: 'Archivo', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 300;
+            letter-spacing: 0.35em;
+            text-transform: uppercase;
+            text-decoration: none;
+        }
+
+        .logo-grey { color: var(--gray-muted); transition: color 0.4s ease; }
+        .logo-stratum { color: var(--text-primary); transition: color 0.4s ease; }
+
+        .logo-gradus {
+            display: flex;
+            align-items: center;
+            gap: 2px;
+            margin: 0 0.8rem;
+            margin-right: 1rem;
+            height: 1.2em;
+        }
+
+        .gradus-bar {
+            width: 2px;
+            background-color: var(--cyan-accent);
+            border-radius: 1px;
+            transition: height 0.3s ease, opacity 0.3s ease;
+        }
+
+        .gradus-bar:nth-child(1) { height: 40%; opacity: 0.5; }
+        .gradus-bar:nth-child(2) { height: 65%; opacity: 0.75; }
+        .gradus-bar:nth-child(3) { height: 90%; opacity: 1; }
+
+        [data-theme="dark"] .gradus-bar:nth-child(1) { height: 90%; opacity: 1; }
+        [data-theme="dark"] .gradus-bar:nth-child(2) { height: 65%; opacity: 0.75; }
+        [data-theme="dark"] .gradus-bar:nth-child(3) { height: 40%; opacity: 0.5; }
+
+        /* Navigation */
+        .header-nav {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .header-nav a, .nav-dropdown-trigger {
+            font-size: 0.7rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            text-decoration: none;
+            color: var(--text-muted);
+            transition: color 0.3s ease;
+            cursor: pointer;
+            background: none;
+            border: none;
+            font-family: inherit;
+            padding: 0.5rem 0;
+        }
+
+        .header-nav a:hover,
+        .header-nav a.active,
+        .nav-dropdown-trigger:hover { color: var(--cyan-accent); }
+
+        /* Protocol Dropdown */
+        .nav-dropdown {
+            position: relative;
+        }
+
+        .nav-dropdown-trigger {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .dropdown-arrow {
+            font-size: 0.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .nav-dropdown.active .dropdown-arrow {
+            transform: rotate(180deg);
+        }
+
+        .nav-dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--dropdown-bg);
+            border: 1px solid var(--dropdown-border);
+            border-radius: 4px;
+            min-width: 160px;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            margin-top: 0.75rem;
+            box-shadow: 0 8px 24px var(--dropdown-shadow);
+            z-index: 200;
+        }
+
+        @media (hover: hover) and (pointer: fine) {
+            .nav-dropdown:hover .nav-dropdown-menu {
+                opacity: 1;
+                visibility: visible;
+            }
+            .nav-dropdown:hover .dropdown-arrow {
+                transform: rotate(180deg);
+            }
+        }
+
+        .nav-dropdown.active .nav-dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .nav-dropdown-menu a {
+            display: block;
+            padding: 0.75rem 1rem;
+            font-size: 0.65rem;
+            letter-spacing: 0.2em;
+            color: var(--text-muted);
+            border-bottom: 1px solid var(--dropdown-border);
+        }
+
+        .nav-dropdown-menu a:last-child {
+            border-bottom: none;
+        }
+
+        .nav-dropdown-menu a:hover {
+            background-color: var(--bg-primary);
+            color: var(--cyan-accent);
+        }
+
+        .protocol-label {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.5rem;
+            color: var(--text-faint);
+            margin-right: 0.5rem;
+        }
+
+        .nav-divider {
+            width: 1px;
+            height: 12px;
+            background-color: var(--border-color);
+        }
+
+        .theme-toggle {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            user-select: none;
+            padding: 0.5rem;
+        }
+
+        .toggle-label {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.55rem;
+            letter-spacing: 0.15em;
+            color: var(--text-faint);
+            transition: color 0.3s ease;
+        }
+
+        .toggle-indicator {
+            display: flex;
+            align-items: center;
+            gap: 2px;
+        }
+
+        .toggle-bar {
+            width: 2px;
+            background-color: var(--cyan-accent);
+            border-radius: 1px;
+            transition: height 0.3s ease, opacity 0.3s ease;
+        }
+
+        .toggle-bar:nth-child(1) { height: 8px; opacity: 0.5; }
+        .toggle-bar:nth-child(2) { height: 12px; opacity: 0.75; }
+        .toggle-bar:nth-child(3) { height: 16px; opacity: 1; }
+
+        [data-theme="dark"] .toggle-bar:nth-child(1) { height: 16px; opacity: 1; }
+        [data-theme="dark"] .toggle-bar:nth-child(2) { height: 12px; opacity: 0.75; }
+        [data-theme="dark"] .toggle-bar:nth-child(3) { height: 8px; opacity: 0.5; }
+
+        .theme-toggle:hover .toggle-label { color: var(--cyan-accent); }
+
+        /* Code text */
+        .code-text {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.7rem;
+            letter-spacing: 0.15em;
+            color: var(--text-faint);
+        }
+
+        /* Hero - STANDARDIZED */
+        .hero {
+            padding: 4rem 2rem 3rem;
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero .protocol-tag {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.75rem;
+            letter-spacing: 0.2em;
+            color: var(--cyan-accent);
+            margin-bottom: 1rem;
+        }
+
+        .hero h1 {
+            font-family: 'Archivo', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 300;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .hero .instrumentum {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.8rem;
+            letter-spacing: 0.15em;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+
+        .hero .subtitle {
+            font-size: 1.1rem;
+            color: var(--cyan-accent);
+            margin-bottom: 1.5rem;
+            font-style: italic;
+        }
+
+        .hero p.description {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+        /* Main Content */
+        main {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 2rem 4rem;
+        }
+
+        main section {
+            margin-bottom: 4rem;
+        }
+
+        .section-label {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 0.15em;
+            color: var(--text-faint);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        main h2 {
+            font-family: 'Archivo', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 300;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        main p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.8;
+        }
+
+        main strong {
+            color: var(--text-primary);
+            font-weight: 400;
+        }
+
+        /* Features Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .feature-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            padding: 1.5rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .feature-card:hover {
+            border-color: var(--cyan-accent);
+        }
+
+        .feature-card h3 {
+            font-family: 'Archivo', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 400;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 0.75rem;
+            color: var(--text-primary);
+        }
+
+        .feature-card p {
+            font-size: 0.9rem;
+            margin-bottom: 0;
+        }
+
+        /* Capabilities List */
+        .capabilities-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .capability-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 1rem;
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+        }
+
+        .capability-icon {
+            color: var(--cyan-accent);
+            font-size: 1.2rem;
+            min-width: 24px;
+        }
+
+        .capability-text {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* CTA Button */
+        .cta-section {
+            text-align: center;
+            padding: 3rem 2rem;
+            border-top: 1px solid var(--border-color);
+            margin-top: 2rem;
+        }
+
+        .cta-section p {
+            font-family: 'Archivo', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 300;
+            letter-spacing: 0.15em;
+            color: var(--text-muted);
+            font-style: italic;
+            margin-bottom: 2rem;
+        }
+
+        .btn-primary {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background-color: var(--cyan-accent);
+            border: none;
+            color: #ffffff;
+            font-family: 'Archivo', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 400;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #4a93a4;
+        }
+
+        .btn-ghost {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            border: 1px solid var(--border-color);
+            background: transparent;
+            color: var(--text-primary);
+            font-family: 'Archivo', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 400;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-left: 1rem;
+        }
+
+        .btn-ghost:hover {
+            border-color: var(--cyan-accent);
+            color: var(--cyan-accent);
+        }
+
+        /* Footer */
+        footer {
+            padding: 2rem;
+            text-align: center;
+            border-top: 1px solid var(--border-color);
+            background-color: var(--bg-primary);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1rem;
+            }
+
+            .logo { font-size: 1.2rem; }
+
+            .header-nav {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 1rem;
+            }
+
+            .hero h1 { 
+                font-size: 2.2rem; 
+                letter-spacing: 0.15em;
+            }
+
+            .hero { padding: 2.5rem 1.5rem; }
+
+            main { padding: 0 1.5rem 3rem; }
+
+            .features-grid { grid-template-columns: 1fr; }
+            .capabilities-list { grid-template-columns: 1fr; }
+
+            .toggle-label { display: none; }
+
+            .nav-dropdown-menu {
+                position: fixed;
+                top: auto;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 90%;
+                max-width: 280px;
+            }
+
+            .btn-ghost {
+                margin-left: 0;
+                margin-top: 1rem;
+            }
+        }
+
+        /* iOS Safe Areas */
+        @supports (padding: max(0px)) {
+            body {
+                padding-left: max(0px, env(safe-area-inset-left));
+                padding-right: max(0px, env(safe-area-inset-right));
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <a href="../index.html" class="logo">
+        <span class="logo-grey">GREY</span>
+        <div class="logo-gradus">
+            <div class="gradus-bar"></div>
+            <div class="gradus-bar"></div>
+            <div class="gradus-bar"></div>
+        </div>
+        <span class="logo-stratum">STRATUM</span>
+    </a>
+    <nav class="header-nav">
+        <a href="../index.html">Home</a>
+        
+        <!-- Protocol Dropdown -->
+        <div class="nav-dropdown" id="protocolDropdown">
+            <button class="nav-dropdown-trigger" onclick="toggleDropdown(event)">
+                Protocol <span class="dropdown-arrow">▼</span>
+            </button>
+            <div class="nav-dropdown-menu">
+                <a href="concordia.html">
+                    <span class="protocol-label">001</span> Concordia
+                </a>
+                <a href="cantara.html" class="active">
+                    <span class="protocol-label">002</span> Cantara
+                </a>
+                <a href="cadencia.html">
+                    <span class="protocol-label">003</span> Cadencia
+                </a>
+            </div>
+        </div>
+        
+        <a href="../portal.html">Signal</a>
+        <div class="nav-divider"></div>
+        <div class="theme-toggle" onclick="toggleTheme()" title="Toggle theme">
+            <span class="toggle-label" id="themeLabel">[ LUX ]</span>
+            <div class="toggle-indicator">
+                <div class="toggle-bar"></div>
+                <div class="toggle-bar"></div>
+                <div class="toggle-bar"></div>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<section class="hero">
+    <p class="protocol-tag">[ PROTOCOL 002 ]</p>
+    <h1>Cantara</h1>
+    <p class="instrumentum">Instrumentum: TTS+</p>
+    <p class="subtitle">Neural Voice Synthesis</p>
+    <p class="description">Professional text-to-speech with SSML control. Transform written content into natural-sounding audio with precise control over emphasis, pacing, and prosody.</p>
+</section>
+
+<main>
+    <!-- Overview -->
+    <section>
+        <h2>The Tool</h2>
+        <p>Cantara TTS+ provides direct access to Azure Neural Text-to-Speech with a visual SSML editor. Build professional audio content with granular control over voice parameters—no command line required.</p>
+        <p>Whether creating voiceovers, narration, or accessible content, Cantara gives you <strong>400+ neural voices</strong> across <strong>140+ languages</strong> with real-time preview and instant export.</p>
+    </section>
+
+    <!-- Features -->
+    <section>
+        <p class="section-label">[ CAPABILITIES ]</p>
+        <h2>What It Does</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <h3>Visual SSML Editor</h3>
+                <p>Point-and-click control over emphasis, breaks, pitch, rate, and prosody—no XML coding required</p>
+            </div>
+            <div class="feature-card">
+                <h3>Neural Voices</h3>
+                <p>Access to 400+ Azure Neural TTS voices with natural intonation and expression</p>
+            </div>
+            <div class="feature-card">
+                <h3>Multi-Format Export</h3>
+                <p>Output to MP3, WAV, OGG, or WebM at configurable quality levels</p>
+            </div>
+            <div class="feature-card">
+                <h3>Real-Time Preview</h3>
+                <p>Hear your SSML modifications instantly before committing to final render</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SSML Controls -->
+    <section>
+        <p class="section-label">[ SSML CONTROLS ]</p>
+        <h2>Fine-Grained Voice Control</h2>
+        <div class="capabilities-list">
+            <div class="capability-item">
+                <span class="capability-icon">◆</span>
+                <span class="capability-text"><strong>Emphasis</strong> — Strong, moderate, or reduced stress on selected words</span>
+            </div>
+            <div class="capability-item">
+                <span class="capability-icon">◆</span>
+                <span class="capability-text"><strong>Prosody</strong> — Adjust pitch contour for questions, statements, or custom patterns</span>
+            </div>
+            <div class="capability-item">
+                <span class="capability-icon">◆</span>
+                <span class="capability-text"><strong>Rate</strong> — Speed control from x-slow to x-fast with percentage precision</span>
+            </div>
+            <div class="capability-item">
+                <span class="capability-icon">◆</span>
+                <span class="capability-text"><strong>Breaks</strong> — Insert pauses from 250ms to 5s for natural phrasing</span>
+            </div>
+            <div class="capability-item">
+                <span class="capability-icon">◆</span>
+                <span class="capability-text"><strong>Pitch</strong> — Raise or lower voice pitch with semitone or percentage control</span>
+            </div>
+            <div class="capability-item">
+                <span class="capability-icon">◆</span>
+                <span class="capability-text"><strong>Say-As</strong> — Proper pronunciation of dates, numbers, addresses, and more</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Use Cases -->
+    <section>
+        <p class="section-label">[ USE CASES ]</p>
+        <h2>Applications</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <h3>Content Creation</h3>
+                <p>Generate professional narration for videos, podcasts, and presentations</p>
+            </div>
+            <div class="feature-card">
+                <h3>Accessibility</h3>
+                <p>Create audio versions of documents, articles, and educational materials</p>
+            </div>
+            <div class="feature-card">
+                <h3>Prototyping</h3>
+                <p>Rapid voice interface mockups before investing in human talent</p>
+            </div>
+            <div class="feature-card">
+                <h3>Localization</h3>
+                <p>Multi-language audio with native-sounding voices across 140+ languages</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <div class="cta-section">
+        <p>The voice you need. The control you want.</p>
+        <a href="cantara-console.html" class="btn-primary">Launch Console</a>
+        <a href="/cdn-cgi/l/email-protection#305d51425b70574255494344425144455d1e535f5d" class="btn-ghost">Request Access</a>
+    </div>
+</main>
+
+<footer>
+    <p class="code-text">© 2025 Grey Stratum — All transmissions monitored</p>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+    const html = document.documentElement;
+    const themeLabel = document.getElementById('themeLabel');
+    
+    function getPreferredTheme() {
+        const saved = localStorage.getItem('theme');
+        if (saved) return saved;
+        return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+    
+    function setTheme(theme) {
+        html.setAttribute('data-theme', theme);
+        localStorage.setItem('theme', theme);
+        if (themeLabel) {
+            themeLabel.textContent = theme === 'dark' ? '[ NOX ]' : '[ LUX ]';
+        }
+    }
+    
+    function toggleTheme() {
+        const current = html.getAttribute('data-theme');
+        setTheme(current === 'dark' ? 'light' : 'dark');
+    }
+    
+    setTheme(getPreferredTheme());
+    
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+        if (!localStorage.getItem('theme')) {
+            setTheme(e.matches ? 'dark' : 'light');
+        }
+    });
+
+    // Protocol Dropdown
+    function toggleDropdown(event) {
+        event.preventDefault();
+        event.stopPropagation();
+        const dropdown = document.getElementById('protocolDropdown');
+        dropdown.classList.toggle('active');
+    }
+
+    document.addEventListener('click', function(event) {
+        const dropdown = document.getElementById('protocolDropdown');
+        if (!dropdown.contains(event.target)) {
+            dropdown.classList.remove('active');
+        }
+    });
+
+    document.addEventListener('keydown', function(event) {
+        if (even

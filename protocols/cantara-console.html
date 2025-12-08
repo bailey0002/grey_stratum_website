@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="color-scheme" content="light dark">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>Cantara Console | Grey Stratum</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Archivo:wght@300;400;500&family=Fira+Code:wght@400&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root, [data-theme="light"] {
+            --bg-primary: #f8f9fa;
+            --bg-secondary: #ffffff;
+            --bg-card: #ffffff;
+            --text-primary: #1a1a1a;
+            --text-secondary: #4a4f54;
+            --text-muted: #5a6068;
+            --text-faint: #7a818a;
+            --gray-muted: #99ACB0;
+            --border-color: #d8dce0;
+            --cyan-accent: #5BA4B5;
+            --input-bg: #ffffff;
+            --dropdown-bg: #ffffff;
+            --dropdown-border: #d8dce0;
+            --dropdown-shadow: rgba(0, 0, 0, 0.1);
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #1a1d21;
+            --bg-secondary: #22272e;
+            --bg-card: #2d333b;
+            --text-primary: #e6edf3;
+            --text-secondary: #adbac7;
+            --text-muted: #768390;
+            --text-faint: #636e7b;
+            --gray-muted: #768390;
+            --border-color: #373e47;
+            --cyan-accent: #5BA4B5;
+            --input-bg: #22272e;
+            --dropdown-bg: #22272e;
+            --dropdown-border: #373e47;
+            --dropdown-shadow: rgba(0, 0, 0, 0.3);
+        }
+
+        html {
+            background-color: var(--bg-primary);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            font-weight: 300;
+            transition: background-color 0.4s ease, color 0.4s ease;
+            -webkit-tap-highlight-color: transparent;
+            min-height: 100vh;
+        }
+
+        /* Password Gate */
+        .password-gate {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--bg-primary);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+
+        .password-gate.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .gate-content {
+            text-align: center;
+            max-width: 400px;
+            padding: 2rem;
+        }
+
+        .gate-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Archivo', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 300;
+            letter-spacing: 0.35em;
+            text-transform: uppercase;
+            margin-bottom: 3rem;
+        }
+
+        .gate-logo .logo-grey { color: var(--gray-muted); }
+        .gate-logo .logo-stratum { color: var(--text-primary); }
+
+        .gate-logo .logo-gradus {
+            display: flex;
+            align-items: center;
+            gap: 2px;
+            margin: 0 0.8rem;
+            height: 1.2em;
+        }
+
+        .gate-logo .gradus-bar {
+            width: 2px;
+            background-color: var(--cyan-accent);
+            border-radius: 1px;
+        }
+
+        .gate-logo .gradus-bar:nth-child(1) { height: 40%; opacity: 0.5; }
+        .gate-logo .gradus-bar:nth-child(2) { height: 65%; opacity: 0.75; }
+        .gate-logo .gradus-bar:nth-child(3) { height: 90%; opacity: 1; }
+
+        [data-theme="dark"] .gate-logo .gradus-bar:nth-child(1) { height: 90%; opacity: 1; }
+        [data-theme="dark"] .gate-logo .gradus-bar:nth-child(2) { height: 65%; opacity: 0.75; }
+        [data-theme="dark"] .gate-logo .gradus-bar:nth-child(3) { height: 40%; opacity: 0.5; }
+
+        .gate-title {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.7rem;
+            letter-spacing: 0.2em;
+            color: var(--text-faint);
+            margin-bottom: 2rem;
+        }
+
+        .gate-input-container {
+            position: relative;
+            margin-bottom: 1rem;
+        }
+
+        .gate-input {
+            width: 100%;
+            padding: 1rem 1.25rem;
+            background-color: var(--input-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+            letter-spacing: 0.2em;
+            text-align: center;
+            transition: border-color 0.3s ease;
+        }
+
+        .gate-input:focus {
+            outline: none;
+            border-color: var(--cyan-accent);
+        }
+
+        .gate-input::placeholder {
+            color: var(--text-faint);
+            letter-spacing: 0.15em;
+        }
+
+        .gate-error {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.65rem;
+            color: #c9553d;
+            letter-spacing: 0.1em;
+            margin-top: 0.5rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .gate-error.visible {
+            opacity: 1;
+        }
+
+        .gate-home {
+            margin-top: 2rem;
+        }
+
+        .gate-home a {
+            font-size: 0.65rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            text-decoration: none;
+            color: var(--text-faint);
+            transition: color 0.3s ease;
+        }
+
+        .gate-home a:hover {
+            color: var(--cyan-accent);
+        }
+
+        /* Main Console (hidden until authenticated) */
+        .console-container {
+            display: none;
+        }
+
+        .console-container.visible {
+            display: block;
+        }
+
+        /* Header */
+        header {
+            padding: 1rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            background-color: var(--bg-primary);
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .back-link {
+            font-size: 0.65rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            text-decoration: none;
+            color: var(--text-muted);
+            transition: color 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .back-link:hover {
+            color: var(--cyan-accent);
+        }
+
+        .console-title {
+            font-family: 'Archivo', sans-serif;
+            font-size: 1rem;
+            font-weight: 300;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--text-primary);
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .theme-toggle {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            user-select: none;
+            padding: 0.5rem;
+        }
+
+        .toggle-label {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.55rem;
+            letter-spacing: 0.15em;
+            color: var(--text-faint);
+            transition: color 0.3s ease;
+        }
+
+        .toggle-indicator {
+            display: flex;
+            align-items: center;
+            gap: 2px;
+        }
+
+        .toggle-bar {
+            width: 2px;
+            background-color: var(--cyan-accent);
+            border-radius: 1px;
+        }
+
+        .toggle-bar:nth-child(1) { height: 8px; opacity: 0.5; }
+        .toggle-bar:nth-child(2) { height: 12px; opacity: 0.75; }
+        .toggle-bar:nth-child(3) { height: 16px; opacity: 1; }
+
+        [data-theme="dark"] .toggle-bar:nth-child(1) { height: 16px; opacity: 1; }
+        [data-theme="dark"] .toggle-bar:nth-child(2) { height: 12px; opacity: 0.75; }
+        [data-theme="dark"] .toggle-bar:nth-child(3) { height: 8px; opacity: 0.5; }
+
+        .theme-toggle:hover .toggle-label { color: var(--cyan-accent); }
+
+        /* Main Content */
+        main {
+            display: grid;
+            grid-template-columns: 1fr 320px;
+            gap: 1.5rem;
+            padding: 1.5rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Text Editor */
+        .editor-section {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .section-label {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.6rem;
+            letter-spacing: 0.15em;
+            color: var(--text-faint);
+            text-transform: uppercase;
+        }
+
+        .text-editor {
+            width: 100%;
+            min-height: 300px;
+            padding: 1rem;
+            background-color: var(--input-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            line-height: 1.8;
+            resize: vertical;
+            transition: border-color 0.3s ease;
+        }
+
+        .text-editor:focus {
+            outline: none;
+            border-color: var(--cyan-accent);
+        }
+
+        /* Preview Section */
+        .preview-section {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            padding: 1rem;
+            min-height: 150px;
+        }
+
+        .preview-content {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        /* Controls Panel */
+        .controls-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .control-group {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            padding: 1rem;
+        }
+
+        .control-group-title {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.6rem;
+            letter-spacing: 0.15em;
+            color: var(--text-faint);
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        .control-row {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .control-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .control-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .control-input, .control-select {
+            width: 100%;
+            padding: 0.75rem;
+            background-color: var(--input-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .control-input:focus, .control-select:focus {
+            outline: none;
+            border-color: var(--cyan-accent);
+        }
+
+        /* SSML Buttons */
+        .ssml-buttons {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.5rem;
+        }
+
+        .ssml-btn {
+            padding: 0.6rem;
+            background-color: var(--input-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-muted);
+            font-family: 'Fira Code', monospace;
+            font-size: 0.6rem;
+            letter-spacing: 0.1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .ssml-btn:hover {
+            border-color: var(--cyan-accent);
+            color: var(--cyan-accent);
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .btn-primary {
+            padding: 1rem;
+            background-color: var(--cyan-accent);
+            border: none;
+            color: #ffffff;
+            font-family: 'Archivo', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 400;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #4a93a4;
+        }
+
+        .btn-secondary {
+            padding: 0.75rem;
+            background-color: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-muted);
+            font-family: 'Archivo', sans-serif;
+            font-size: 0.7rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--cyan-accent);
+            color: var(--cyan-accent);
+        }
+
+        /* Status */
+        .status-bar {
+            padding: 0.5rem;
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            font-family: 'Fira Code', monospace;
+            font-size: 0.6rem;
+            letter-spacing: 0.1em;
+            color: var(--text-faint);
+            text-align: center;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            main {
+                grid-template-columns: 1fr;
+            }
+
+            .controls-panel {
+                order: -1;
+            }
+        }
+
+        @media (max-width: 600px) {
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .header-left {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .toggle-label { display: none; }
+
+            .ssml-buttons {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* iOS Safe Areas */
+        @supports (padding: max(0px)) {
+            body {
+                padding-left: max(0px, env(safe-area-inset-left));
+                padding-right: max(0px, env(safe-area-inset-right));
+                padding-bottom: max(0px, env(safe-area-inset-bottom));
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Password Gate -->
+<div class="password-gate" id="passwordGate">
+    <div class="gate-content">
+        <div class="gate-logo">
+            <span class="logo-grey">GREY</span>
+            <div class="logo-gradus">
+                <div class="gradus-bar"></div>
+                <div class="gradus-bar"></div>
+                <div class="gradus-bar"></div>
+            </div>
+            <span class="logo-stratum">STRATUM</span>
+        </div>
+        
+        <p class="gate-title">[ CANTARA CONSOLE — RESTRICTED ACCESS ]</p>
+        
+        <div class="gate-input-container">
+            <input type="password" class="gate-input" id="passphraseInput" placeholder="Enter passphrase" autocomplete="off">
+            <p class="gate-error" id="gateError">[ ACCESS DENIED ]</p>
+        </div>
+        
+        <div class="gate-home">
+            <a href="cantara.html">← Back to Cantara</a>
+        </div>
+    </div>
+</div>
+
+<!-- Main Console (hidden until authenticated) -->
+<div class="console-container" id="consoleContainer">
+    <header>
+        <div class="header-left">
+            <a href="cantara.html" class="back-link">← Back to Cantara</a>
+            <span class="console-title">TTS+ Console</span>
+        </div>
+        <div class="header-right">
+            <div class="theme-toggle" onclick="toggleTheme()" title="Toggle theme">
+                <span class="toggle-label" id="themeLabel">[ LUX ]</span>
+                <div class="toggle-indicator">
+                    <div class="toggle-bar"></div>
+                    <div class="toggle-bar"></div>
+                    <div class="toggle-bar"></div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="editor-section">
+            <p class="section-label">[ TEXT INPUT ]</p>
+            <textarea class="text-editor" id="textEditor" placeholder="Enter text to synthesize...">Welcome to Cantara. This is a demonstration of neural text-to-speech synthesis.</textarea>
+            
+            <p class="section-label">[ SSML PREVIEW ]</p>
+            <div class="preview-section">
+                <div class="preview-content" id="ssmlPreview">
+                    Welcome to Cantara. This is a demonstration of neural text-to-speech synthesis.
+                </div>
+            </div>
+        </div>
+
+        <div class="controls-panel">
+            <!-- Credentials -->
+            <div class="control-group">
+                <p class="control-group-title">[ AZURE CREDENTIALS ]</p>
+                <div class="control-row">
+                    <label class="control-label">API Key</label>
+                    <input type="password" class="control-input" id="apiKey" placeholder="Enter Azure Speech key">
+                </div>
+                <div class="control-row">
+                    <label class="control-label">Region</label>
+                    <input type="text" class="control-input" id="region" placeholder="e.g., eastus">
+                </div>
+            </div>
+
+            <!-- Voice Selection -->
+            <div class="control-group">
+                <p class="control-group-title">[ VOICE ]</p>
+                <div class="control-row">
+                    <label class="control-label">Neural Voice</label>
+                    <select class="control-select" id="voiceSelect">
+                        <option value="en-US-JennyNeural">Jenny (US)</option>
+                        <option value="en-US-GuyNeural">Guy (US)</option>
+                        <option value="en-US-AriaNeural">Aria (US)</option>
+                        <option value="en-GB-SoniaNeural">Sonia (UK)</option>
+                        <option value="en-GB-RyanNeural">Ryan (UK)</option>
+                        <option value="en-AU-NatashaNeural">Natasha (AU)</option>
+                    </select>
+                </div>
+                <div class="control-row">
+                    <label class="control-label">Output Format</label>
+                    <select class="control-select" id="formatSelect">
+                        <option value="audio-24khz-96kbitrate-mono-mp3">MP3 (24kHz)</option>
+                        <option value="audio-48khz-192kbitrate-mono-mp3">MP3 (48kHz HQ)</option>
+                        <option value="riff-24khz-16bit-mono-pcm">WAV (24kHz)</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- SSML Controls -->
+            <div class="control-group">
+                <p class="control-group-title">[ SSML EFFECTS ]</p>
+                <div class="ssml-buttons">
+                    <button class="ssml-btn" onclick="addEmphasis()">Emphasis</button>
+                    <button class="ssml-btn" onclick="addBreak()">Break</button>
+                    <button class="ssml-btn" onclick="addProsody()">Prosody</button>
+                    <button class="ssml-btn" onclick="addPitch()">Pitch</button>
+                    <button class="ssml-btn" onclick="addRate()">Rate</button>
+                    <button class="ssml-btn" onclick="clearEffects()">Clear All</button>
+                </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="control-group">
+                <p class="control-group-title">[ ACTIONS ]</p>
+                <div class="action-buttons">
+                    <button class="btn-primary" onclick="synthesize()">Synthesize</button>
+                    <button class="btn-secondary" onclick="previewSSML()">Preview SSML</button>
+                </div>
+            </div>
+
+            <!-- Status -->
+            <div class="status-bar" id="statusBar">
+                [ READY ]
+            </div>
+        </div>
+    </main>
+</div>
+
+<script>
+    // Password hash for "stratum0304"
+    const VALID_HASH = 'e0c8811fb42e2a60d0f9c6c08f0c8f2e48f0e78c23f14d3e6a9e8f5e7c9d1b3a';
+    
+    // Simple hash function for client-side verification
+    async function hashPassphrase(passphrase) {
+        const encoder = new TextEncoder();
+        const data = encoder.encode(passphrase);
+        const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+        return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+    
+    // Check if already authenticated this session
+    function checkSession() {
+        if (sessionStorage.getItem('cantara_auth') === 'true') {
+            showConsole();
+        }
+    }
+    
+    function showConsole() {
+        document.getElementById('passwordGate').classList.add('hidden');
+        document.getElementById('consoleContainer').classList.add('visible');
+        loadCredentials();
+    }
+    
+    // Password gate handler
+    document.getElementById('passphraseInput').addEventListener('keypress', async function(e) {
+        if (e.key === 'Enter') {
+            const passphrase = this.value;
+            const hash = await hashPassphrase(passphrase);
+            
+            // Direct comparison with known passphrase
+            if (passphrase === 'stratum0304') {
+                sessionStorage.setItem('cantara_auth', 'true');
+                showConsole();
+            } else {
+                document.getElementById('gateError').classList.add('visible');
+                this.value = '';
+                setTimeout(() => {
+                    document.getElementById('gateError').classList.remove('visible');
+                }, 2000);
+            }
+        }
+    });
+    
+    // Theme handling
+    const html = document.documentElement;
+    const themeLabel = document.getElementById('themeLabel');
+    
+    function getPreferredTheme() {
+        const saved = localStorage.getItem('theme');
+        if (saved) return saved;
+        return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+    
+    function setTheme(theme) {
+        html.setAttribute('data-theme', theme);
+        localStorage.setItem('theme', theme);
+        if (themeLabel) {
+            themeLabel.textContent = theme === 'dark' ? '[ NOX ]' : '[ LUX ]';
+        }
+    }
+    
+    function toggleTheme() {
+        const current = html.getAttribute('data-theme');
+        setTheme(current === 'dark' ? 'light' : 'dark');
+    }
+    
+    setTheme(getPreferredTheme());
+    
+    // Credential persistence
+    function loadCredentials() {
+        const key = localStorage.getItem('cantara_key');
+        const region = localStorage.getItem('cantara_region');
+        if (key) document.getElementById('apiKey').value = key;
+        if (region) document.getElementById('region').value = region;
+    }
+    
+    function saveCredentials() {
+        localStorage.setItem('cantara_key', document.getElementById('apiKey').value);
+        localStorage.setItem('cantara_region', document.getElementById('region').value);
+    }
+    
+    // SSML Functions
+    function addEmphasis() {
+        const editor = document.getElementById('textEditor');
+        const start = editor.selectionStart;
+        const end = editor.selectionEnd;
+        const text = editor.value;
+        const selected = text.substring(start, end);
+        
+        if (selected) {
+            const newText = text.substring(0, start) + 
+                           `<emphasis level="strong">${selected}</emphasis>` + 
+                           text.substring(end);
+            editor.value = newText;
+            updatePreview();
+        }
+        setStatus('[ EMPHASIS ADDED ]');
+    }
+    
+    function addBreak() {
+        const editor = document.getElementById('textEditor');
+        const pos = editor.selectionStart;
+        const text = editor.value;
+        
+        const newText = text.substring(0, pos) + '<break time="500ms"/>' + text.substring(pos);
+        editor.value = newText;
+        updatePreview();
+        setStatus('[ BREAK ADDED ]');
+    }
+    
+    function addProsody() {
+        const editor = document.getElementById('textEditor');
+        const start = editor.selectionStart;
+        const end = editor.selectionEnd;
+        const text = editor.value;
+        const selected = text.substring(start, end);
+        
+        if (selected) {
+            const newText = text.substring(0, start) + 
+                           `<prosody contour="(0%,+20Hz) (50%,+0Hz) (100%,-10Hz)">${selected}</prosody>` + 
+                           text.substring(end);
+            editor.value = newText;
+            updatePreview();
+        }
+        setStatus('[ PROSODY ADDED ]');
+    }
+    
+    function addPitch() {
+        const editor = document.getElementById('textEditor');
+        const start = editor.selectionStart;
+        const end = editor.selectionEnd;
+        const text = editor.value;
+        const selected = text.substring(start, end);
+        
+        if (selected) {
+            const newText = text.substring(0, start) + 
+                           `<prosody pitch="+10%">${selected}</prosody>` + 
+                           text.substring(end);
+            editor.value = newText;
+            updatePreview();
+        }
+        setStatus('[ PITCH MODIFIED ]');
+    }
+    
+    function addRate() {
+        const editor = document.getElementById('textEditor');
+        const start = editor.selectionStart;
+        const end = editor.selectionEnd;
+        const text = editor.value;
+        const selected = text.substring(start, end);
+        
+        if (selected) {
+            const newText = text.substring(0, start) + 
+                           `<prosody rate="slow">${selected}</prosody>` + 
+                           text.substring(end);
+            editor.value = newText;
+            updatePreview();
+        }
+        setStatus('[ RATE MODIFIED ]');
+    }
+    
+    function clearEffects() {
+        const editor = document.getElementById('textEditor');
+        let text = editor.value;
+        
+        // Remove SSML tags
+        text = text.replace(/<[^>]+>/g, '');
+        editor.value = text;
+        updatePreview();
+        setStatus('[ EFFECTS CLEARED ]');
+    }
+    
+    function updatePreview() {
+        const text = document.getElementById('textEditor').value;
+        document.getElementById('ssmlPreview').innerHTML = text
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/&lt;emphasis[^&]*&gt;/g, '<span style="color:var(--cyan-accent);font-weight:500;">')
+            .replace(/&lt;\/emphasis&gt;/g, '</span>')
+            .replace(/&lt;prosody[^&]*&gt;/g, '<span style="color:#9c7cba;">')
+            .replace(/&lt;\/prosody&gt;/g, '</span>')
+            .replace(/&lt;break[^&]*\/&gt;/g, '<span style="color:#c9553d;">[pause]</span>');
+    }
+    
+    function previewSSML() {
+        updatePreview();
+        setStatus('[ SSML PREVIEW UPDATED ]');
+    }
+    
+    function setStatus(message) {
+        document.getElementById('statusBar').textContent = message;
+    }
+    
+    async function synthesize() {
+        const apiKey = document.getElementById('apiKey').value;
+        const region = document.getElementById('region').value;
+        const voice = document.getElementById('voiceSelect').value;
+        const format = document.getElementById('formatSelect').value;
+        const text = document.getElementById('textEditor').value;
+        
+        if (!apiKey || !region) {
+            setStatus('[ ERROR: CREDENTIALS REQUIRED ]');
+            return;
+        }
+        
+        saveCredentials();
+        setStatus('[ SYNTHESIZING... ]');
+        
+        const ssml = `<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xml:lang="en-US">
+            <voice name="${voice}">${text}</voice>
+        </speak>`;
+        
+        try {
+            const response = await fetch(`https://${region}.tts.speech.microsoft.com/cognitiveservices/v1`, {
+                method: 'POST',
+                headers: {
+                    'Ocp-Apim-Subscription-Key': apiKey,
+                    'Content-Type': 'application/ssml+xml',
+                    'X-Microsoft-OutputFormat': format
+                },
+                body: ssml
+            });
+            
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}`);
+            }
+            
+            const audioBlob = await response.blob();
+            const audioUrl = URL.createObjectURL(audioBlob);
+            const audio = new Audio(audioUrl);
+            audio.play();
+            
+            setStatus('[ SYNTHESIS COMPLETE — PLAYING ]');
+        } catch (error) {
+            setStatus(`[ ERROR: ${error.message} ]`);
+        }
+    }
+    
+    // Event listeners
+    document.getElementById('textEditor').addEventListener('input', updatePreview);
+    
+    // Initialize
+    checkSession();
+    updatePreview();
+</script>
+
+</body>
+</html>
