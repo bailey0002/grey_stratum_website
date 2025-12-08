@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Cantara Console — Grey Stratum</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Archivo:wght@300;400;500&family=Fira+Code:wght@400&display=swap" rel="stylesheet">
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    /* Light Theme */
+    :root, [data-theme="light"] {
+        --bg-primary: #f8f9fa;
+        --bg-secondary: #99ACB0;
+        --bg-card: #ffffff;
+        --text-primary: #1a1a1a;
+        --text-secondary: #4a4f54;
+        --text-muted: #5a6068;
+        --text-faint: #7a818a;
+        --gray-muted: #99ACB0;
+        --border-color: #d8dce0;
+        --border-light: #c8ccd0;
+        --cyan-accent: #5BA4B5;
+        --card-gradient-end: #e8ebed;
+        --input-bg: #f0f2f4;
+        --input-shadow: inset 2px 2px 4px rgba(0,0,0,0.06), inset -2px -2px 4px rgba(255,255,255,0.8);
+    }
+
+    /* Dark Theme */
+    [data-theme="dark"] {
+        --bg-primary: #1a1d21;
+        --bg-secondary: #2d333b;
+        --bg-card: #22272e;
+        --text-primary: #e6edf3;
+        --text-secondary: #adbac7;
+        --text-muted: #768390;
+        --text-faint: #636e7b;
+        --gray-muted: #768390;
+        --border-color: #373e47;
+        --border-light: #444c56;
+        --cyan-accent: #5BA4B5;
+        --card-gradient-end: #2d333b;
+        --input-bg: #2d333b;
+        --input-shadow: inset 2px 2px 4px rgba(0,0,0,0.3), inset -2px -2px 4px rgba(255,255,255,0.03);
+    }
+
+    html, body {
+        height: 100%;
+        background-color: var(--bg-primary);
+    }
+
+    body {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        color: var(--text-primary);
+        line-height: 1.6;
+        font-weight: 300;
+        transition: background-color 0.4s ease, color 0.4s ease;
+    }
+
+    /* Header Nav */
+    .header-nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 2rem;
+        border-bottom: 1px solid var(--border-color);
+        background-color: var(--bg-primary);
+        transition: all 0.4s ease;
+    }
+
+    .nav-brand {
+        display: flex;
+        align-items: center;
+        font-family: 'Archivo', sans-serif;
+        font-size: 0.9rem;
+        font-weight: 300;
+        letter-spacing: 0.25em;
+        text-transform: uppercase;
+        text-decoration: none;
+        color: var(--text-primary);
+    }
+
+    .nav-brand .logo-grey { color: var(--gray-muted); }
+    
+    .nav-gradus {
+        display: flex;
+        align-items: center;
+        gap: 2px;
+        margin: 0 0.6rem;
+        height: 0.9em;
+    }
+
+    .nav-gradus-bar {
+        width: 2px;
+        background-color: var(--cyan-accent);
+        border-radius: 1px;
+    }
+
+    .nav-gradus-bar:nth-child(1) { height: 40%; opacity: 0.5; }
+    .nav-gradus-bar:nth-child(2) { height: 65%; opacity: 0.75; }
+    .nav-gradus-bar:nth-child(3) { height: 90%; opacity: 1; }
+
+    [data-theme="dark"] .nav-gradus-bar:nth-child(1) { height: 90%; opacity: 1; }
+    [data-theme="dark"] .nav-gradus-bar:nth-child(2) { height: 65%; opacity: 0.75; }
+    [data-theme="dark"] .nav-gradus-bar:nth-child(3) { height: 40%; opacity: 0.5; }
+
+    .nav-right {
+        display: flex;
+        align-items: center;
+        gap: 2rem;
+    }
+
+    .nav-back {
+        font-size: 0.65rem;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        text-decoration: none;
+        color: var(--text-muted);
+        transition: color 0.3s ease;
+    }
+
+    .nav-back:hover { color: var(--text-primary); }
+
+    .theme-toggle {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        cursor: pointer;
+        user-select: none;
+    }
+
+    .toggle-label {
+        font-family: 'Fira Code', monospace;
+        font-size: 0.55rem;
+        letter-spacing: 0.12em;
+        color: var(--text-faint);
+        transition: color 0.3s ease;
+    }
+
+    .toggle-indicator {
+        display: flex;
+        align-items: center;
+        gap: 2px;
+    }
+
+    .toggle-bar {
+        width: 2px;
+        background-color: var(--cyan-accent);
+        border-radius: 1px;
+        transition: height 0.3s ease, opacity 0.3s ease;
+    }
+
+    .toggle-bar:nth-child(1) { height: 6px; opacity: 0.5; }
+    .toggle-bar:nth-child(2) { height: 10px; opacity: 0.75; }
+    .toggle-bar:nth-child(3) { height: 14px; opacity: 1; }
+
+    [data-theme="dark"] .toggle-bar:nth-child(1) { height: 14px; opacity: 1; }
+    [data-theme="dark"] .toggle-bar:nth-child(2) { height: 10px; opacity: 0.75; }
+    [data-theme="dark"] .toggle-bar:nth-child(3) { height: 6px; opacity: 0.5; }
+
+    .theme-toggle:hover .toggle-label { color: var(--cyan-accent); }
+
+    /* Code text */
+    .code-text {
+        font-family: 'Fira Code', monospace;
+        font-size: 0.6rem;
+        letter-spacing: 0.12em;
+        color: var(--text-faint);
+        transition: color 0.4s ease;
+    }
+
+    .code-text.cyan { color: var(--cyan-accent); }
+
+    /* Main App */
+    .app {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 2rem 1.5rem 4rem;
+    }
+
+    .app-header {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 2rem;
+    }
+
+    .app-icon {
+        width: 48px;
+        height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+        background: var(--bg-card);
+        transition: all 0.4s ease;
+    }
+
+    .app-icon img {
+        width: 32px;
+        height: auto;
+        opacity: 0.9;
+    }
+
+    .app-title {
+        font-family: 'Archivo', sans-serif;
+        font-size: 1.3rem;
+        font-weight: 300;
+        letter-spacing: 0.15em;
+    }
+
+    .app-subtitle {
+        font-size: 0.65rem;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--text-muted);
+        margin-left: 0.75rem;
+    }
+
+    /* Cards */
+    .card {
+        background: linear-gradient(180deg, var(--bg-card), var(--card-gradient-end));
+        border: 1px solid var(--border-color);
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+        transition: all 0.4s ease;
+    }
+
+    .card-header {
+        margin-bottom: 1.25rem;
+    }
+
+    /* Form Elements */
+    .row {
+        display: grid;
+        grid-template-columns: repeat(12, 1fr);
+        gap: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .field {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .label {
+        font-size: 0.7rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--text-muted);
+    }
+
+    input[type="text"],
+    input[type="password"],
+    select,
+    textarea {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        border-radius: 6px;
+        color: var(--text-primary);
+        background: var(--input-bg);
+        border: 1px solid var(--border-color);
+        box-shadow: var(--input-shadow);
+        font-family: inherit;
+        font-size: 0.85rem;
+        transition: all 0.3s ease;
+    }
+
+    input:focus, select:focus, textarea:focus {
+        outline: none;
+        border-color: var(--cyan-accent);
+    }
+
+    input::placeholder, textarea::placeholder {
+        color: var(--text-faint);
+    }
+
+    select {
+        appearance: none;
+        cursor: pointer;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23768390' d='M6 8L2 4h8z'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 0.75rem center;
+        padding-right: 2rem;
+    }
+
+    textarea {
+        min-height: 120px;
+        resize: vertical;
+        line-height: 1.6;
+    }
+
+    /* Range Sliders */
+    input[type="range"] {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 100%;
+        height: 6px;
+        background: var(--input-bg);
+        border-radius: 3px;
+        box-shadow: var(--input-shadow);
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        background: var(--cyan-accent);
+        cursor: pointer;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+        transition: transform 0.2s ease;
+    }
+
+    input[type="range"]::-webkit-slider-thumb:hover {
+        transform: scale(1.1);
+    }
+
+    .range-value {
+        text-align: right;
+        font-family: 'Fira Code', monospace;
+        font-size: 0.75rem;
+        color: var(--text-muted);
+    }
+
+    /* Buttons */
+    .buttons {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.6rem;
+    }
+
+    .btn {
+        padding: 0.6rem 1rem;
+        border: 1px solid var(--border-color);
+        background: var(--bg-card);
+        color: var(--text-secondary);
+        font-family: inherit;
+        font-size: 0.7rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .btn:hover {
+        border-color: var(--text-primary);
+        color: var(--text-primary);
+    }
+
+    .btn--primary {
+        background: var(--cyan-accent);
+        border-color: var(--cyan-accent);
+        color: #fff;
+    }
+
+    .btn--primary:hover {
+        background: #4a9aab;
+        border-color: #4a9aab;
+        color: #fff;
+    }
+
+    /* Chips */
+    .chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.25rem;
+        font-family: 'Fira Code', monospace;
+        font-size: 0.65rem;
+        padding: 0.25rem 0.6rem;
+        border: 1px solid var(--cyan-accent);
+        color: var(--cyan-accent);
+        margin-right: 0.4rem;
+        margin-bottom: 0.4rem;
+    }
+
+    /* Preview */
+    .preview {
+        padding: 1rem;
+        border: 1px dashed var(--border-color);
+        background: var(--bg-primary);
+        min-height: 3rem;
+        font-size: 0.9rem;
+        line-height: 1.8;
+        transition: all 0.4s ease;
+    }
+
+    .span-emph { background: rgba(91, 164, 181, 0.2); padding: 0.1rem 0.2rem; }
+    .span-slow { background: rgba(255, 166, 0, 0.15); padding: 0.1rem 0.2rem; }
+    .span-fast { background: rgba(144, 238, 144, 0.15); padding: 0.1rem 0.2rem; }
+    .span-pitch-up { background: rgba(173, 216, 230, 0.2); padding: 0.1rem 0.2rem; }
+    .span-pitch-down { background: rgba(221, 160, 221, 0.2); padding: 0.1rem 0.2rem; }
+
+    /* Audio Player */
+    audio {
+        width: 100%;
+        margin-top: 1rem;
+        border-radius: 4px;
+    }
+
+    /* Saved indicator */
+    .saved-indicator {
+        font-family: 'Fira Code', monospace;
+        font-size: 0.6rem;
+        color: var(--cyan-accent);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        margin-left: 0.5rem;
+    }
+
+    .saved-indicator.visible {
+        opacity: 1;
+    }
+
+    .hint {
+        font-size: 0.7rem;
+        color: var(--text-faint);
+        margin-top: 0.25rem;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .header-nav { padding: 0.75rem 1rem; }
+        .app { padding: 1.5rem 1rem; }
+        .row { gap: 0.75rem; }
+        .field { grid-column: span 12 !important; }
+        .buttons { gap: 0.5rem; }
+        .btn { padding: 0.5rem 0.75rem; font-size: 0.65rem; }
+    }
+</style>
+</head>
+<body>
+
+<nav class="header-nav">
+    <a href="index.html" class="nav-brand">
+        <span class="logo-grey">Grey</span>
+        <div class="nav-gradus">
+            <div class="nav-gradus-bar"></div>
+            <div class="nav-gradus-bar"></div>
+            <div class="nav-gradus-bar"></div>
+        </div>
+        <span>Stratum</span>
+    </a>
+    <div class="nav-right">
+        <a href="cantara.html" class="nav-back">← Back to Cantara</a>
+        <div class="theme-toggle" onclick="toggleTheme()">
+            <span class="toggle-label" id="themeLabel">[ NOX ]</span>
+            <div class="toggle-indicator">
+                <div class="toggle-bar"></div>
+                <div class="toggle-bar"></div>
+                <div class="toggle-bar"></div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<div class="app">
+    <div class="app-header">
+        <div class="app-icon">
+            <img src="assets/Cantara_Logo_G_New.png" alt="Cantara">
+        </div>
+        <div class="app-title">Cantara<span class="app-subtitle">Console</span></div>
+    </div>
+
+    <section class="card">
+        <div class="card-header">
+            <span class="code-text cyan">[ AZURE CONFIGURATION ]</span>
+            <span class="saved-indicator" id="savedIndicator">✓ SAVED</span>
+        </div>
+        <div class="row">
+            <div class="field" style="grid-column: span 5;">
+                <label class="label">Speech Key</label>
+                <input id="key" type="password" autocomplete="off" placeholder="Enter Azure Speech key" />
+                <p class="hint">Stored locally in your browser</p>
+            </div>
+            <div class="field" style="grid-column: span 3;">
+                <label class="label">Region</label>
+                <input id="region" type="text" placeholder="eastus" />
+            </div>
+            <div class="field" style="grid-column: span 4;">
+                <label class="label">Output Format</label>
+                <select id="format">
+                    <option value="audio-24khz-160kbitrate-mono-mp3">MP3 (24 kHz / 160k)</option>
+                    <option value="audio-48khz-192kbitrate-mono-mp3">MP3 (48 kHz / 192k)</option>
+                    <option value="riff-24khz-16bit-mono-pcm">WAV (24 kHz / 16-bit)</option>
+                    <option value="ogg-48khz-16bit-mono-opus">OGG (48 kHz / OPUS)</option>
+                </select>
+            </div>
+        </div>
+        <div class="buttons">
+            <button class="btn btn--primary" id="fetchVoices">Refresh Voices</button>
+            <button class="btn btn--primary" id="speak">▶ Speak</button>
+            <button class="btn" id="downloadBtn">↓ Download</button>
+        </div>
+        <audio id="player" controls></audio>
+    </section>
+
+    <section class="card">
+        <div class="card-header">
+            <span class="code-text cyan">[ VOICE SETTINGS ]</span>
+        </div>
+        <div class="row">
+            <div class="field" style="grid-column: span 6;">
+                <label class="label">Voice</label>
+                <select id="voice">
+                    <option value="">Load voices first...</option>
+                </select>
+            </div>
+            <div class="field" style="grid-column: span 6;">
+                <label class="label">Style (Neural)</label>
+                <select id="style">
+                    <option value="">(none)</option>
+                    <option>general</option><option>chat</option><option>narration-professional</option>
+                    <option>newscast</option><option>assistant</option><option>customer-service</option>
+                    <option>empathetic</option><option>cheerful</option><option>sad</option><option>angry</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="field" style="grid-column: span 6;">
+                <label class="label">Style Degree</label>
+                <input id="styleDegree" type="range" min="0" max="2" step="0.1" value="1.0">
+                <div class="range-value"><span id="styleDegreeVal">1.0</span></div>
+            </div>
+            <div class="field" style="grid-column: span 6;">
+                <label class="label">Sentence Pause (ms)</label>
+                <input id="pauseMs" type="range" min="0" max="1200" step="50" value="0">
+                <div class="range-value"><span id="pauseVal">0 ms</span></div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="field" style="grid-column: span 6;">
+                <label class="label">Rate (Global)</label>
+                <input id="rate" type="range" min="-15" max="15" step="1" value="0">
+                <div class="range-value"><span id="rateVal">0%</span></div>
+            </div>
+            <div class="field" style="grid-column: span 6;">
+                <label class="label">Pitch (Global)</label>
+                <input id="pitch" type="range" min="-5" max="5" step="1" value="0">
+                <div class="range-value"><span id="pitchVal">0 st</span></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="card">
+        <div class="card-header">
+            <span class="code-text cyan">[ TEXT INPUT ]</span>
+        </div>
+        <div class="row">
+            <div class="field" style="grid-column: span 12;">
+                <textarea id="text" placeholder="Enter text to synthesize...">Welcome to Cantara. With hundreds of neural voices and visual SSML controls, the canvas is yours. Try selecting a word and pressing Emphasize or Slow.</textarea>
+            </div>
+        </div>
+
+        <div class="card-header" style="margin-top: 1rem;">
+            <span class="code-text">[ SSML EFFECTS ]</span>
+        </div>
+        <div class="buttons">
+            <button class="btn" data-action="emphasis" data-level="moderate">Emphasize</button>
+            <button class="btn" data-action="emphasis" data-level="strong">Strong</button>
+            <button class="btn" data-action="prosody" data-prop="rate" data-value="0.85">Slow</button>
+            <button class="btn" data-action="prosody" data-prop="rate" data-value="1.15">Fast</button>
+            <button class="btn" data-action="prosody" data-prop="pitch" data-value="+3st">Pitch ↑</button>
+            <button class="btn" data-action="prosody" data-prop="pitch" data-value="-3st">Pitch ↓</button>
+            <button class="btn" data-action="break" data-ms="250">Pause 250ms</button>
+            <button class="btn" id="clearSpan">Clear Selection</button>
+        </div>
+
+        <div id="chips" style="margin: 0.75rem 0;"></div>
+        <div class="preview" id="preview"></div>
+    </section>
+</div>
+
+<script>
+    // Theme toggle
+    function toggleTheme() {
+        const html = document.documentElement;
+        const label = document.getElementById('themeLabel');
+        if (html.getAttribute('data-theme') === 'dark') {
+            html.setAttribute('data-theme', 'light');
+            label.textContent = '[ LUX ]';
+            localStorage.setItem('theme', 'light');
+        } else {
+            html.setAttribute('data-theme', 'dark');
+            label.textContent = '[ NOX ]';
+            localStorage.setItem('theme', 'dark');
+        }
+    }
+
+    // Initialize theme
+    (function() {
+        const saved = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const theme = saved || (prefersDark ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-theme', theme);
+        document.getElementById('themeLabel').textContent = theme === 'dark' ? '[ NOX ]' : '[ LUX ]';
+    })();
+
+    // Range label bindings
+    const bindRange = (id, fmt) => {
+        const el = document.getElementById(id);
+        const lab = document.getElementById(id + 'Val');
+        const render = () => lab && (lab.textContent = fmt(el.value));
+        el.addEventListener('input', render);
+        render();
+    };
+    bindRange('styleDegree', v => Number(v).toFixed(1));
+    bindRange('rate', v => `${v}%`);
+    bindRange('pitch', v => `${v} st`);
+    const pause = document.getElementById('pauseMs');
+    const pauseVal = document.getElementById('pauseVal');
+    pause.addEventListener('input', () => pauseVal.textContent = `${pause.value} ms`);
+    pauseVal.textContent = `${pause.value} ms`;
+
+    // Azure elements
+    const keyEl = document.getElementById('key');
+    const regionEl = document.getElementById('region');
+    const voiceSel = document.getElementById('voice');
+    const styleSel = document.getElementById('style');
+    const fmtSel = document.getElementById('format');
+    const textEl = document.getElementById('text');
+    const player = document.getElementById('player');
+    const savedIndicator = document.getElementById('savedIndicator');
+
+    function azureBase(region) {
+        return `https://${region}.tts.speech.microsoft.com`;
+    }
+
+    // localStorage persistence for credentials
+    function loadCredentials() {
+        const savedKey = localStorage.getItem('cantara_key');
+        const savedRegion = localStorage.getItem('cantara_region');
+        if (savedKey) keyEl.value = savedKey;
+        if (savedRegion) regionEl.value = savedRegion;
+    }
+
+    function saveCredentials() {
+        localStorage.setItem('cantara_key', keyEl.value);
+        localStorage.setItem('cantara_region', regionEl.value);
+        // Show saved indicator
+        savedIndicator.classList.add('visible');
+        setTimeout(() => savedIndicator.classList.remove('visible'), 2000);
+    }
+
+    // Auto-save on change
+    keyEl.addEventListener('change', saveCredentials);
+    regionEl.addEventListener('change', saveCredentials);
+
+    // Load on init
+    loadCredentials();
+
+    async function fetchVoices() {
+        const key = keyEl.value.trim();
+        const region = regionEl.value.trim();
+        if (!key || !region) {
+            alert('Enter Speech key and region.');
+            return;
+        }
+        saveCredentials();
+        const url = `${azureBase(region)}/cognitiveservices/voices/list`;
+        try {
+            const res = await fetch(url, { headers: { 'Ocp-Apim-Subscription-Key': key } });
+            if (!res.ok) throw new Error('Failed to fetch');
+            const list = await res.json();
+            voiceSel.innerHTML = '';
+            list.forEach(v => {
+                const opt = document.createElement('option');
+                opt.value = v.ShortName;
+                opt.textContent = `${v.LocaleName} — ${v.ShortName}`;
+                voiceSel.appendChild(opt);
+            });
+            if (list.length) voiceSel.value = list.find(v => /neural/i.test(v.VoiceType || ''))?.ShortName || list[0].ShortName;
+        } catch (e) {
+            alert('Failed to fetch voices. Check your key and region.');
+        }
+    }
+
+    // SSML span logic
+    let spans = [];
+    function shallowEqual(a, b) { return JSON.stringify(a) === JSON.stringify(b); }
+    function normalizeSpans(items) {
+        items.sort((a, b) => a.start - b.start || a.end - b.end);
+        const out = [];
+        for (const s of items) {
+            const last = out[out.length - 1];
+            if (last && last.end >= s.start && shallowEqual(last.effects, s.effects)) {
+                last.end = Math.max(last.end, s.end);
+            } else {
+                out.push({ ...s });
+            }
+        }
+        return out;
+    }
+    function addSpan(start, end, effects) {
+        if (start === end && !('breakMs' in effects)) return;
+        spans.push({ start, end, effects, id: (crypto.randomUUID ? crypto.randomUUID() : String(Math.random()).slice(2)) });
+        spans = normalizeSpans(spans);
+        renderChips();
+        renderPreview();
+    }
+    function clearSelectionSpans(start, end) {
+        spans = spans.filter(s => !(s.start < end && s.end > start) && !(s.start === end && s.end === end && s.effects.breakMs));
+        renderChips();
+        renderPreview();
+    }
+    function getSelRange() { return { start: textEl.selectionStart, end: textEl.selectionEnd }; }
+
+    document.querySelectorAll('.buttons')[2].addEventListener('click', (e) => {
+        const btn = e.target.closest('.btn');
+        if (!btn) return;
+        const { start, end } = getSelRange();
+        if (btn.id === 'clearSpan') { clearSelectionSpans(start, end); return; }
+        const action = btn.dataset.action;
+        if (action === 'emphasis') {
+            addSpan(start, end, { emphasis: btn.dataset.level });
+        } else if (action === 'prosody') {
+            const prop = btn.dataset.prop;
+            const value = btn.dataset.value;
+            addSpan(start, end, { [prop]: value });
+        } else if (action === 'break') {
+            addSpan(end, end, { breakMs: parseInt(btn.dataset.ms, 10) });
+        }
+    });
+
+    const chips = document.getElementById('chips');
+    function renderChips() {
+        chips.innerHTML = '';
+        if (!spans.length) return;
+        const text = textEl.value;
+        for (const s of spans) {
+            const label = s.effects.breakMs ? `Break ${s.effects.breakMs}ms` : Object.keys(s.effects).map(k => `${k}:${s.effects[k]}`).join(',');
+            const div = document.createElement('span');
+            div.className = 'chip';
+            div.textContent = s.effects.breakMs ? label : `"${text.slice(s.start, s.end)}" • ${label}`;
+            chips.appendChild(div);
+        }
+    }
+
+    const preview = document.getElementById('preview');
+    textEl.addEventListener('input', () => { spans = []; renderChips(); renderPreview(); });
+    function escapeXml(s) { return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+    function renderPreview() {
+        const text = textEl.value;
+        if (!text) { preview.innerHTML = ''; return; }
+        const cuts = new Set([0, text.length]);
+        for (const s of spans) { cuts.add(s.start); cuts.add(s.end); }
+        const idx = [...cuts].sort((a, b) => a - b);
+        let html = '';
+        for (let i = 0; i < idx.length - 1; i++) {
+            const a = idx[i], b = idx[i + 1];
+            const seg = escapeXml(text.slice(a, b));
+            const effs = spans.filter(s => s.start < b && s.end > a && !s.effects.breakMs).map(s => s.effects);
+            let cls = '';
+            for (const ef of effs) {
+                if (ef.emphasis) cls = 'span-emph';
+                if (ef.rate === '0.85') cls = 'span-slow';
+                if (ef.rate === '1.15') cls = 'span-fast';
+                if (ef.pitch === '+3st') cls = 'span-pitch-up';
+                if (ef.pitch === '-3st') cls = 'span-pitch-down';
+            }
+            const zeroBreaks = spans.filter(s => s.start === a && s.end === a && s.effects.breakMs);
+            for (const z of zeroBreaks) html += `<span class="chip">Break ${z.effects.breakMs}ms</span>`;
+            html += cls ? `<span class="${cls}">${seg}</span>` : seg;
+        }
+        preview.innerHTML = html;
+    }
+    renderPreview();
+
+    function buildSSML() {
+        const voice = voiceSel.value || 'en-US-AriaNeural';
+        const style = styleSel.value.trim();
+        const styleDegree = document.getElementById('styleDegree').value;
+        const globalRatePct = parseInt(document.getElementById('rate').value, 10) || 0;
+        const globalPitchSt = parseInt(document.getElementById('pitch').value, 10) || 0;
+        const pauseMs = Number(document.getElementById('pauseMs').value) || 0;
+        const raw = textEl.value;
+        function xml(s) { return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+        const cuts = new Set([0, raw.length]);
+        for (const s of spans) { cuts.add(s.start); cuts.add(s.end); }
+        const idx = [...cuts].sort((a, b) => a - b);
+        function effectsAt(a, b) {
+            const eff = {};
+            for (const s of spans) { if (s.start < b && s.end > a) Object.assign(eff, s.effects); }
+            return eff;
+        }
+        let body = '';
+        for (let i = 0; i < idx.length - 1; i++) {
+            const a = idx[i], b = idx[i + 1];
+            const seg = xml(raw.slice(a, b));
+            const zeroBreaks = spans.filter(s => s.start === a && s.end === a && s.effects.breakMs);
+            for (const z of zeroBreaks) body += `<break time="${z.effects.breakMs}ms"/>`;
+            if (!seg) continue;
+            const ef = effectsAt(a, b);
+            let segXml = seg;
+            if (ef.emphasis) segXml = `<emphasis level="${ef.emphasis}">${segXml}</emphasis>`;
+            const pros = [];
+            if (ef.rate) pros.push(`rate="${ef.rate.includes('%') || isNaN(Number(ef.rate)) ? ef.rate : (Number(ef.rate) * 100).toFixed(0) + '%'}"`);
+            if (ef.pitch) pros.push(`pitch="${ef.pitch}"`);
+            if (ef.volume) pros.push(`volume="${ef.volume}"`);
+            if (pros.length) segXml = `<prosody ${pros.join(' ')}>${segXml}</prosody>`;
+            body += segXml;
+        }
+        const glob = [];
+        if (globalRatePct !== 0) glob.push(`rate="${(100 + globalRatePct)}%"`);
+        if (globalPitchSt !== 0) glob.push(`pitch="${globalPitchSt > 0 ? `+${globalPitchSt}` : globalPitchSt}st"`);
+        let outer = glob.length ? `<prosody ${glob.join(' ')}>${body}</prosody>` : body;
+        if (pauseMs > 0) outer += `<break time="${pauseMs}ms"/>`;
+        if (style) outer = `<mstts:express-as style="${style}" styledegree="${styleDegree}">${outer}</mstts:express-as>`;
+        return (`
+<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis"
+       xmlns:mstts="http://www.w3.org/2001/mstts" xml:lang="en-US">
+  <voice name="${voice}">
+    ${outer}
+  </voice>
+</speak>`).trim();
+    }
+
+    async function synthesize(download = false) {
+        const key = keyEl.value.trim();
+        const region = regionEl.value.trim();
+        if (!key || !region) { alert('Enter Speech key and region.'); return; }
+        const url = `${azureBase(region)}/cognitiveservices/v1`;
+        const format = fmtSel.value;
+        const ssml = buildSSML();
+        const res = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Ocp-Apim-Subscription-Key': key,
+                'Content-Type': 'application/ssml+xml',
+                'X-Microsoft-OutputFormat': format,
+                'User-Agent': 'Cantara-TTS/1.0'
+            },
+            body: ssml
+        });
+        if (!res.ok) {
+            const t = await res.text().catch(() => '');
+            alert('Synthesis error: ' + res.status + ' ' + res.statusText + (t ? '\n' + t : ''));
+            return;
+        }
+        const blob = await res.blob();
+        const objectUrl = URL.createObjectURL(blob);
+        if (download) {
+            const ext = format.includes('mp3') ? 'mp3' : format.includes('opus') ? 'ogg' : 'wav';
+            const a = document.createElement('a');
+            a.href = objectUrl;
+            a.download = `Cantara_TTS_${Date.now()}.${ext}`;
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+        } else {
+            player.src = objectUrl;
+            player.play().catch(() => {});
+        }
+    }
+
+    document.getElementById('fetchVoices').addEventListener('click', fetchVoices);
+    document.getElementById('speak').addEventListener('click', () => synthesize(false));
+    document.getElementById('downloadBtn').addEventListener('click', () => synthesize(true));
+    regionEl.addEventListener('change', () => { if (keyEl.value.trim() && regionEl.value.trim()) fetchVoices(); });
+</script>
+</body>
+</html>

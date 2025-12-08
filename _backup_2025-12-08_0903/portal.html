@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grey Stratum | Portal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Archivo:wght@300;400&family=Fira+Code:wght@400&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #1a1d21;
+            --bg-secondary: #22272e;
+            --bg-card: #2d333b;
+            --text-primary: #e6edf3;
+            --text-muted: #7d8590;
+            --cyan-accent: #5BA4B5;
+            --border-color: #373e47;
+            --error: #f85149;
+            --success: #3fb950;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        /* Gradus (tri-bar) */
+        .gradus {
+            display: flex;
+            gap: 4px;
+            align-items: center;
+            height: 40px;
+            margin-bottom: 2rem;
+        }
+
+        .gradus-bar {
+            width: 6px;
+            background-color: var(--cyan-accent);
+            border-radius: 3px;
+        }
+
+        .gradus-bar:nth-child(1) { height: 40%; opacity: 0.5; }
+        .gradus-bar:nth-child(2) { height: 65%; opacity: 0.75; }
+        .gradus-bar:nth-child(3) { height: 90%; opacity: 1; }
+
+        .logo {
+            font-family: 'Archivo', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 300;
+            letter-spacing: 0.35em;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        .logo-grey { color: var(--text-muted); }
+        .logo-stratum { color: var(--text-primary); }
+
+        .code-text {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 0.15em;
+            color: var(--text-muted);
+            margin-bottom: 3rem;
+        }
+
+        /* Gate (password form) */
+        .gate {
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+        }
+
+        .gate h2 {
+            font-family: 'Archivo', sans-serif;
+            font-size: 1rem;
+            font-weight: 300;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            margin-bottom: 2rem;
+            color: var(--text-muted);
+        }
+
+        .input-group {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+            letter-spacing: 0.1em;
+            text-align: center;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        .input-group input:focus {
+            border-color: var(--cyan-accent);
+        }
+
+        .input-group input::placeholder {
+            color: var(--text-muted);
+            opacity: 0.5;
+        }
+
+        .btn-enter {
+            width: 100%;
+            padding: 1rem 2rem;
+            background-color: transparent;
+            border: 1px solid var(--text-primary);
+            color: var(--text-primary);
+            font-family: 'Archivo', sans-serif;
+            font-size: 0.75rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-enter:hover {
+            background-color: var(--text-primary);
+            color: var(--bg-primary);
+        }
+
+        .error-msg {
+            color: var(--error);
+            font-size: 0.75rem;
+            margin-top: 1rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .error-msg.visible {
+            opacity: 1;
+        }
+
+        /* Portal (after authentication) */
+        .portal {
+            display: none;
+            text-align: center;
+            max-width: 600px;
+            width: 100%;
+        }
+
+        .portal.active {
+            display: block;
+        }
+
+        .gate.hidden {
+            display: none;
+        }
+
+        .portal h2 {
+            font-family: 'Archivo', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 300;
+            letter-spacing: 0.15em;
+            margin-bottom: 0.5rem;
+        }
+
+        .portal .subtitle {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 3rem;
+        }
+
+        .repo-grid {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .repo-card {
+            display: flex;
+            align-items: center;
+            padding: 1.25rem 1.5rem;
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            text-decoration: none;
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+        }
+
+        .repo-card:hover {
+            border-color: var(--cyan-accent);
+            transform: translateX(4px);
+        }
+
+        .repo-icon {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--bg-secondary);
+            border-radius: 4px;
+            margin-right: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .repo-info {
+            text-align: left;
+            flex: 1;
+        }
+
+        .repo-name {
+            font-family: 'Archivo', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 400;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.25rem;
+        }
+
+        .repo-desc {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .repo-arrow {
+            color: var(--cyan-accent);
+            font-size: 1.2rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .repo-card:hover .repo-arrow {
+            opacity: 1;
+        }
+
+        .section-label {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.6rem;
+            letter-spacing: 0.15em;
+            color: var(--text-muted);
+            text-align: left;
+            margin: 2rem 0 1rem 0;
+        }
+
+        .logout-btn {
+            margin-top: 3rem;
+            padding: 0.75rem 1.5rem;
+            background: none;
+            border: 1px solid var(--border-color);
+            color: var(--text-muted);
+            font-family: 'Fira Code', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 0.1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            border-color: var(--error);
+            color: var(--error);
+        }
+
+        /* Footer */
+        footer {
+            position: fixed;
+            bottom: 2rem;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.6rem;
+            color: var(--text-muted);
+            letter-spacing: 0.1em;
+        }
+    </style>
+</head>
+<body>
+
+<div class="gradus">
+    <div class="gradus-bar"></div>
+    <div class="gradus-bar"></div>
+    <div class="gradus-bar"></div>
+</div>
+
+<div class="logo">
+    <span class="logo-grey">GREY</span>
+    <span class="logo-stratum">STRATUM</span>
+</div>
+
+<p class="code-text">[ SECURE PORTAL ]</p>
+
+<!-- Password Gate -->
+<div class="gate" id="gate">
+    <h2>Access Required</h2>
+    <form onsubmit="return authenticate(event)">
+        <div class="input-group">
+            <input type="password" id="passphrase" placeholder="Enter passphrase" autocomplete="off">
+        </div>
+        <button type="submit" class="btn-enter">Enter</button>
+    </form>
+    <p class="error-msg" id="errorMsg">Access denied. Invalid passphrase.</p>
+</div>
+
+<!-- Portal (shown after auth) -->
+<div class="portal" id="portal">
+    <h2>Welcome Back</h2>
+    <p class="subtitle">Select a repository to access</p>
+    
+    <p class="section-label">[ REPOSITORIES ]</p>
+    <div class="repo-grid">
+        <a href="https://github.com/bailey0002/concordia-nda-plus" target="_blank" class="repo-card">
+            <div class="repo-icon">📦</div>
+            <div class="repo-info">
+                <div class="repo-name">concordia-nda-plus</div>
+                <div class="repo-desc">Electron app + FastAPI backend + YAML library</div>
+            </div>
+            <span class="repo-arrow">→</span>
+        </a>
+        <a href="https://github.com/bailey0002/grey_stratum_website" target="_blank" class="repo-card">
+            <div class="repo-icon">🌐</div>
+            <div class="repo-info">
+                <div class="repo-name">grey_stratum_website</div>
+                <div class="repo-desc">Brand website + marketing assets</div>
+            </div>
+            <span class="repo-arrow">→</span>
+        </a>
+    </div>
+    
+    <p class="section-label">[ RESOURCES ]</p>
+    <div class="repo-grid">
+        <a href="https://portal.azure.com" target="_blank" class="repo-card">
+            <div class="repo-icon">☁️</div>
+            <div class="repo-info">
+                <div class="repo-name">Azure Portal</div>
+                <div class="repo-desc">OpenAI, Static Web Apps, Blob Storage</div>
+            </div>
+            <span class="repo-arrow">→</span>
+        </a>
+        <a href="https://www.greystratum.com" target="_blank" class="repo-card">
+            <div class="repo-icon">🔗</div>
+            <div class="repo-info">
+                <div class="repo-name">Grey Stratum Live</div>
+                <div class="repo-desc">Production website</div>
+            </div>
+            <span class="repo-arrow">→</span>
+        </a>
+    </div>
+    
+    <button class="logout-btn" onclick="logout()">[ DISCONNECT ]</button>
+</div>
+
+<footer>© 2025 Grey Stratum — All transmissions monitored</footer>
+
+<script>
+    // Simple client-side authentication
+    // IMPORTANT: Replace this hash with your own passphrase hash
+    // To generate: console.log(await hashPassphrase('your-passphrase'))
+    const PASSPHRASE_HASH = '295bb728cfefd76600f78b382133c3ce303879a86aa3424cf21b577da0df3adb';
+    
+    async function hashPassphrase(passphrase) {
+        const encoder = new TextEncoder();
+        const data = encoder.encode(passphrase);
+        const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+        return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+    
+    async function authenticate(event) {
+        event.preventDefault();
+        const passphrase = document.getElementById('passphrase').value;
+        const hash = await hashPassphrase(passphrase);
+        
+        if (hash === PASSPHRASE_HASH) {
+            sessionStorage.setItem('gs_auth', 'true');
+            showPortal();
+        } else {
+            document.getElementById('errorMsg').classList.add('visible');
+            document.getElementById('passphrase').value = '';
+            setTimeout(() => {
+                document.getElementById('errorMsg').classList.remove('visible');
+            }, 3000);
+        }
+        return false;
+    }
+    
+    function showPortal() {
+        document.getElementById('gate').classList.add('hidden');
+        document.getElementById('portal').classList.add('active');
+    }
+    
+    function logout() {
+        sessionStorage.removeItem('gs_auth');
+        document.getElementById('gate').classList.remove('hidden');
+        document.getElementById('portal').classList.remove('active');
+        document.getElementById('passphrase').value = '';
+    }
+    
+    // Check if already authenticated this session
+    if (sessionStorage.getItem('gs_auth') === 'true') {
+        showPortal();
+    }
+    
+    // Helper to generate new passphrase hash (run in console)
+    // Usage: generateHash('your-new-passphrase')
+    window.generateHash = async function(passphrase) {
+        const hash = await hashPassphrase(passphrase);
+        console.log('New hash:', hash);
+        console.log('Replace PASSPHRASE_HASH with this value');
+        return hash;
+    };
+</script>
+
+</body>
+</html>
