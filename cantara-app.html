@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Cantära TTS+ — Grey Stratum</title>
+<link rel="icon" type="image/png" href="favicon.png">
+<style>
+  :root{
+    --bg:#0a0a0b;
+    --surface:#151518;
+    --surface-2:#1a1a1e;
+    --text:#e8e8e8;
+    --muted:#888888;
+    --accent:#2ED0FF;
+    --accent-soft:#9bdff4;
+    --accent-warm:#ff8a3a;
+    --shadow-dark: rgba(0,0,0,0.62);
+    --shadow-light: rgba(255,255,255,0.05);
+    --radius-xxl: 24px;
+    --radius-xl: 20px;
+    --radius-lg: 16px;
+    --radius-md: 12px;
+  }
+
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0;
+    background:
+      radial-gradient(800px 800px at 80% -10%, #15171a 0%, var(--bg) 55%) fixed,
+      var(--bg);
+    color:var(--text);
+    font: 15px/1.5 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Navigation Bar */
+  .navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    background: rgba(10,10,11,0.9);
+    backdrop-filter: blur(10px);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    color: var(--text);
+  }
+
+  .nav-brand span:first-child {
+    font-weight: 300;
+    letter-spacing: 0.15em;
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+
+  .nav-divider {
+    width: 1px;
+    height: 12px;
+    background: var(--accent);
+  }
+
+  .nav-brand span:last-child {
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    font-size: 0.8rem;
+  }
+
+  .nav-back {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: color 0.3s ease;
+  }
+
+  .nav-back:hover {
+    color: var(--text);
+  }
+
+  .app{ max-width: 1000px; margin: 2rem auto 4rem; padding: 0 1.5rem; }
+
+  .header{ display:flex; align-items:center; gap:14px; margin-bottom:1.5rem; }
+  .brand{
+    width:48px;height:48px;border-radius:14px;
+    background: linear-gradient(180deg, #1e2226 0%, #151518 100%);
+    box-shadow:
+      -8px -8px 16px var(--shadow-light),
+      10px 10px 18px var(--shadow-dark),
+      inset 1px 1px 3px rgba(255,255,255,0.04),
+      inset -1px -1px 4px rgba(0,0,0,0.5);
+    display:grid; place-items:center;
+    overflow:hidden;
+  }
+  .brand img{ width:34px; height:auto; opacity:.95; filter: drop-shadow(0 4px 12px rgba(46,208,255,.25)) }
+  .title{font-weight:500;letter-spacing:.05em; font-size: 1.1rem;}
+  .title-sub{font-size: 0.7rem; color: var(--muted); letter-spacing: 0.15em; text-transform: uppercase; margin-left: 0.75rem;}
+
+  .grid{ display:grid; grid-template-columns: 1fr; gap:1.5rem; }
+  .card{
+    background: linear-gradient(180deg, var(--surface-2), var(--surface));
+    border-radius: var(--radius-xxl);
+    padding: 1.75rem;
+    box-shadow:
+      -12px -12px 24px var(--shadow-light),
+      14px 14px 26px var(--shadow-dark);
+    border: 1px solid rgba(255,255,255,0.04);
+    position:relative; overflow:hidden;
+  }
+  .card::after{ content:""; position:absolute; inset:0; pointer-events:none;
+    background: linear-gradient(180deg, rgba(255,255,255,0.03), transparent 30%);
+    border-radius: inherit;
+  }
+  .subtle{color:var(--muted)}
+  .small{font-size:12px}
+  .label{ color:var(--muted); font-size:.8rem; letter-spacing: 0.05em; }
+
+  .row{ display:grid; grid-template-columns: repeat(12,1fr); gap:12px; margin-bottom:12px }
+  .field{ display:flex; flex-direction:column; gap:8px; background:transparent; grid-column: span 4; }
+  input[type="text"], input[type="password"], select, textarea{
+    width:100%; padding:12px 14px; border-radius:12px;
+    color:var(--text); background: linear-gradient(180deg, #1a1a1e, #151518);
+    border:1px solid rgba(255,255,255,0.06);
+    box-shadow: inset 4px 4px 8px rgba(0,0,0,0.5), inset -4px -4px 8px rgba(255,255,255,0.03);
+    font-family: inherit;
+    font-size: 0.9rem;
+  }
+  input::placeholder, textarea::placeholder { color: var(--muted); opacity: 0.6; }
+  select{ appearance:none; background-image: none; cursor: pointer; }
+  textarea{ min-height: 140px; grid-column: span 12; resize: vertical; }
+
+  input[type="range"]{ -webkit-appearance:none; appearance:none; width:100%; background:transparent; }
+  input[type="range"]::-webkit-slider-runnable-track{
+    height: 10px; border-radius: 999px;
+    background: linear-gradient(180deg, #1a1a1e, #151518);
+    box-shadow: inset 4px 4px 8px rgba(0,0,0,0.5), inset -4px -4px 8px rgba(255,255,255,0.03);
+  }
+  input[type="range"]::-webkit-slider-thumb{ 
+    -webkit-appearance:none; width:24px; height:24px; margin-top:-7px; border-radius:50%; 
+    background: linear-gradient(180deg, #4E7278, #43656b); 
+    box-shadow: -6px -6px 10px rgba(255,255,255,0.05), 8px 8px 12px rgba(0,0,0,0.6), 
+                inset 1px 1px 2px rgba(255,255,255,0.15), inset -1px -1px 3px rgba(0,0,0,0.4); 
+    border: 1px solid rgba(255,255,255,0.08);
+    cursor: pointer;
+  }
+  .val{ text-align:right; color:var(--muted); font-variant-numeric: tabular-nums; font-size: 0.85rem; }
+
+  .buttons{ display:flex; flex-wrap:wrap; gap:10px }
+  .btn{
+    padding:10px 15px; border-radius:999px; border:1px solid rgba(255,255,255,0.06);
+    color:#ffffff; cursor:pointer; user-select:none;
+    box-shadow:
+      -8px -8px 14px rgba(255,255,255,0.04),
+      10px 10px 16px rgba(0,0,0,0.5);
+    transition: transform .08s, box-shadow .12s, color .12s, background .12s;
+    font-size:.82rem;
+    font-family: inherit;
+    letter-spacing: 0.02em;
+    background: linear-gradient(180deg, #4E7278, #43656b);
+  }
+  .btn:hover{
+    box-shadow:
+      -6px -6px 10px rgba(255,255,255,0.05),
+      8px 8px 12px rgba(0,0,0,0.6),
+      inset 1px 1px 2px rgba(255,255,255,0.04),
+      inset -1px -1px 3px rgba(0,0,0,0.5);
+  }
+  .btn:active{ transform: translateY(1px); }
+  .btn--accent{ color:#ffffff; background: linear-gradient(180deg, #4E7278, #43656b); border-color: rgba(255,255,255,0.1);}
+  .btn--warm{ color:#ffffff; background: linear-gradient(180deg, #6a5040, #5a4030);}
+  .chip{ 
+    display:inline-flex; align-items:center; gap:.35rem; font-size:.7rem; 
+    padding:.25rem .65rem; border-radius:10px; 
+    background: var(--surface-2); 
+    border:1px solid rgba(46,208,255,.25); 
+    color: var(--accent); 
+    margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .preview{ 
+    margin-top:.5rem; padding:.75rem 1rem; border-radius:12px;
+    background:rgba(255,255,255,.03); border:1px dashed rgba(255,255,255,.12); 
+    min-height:2.5rem; 
+    font-size: 0.9rem;
+    line-height: 1.7;
+  }
+  .hr{ height:1px; background: rgba(255,255,255,0.08); margin:16px 0 }
+
+  .span-emph{ background: linear-gradient(180deg, rgba(46,208,255,0.18), rgba(46,208,255,0.08)); padding:.1rem .2rem; border-radius:4px }
+  .span-slow{ background: linear-gradient(180deg, rgba(255,166,0,0.15), rgba(255,166,0,0.06)); padding:.1rem .2rem; border-radius:4px }
+  .span-fast{ background: linear-gradient(180deg, rgba(144,238,144,0.15), rgba(144,238,144,0.06)); padding:.1rem .2rem; border-radius:4px }
+  .span-pitch-up{ background: linear-gradient(180deg, rgba(173,216,230,0.18), rgba(173,216,230,0.08)); padding:.1rem .2rem; border-radius:4px }
+  .span-pitch-down{ background: linear-gradient(180deg, rgba(221,160,221,0.18), rgba(221,160,221,0.08)); padding:.1rem .2rem; border-radius:4px }
+
+  audio {
+    width: 100%;
+    margin-top: 12px;
+    border-radius: 8px;
+    outline: none;
+  }
+
+  audio::-webkit-media-controls-panel {
+    background: var(--surface);
+  }
+
+  .section-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    color: var(--muted);
+    margin-bottom: 1rem;
+    opacity: 0.7;
+  }
+
+  @media (max-width: 768px) {
+    .navbar { padding: 0.75rem 1rem; }
+    .app { padding: 0 1rem; }
+    .row { gap: 8px; }
+    .field { grid-column: span 12 !important; }
+    .buttons { gap: 8px; }
+    .btn { padding: 8px 12px; font-size: 0.75rem; }
+  }
+</style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <a href="index.html" class="nav-brand">
+      <span>GREY</span>
+      <div class="nav-divider"></div>
+      <span>STRATUM</span>
+    </a>
+    <a href="cantara.html" class="nav-back">← Back to Cantära</a>
+  </nav>
+
+  <div class="app">
+    <div class="header">
+      <div class="brand"><img src="assets/Cantara_Logo_G_New.png" alt="Cantära"></div>
+      <div class="title">Cantära<span class="title-sub">TTS+</span></div>
+    </div>
+
+    <section class="card">
+      <div class="section-label">[ AZURE CONFIGURATION ]</div>
+      <div class="row">
+        <div class="field" style="grid-column: span 5;">
+          <label class="label">Speech Key</label>
+          <input id="key" type="password" autocomplete="off" placeholder="Enter your Azure key" />
+        </div>
+        <div class="field" style="grid-column: span 3;">
+          <label class="label">Region</label>
+          <input id="region" type="text" placeholder="eastus" />
+        </div>
+        <div class="field" style="grid-column: span 4;">
+          <label class="label">Output Format</label>
+          <select id="format">
+            <option value="audio-24khz-160kbitrate-mono-mp3">MP3 (24 kHz / 160k)</option>
+            <option value="audio-48khz-192kbitrate-mono-mp3">MP3 (48 kHz / 192k)</option>
+            <option value="riff-24khz-16bit-mono-pcm">WAV (24 kHz / 16-bit)</option>
+            <option value="ogg-48khz-16bit-mono-opus">OGG (48 kHz / OPUS)</option>
+          </select>
+        </div>
+      </div>
+      <div class="buttons">
+        <div class="btn btn--accent" id="fetchVoices">Refresh Voices</div>
+        <div class="btn btn--warm" id="speak">▶ Speak</div>
+        <div class="btn" id="downloadBtn">↓ Download</div>
+      </div>
+      <audio id="player" controls></audio>
+    </section>
+
+    <section class="card">
+      <div class="section-label">[ VOICE SETTINGS ]</div>
+      <div class="row">
+        <div class="field" style="grid-column: span 6;">
+          <label class="label">Voice</label>
+          <select id="voice">
+            <option value="">Load voices first...</option>
+          </select>
+          <div class="subtle small">Tip: Neural voices deliver the best quality.</div>
+        </div>
+        <div class="field" style="grid-column: span 6;">
+          <label class="label">Style (Neural)</label>
+          <select id="style">
+            <option value="">(none)</option>
+            <option>general</option><option>chat</option><option>narration-professional</option>
+            <option>newscast</option><option>assistant</option><option>customer-service</option>
+            <option>empathetic</option><option>cheerful</option><option>sad</option><option>angry</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="field" style="grid-column: span 6;">
+          <label class="label">Style Degree</label>
+          <input id="styleDegree" type="range" min="0" max="2" step="0.1" value="1.0">
+          <div class="val"><span id="styleDegreeVal">1.0</span></div>
+        </div>
+        <div class="field" style="grid-column: span 6;">
+          <label class="label">Sentence Pause (ms)</label>
+          <input id="pauseMs" type="range" min="0" max="1200" step="50" value="0">
+          <div class="val"><span id="pauseVal">0 ms</span></div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="field" style="grid-column: span 6;">
+          <label class="label">Rate (Global)</label>
+          <input id="rate" type="range" min="-15" max="15" step="1" value="0">
+          <div class="val"><span id="rateVal">0%</span></div>
+        </div>
+        <div class="field" style="grid-column: span 6;">
+          <label class="label">Pitch (Global)</label>
+          <input id="pitch" type="range" min="-5" max="5" step="1" value="0">
+          <div class="val"><span id="pitchVal">0 st</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="section-label">[ TEXT INPUT ]</div>
+      <div class="row">
+        <div class="field" style="grid-column: span 12;">
+          <label class="label">Text</label>
+          <textarea id="text" rows="6" placeholder="Enter text to synthesize...">Welcome to Cantära TTS+. With hundreds of neural voices and visual SSML controls, the canvas is yours. Try selecting a word and pressing Emphasize or Slow.</textarea>
+        </div>
+      </div>
+
+      <div class="section-label" style="margin-top: 1rem;">[ SSML EFFECTS ]</div>
+      <div class="buttons" style="margin-top:4px;">
+        <div class="btn btn--accent" data-action="emphasis" data-level="moderate">Emphasize</div>
+        <div class="btn btn--accent" data-action="emphasis" data-level="strong">Strong</div>
+        <div class="btn" data-action="prosody" data-prop="rate" data-value="0.85">Slow</div>
+        <div class="btn" data-action="prosody" data-prop="rate" data-value="1.15">Fast</div>
+        <div class="btn" data-action="prosody" data-prop="pitch" data-value="+3st">Pitch ↑</div>
+        <div class="btn" data-action="prosody" data-prop="pitch" data-value="-3st">Pitch ↓</div>
+        <div class="btn" data-action="break" data-ms="250">Pause 250ms</div>
+        <div class="btn" id="clearSpan">Clear Selection</div>
+      </div>
+
+      <div id="chips" style="margin:.6rem 0"></div>
+      <div class="preview" id="preview" aria-label="Preview with visual cues"></div>
+    </section>
+
+  </div>
+
+<script>
+  // Range label bindings
+  const bindRange = (id, fmt) => {
+    const el = document.getElementById(id);
+    const lab = document.getElementById(id + 'Val');
+    const render = () => lab && (lab.textContent = fmt(el.value));
+    el.addEventListener('input', render); render();
+  };
+  bindRange('styleDegree', v => Number(v).toFixed(1));
+  bindRange('rate', v => `${v}%`);
+  bindRange('pitch', v => `${v} st`);
+  const pause = document.getElementById('pauseMs');
+  const pauseVal = document.getElementById('pauseVal');
+  pause.addEventListener('input', () => pauseVal.textContent = `${pause.value} ms`);
+  pauseVal.textContent = `${pause.value} ms`;
+
+  // Azure endpoints + selectors
+  const keyEl    = document.getElementById('key');
+  const regionEl = document.getElementById('region');
+  const voiceSel = document.getElementById('voice');
+  const styleSel = document.getElementById('style');
+  const fmtSel   = document.getElementById('format');
+  const textEl   = document.getElementById('text');
+  const player   = document.getElementById('player');
+  function azureBase(region){ return `https://${region}.tts.speech.microsoft.com`; }
+
+  async function fetchVoices(){
+    const key = keyEl.value.trim();
+    const region = regionEl.value.trim();
+    if(!key || !region){ alert('Enter Speech key and region.'); return; }
+    const url = `${azureBase(region)}/cognitiveservices/voices/list`;
+    const res = await fetch(url, { headers: { 'Ocp-Apim-Subscription-Key': key }});
+    if(!res.ok){ alert('Failed to fetch voices. Check your key and region.'); return; }
+    const list = await res.json();
+    voiceSel.innerHTML = '';
+    list.forEach(v => {
+      const opt = document.createElement('option');
+      opt.value = v.ShortName;
+      opt.textContent = `${v.LocaleName} — ${v.ShortName}`;
+      voiceSel.appendChild(opt);
+    });
+    if(list.length) voiceSel.value = list.find(v=>/neural/i.test(v.VoiceType||''))?.ShortName || list[0].ShortName;
+  }
+
+  // SSML span logic
+  let spans = [];
+  function shallowEqual(a,b){ return JSON.stringify(a)===JSON.stringify(b); }
+  function normalizeSpans(items) {
+    items.sort((a,b)=> a.start - b.start || a.end - b.end);
+    const out = [];
+    for (const s of items) {
+      const last = out[out.length-1];
+      if (last && last.end >= s.start && shallowEqual(last.effects, s.effects)) {
+        last.end = Math.max(last.end, s.end);
+      } else {
+        out.push({...s});
+      }
+    }
+    return out;
+  }
+  function addSpan(start, end, effects) {
+    if (start === end && !('breakMs' in effects)) return;
+    spans.push({ start, end, effects, id: (crypto.randomUUID ? crypto.randomUUID() : String(Math.random()).slice(2)) });
+    spans = normalizeSpans(spans);
+    renderChips(); renderPreview();
+  }
+  function clearSelectionSpans(start, end) {
+    spans = spans.filter(s => !(s.start < end && s.end > start) && !(s.start===end && s.end===end && s.effects.breakMs));
+    renderChips(); renderPreview();
+  }
+  function getSelRange() { return { start: textEl.selectionStart, end: textEl.selectionEnd }; }
+
+  document.querySelectorAll('.buttons')[1].addEventListener('click', (e)=>{
+    const btn = e.target.closest('.btn'); if(!btn) return;
+    const { start, end } = getSelRange();
+    if (btn.id === 'clearSpan') { clearSelectionSpans(start, end); return; }
+    const action = btn.dataset.action;
+    if (action === 'emphasis') {
+      addSpan(start, end, { emphasis: btn.dataset.level });
+    } else if (action === 'prosody') {
+      const prop = btn.dataset.prop; const value = btn.dataset.value;
+      addSpan(start, end, { [prop]: value });
+    } else if (action === 'break') {
+      addSpan(end, end, { breakMs: parseInt(btn.dataset.ms,10) });
+    }
+  });
+
+  const chips = document.getElementById('chips');
+  function renderChips(){
+    chips.innerHTML = '';
+    if (!spans.length) return;
+    const text = textEl.value;
+    for (const s of spans) {
+      const label = s.effects.breakMs ? `Break ${s.effects.breakMs}ms` : Object.keys(s.effects).map(k=>`${k}:${s.effects[k]}`).join(',');
+      const div = document.createElement('span');
+      div.className = 'chip';
+      div.textContent = s.effects.breakMs ? label : `"${text.slice(s.start, s.end)}" • ${label}`;
+      chips.appendChild(div);
+    }
+  }
+
+  const preview = document.getElementById('preview');
+  textEl.addEventListener('input', ()=>{ spans = []; renderChips(); renderPreview(); });
+  function escapeXml(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+  function renderPreview(){
+    const text = textEl.value;
+    if (!text) { preview.innerHTML = ''; return; }
+    const cuts = new Set([0, text.length]); for (const s of spans){ cuts.add(s.start); cuts.add(s.end); }
+    const idx = [...cuts].sort((a,b)=>a-b);
+    let html = '';
+    for (let i=0; i<idx.length-1; i++){
+      const a = idx[i], b = idx[i+1];
+      const seg = escapeXml(text.slice(a,b));
+      const effs = spans.filter(s => s.start < b && s.end > a && !s.effects.breakMs).map(s=>s.effects);
+      let cls = '';
+      for (const ef of effs){
+        if (ef.emphasis) cls = 'span-emph';
+        if (ef.rate === '0.85') cls = 'span-slow';
+        if (ef.rate === '1.15') cls = 'span-fast';
+        if (ef.pitch === '+3st') cls = 'span-pitch-up';
+        if (ef.pitch === '-3st') cls = 'span-pitch-down';
+      }
+      const zeroBreaks = spans.filter(s => s.start===a && s.end===a && s.effects.breakMs);
+      for (const z of zeroBreaks) html += `<span class="chip">Break ${z.effects.breakMs}ms</span>`;
+      html += cls ? `<span class="${cls}">${seg}</span>` : seg;
+    }
+    preview.innerHTML = html;
+  }
+  renderPreview();
+
+  function buildSSML(){
+    const voice = voiceSel.value || 'en-US-AriaNeural';
+    const style = styleSel.value.trim();
+    const styleDegree = document.getElementById('styleDegree').value;
+    const globalRatePct = parseInt(document.getElementById('rate').value,10) || 0;
+    const globalPitchSt = parseInt(document.getElementById('pitch').value,10) || 0;
+    const pauseMs = Number(document.getElementById('pauseMs').value) || 0;
+    const raw = textEl.value;
+    function xml(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+    const cuts = new Set([0, raw.length]); for (const s of spans){ cuts.add(s.start); cuts.add(s.end); }
+    const idx = [...cuts].sort((a,b)=>a-b);
+    function effectsAt(a,b){
+      const eff = {}; for (const s of spans) { if (s.start < b && s.end > a) Object.assign(eff, s.effects); } return eff;
+    }
+    let body = '';
+    for (let i=0; i<idx.length-1; i++){
+      const a = idx[i], b = idx[i+1];
+      const seg = xml(raw.slice(a,b));
+      const zeroBreaks = spans.filter(s => s.start===a && s.end===a && s.effects.breakMs);
+      for (const z of zeroBreaks) body += `<break time="${z.effects.breakMs}ms"/>`;
+      if (!seg) continue;
+      const ef = effectsAt(a,b);
+      let segXml = seg;
+      if (ef.emphasis) segXml = `<emphasis level="${ef.emphasis}">${segXml}</emphasis>`;
+      const pros = [];
+      if (ef.rate)  pros.push(`rate="${ef.rate.includes('%') || isNaN(Number(ef.rate)) ? ef.rate : (Number(ef.rate)*100).toFixed(0)+'%'}"`);
+      if (ef.pitch) pros.push(`pitch="${ef.pitch}"`);
+      if (ef.volume) pros.push(`volume="${ef.volume}"`);
+      if (pros.length) segXml = `<prosody ${pros.join(' ')}>${segXml}</prosody>`;
+      body += segXml;
+    }
+    const glob = [];
+    if (globalRatePct !== 0) glob.push(`rate="${(100+globalRatePct)}%"`);
+    if (globalPitchSt !== 0) glob.push(`pitch="${globalPitchSt>0?`+${globalPitchSt}`:globalPitchSt}st"`);
+    let outer = glob.length ? `<prosody ${glob.join(' ')}>${body}</prosody>` : body;
+    if (pauseMs>0) outer += `<break time="${pauseMs}ms"/>`;
+    if (style) outer = `<mstts:express-as style="${style}" styledegree="${styleDegree}">${outer}</mstts:express-as>`;
+    return (`
+<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis"
+       xmlns:mstts="http://www.w3.org/2001/mstts" xml:lang="en-US">
+  <voice name="${voice}">
+    ${outer}
+  </voice>
+</speak>`).trim();
+  }
+
+  async function synthesize(download=false){
+    const key = keyEl.value.trim();
+    const region = regionEl.value.trim();
+    if(!key || !region){ alert('Enter Speech key and region.'); return; }
+    const url = `${azureBase(region)}/cognitiveservices/v1`;
+    const format = fmtSel.value;
+    const ssml = buildSSML();
+    const res = await fetch(url, {
+      method:'POST',
+      headers:{
+        'Ocp-Apim-Subscription-Key': key,
+        'Content-Type': 'application/ssml+xml',
+        'X-Microsoft-OutputFormat': format,
+        'User-Agent': 'Cantara-TTS/1.0'
+      },
+      body:ssml
+    });
+    if(!res.ok){
+      const t = await res.text().catch(()=> '');
+      alert('Synthesis error: ' + res.status + ' ' + res.statusText + (t? '\n'+t : ''));
+      return;
+    }
+    const blob = await res.blob();
+    const objectUrl = URL.createObjectURL(blob);
+    if(download){
+      const ext = format.includes('mp3') ? 'mp3' : format.includes('opus') ? 'ogg' : 'wav';
+      const a = document.createElement('a');
+      a.href = objectUrl; a.download = `Cantara_TTS_${Date.now()}.${ext}`;
+      document.body.appendChild(a); a.click(); a.remove();
+    }else{
+      player.src = objectUrl; player.play().catch(()=>{});
+    }
+  }
+
+  document.getElementById('fetchVoices').addEventListener('click', fetchVoices);
+  document.getElementById('speak').addEventListener('click', ()=> synthesize(false));
+  document.getElementById('downloadBtn').addEventListener('click', ()=> synthesize(true));
+  regionEl.addEventListener('change', ()=> { if(keyEl.value.trim() && regionEl.value.trim()) fetchVoices(); });
+</script>
+</body>
+</html>

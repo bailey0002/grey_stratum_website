@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cantära — Grey Stratum</title>
+  <link rel="icon" type="image/png" href="favicon.png">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+
+    :root {
+      --bg-primary: #0a0a0b;
+      --bg-secondary: #111113;
+      --bg-tertiary: #18181b;
+      --text-primary: #e8e8e8;
+      --text-secondary: #888888;
+      --text-muted: #555555;
+      --accent: #2ED0FF;
+      --accent-dim: rgba(46, 208, 255, 0.15);
+      --accent-glow: rgba(46, 208, 255, 0.4);
+      --warm: #ff8a3a;
+      --warm-dim: rgba(255, 138, 58, 0.15);
+      --border: rgba(255, 255, 255, 0.06);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.6;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Navigation */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      padding: 1.5rem 3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 100;
+      background: linear-gradient(180deg, var(--bg-primary) 0%, transparent 100%);
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      text-decoration: none;
+      color: var(--text-primary);
+    }
+
+    .nav-logo span:first-child {
+      font-weight: 300;
+      letter-spacing: 0.15em;
+      font-size: 0.85rem;
+    }
+
+    .nav-divider {
+      width: 1px;
+      height: 12px;
+      background: var(--accent);
+    }
+
+    .nav-logo span:last-child {
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      font-size: 0.85rem;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+    }
+
+    .nav-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      transition: color 0.3s ease;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--text-primary);
+    }
+
+    /* Hero Section */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 8rem 2rem 4rem;
+      text-align: center;
+      position: relative;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, var(--accent-dim) 0%, transparent 70%);
+      opacity: 0.3;
+      pointer-events: none;
+    }
+
+    .protocol-badge {
+      font-size: 0.7rem;
+      letter-spacing: 0.25em;
+      color: var(--accent);
+      margin-bottom: 2rem;
+      opacity: 0.8;
+    }
+
+    .hero-logo {
+      width: 80px;
+      height: 80px;
+      border-radius: 20px;
+      background: linear-gradient(180deg, #2a2f36 0%, #1e2329 100%);
+      box-shadow:
+        -12px -12px 24px rgba(255,255,255,0.04),
+        12px 12px 24px rgba(0,0,0,0.6),
+        inset 2px 2px 4px rgba(255,255,255,0.05),
+        inset -2px -2px 6px rgba(0,0,0,0.4);
+      display: grid;
+      place-items: center;
+      margin-bottom: 2rem;
+    }
+
+    .hero-logo img {
+      width: 56px;
+      height: auto;
+      filter: drop-shadow(0 4px 12px var(--accent-glow));
+    }
+
+    .hero h1 {
+      font-size: 3.5rem;
+      font-weight: 300;
+      letter-spacing: 0.15em;
+      margin-bottom: 0.5rem;
+    }
+
+    .hero h1 .umlaut {
+      color: var(--accent);
+    }
+
+    .hero .subtitle {
+      font-size: 1rem;
+      color: var(--text-secondary);
+      font-weight: 300;
+      letter-spacing: 0.08em;
+      margin-bottom: 3rem;
+    }
+
+    .hero-description {
+      max-width: 520px;
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      line-height: 1.8;
+      margin-bottom: 3rem;
+    }
+
+    /* Buttons */
+    .btn-group {
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .btn {
+      padding: 0.9rem 2rem;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: 1px solid var(--border);
+    }
+
+    .btn-primary {
+      background: linear-gradient(180deg, #4E7278, #43656b);
+      color: #fff;
+      box-shadow:
+        -8px -8px 16px rgba(255,255,255,0.03),
+        8px 8px 16px rgba(0,0,0,0.5);
+    }
+
+    .btn-primary:hover {
+      box-shadow:
+        -4px -4px 12px rgba(255,255,255,0.05),
+        4px 4px 12px rgba(0,0,0,0.6),
+        0 0 20px var(--accent-dim);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--text-secondary);
+      border-color: var(--text-muted);
+    }
+
+    .btn-ghost:hover {
+      color: var(--text-primary);
+      border-color: var(--text-secondary);
+    }
+
+    /* Section Divider */
+    .divider {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4rem 0;
+    }
+
+    .divider-line {
+      width: 120px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border), transparent);
+    }
+
+    .divider-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      margin: 0 1.5rem;
+    }
+
+    /* Features Section */
+    .features {
+      padding: 4rem 2rem 6rem;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.25em;
+      color: var(--text-muted);
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+    }
+
+    .feature-card {
+      background: linear-gradient(180deg, var(--bg-tertiary) 0%, var(--bg-secondary) 100%);
+      border-radius: 20px;
+      padding: 2rem;
+      border: 1px solid var(--border);
+      position: relative;
+    }
+
+    .feature-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+    }
+
+    .feature-number {
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      color: var(--accent);
+      opacity: 0.6;
+      margin-bottom: 1rem;
+    }
+
+    .feature-card h3 {
+      font-size: 1.1rem;
+      font-weight: 500;
+      margin-bottom: 0.75rem;
+      letter-spacing: 0.02em;
+    }
+
+    .feature-card p {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      line-height: 1.7;
+    }
+
+    /* Architecture Section */
+    .architecture {
+      padding: 4rem 2rem 6rem;
+      max-width: 800px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .arch-diagram {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2.5rem;
+      margin-top: 2rem;
+    }
+
+    .arch-flow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .arch-node {
+      padding: 0.75rem 1.25rem;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      letter-spacing: 0.05em;
+    }
+
+    .arch-node.input {
+      background: var(--warm-dim);
+      color: var(--warm);
+      border: 1px solid rgba(255, 138, 58, 0.3);
+    }
+
+    .arch-node.process {
+      background: var(--bg-tertiary);
+      color: var(--text-primary);
+      border: 1px solid var(--border);
+    }
+
+    .arch-node.azure {
+      background: var(--accent-dim);
+      color: var(--accent);
+      border: 1px solid rgba(46, 208, 255, 0.3);
+    }
+
+    .arch-arrow {
+      color: var(--text-muted);
+      font-size: 1.2rem;
+    }
+
+    /* Use Cases */
+    .use-cases {
+      padding: 4rem 2rem 6rem;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .use-case-list {
+      display: grid;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .use-case-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      padding: 1.25rem 1.5rem;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+    }
+
+    .use-case-icon {
+      color: var(--accent);
+      font-size: 0.9rem;
+      margin-top: 0.1rem;
+    }
+
+    .use-case-item p {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+
+    .use-case-item strong {
+      color: var(--text-primary);
+      font-weight: 500;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 4rem 2rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .footer-logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .footer-logo span {
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+    }
+
+    .footer-logo span:first-child {
+      font-weight: 300;
+      color: var(--text-secondary);
+    }
+
+    .footer-logo span:last-child {
+      font-weight: 500;
+    }
+
+    footer p {
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      color: var(--text-muted);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      nav {
+        padding: 1rem 1.5rem;
+      }
+
+      .nav-links {
+        gap: 1.5rem;
+      }
+
+      .nav-links a {
+        font-size: 0.7rem;
+      }
+
+      .hero h1 {
+        font-size: 2.5rem;
+      }
+
+      .btn-group {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .arch-flow {
+        flex-direction: column;
+      }
+
+      .arch-arrow {
+        transform: rotate(90deg);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="nav-logo">
+      <span>GREY</span>
+      <div class="nav-divider"></div>
+      <span>STRATUM</span>
+    </a>
+    <div class="nav-links">
+      <a href="protocol.html">Concordia</a>
+      <a href="cantara.html" class="active">Cantära</a>
+      <a href="portal.html">Portal</a>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="protocol-badge">[ PROTOCOL 002 ]</div>
+    
+    <div class="hero-logo">
+      <img src="assets/Cantara_Logo_G_New.png" alt="Cantära">
+    </div>
+    
+    <h1>CANT<span class="umlaut">Ä</span>RA</h1>
+    <p class="subtitle">Neural Voice Synthesis</p>
+    
+    <p class="hero-description">
+      Text-to-speech with precision control. SSML markup made visual. 
+      Azure Neural Voices with emphasis, prosody, and timing — 
+      all without touching code.
+    </p>
+    
+    <div class="btn-group">
+      <a href="cantara-app.html" class="btn btn-primary">Launch Console</a>
+      <a href="#architecture" class="btn btn-ghost">How It Works</a>
+    </div>
+  </section>
+
+  <div class="divider">
+    <div class="divider-line"></div>
+    <div class="divider-dot"></div>
+    <div class="divider-line"></div>
+  </div>
+
+  <section class="features">
+    <div class="section-label">[ CAPABILITY MATRIX ]</div>
+    
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-number">001</div>
+        <h3>Neural Voice Library</h3>
+        <p>Access the full Azure Cognitive Services voice catalog. 400+ neural voices across 140+ languages and variants.</p>
+      </div>
+      
+      <div class="feature-card">
+        <div class="feature-number">002</div>
+        <h3>Visual SSML Editor</h3>
+        <p>Select text, apply effects. Emphasis, pitch shifts, rate changes, and strategic pauses — all rendered as visual annotations.</p>
+      </div>
+      
+      <div class="feature-card">
+        <div class="feature-number">003</div>
+        <h3>Style Expressions</h3>
+        <p>Neural voice styles — newscast, cheerful, empathetic, conversational. Dial in the emotional register with precision control.</p>
+      </div>
+      
+      <div class="feature-card">
+        <div class="feature-number">004</div>
+        <h3>Export Flexibility</h3>
+        <p>MP3, WAV, OGG/Opus. Multiple bitrates. Download synthesized audio for any production pipeline.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider">
+    <div class="divider-line"></div>
+    <div class="divider-dot"></div>
+    <div class="divider-line"></div>
+  </div>
+
+  <section class="architecture" id="architecture">
+    <div class="section-label">[ SIGNAL FLOW ]</div>
+    
+    <div class="arch-diagram">
+      <div class="arch-flow">
+        <div class="arch-node input">Text Input</div>
+        <span class="arch-arrow">→</span>
+        <div class="arch-node process">SSML Builder</div>
+        <span class="arch-arrow">→</span>
+        <div class="arch-node azure">Azure Neural TTS</div>
+        <span class="arch-arrow">→</span>
+        <div class="arch-node process">Audio Output</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider">
+    <div class="divider-line"></div>
+    <div class="divider-dot"></div>
+    <div class="divider-line"></div>
+  </div>
+
+  <section class="use-cases">
+    <div class="section-label">[ APPLICATION VECTORS ]</div>
+    
+    <div class="use-case-list">
+      <div class="use-case-item">
+        <span class="use-case-icon">◆</span>
+        <p><strong>Content Production</strong> — Podcast intros, video narration, audiobook prototyping. Professional voice output without studio time.</p>
+      </div>
+      
+      <div class="use-case-item">
+        <span class="use-case-icon">◆</span>
+        <p><strong>Accessibility Testing</strong> — Evaluate how content sounds when read aloud. Test pronunciation, pacing, and comprehension.</p>
+      </div>
+      
+      <div class="use-case-item">
+        <span class="use-case-icon">◆</span>
+        <p><strong>Language Learning</strong> — Hear native pronunciation with adjustable speed. Practice listening comprehension with authentic voices.</p>
+      </div>
+      
+      <div class="use-case-item">
+        <span class="use-case-icon">◆</span>
+        <p><strong>Rapid Prototyping</strong> — Voice UI mockups, IVR system testing, chatbot voice previews. Iterate before committing to production.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-logo">
+      <span>GREY</span>
+      <div class="nav-divider" style="background: var(--accent);"></div>
+      <span>STRATUM</span>
+    </div>
+    <p>© 2025 — All transmissions monitored</p>
+  </footer>
+
+</body>
+</html>
