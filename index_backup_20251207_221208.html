@@ -267,74 +267,6 @@
 
         nav a:hover::after { width: 100%; }
 
-        /* Dropdown */
-        .nav-dropdown {
-            position: relative;
-        }
-
-        .nav-dropdown-trigger {
-            font-size: 0.7rem;
-            letter-spacing: 0.25em;
-            text-transform: uppercase;
-            color: var(--text-muted);
-            cursor: pointer;
-            transition: color 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 0.4rem;
-        }
-
-        .nav-dropdown-trigger:hover {
-            color: var(--text-primary);
-        }
-
-        .nav-dropdown-trigger::after {
-            content: '▾';
-            font-size: 0.6rem;
-            opacity: 0.6;
-        }
-
-        .nav-dropdown-menu {
-            position: absolute;
-            top: 100%;
-            left: 50%;
-            transform: translateX(-50%);
-            margin-top: 1rem;
-            background: var(--bg-primary);
-            border: 1px solid var(--border-color);
-            min-width: 140px;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
-            z-index: 100;
-        }
-
-        .nav-dropdown:hover .nav-dropdown-menu {
-            opacity: 1;
-            visibility: visible;
-            margin-top: 0.5rem;
-        }
-
-        .nav-dropdown-menu a {
-            display: block;
-            padding: 0.75rem 1rem;
-            font-size: 0.65rem;
-            letter-spacing: 0.15em;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .nav-dropdown-menu a:last-child {
-            border-bottom: none;
-        }
-
-        .nav-dropdown-menu a:hover {
-            background: var(--bg-card);
-        }
-
-        .nav-dropdown-menu a::after {
-            display: none;
-        }
-
         /* Code text */
         .code-text {
             font-family: 'Fira Code', 'SF Mono', monospace;
@@ -724,13 +656,7 @@
 </header>
 
 <nav>
-    <div class="nav-dropdown">
-        <span class="nav-dropdown-trigger">Protocol</span>
-        <div class="nav-dropdown-menu">
-            <a href="protocol.html">Concordia</a>
-            <a href="cantara.html">Cantara</a>
-        </div>
-    </div>
+    <a href="protocol.html">Protocol</a>
     <a href="#capabilities" id="genesis">Genesis</a>
     <a href="portal.html">Signal</a>
     <div class="nav-divider"></div>

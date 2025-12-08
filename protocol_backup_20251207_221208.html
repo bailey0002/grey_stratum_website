@@ -128,71 +128,6 @@
         .header-nav a:hover,
         .header-nav a.active { color: var(--cyan-accent); }
 
-        /* Dropdown */
-        .nav-dropdown {
-            position: relative;
-        }
-
-        .nav-dropdown-trigger {
-            font-size: 0.7rem;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            color: var(--text-muted);
-            cursor: pointer;
-            transition: color 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 0.4rem;
-        }
-
-        .nav-dropdown-trigger:hover,
-        .nav-dropdown-trigger.active {
-            color: var(--cyan-accent);
-        }
-
-        .nav-dropdown-trigger::after {
-            content: '▾';
-            font-size: 0.6rem;
-            opacity: 0.6;
-        }
-
-        .nav-dropdown-menu {
-            position: absolute;
-            top: 100%;
-            left: 50%;
-            transform: translateX(-50%);
-            margin-top: 1rem;
-            background: var(--bg-primary);
-            border: 1px solid var(--border-color);
-            min-width: 140px;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
-            z-index: 100;
-        }
-
-        .nav-dropdown:hover .nav-dropdown-menu {
-            opacity: 1;
-            visibility: visible;
-            margin-top: 0.5rem;
-        }
-
-        .nav-dropdown-menu a {
-            display: block;
-            padding: 0.75rem 1rem;
-            font-size: 0.65rem;
-            letter-spacing: 0.15em;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .nav-dropdown-menu a:last-child {
-            border-bottom: none;
-        }
-
-        .nav-dropdown-menu a:hover {
-            background: var(--bg-secondary);
-        }
-
         .nav-divider {
             width: 1px;
             height: 12px;
@@ -246,12 +181,10 @@
             color: var(--text-faint);
         }
 
-        .code-text.cyan { color: var(--cyan-accent); }
-
         /* Hero */
         .hero {
-            text-align: center;
             padding: 4rem 2rem 3rem;
+            text-align: center;
             max-width: 800px;
             margin: 0 auto;
         }
@@ -260,30 +193,21 @@
             font-family: 'Archivo', sans-serif;
             font-size: 2.8rem;
             font-weight: 300;
-            letter-spacing: 0.25em;
-            text-transform: uppercase;
-            margin: 1.5rem 0 0.5rem;
-            transition: color 0.4s ease;
-        }
-
-        .hero .instrumentum {
-            font-family: 'Fira Code', monospace;
-            font-size: 0.75rem;
             letter-spacing: 0.2em;
-            color: var(--cyan-accent);
-            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
         }
 
         .hero .subtitle {
-            font-size: 0.9rem;
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-            color: var(--text-muted);
+            font-size: 1.1rem;
+            color: var(--cyan-accent);
             margin-bottom: 1.5rem;
+            font-style: italic;
         }
 
-        .hero p:not(.code-text):not(.instrumentum):not(.subtitle) {
-            font-size: 1.05rem;
+        .hero p {
+            font-size: 1rem;
             color: var(--text-secondary);
             max-width: 600px;
             margin: 0 auto;
@@ -292,13 +216,14 @@
 
         /* Main content */
         main {
-            max-width: 900px;
+            max-width: 1000px;
             margin: 0 auto;
             padding: 0 2rem 4rem;
         }
 
-        main section {
-            margin-bottom: 3rem;
+        /* Section styling */
+        section {
+            margin-bottom: 4rem;
         }
 
         .section-label {
@@ -306,114 +231,138 @@
             font-size: 0.65rem;
             letter-spacing: 0.15em;
             color: var(--text-faint);
-            text-align: center;
             margin-bottom: 1.5rem;
+            text-align: center;
         }
 
-        main h2 {
+        h2 {
             font-family: 'Archivo', sans-serif;
-            font-size: 1.3rem;
-            font-weight: 400;
+            font-size: 1.4rem;
+            font-weight: 300;
             letter-spacing: 0.1em;
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
             color: var(--text-primary);
         }
 
-        main p {
+        p {
             color: var(--text-secondary);
             margin-bottom: 1rem;
         }
 
-        main strong {
-            color: var(--text-primary);
-            font-weight: 400;
-        }
-
-        /* Metrics */
+        /* Metrics row */
         .metrics {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(3, 1fr);
             gap: 1.5rem;
-            margin-bottom: 2rem;
+            margin: 3rem 0;
         }
 
         .metric-card {
             text-align: center;
             padding: 1.5rem;
+            background-color: var(--bg-card);
             border: 1px solid var(--border-color);
-            background: var(--bg-card);
-            transition: border-color 0.3s ease;
-        }
-
-        .metric-card:hover {
-            border-color: var(--cyan-accent);
+            transition: all 0.3s ease;
         }
 
         .metric-value {
             font-family: 'Archivo', sans-serif;
-            font-size: 1.6rem;
-            font-weight: 300;
-            letter-spacing: 0.05em;
+            font-size: 1.8rem;
+            font-weight: 400;
             color: var(--cyan-accent);
             margin-bottom: 0.5rem;
         }
 
         .metric-label {
             font-size: 0.75rem;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
             color: var(--text-muted);
-        }
-
-        /* Video */
-        .video-container {
-            border: 1px solid var(--border-color);
-            background: var(--bg-card);
-            overflow: hidden;
-        }
-
-        .video-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem 1.25rem;
-            border-bottom: 1px solid var(--border-color);
-            background: var(--bg-secondary);
-        }
-
-        .video-title {
-            font-size: 0.75rem;
-            letter-spacing: 0.1em;
             text-transform: uppercase;
-            color: var(--text-secondary);
-        }
-
-        .video-badge {
-            font-family: 'Fira Code', monospace;
-            font-size: 0.6rem;
             letter-spacing: 0.1em;
-            color: var(--text-faint);
         }
 
-        .video-container video {
+        /* Architecture diagram container */
+        .architecture-container {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 2rem;
+            margin: 2rem 0;
+            overflow-x: auto;
+        }
+
+        .architecture-container svg {
             width: 100%;
-            display: block;
+            height: auto;
+            max-width: 100%;
         }
 
-        /* Workflow */
-        .workflow {
+        /* Architecture layers (text version for dark mode compatibility) */
+        .arch-layers {
             display: flex;
             flex-direction: column;
             gap: 1rem;
         }
 
+        .arch-layer {
+            display: flex;
+            align-items: stretch;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .arch-layer-label {
+            width: 100px;
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Archivo', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            color: #ffffff;
+        }
+
+        .arch-layer-content {
+            flex: 1;
+            padding: 1rem 1.5rem;
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-left: none;
+        }
+
+        .arch-layer-title {
+            font-family: 'Archivo', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+            color: var(--text-primary);
+        }
+
+        .arch-layer-desc {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .layer1 .arch-layer-label { background-color: #2d333b; }
+        .layer2 .arch-layer-label { background-color: #1e2228; }
+        .layer3a .arch-layer-label { background-color: #5BA4B5; }
+        .layer3b .arch-layer-label { background-color: #0078D4; }
+
+        /* Workflow steps */
+        .workflow {
+            display: grid;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
         .workflow-step {
             display: flex;
-            gap: 1.25rem;
             align-items: flex-start;
+            gap: 1rem;
             padding: 1.25rem;
+            background-color: var(--bg-card);
             border: 1px solid var(--border-color);
-            background: var(--bg-card);
             transition: border-color 0.3s ease;
         }
 
@@ -422,123 +371,130 @@
         }
 
         .step-number {
-            font-family: 'Fira Code', monospace;
-            font-size: 0.8rem;
-            color: var(--cyan-accent);
-            min-width: 1.5rem;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--cyan-accent);
+            color: #ffffff;
+            font-family: 'Archivo', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 500;
+            border-radius: 4px;
+            flex-shrink: 0;
         }
 
         .step-content h3 {
             font-family: 'Archivo', sans-serif;
-            font-size: 0.95rem;
-            font-weight: 400;
-            letter-spacing: 0.08em;
+            font-size: 0.9rem;
+            font-weight: 500;
             margin-bottom: 0.25rem;
+            color: var(--text-primary);
         }
 
         .step-content p {
-            font-size: 0.9rem;
-            color: var(--text-muted);
-            margin: 0;
-        }
-
-        /* Architecture */
-        .architecture {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .arch-layer {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            padding: 1rem 1.25rem;
-            border: 1px solid var(--border-color);
-            background: var(--bg-card);
-        }
-
-        .layer-name {
-            font-family: 'Archivo', sans-serif;
             font-size: 0.85rem;
-            font-weight: 400;
-            letter-spacing: 0.08em;
-            min-width: 120px;
-            color: var(--text-primary);
-        }
-
-        .layer-tech {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-        }
-
-        .layer-tech span {
-            display: inline-block;
-            padding: 0.2rem 0.5rem;
-            margin-right: 0.5rem;
-            font-family: 'Fira Code', monospace;
-            font-size: 0.7rem;
-            border: 1px solid var(--border-color);
-        }
-
-        /* Differentiators */
-        .diff-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .diff-card {
-            padding: 1.5rem;
-            border: 1px solid var(--border-color);
-            background: var(--bg-card);
-            transition: border-color 0.3s ease;
-        }
-
-        .diff-card:hover {
-            border-color: var(--cyan-accent);
-        }
-
-        .diff-card h3 {
-            font-family: 'Archivo', sans-serif;
-            font-size: 0.95rem;
-            font-weight: 400;
-            letter-spacing: 0.08em;
-            margin-bottom: 0.5rem;
-            color: var(--text-primary);
-        }
-
-        .diff-card p {
-            font-size: 0.9rem;
             color: var(--text-muted);
             margin: 0;
-            line-height: 1.6;
         }
 
-        /* Downloads */
+        /* Video section */
+        .video-container {
+            position: relative;
+            background-color: #1e2228;
+            border-radius: 8px;
+            overflow: hidden;
+            margin: 2rem 0;
+        }
+
+        .video-header {
+            padding: 0.75rem 1rem;
+            background-color: #252a31;
+            border-bottom: 1px solid #3d444d;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .video-title {
+            font-family: 'Archivo', sans-serif;
+            font-size: 0.7rem;
+            letter-spacing: 0.15em;
+            color: #e6edf3;
+            text-transform: uppercase;
+        }
+
+        .video-badge {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.55rem;
+            color: #7d8590;
+            letter-spacing: 0.1em;
+        }
+
+        .video-container video {
+            width: 100%;
+            display: block;
+        }
+
+        /* Download section */
         .downloads {
             display: flex;
             gap: 1rem;
+            margin: 2rem 0;
             flex-wrap: wrap;
         }
 
-        .download-link {
+        .download-btn {
             display: inline-flex;
             align-items: center;
-            gap: 0.5rem;
-            padding: 0.75rem 1.25rem;
+            gap: 0.75rem;
+            padding: 1rem 1.5rem;
+            background-color: transparent;
             border: 1px solid var(--border-color);
+            color: var(--text-primary);
             text-decoration: none;
-            color: var(--text-secondary);
             font-size: 0.75rem;
             letter-spacing: 0.1em;
             text-transform: uppercase;
             transition: all 0.3s ease;
         }
 
-        .download-link:hover {
+        .download-btn:hover {
             border-color: var(--cyan-accent);
             color: var(--cyan-accent);
+        }
+
+        .download-icon {
+            font-size: 1.1rem;
+        }
+
+        /* Differentiators */
+        .diff-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .diff-card {
+            padding: 1.5rem;
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+        }
+
+        .diff-card h3 {
+            font-family: 'Archivo', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--cyan-accent);
+            margin-bottom: 0.5rem;
+        }
+
+        .diff-card p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin: 0;
         }
 
         /* CTA */
@@ -546,54 +502,54 @@
             text-align: center;
             padding: 3rem 2rem;
             border-top: 1px solid var(--border-color);
-            margin-top: 2rem;
+            margin-top: 4rem;
         }
 
         .cta p {
-            margin-bottom: 1.5rem;
-            color: var(--text-secondary);
+            font-family: 'Archivo', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 300;
+            color: var(--text-muted);
+            font-style: italic;
+            margin-bottom: 2rem;
         }
 
-        .btn-ghost {
+        .btn-primary {
             display: inline-block;
             padding: 1rem 2.5rem;
-            border: 1px solid var(--text-primary);
-            color: var(--text-primary);
+            background-color: var(--cyan-accent);
+            color: #ffffff;
             text-decoration: none;
-            font-size: 0.7rem;
+            font-size: 0.75rem;
             letter-spacing: 0.2em;
             text-transform: uppercase;
-            transition: all 0.4s ease;
-            background: transparent;
+            transition: all 0.3s ease;
         }
 
-        .btn-ghost:hover {
-            background-color: var(--text-primary);
-            color: var(--bg-primary);
+        .btn-primary:hover {
+            background-color: #4a8a99;
         }
 
         /* Footer */
         footer {
-            text-align: center;
             padding: 2rem;
+            text-align: center;
             border-top: 1px solid var(--border-color);
         }
 
-        footer p {
-            font-family: 'Fira Code', monospace;
-            font-size: 0.6rem;
-            letter-spacing: 0.15em;
+        footer .code-text {
             color: var(--text-faint);
         }
 
         /* Responsive */
         @media (max-width: 768px) {
-            header { padding: 1rem; }
-            .logo { font-size: 1.1rem; }
+            .metrics { grid-template-columns: 1fr; }
+            .diff-grid { grid-template-columns: 1fr; }
+            .hero h1 { font-size: 2rem; }
             .header-nav { gap: 1.5rem; }
             .header-nav a { font-size: 0.6rem; }
-            .hero h1 { font-size: 2rem; letter-spacing: 0.15em; }
-            main { padding: 0 1rem 3rem; }
+            .toggle-label { display: none; }
+            .downloads { flex-direction: column; }
         }
     </style>
 </head>
@@ -601,26 +557,20 @@
 
 <header>
     <a href="index.html" class="logo">
-        <span class="logo-grey">Grey</span>
+        <span class="logo-grey">GREY</span>
         <div class="logo-gradus">
             <div class="gradus-bar"></div>
             <div class="gradus-bar"></div>
             <div class="gradus-bar"></div>
         </div>
-        <span class="logo-stratum">Stratum</span>
+        <span class="logo-stratum">STRATUM</span>
     </a>
     <nav class="header-nav">
-        <div class="nav-dropdown">
-            <span class="nav-dropdown-trigger active">Protocol</span>
-            <div class="nav-dropdown-menu">
-                <a href="protocol.html" class="active">Concordia</a>
-                <a href="cantara.html">Cantara</a>
-            </div>
-        </div>
-        <a href="index.html#capabilities">Genesis</a>
+        <a href="protocol.html" class="active">Protocol</a>
+        <a href="index.html#genesis">Genesis</a>
         <a href="portal.html">Signal</a>
         <div class="nav-divider"></div>
-        <div class="theme-toggle" onclick="toggleTheme()">
+        <div class="theme-toggle" onclick="toggleTheme()" title="Toggle theme">
             <span class="toggle-label" id="themeLabel">[ LUX ]</span>
             <div class="toggle-indicator">
                 <div class="toggle-bar"></div>
@@ -632,9 +582,8 @@
 </header>
 
 <section class="hero">
-    <p class="code-text">[ PROTOCOL 001 ]</p>
+    <p class="code-text">[ FIRST PROTOCOL ]</p>
     <h1>Concordia</h1>
-    <p class="instrumentum">Instrumentum: NDA+</p>
     <p class="subtitle">Automated Document Intelligence for Legal Professionals</p>
     <p>NDA analysis benchmarked against institutional standards. Gaps identified before they become problems. Review time measured in minutes, not hours.</p>
 </section>
@@ -693,38 +642,38 @@
         <h2>How It Works</h2>
         <div class="workflow">
             <div class="workflow-step">
-                <div class="step-number">01</div>
+                <div class="step-number">1</div>
                 <div class="step-content">
                     <h3>Load Document</h3>
                     <p>Attorney opens .docx file in the Concordia desktop application</p>
                 </div>
             </div>
             <div class="workflow-step">
-                <div class="step-number">02</div>
+                <div class="step-number">2</div>
                 <div class="step-content">
-                    <h3>Analyze</h3>
-                    <p>System scans document against 43 provision benchmarks, flags gaps and deviations</p>
+                    <h3>Automated Analysis</h3>
+                    <p>System scans against 43 provision benchmarks, identifying gaps, deviations, and review items</p>
                 </div>
             </div>
             <div class="workflow-step">
-                <div class="step-number">03</div>
+                <div class="step-number">3</div>
                 <div class="step-content">
-                    <h3>Decide</h3>
-                    <p>Attorney reviews flagged provisions, selects Accept / Minimum / Benchmark / Custom for each</p>
+                    <h3>Attorney Decisions</h3>
+                    <p>Interactive cards present each flagged provision with Accept / Modify / Flag options</p>
                 </div>
             </div>
             <div class="workflow-step">
-                <div class="step-number">04</div>
+                <div class="step-number">4</div>
                 <div class="step-content">
-                    <h3>Remediate</h3>
-                    <p>GPT-4o generates remediation language based on decision tier and provision context</p>
+                    <h3>AI Remediation</h3>
+                    <p>GPT-4o generates context-aware redline language based on attorney decisions</p>
                 </div>
             </div>
             <div class="workflow-step">
-                <div class="step-number">05</div>
+                <div class="step-number">5</div>
                 <div class="step-content">
                     <h3>Export</h3>
-                    <p>Generate redline with Track Changes or clean version ready for execution</p>
+                    <p>Modified document with Track Changes ready for counterparty negotiation</p>
                 </div>
             </div>
         </div>
@@ -733,102 +682,122 @@
     <!-- Architecture -->
     <section>
         <p class="section-label">[ ARCHITECTURE ]</p>
-        <h2>System Layers</h2>
-        <div class="architecture">
-            <div class="arch-layer">
-                <span class="layer-name">Interface</span>
-                <div class="layer-tech">
-                    <span>Electron</span>
-                    <span>React</span>
-                    <span>Fluent UI</span>
+        <h2>Three-Layer Hybrid System</h2>
+        <p>Concordia employs a hybrid architecture that balances deterministic precision with AI flexibility:</p>
+        
+        <div class="architecture-container">
+            <div class="arch-layers">
+                <div class="arch-layer layer1">
+                    <div class="arch-layer-label">LAYER 1</div>
+                    <div class="arch-layer-content">
+                        <div class="arch-layer-title">Electron Desktop Application</div>
+                        <div class="arch-layer-desc">React UI with document viewer, provision cards, decision interface</div>
+                    </div>
                 </div>
-            </div>
-            <div class="arch-layer">
-                <span class="layer-name">Engine</span>
-                <div class="layer-tech">
-                    <span>Python</span>
-                    <span>FastAPI</span>
-                    <span>YAML Rules</span>
+                <div class="arch-layer layer2">
+                    <div class="arch-layer-label">LAYER 2</div>
+                    <div class="arch-layer-content">
+                        <div class="arch-layer-title">FastAPI Backend (Python)</div>
+                        <div class="arch-layer-desc">API orchestration, YAML loading, Azure OpenAI integration</div>
+                    </div>
                 </div>
-            </div>
-            <div class="arch-layer">
-                <span class="layer-name">Intelligence</span>
-                <div class="layer-tech">
-                    <span>Azure OpenAI</span>
-                    <span>GPT-4o</span>
+                <div class="arch-layer layer3a">
+                    <div class="arch-layer-label">LAYER 3A</div>
+                    <div class="arch-layer-content">
+                        <div class="arch-layer-title">Analysis Engine (YAML)</div>
+                        <div class="arch-layer-desc">34 NDA provisions, 5 NRL provisions, 4 Standards definitions</div>
+                    </div>
+                </div>
+                <div class="arch-layer layer3b">
+                    <div class="arch-layer-label">LAYER 3B</div>
+                    <div class="arch-layer-content">
+                        <div class="arch-layer-title">Azure OpenAI GPT-4o</div>
+                        <div class="arch-layer-desc">Semantic analysis, remediation synthesis, final validation</div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Differentiators -->
+    <!-- Differentiation -->
     <section>
         <p class="section-label">[ DIFFERENTIATION ]</p>
+        <h2>Why Concordia</h2>
         <div class="diff-grid">
             <div class="diff-card">
                 <h3>Hybrid Intelligence</h3>
-                <p>Deterministic rules provide structure; AI provides synthesis. The best of both approaches.</p>
+                <p>Deterministic rules ensure consistency; AI provides context-aware synthesis</p>
             </div>
             <div class="diff-card">
                 <h3>Attorney Authority</h3>
-                <p>AI assists, attorneys decide. Every remediation requires human approval before application.</p>
+                <p>Every decision requires attorney approval—AI assists but never decides</p>
             </div>
             <div class="diff-card">
                 <h3>Institutional Memory</h3>
-                <p>YAML provision libraries encode decades of legal expertise. The rules are the IP.</p>
+                <p>YAML provision libraries encode your firm's standards, not generic templates</p>
             </div>
             <div class="diff-card">
                 <h3>Enterprise Ready</h3>
-                <p>Desktop deployment, Azure integration, air-gapped operation capability. Built for institutional requirements.</p>
+                <p>Electron desktop with Azure OpenAI—same security posture as VS Code and Teams</p>
             </div>
         </div>
     </section>
 
     <!-- Downloads -->
     <section>
-        <p class="section-label">[ DOCUMENTATION ]</p>
+        <p class="section-label">[ RESOURCES ]</p>
+        <h2>Documentation</h2>
         <div class="downloads">
-            <a href="assets/Concordia_NDA_Plus_One_Pager.pdf" class="download-link" target="_blank">
-                ↓ Executive Summary (PDF)
+            <a href="assets/Concordia_OnePager.pdf" class="download-btn" download>
+                <span class="download-icon">📄</span>
+                <span>Product Overview (PDF)</span>
             </a>
-            <a href="assets/concordia-architecture.svg" class="download-link" target="_blank">
-                ↓ Architecture Diagram (SVG)
+            <a href="assets/Concordia_Architecture.svg" class="download-btn" download>
+                <span class="download-icon">📊</span>
+                <span>Architecture Diagram (SVG)</span>
             </a>
         </div>
     </section>
+
+    <!-- CTA -->
+    <div class="cta">
+        <p>Some doors are found. Others find you.</p>
+        <a href="mailto:mark@greystratum.com?subject=Concordia%20Access%20Request" class="btn-primary">Request Access</a>
+    </div>
 </main>
 
-<section class="cta">
-    <p>Ready to transform your document review process?</p>
-    <a href="mailto:mark@greystratum.com?subject=Concordia%20NDA%2B%20Inquiry" class="btn-ghost">Request Access</a>
-</section>
-
 <footer>
-    <p>© 2025 Grey Stratum — All transmissions monitored</p>
+    <p class="code-text">© 2025 Grey Stratum — All transmissions monitored</p>
 </footer>
 
 <script>
-    function toggleTheme() {
-        const html = document.documentElement;
-        const label = document.getElementById('themeLabel');
-        if (html.getAttribute('data-theme') === 'dark') {
-            html.setAttribute('data-theme', 'light');
-            label.textContent = '[ LUX ]';
-            localStorage.setItem('theme', 'light');
-        } else {
-            html.setAttribute('data-theme', 'dark');
-            label.textContent = '[ NOX ]';
-            localStorage.setItem('theme', 'dark');
-        }
-    }
-
-    (function() {
+    const html = document.documentElement;
+    const themeLabel = document.getElementById('themeLabel');
+    
+    function getPreferredTheme() {
         const saved = localStorage.getItem('theme');
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        const theme = saved || (prefersDark ? 'dark' : 'light');
-        document.documentElement.setAttribute('data-theme', theme);
-        document.getElementById('themeLabel').textContent = theme === 'dark' ? '[ NOX ]' : '[ LUX ]';
-    })();
+        if (saved) return saved;
+        return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+    
+    function setTheme(theme) {
+        html.setAttribute('data-theme', theme);
+        localStorage.setItem('theme', theme);
+        themeLabel.textContent = theme === 'dark' ? '[ NOX ]' : '[ LUX ]';
+    }
+    
+    function toggleTheme() {
+        const current = html.getAttribute('data-theme');
+        setTheme(current === 'dark' ? 'light' : 'dark');
+    }
+    
+    setTheme(getPreferredTheme());
+    
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+        if (!localStorage.getItem('theme')) {
+            setTheme(e.matches ? 'dark' : 'light');
+        }
+    });
 </script>
 
 </body>
