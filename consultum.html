@@ -4,22 +4,44 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="color-scheme" content="light dark">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <title>Cantara | Grey Stratum</title>
+    <meta name="mobile-web-app-capable" content="yes">
+    <title>Consultum | Grey Stratum</title>
 
-        <link rel="icon" type="image/png" href="/my-favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/my-favicon/favicon-96x96.png" sizes="96x96">
     <link rel="icon" type="image/svg+xml" href="/my-favicon/favicon.svg">
     <link rel="shortcut icon" href="/my-favicon/favicon.ico">
     <link rel="apple-touch-icon" sizes="180x180" href="/my-favicon/apple-touch-icon.png">
     <link rel="manifest" href="/my-favicon/site.webmanifest">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="icon" type="image/png" href="/my-favicon/favicon-96x96.png" sizes="96x96">
-    <link rel="icon" type="image/svg+xml" href="/my-favicon/favicon.svg">
-    <link rel="shortcut icon" href="/my-favicon/favicon.ico">
-    <link rel="apple-touch-icon" sizes="180x180" href="/my-favicon/apple-touch-icon.png">
-    <link rel="manifest" href="/my-favicon/site.webmanifest">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Archivo:wght@300;400;500&family=Fira+Code:wght@400&display=swap" rel="stylesheet">
+
+    <script>
+        (function() {
+            var saved = localStorage.getItem('theme');
+            var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            var theme = saved || (prefersDark ? 'dark' : 'light');
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+        
+        function toggleTheme() {
+            var html = document.documentElement;
+            var current = html.getAttribute('data-theme');
+            var newTheme = current === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            var label = document.getElementById('themeLabel');
+            if (label) label.textContent = newTheme === 'dark' ? '[ NOX ]' : '[ LUX ]';
+        }
+        
+        function toggleDropdown(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            var dropdown = document.getElementById('protocolDropdown');
+            if (dropdown) dropdown.classList.toggle('active');
+        }
+    </script>
 
     <style>
         * {
@@ -42,6 +64,7 @@
             --dropdown-bg: #ffffff;
             --dropdown-border: #d8dce0;
             --dropdown-shadow: rgba(0, 0, 0, 0.1);
+            --input-bg: #ffffff;
         }
 
         [data-theme="dark"] {
@@ -58,6 +81,7 @@
             --dropdown-bg: #22272e;
             --dropdown-border: #373e47;
             --dropdown-shadow: rgba(0, 0, 0, 0.3);
+            --input-bg: #22272e;
         }
 
         html {
@@ -72,6 +96,9 @@
             font-weight: 300;
             transition: background-color 0.4s ease, color 0.4s ease;
             -webkit-tap-highlight-color: transparent;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
 
         /* Header */
@@ -279,15 +306,21 @@
             color: var(--text-faint);
         }
 
-        /* Hero - STANDARDIZED */
-        .hero {
-            padding: 4rem 2rem 3rem;
-            text-align: center;
-            max-width: 800px;
+        /* Main Content */
+        main {
+            flex: 1;
+            max-width: 600px;
             margin: 0 auto;
+            padding: 4rem 2rem;
+            width: 100%;
         }
 
-        .hero .protocol-tag {
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .page-tag {
             font-family: 'Fira Code', monospace;
             font-size: 0.75rem;
             letter-spacing: 0.2em;
@@ -295,51 +328,60 @@
             margin-bottom: 1rem;
         }
 
-        .hero h1 {
+        .page-header h1 {
             font-family: 'Archivo', sans-serif;
-            font-size: 3.5rem;
+            font-size: 2.5rem;
             font-weight: 300;
             letter-spacing: 0.25em;
             text-transform: uppercase;
-            margin-bottom: 0.5rem;
+            margin-bottom: 1rem;
             color: var(--text-primary);
         }
 
-        .hero .instrumentum {
-            font-family: 'Fira Code', monospace;
-            font-size: 0.8rem;
-            letter-spacing: 0.15em;
-            color: var(--text-muted);
-            margin-bottom: 1rem;
-        }
-
-        .hero .subtitle {
-            font-size: 1.1rem;
-            color: var(--cyan-accent);
-            margin-bottom: 1.5rem;
+        .page-header .subtitle {
+            font-size: 1rem;
+            color: var(--text-secondary);
             font-style: italic;
         }
 
-        .hero p.description {
-            font-size: 1rem;
-            color: var(--text-secondary);
-            max-width: 600px;
-            margin: 0 auto;
-            line-height: 1.8;
+        /* Contact Info */
+        .contact-info {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            transition: background-color 0.4s ease, border-color 0.4s ease;
         }
 
-        /* Main Content */
-        main {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 0 2rem 4rem;
+        .contact-info .label {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.6rem;
+            letter-spacing: 0.15em;
+            color: var(--text-faint);
+            margin-bottom: 0.75rem;
+            text-transform: uppercase;
         }
 
-        main section {
-            margin-bottom: 4rem;
+        .contact-info a {
+            font-family: 'Archivo', sans-serif;
+            font-size: 1.1rem;
+            letter-spacing: 0.1em;
+            color: var(--cyan-accent);
+            text-decoration: none;
+            transition: opacity 0.3s ease;
         }
 
-        .section-label {
+        .contact-info a:hover {
+            opacity: 0.8;
+        }
+
+        /* Form */
+        .form-section {
+            margin-bottom: 2rem;
+        }
+
+        .form-label {
             font-family: 'Fira Code', monospace;
             font-size: 0.65rem;
             letter-spacing: 0.15em;
@@ -348,108 +390,66 @@
             text-align: center;
         }
 
-        main h2 {
-            font-family: 'Archivo', sans-serif;
-            font-size: 1.4rem;
-            font-weight: 300;
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-            margin-bottom: 1.5rem;
-            text-align: center;
-        }
-
-        main p {
-            color: var(--text-secondary);
-            margin-bottom: 1rem;
-            line-height: 1.8;
-        }
-
-        main strong {
-            color: var(--text-primary);
-            font-weight: 400;
-        }
-
-        /* Features Grid */
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        .contact-form {
+            display: flex;
+            flex-direction: column;
             gap: 1.5rem;
-            margin-top: 2rem;
         }
 
-        .feature-card {
-            background-color: var(--bg-card);
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .form-group label {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.6rem;
+            letter-spacing: 0.15em;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 300;
+            padding: 1rem;
+            background-color: var(--input-bg);
             border: 1px solid var(--border-color);
-            padding: 1.5rem;
-            transition: border-color 0.3s ease;
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+            outline: none;
         }
 
-        .feature-card:hover {
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
             border-color: var(--cyan-accent);
         }
 
-        .feature-card h3 {
-            font-family: 'Archivo', sans-serif;
-            font-size: 0.85rem;
-            font-weight: 400;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            margin-bottom: 0.75rem;
-            color: var(--text-primary);
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: var(--text-faint);
         }
 
-        .feature-card p {
-            font-size: 0.9rem;
-            margin-bottom: 0;
+        .form-group textarea {
+            min-height: 150px;
+            resize: vertical;
         }
 
-        /* Capabilities List */
-        .capabilities-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1rem;
-            margin-top: 2rem;
+        .form-group select {
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%235BA4B5' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            padding-right: 2.5rem;
         }
 
-        .capability-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 1rem;
-            padding: 1rem;
-            background-color: var(--bg-card);
-            border: 1px solid var(--border-color);
-        }
-
-        .capability-icon {
-            color: var(--cyan-accent);
-            font-size: 1.2rem;
-            min-width: 24px;
-        }
-
-        .capability-text {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-        }
-
-        /* CTA Button */
-        .cta-section {
-            text-align: center;
-            padding: 3rem 2rem;
-            border-top: 1px solid var(--border-color);
-            margin-top: 2rem;
-        }
-
-        .cta-section p {
-            font-family: 'Archivo', sans-serif;
-            font-size: 1.1rem;
-            font-weight: 300;
-            letter-spacing: 0.15em;
-            color: var(--text-muted);
-            font-style: italic;
-            margin-bottom: 2rem;
-        }
-
-        .btn-primary {
+        .submit-btn {
             display: inline-block;
             padding: 1rem 2.5rem;
             background-color: var(--cyan-accent);
@@ -460,35 +460,22 @@
             font-weight: 400;
             letter-spacing: 0.2em;
             text-transform: uppercase;
-            text-decoration: none;
             cursor: pointer;
             transition: all 0.3s ease;
+            margin-top: 1rem;
         }
 
-        .btn-primary:hover {
+        .submit-btn:hover {
             background-color: #4a93a4;
         }
 
-        .btn-ghost {
-            display: inline-block;
-            padding: 1rem 2.5rem;
-            border: 1px solid var(--border-color);
-            background: transparent;
-            color: var(--text-primary);
-            font-family: 'Archivo', sans-serif;
-            font-size: 0.75rem;
-            font-weight: 400;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            text-decoration: none;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin-left: 1rem;
-        }
-
-        .btn-ghost:hover {
-            border-color: var(--cyan-accent);
-            color: var(--cyan-accent);
+        .form-note {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.55rem;
+            letter-spacing: 0.1em;
+            color: var(--text-faint);
+            text-align: center;
+            margin-top: 1.5rem;
         }
 
         /* Footer */
@@ -497,6 +484,7 @@
             text-align: center;
             border-top: 1px solid var(--border-color);
             background-color: var(--bg-primary);
+            transition: background-color 0.4s ease, border-color 0.4s ease;
         }
 
         /* Responsive */
@@ -515,17 +503,12 @@
                 gap: 1rem;
             }
 
-            .hero h1 { 
-                font-size: 2.2rem; 
+            .page-header h1 {
+                font-size: 1.8rem;
                 letter-spacing: 0.15em;
             }
 
-            .hero { padding: 2.5rem 1.5rem; }
-
-            main { padding: 0 1.5rem 3rem; }
-
-            .features-grid { grid-template-columns: 1fr; }
-            .capabilities-list { grid-template-columns: 1fr; }
+            main { padding: 2.5rem 1.5rem; }
 
             .toggle-label { display: none; }
 
@@ -537,11 +520,6 @@
                 width: 90%;
                 max-width: 280px;
             }
-
-            .btn-ghost {
-                margin-left: 0;
-                margin-top: 1rem;
-            }
         }
 
         /* iOS Safe Areas */
@@ -552,32 +530,6 @@
             }
         }
     </style>
-    <!-- Theme/Dropdown scripts in head to ensure defined before onclick handlers -->
-    <script>
-        (function() {
-            var saved = localStorage.getItem('theme');
-            var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-            var theme = saved || (prefersDark ? 'dark' : 'light');
-            document.documentElement.setAttribute('data-theme', theme);
-        })();
-        
-        function toggleTheme() {
-            var html = document.documentElement;
-            var current = html.getAttribute('data-theme');
-            var newTheme = current === 'dark' ? 'light' : 'dark';
-            html.setAttribute('data-theme', newTheme);
-            localStorage.setItem('theme', newTheme);
-            var label = document.getElementById('themeLabel');
-            if (label) label.textContent = newTheme === 'dark' ? '[ NOX ]' : '[ LUX ]';
-        }
-        
-        function toggleDropdown(event) {
-            event.preventDefault();
-            event.stopPropagation();
-            var dropdown = document.getElementById('protocolDropdown');
-            if (dropdown) dropdown.classList.toggle('active');
-        }
-    </script>
     <!-- Microsoft Clarity -->
     <script type="text/javascript">
         (function(c,l,a,r,i,t,y){
@@ -590,7 +542,7 @@
 <body>
 
 <header>
-    <a href="../index.html" class="logo">
+    <a href="index.html" class="logo">
         <span class="logo-grey">GREY</span>
         <div class="logo-gradus">
             <div class="gradus-bar"></div>
@@ -600,28 +552,26 @@
         <span class="logo-stratum">STRATUM</span>
     </a>
     <nav class="header-nav">
-        
-        
         <!-- Protocol Dropdown -->
         <div class="nav-dropdown" id="protocolDropdown">
             <button class="nav-dropdown-trigger" onclick="toggleDropdown(event)">
                 Protocol <span class="dropdown-arrow">▼</span>
             </button>
             <div class="nav-dropdown-menu">
-                <a href="concordia.html">
+                <a href="protocols/concordia.html">
                     <span class="protocol-label">001</span> Concordia
                 </a>
-                <a href="cantara.html" class="active">
+                <a href="protocols/cantara.html">
                     <span class="protocol-label">002</span> Cantara
                 </a>
-                <a href="cadencia.html">
+                <a href="protocols/cadencia.html">
                     <span class="protocol-label">003</span> Cadencia
                 </a>
             </div>
         </div>
         
-        <a href="../portal.html">Signal</a>
-        <a href="../consultum.html">Consultum</a>
+        <a href="portal.html">Signal</a>
+        <a href="consultum.html" class="active">Consultum</a>
         <div class="nav-divider"></div>
         <div class="theme-toggle" onclick="toggleTheme()" title="Toggle theme">
             <span class="toggle-label" id="themeLabel">[ LUX ]</span>
@@ -634,107 +584,65 @@
     </nav>
 </header>
 
-<section class="hero">
-    <p class="protocol-tag">[ PROTOCOL 002 ]</p>
-    <h1>Cantara</h1>
-    <p class="instrumentum">Instrumentum: TTS+</p>
-    <p class="subtitle">Neural Voice Synthesis</p>
-    <p class="description">Professional text-to-speech with SSML control. Transform written content into natural-sounding audio with precise control over emphasis, pacing, and prosody.</p>
-</section>
-
 <main>
-    <!-- Overview -->
-    <section>
-        <h2>The Tool</h2>
-        <p>Cantara TTS+ provides direct access to Azure Neural Text-to-Speech with a visual SSML editor. Build professional audio content with granular control over voice parameters—no command line required.</p>
-        <p>Whether creating voiceovers, narration, or accessible content, Cantara gives you <strong>400+ neural voices</strong> across <strong>140+ languages</strong> with real-time preview and instant export.</p>
-    </section>
+    <div class="page-header">
+        <p class="page-tag">[ OPEN CHANNEL ]</p>
+        <h1>Consultum</h1>
+        <p class="subtitle">Initiate contact. All transmissions monitored.</p>
+    </div>
 
-    <!-- Features -->
-    <section>
-        <p class="section-label">[ CAPABILITIES ]</p>
-        <h2>What It Does</h2>
-        <div class="features-grid">
-            <div class="feature-card">
-                <h3>Visual SSML Editor</h3>
-                <p>Point-and-click control over emphasis, breaks, pitch, rate, and prosody—no XML coding required</p>
-            </div>
-            <div class="feature-card">
-                <h3>Neural Voices</h3>
-                <p>Access to 400+ Azure Neural TTS voices with natural intonation and expression</p>
-            </div>
-            <div class="feature-card">
-                <h3>Multi-Format Export</h3>
-                <p>Output to MP3, WAV, OGG, or WebM at configurable quality levels</p>
-            </div>
-            <div class="feature-card">
-                <h3>Real-Time Preview</h3>
-                <p>Hear your SSML modifications instantly before committing to final render</p>
-            </div>
-        </div>
-    </section>
+    <div class="contact-info">
+        <p class="label">[ Direct Line ]</p>
+        <a href="mailto:info@greystratum.com">info@greystratum.com</a>
+    </div>
 
-    <!-- SSML Controls -->
-    <section>
-        <p class="section-label">[ SSML CONTROLS ]</p>
-        <h2>Fine-Grained Voice Control</h2>
-        <div class="capabilities-list">
-            <div class="capability-item">
-                <span class="capability-icon">◆</span>
-                <span class="capability-text"><strong>Emphasis</strong> — Strong, moderate, or reduced stress on selected words</span>
-            </div>
-            <div class="capability-item">
-                <span class="capability-icon">◆</span>
-                <span class="capability-text"><strong>Prosody</strong> — Adjust pitch contour for questions, statements, or custom patterns</span>
-            </div>
-            <div class="capability-item">
-                <span class="capability-icon">◆</span>
-                <span class="capability-text"><strong>Rate</strong> — Speed control from x-slow to x-fast with percentage precision</span>
-            </div>
-            <div class="capability-item">
-                <span class="capability-icon">◆</span>
-                <span class="capability-text"><strong>Breaks</strong> — Insert pauses from 250ms to 5s for natural phrasing</span>
-            </div>
-            <div class="capability-item">
-                <span class="capability-icon">◆</span>
-                <span class="capability-text"><strong>Pitch</strong> — Raise or lower voice pitch with semitone or percentage control</span>
-            </div>
-            <div class="capability-item">
-                <span class="capability-icon">◆</span>
-                <span class="capability-text"><strong>Say-As</strong> — Proper pronunciation of dates, numbers, addresses, and more</span>
-            </div>
-        </div>
-    </section>
+    <div class="form-section">
+        <p class="form-label">[ Secure Transmission ]</p>
+        
+        <form class="contact-form" action="https://formsubmit.co/info@greystratum.com" method="POST">
+            <!-- FormSubmit configuration -->
+            <input type="hidden" name="_subject" value="Grey Stratum Inquiry">
+            <input type="hidden" name="_captcha" value="true">
+            <input type="hidden" name="_template" value="table">
+            <input type="hidden" name="_next" value="https://www.greystratum.com/consultum.html?sent=true">
+            <input type="text" name="_honey" style="display:none">
 
-    <!-- Use Cases -->
-    <section>
-        <p class="section-label">[ USE CASES ]</p>
-        <h2>Applications</h2>
-        <div class="features-grid">
-            <div class="feature-card">
-                <h3>Content Creation</h3>
-                <p>Generate professional narration for videos, podcasts, and presentations</p>
+            <div class="form-group">
+                <label for="name">Designation</label>
+                <input type="text" id="name" name="name" placeholder="Your name" required>
             </div>
-            <div class="feature-card">
-                <h3>Accessibility</h3>
-                <p>Create audio versions of documents, articles, and educational materials</p>
-            </div>
-            <div class="feature-card">
-                <h3>Prototyping</h3>
-                <p>Rapid voice interface mockups before investing in human talent</p>
-            </div>
-            <div class="feature-card">
-                <h3>Localization</h3>
-                <p>Multi-language audio with native-sounding voices across 140+ languages</p>
-            </div>
-        </div>
-    </section>
 
-    <!-- CTA -->
-    <div class="cta-section">
-        <p>The voice you need. The control you want.</p>
-        <a href="cantara-console.html" class="btn-primary">Launch Console</a>
-        <a href="/cdn-cgi/l/email-protection#305d51425b70574255494344425144455d1e535f5d" class="btn-ghost">Request Access</a>
+            <div class="form-group">
+                <label for="email">Return Frequency</label>
+                <input type="email" id="email" name="email" placeholder="your@email.com" required>
+            </div>
+
+            <div class="form-group">
+                <label for="organization">Affiliation</label>
+                <input type="text" id="organization" name="organization" placeholder="Organization (optional)">
+            </div>
+
+            <div class="form-group">
+                <label for="subject">Signal Type</label>
+                <select id="subject" name="subject" required>
+                    <option value="">Select inquiry type</option>
+                    <option value="Concordia NDA+">Concordia — NDA+</option>
+                    <option value="Cantara TTS+">Cantara — TTS+</option>
+                    <option value="Cadencia">Cadencia — Behavioral</option>
+                    <option value="Partnership">Partnership Inquiry</option>
+                    <option value="General">General Inquiry</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="message">Transmission</label>
+                <textarea id="message" name="message" placeholder="Your message..." required></textarea>
+            </div>
+
+            <button type="submit" class="submit-btn">Submit</button>
+        </form>
+
+        <p class="form-note">[ Encrypted channel • Response within 48 hours ]</p>
     </div>
 </main>
 
@@ -742,51 +650,36 @@
     <p class="code-text">© 2025 Grey Stratum — All transmissions monitored</p>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-    const html = document.documentElement;
-    const themeLabel = document.getElementById('themeLabel');
-    
-    function getPreferredTheme() {
-        const saved = localStorage.getItem('theme');
-        if (saved) return saved;
-        return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-    }
-    
-    function setTheme(theme) {
-        html.setAttribute('data-theme', theme);
-        localStorage.setItem('theme', theme);
-        if (themeLabel) {
-            themeLabel.textContent = theme === 'dark' ? '[ NOX ]' : '[ LUX ]';
-        }
-    }
-    
-    function toggleTheme() {
-        const current = html.getAttribute('data-theme');
-        setTheme(current === 'dark' ? 'light' : 'dark');
-    }
-    
-    setTheme(getPreferredTheme());
-    
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
-        if (!localStorage.getItem('theme')) {
-            setTheme(e.matches ? 'dark' : 'light');
-        }
-    });
-
-    // Protocol Dropdown
-    function toggleDropdown(event) {
-        event.preventDefault();
-        event.stopPropagation();
-        const dropdown = document.getElementById('protocolDropdown');
-        dropdown.classList.toggle('active');
+<script>
+    // Check for successful submission
+    if (window.location.search.includes('sent=true')) {
+        alert('[ TRANSMISSION RECEIVED ]\n\nYour message has been sent successfully.');
+        // Clean URL
+        window.history.replaceState({}, document.title, window.location.pathname);
     }
 
+    // Dropdown close handlers
     document.addEventListener('click', function(event) {
-        const dropdown = document.getElementById('protocolDropdown');
-        if (!dropdown.contains(event.target)) {
+        var dropdown = document.getElementById('protocolDropdown');
+        if (dropdown && !dropdown.contains(event.target)) {
             dropdown.classList.remove('active');
         }
     });
 
     document.addEventListener('keydown', function(event) {
-        if (even
+        if (event.key === 'Escape') {
+            var dropdown = document.getElementById('protocolDropdown');
+            if (dropdown) dropdown.classList.remove('active');
+        }
+    });
+
+    // Initialize theme label
+    (function() {
+        var theme = document.documentElement.getAttribute('data-theme');
+        var label = document.getElementById('themeLabel');
+        if (label) label.textContent = theme === 'dark' ? '[ NOX ]' : '[ LUX ]';
+    })();
+</script>
+
+</body>
+</html>
