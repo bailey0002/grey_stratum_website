@@ -4,12 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="color-scheme" content="light dark">
-    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
     <title>Concordia | Grey Stratum</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Archivo:wght@300;400;500&family=Fira+Code:wght@400&display=swap" rel="stylesheet">
+
+    <!-- Theme script in head to prevent FOUC and ensure toggleTheme is defined before onclick -->
+    <script>
+        (function() {
+            const saved = localStorage.getItem('theme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const theme = saved || (prefersDark ? 'dark' : 'light');
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
 
     <style>
         * {
@@ -376,7 +386,7 @@
             border: 1px solid var(--border-color);
             padding: 1.5rem;
             text-align: center;
-            transition: border-color 0.3s ease;
+            transition: border-color 0.3s ease, background-color 0.4s ease;
         }
 
         .metric-card:hover {
@@ -407,6 +417,7 @@
             border-radius: 4px;
             overflow: hidden;
             margin-top: 2rem;
+            transition: background-color 0.4s ease, border-color 0.4s ease;
         }
 
         .video-header {
@@ -416,6 +427,7 @@
             padding: 1rem 1.5rem;
             background-color: var(--bg-secondary);
             border-bottom: 1px solid var(--border-color);
+            transition: background-color 0.4s ease, border-color 0.4s ease;
         }
 
         .video-title {
@@ -454,7 +466,7 @@
             padding: 1.5rem;
             background-color: var(--bg-card);
             border: 1px solid var(--border-color);
-            transition: border-color 0.3s ease;
+            transition: border-color 0.3s ease, background-color 0.4s ease;
         }
 
         .workflow-step:hover {
@@ -482,6 +494,52 @@
         .step-content p {
             font-size: 0.9rem;
             margin-bottom: 0;
+        }
+
+        /* Classified Section */
+        .classified-wrapper {
+            position: relative;
+            min-height: 200px;
+        }
+
+        .classified-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--bg-primary);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            transition: all 0.4s ease;
+        }
+
+        .classified-overlay:hover {
+            border-color: var(--cyan-accent);
+        }
+
+        .classified-overlay .classified-label {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.75rem;
+            letter-spacing: 0.2em;
+            color: var(--cyan-accent);
+            margin-bottom: 0.5rem;
+        }
+
+        .classified-overlay .classified-hint {
+            font-size: 0.7rem;
+            color: var(--text-faint);
+            letter-spacing: 0.1em;
+        }
+
+        .classified-wrapper.unlocked .classified-overlay {
+            display: none;
         }
 
         /* Architecture */
@@ -525,6 +583,7 @@
             background-color: var(--bg-card);
             border: 1px solid var(--border-color);
             border-left: none;
+            transition: background-color 0.4s ease, border-color 0.4s ease;
         }
 
         .arch-layer-title {
@@ -558,7 +617,7 @@
             background-color: var(--bg-card);
             border: 1px solid var(--border-color);
             padding: 1.5rem;
-            transition: border-color 0.3s ease;
+            transition: border-color 0.3s ease, background-color 0.4s ease;
         }
 
         .diff-card:hover {
@@ -618,6 +677,7 @@
             padding: 4rem 2rem;
             border-top: 1px solid var(--border-color);
             margin-top: 4rem;
+            transition: border-color 0.4s ease;
         }
 
         .cta p {
@@ -656,6 +716,7 @@
             text-align: center;
             border-top: 1px solid var(--border-color);
             background-color: var(--bg-primary);
+            transition: background-color 0.4s ease, border-color 0.4s ease;
         }
 
         /* Responsive */
@@ -742,8 +803,6 @@
         <span class="logo-stratum">STRATUM</span>
     </a>
     <nav class="header-nav">
-        
-        
         <!-- Protocol Dropdown -->
         <div class="nav-dropdown" id="protocolDropdown">
             <button class="nav-dropdown-trigger" onclick="toggleDropdown(event)">
@@ -813,7 +872,7 @@
     <!-- The Solution -->
     <section>
         <h2>The Solution</h2>
-        <p>Concordia NDA+ combines <strong>deterministic rules-based analysis</strong> with <strong>AI-powered enhancement</strong> to deliver institutional-quality document review in minutes. The system encodes decades of legal expertise into structured YAML provision libraries, while Azure OpenAI GPT-4o provides semantic understanding and remediation synthesis.</p>
+        <p>Concordia NDA+ combines <strong>deterministic rules-based analysis</strong> with <strong>AI-powered enhancement</strong> to deliver institutional-quality document review in minutes. The system encodes decades of legal expertise into structured provision libraries, while AI provides semantic understanding and remediation synthesis.</p>
     </section>
 
     <!-- Demo Video -->
@@ -861,7 +920,7 @@
                 <div class="step-number">4</div>
                 <div class="step-content">
                     <h3>AI Remediation</h3>
-                    <p>GPT-4o generates context-aware redline language based on attorney decisions</p>
+                    <p>AI generates context-aware redline language based on attorney decisions</p>
                 </div>
             </div>
             <div class="workflow-step">
@@ -874,40 +933,46 @@
         </div>
     </section>
 
-    <!-- Architecture -->
+    <!-- Architecture (Protected) -->
     <section>
         <p class="section-label">[ ARCHITECTURE ]</p>
         <h2>Three-Layer Hybrid System</h2>
         <p>Concordia employs a hybrid architecture that balances deterministic precision with AI flexibility:</p>
         
-        <div class="architecture-container">
-            <div class="arch-layers">
-                <div class="arch-layer layer1">
-                    <div class="arch-layer-label">LAYER 1</div>
-                    <div class="arch-layer-content">
-                        <div class="arch-layer-title">Electron Desktop Application</div>
-                        <div class="arch-layer-desc">React UI with document viewer, provision cards, decision interface</div>
+        <div class="classified-wrapper" id="archSection">
+            <div class="classified-overlay" onclick="requestAccess('archSection')">
+                <span class="classified-label">[ CLASSIFIED ]</span>
+                <span class="classified-hint">Click to authenticate</span>
+            </div>
+            <div class="architecture-container">
+                <div class="arch-layers">
+                    <div class="arch-layer layer1">
+                        <div class="arch-layer-label">LAYER 1</div>
+                        <div class="arch-layer-content">
+                            <div class="arch-layer-title">Electron Desktop Application</div>
+                            <div class="arch-layer-desc">React UI with document viewer, provision cards, decision interface</div>
+                        </div>
                     </div>
-                </div>
-                <div class="arch-layer layer2">
-                    <div class="arch-layer-label">LAYER 2</div>
-                    <div class="arch-layer-content">
-                        <div class="arch-layer-title">FastAPI Backend (Python)</div>
-                        <div class="arch-layer-desc">API orchestration, YAML loading, Azure OpenAI integration</div>
+                    <div class="arch-layer layer2">
+                        <div class="arch-layer-label">LAYER 2</div>
+                        <div class="arch-layer-content">
+                            <div class="arch-layer-title">FastAPI Backend (Python)</div>
+                            <div class="arch-layer-desc">API orchestration, YAML loading, Azure OpenAI integration</div>
+                        </div>
                     </div>
-                </div>
-                <div class="arch-layer layer3a">
-                    <div class="arch-layer-label">LAYER 3A</div>
-                    <div class="arch-layer-content">
-                        <div class="arch-layer-title">Analysis Engine (YAML)</div>
-                        <div class="arch-layer-desc">34 NDA provisions, 5 NRL provisions, 4 Standards definitions</div>
+                    <div class="arch-layer layer3a">
+                        <div class="arch-layer-label">LAYER 3A</div>
+                        <div class="arch-layer-content">
+                            <div class="arch-layer-title">Analysis Engine (YAML)</div>
+                            <div class="arch-layer-desc">34 NDA provisions, 5 NRL provisions, 4 Standards definitions</div>
+                        </div>
                     </div>
-                </div>
-                <div class="arch-layer layer3b">
-                    <div class="arch-layer-label">LAYER 3B</div>
-                    <div class="arch-layer-content">
-                        <div class="arch-layer-title">Azure OpenAI GPT-4o</div>
-                        <div class="arch-layer-desc">Semantic analysis, remediation synthesis, final validation</div>
+                    <div class="arch-layer layer3b">
+                        <div class="arch-layer-label">LAYER 3B</div>
+                        <div class="arch-layer-content">
+                            <div class="arch-layer-title">Azure OpenAI GPT-4o</div>
+                            <div class="arch-layer-desc">Semantic analysis, remediation synthesis, final validation</div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -929,35 +994,41 @@
             </div>
             <div class="diff-card">
                 <h3>Institutional Memory</h3>
-                <p>YAML provision libraries encode your firm's standards, not generic templates</p>
+                <p>Provision libraries encode your firm's standards, not generic templates</p>
             </div>
             <div class="diff-card">
                 <h3>Enterprise Ready</h3>
-                <p>Electron desktop with Azure OpenAI—same security posture as VS Code and Teams</p>
+                <p>Desktop deployment with cloud AI—same security posture as leading enterprise tools</p>
             </div>
         </div>
     </section>
 
-    <!-- Downloads -->
+    <!-- Downloads (Protected) -->
     <section>
         <p class="section-label">[ RESOURCES ]</p>
         <h2>Documentation</h2>
-        <div class="downloads">
-            <a href="../assets/Concordia_OnePager.pdf" class="download-btn" download>
-                <span class="download-icon">📄</span>
-                <span>Product Overview (PDF)</span>
-            </a>
-            <a href="../assets/Concordia_Architecture.svg" class="download-btn" download>
-                <span class="download-icon">📊</span>
-                <span>Architecture Diagram (SVG)</span>
-            </a>
+        <div class="classified-wrapper" id="docsSection">
+            <div class="classified-overlay" onclick="requestAccess('docsSection')">
+                <span class="classified-label">[ CLASSIFIED ]</span>
+                <span class="classified-hint">Click to authenticate</span>
+            </div>
+            <div class="downloads">
+                <a href="../assets/Concordia_OnePager.pdf" class="download-btn" download>
+                    <span class="download-icon">📄</span>
+                    <span>Product Overview (PDF)</span>
+                </a>
+                <a href="../assets/Concordia_Architecture.svg" class="download-btn" download>
+                    <span class="download-icon">📊</span>
+                    <span>Architecture Diagram (SVG)</span>
+                </a>
+            </div>
         </div>
     </section>
 
     <!-- CTA -->
     <div class="cta">
         <p>Some doors are found. Others find you.</p>
-        <a href="/cdn-cgi/l/email-protection#deb3bfacb59eb9acbba7adaaacbfaaabb3f0bdb1b3" class="btn-primary">Request Access</a>
+        <a href="mailto:mark@greystratum.com?subject=Concordia%20Inquiry" class="btn-primary">Request Access</a>
     </div>
 </main>
 
@@ -965,7 +1036,8 @@
     <p class="code-text">© 2025 Grey Stratum — All transmissions monitored</p>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
+    // Theme management
     const html = document.documentElement;
     const themeLabel = document.getElementById('themeLabel');
     
@@ -988,8 +1060,10 @@
         setTheme(current === 'dark' ? 'light' : 'dark');
     }
     
+    // Initialize theme
     setTheme(getPreferredTheme());
     
+    // Listen for system theme changes
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
         if (!localStorage.getItem('theme')) {
             setTheme(e.matches ? 'dark' : 'light');
@@ -1006,10 +1080,54 @@
 
     document.addEventListener('click', function(event) {
         const dropdown = document.getElementById('protocolDropdown');
-        if (!dropdown.contains(event.target)) {
+        if (dropdown && !dropdown.contains(event.target)) {
             dropdown.classList.remove('active');
         }
     });
 
     document.addEventListener('keydown', function(event) {
-        if (even
+        if (event.key === 'Escape') {
+            const dropdown = document.getElementById('protocolDropdown');
+            if (dropdown) dropdown.classList.remove('active');
+        }
+    });
+
+    // Classified section access
+    const PASSPHRASE = 'stratum0304';
+
+    function requestAccess(sectionId) {
+        // Check if already authenticated this session
+        if (sessionStorage.getItem('classified_access') === 'granted') {
+            unlockSection(sectionId);
+            return;
+        }
+
+        const input = prompt('[ AUTHENTICATION REQUIRED ]\n\nEnter passphrase:');
+        if (input && input.toLowerCase() === PASSPHRASE) {
+            sessionStorage.setItem('classified_access', 'granted');
+            // Unlock all classified sections
+            document.querySelectorAll('.classified-wrapper').forEach(el => {
+                el.classList.add('unlocked');
+            });
+        } else if (input !== null) {
+            alert('[ ACCESS DENIED ]');
+        }
+    }
+
+    function unlockSection(sectionId) {
+        const section = document.getElementById(sectionId);
+        if (section) section.classList.add('unlocked');
+    }
+
+    // Check for existing session access on load
+    (function() {
+        if (sessionStorage.getItem('classified_access') === 'granted') {
+            document.querySelectorAll('.classified-wrapper').forEach(el => {
+                el.classList.add('unlocked');
+            });
+        }
+    })();
+</script>
+
+</body>
+</html>

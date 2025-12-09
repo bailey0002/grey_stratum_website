@@ -542,6 +542,32 @@
             }
         }
     </style>
+    <!-- Theme/Dropdown scripts in head to ensure defined before onclick handlers -->
+    <script>
+        (function() {
+            var saved = localStorage.getItem('theme');
+            var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            var theme = saved || (prefersDark ? 'dark' : 'light');
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+        
+        function toggleTheme() {
+            var html = document.documentElement;
+            var current = html.getAttribute('data-theme');
+            var newTheme = current === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            var label = document.getElementById('themeLabel');
+            if (label) label.textContent = newTheme === 'dark' ? '[ NOX ]' : '[ LUX ]';
+        }
+        
+        function toggleDropdown(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            var dropdown = document.getElementById('protocolDropdown');
+            if (dropdown) dropdown.classList.toggle('active');
+        }
+    </script>
 </head>
 <body>
 
