@@ -1,12 +1,964 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="refresh" content="0; url=protocols/concordia.html">
-    <title>Redirecting...</title>
-    <script>window.location.href = "protocols/concordia.html";</script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light dark">
+    <title>Concordia | Grey Stratum</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Archivo:wght@300;400;500&family=Fira+Code:wght@400&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root, [data-theme="light"] {
+            --bg-primary: #f8f9fa;
+            --bg-secondary: #ffffff;
+            --bg-card: #ffffff;
+            --bg-card-end: #e8ebed;
+            --text-primary: #1a1a1a;
+            --text-secondary: #4a4f54;
+            --text-muted: #5a6068;
+            --text-faint: #7a818a;
+            --gray-muted: #99ACB0;
+            --border-color: #d8dce0;
+            --border-light: #c8ccd0;
+            --cyan-accent: #5BA4B5;
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #1a1d21;
+            --bg-secondary: #22272e;
+            --bg-card: #22272e;
+            --bg-card-end: #2d333b;
+            --text-primary: #e6edf3;
+            --text-secondary: #adbac7;
+            --text-muted: #768390;
+            --text-faint: #636e7b;
+            --gray-muted: #768390;
+            --border-color: #373e47;
+            --border-light: #444c56;
+            --cyan-accent: #5BA4B5;
+        }
+
+        html {
+            background-color: var(--bg-primary);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            font-weight: 300;
+            transition: background-color 0.4s ease, color 0.4s ease;
+        }
+
+        /* Header */
+        header {
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            background-color: var(--bg-primary);
+            transition: background-color 0.4s ease, border-color 0.4s ease;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-family: 'Archivo', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 300;
+            letter-spacing: 0.35em;
+            text-transform: uppercase;
+            text-decoration: none;
+        }
+
+        .logo-grey { color: var(--gray-muted); transition: color 0.4s ease; }
+        .logo-stratum { color: var(--text-primary); transition: color 0.4s ease; }
+
+        .logo-gradus {
+            display: flex;
+            align-items: center;
+            gap: 2px;
+            margin: 0 0.8rem;
+            margin-right: 1rem;
+            height: 1.2em;
+        }
+
+        .gradus-bar {
+            width: 2px;
+            background-color: var(--cyan-accent);
+            border-radius: 1px;
+            transition: height 0.3s ease, opacity 0.3s ease;
+        }
+
+        .gradus-bar:nth-child(1) { height: 40%; opacity: 0.5; }
+        .gradus-bar:nth-child(2) { height: 65%; opacity: 0.75; }
+        .gradus-bar:nth-child(3) { height: 90%; opacity: 1; }
+
+        [data-theme="dark"] .gradus-bar:nth-child(1) { height: 90%; opacity: 1; }
+        [data-theme="dark"] .gradus-bar:nth-child(2) { height: 65%; opacity: 0.75; }
+        [data-theme="dark"] .gradus-bar:nth-child(3) { height: 40%; opacity: 0.5; }
+
+        /* Navigation */
+        .header-nav {
+            display: flex;
+            align-items: center;
+            gap: 2.5rem;
+        }
+
+        .header-nav a {
+            font-size: 0.7rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            text-decoration: none;
+            color: var(--text-muted);
+            transition: color 0.3s ease;
+        }
+
+        .header-nav a:hover,
+        .header-nav a.active { color: var(--cyan-accent); }
+
+        /* Dropdown */
+        .nav-dropdown {
+            position: relative;
+        }
+
+        .nav-dropdown-trigger {
+            font-size: 0.7rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: color 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .nav-dropdown-trigger:hover,
+        .nav-dropdown-trigger.active {
+            color: var(--cyan-accent);
+        }
+
+        .nav-dropdown-trigger::after {
+            content: '▾';
+            font-size: 0.6rem;
+            opacity: 0.6;
+        }
+
+        .nav-dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            margin-top: 1rem;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            min-width: 140px;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 100;
+        }
+
+        .nav-dropdown:hover .nav-dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            margin-top: 0.5rem;
+        }
+
+        .nav-dropdown-menu a {
+            display: block;
+            padding: 0.75rem 1rem;
+            font-size: 0.65rem;
+            letter-spacing: 0.15em;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .nav-dropdown-menu a:last-child {
+            border-bottom: none;
+        }
+
+        .nav-dropdown-menu a:hover {
+            background: var(--bg-secondary);
+        }
+
+        .nav-divider {
+            width: 1px;
+            height: 12px;
+            background-color: var(--border-color);
+            transition: background-color 0.4s ease;
+        }
+
+        .theme-toggle {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .toggle-label {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.55rem;
+            letter-spacing: 0.15em;
+            color: var(--text-faint);
+            transition: color 0.3s ease;
+        }
+
+        .toggle-indicator {
+            display: flex;
+            align-items: center;
+            gap: 2px;
+        }
+
+        .toggle-bar {
+            width: 2px;
+            background-color: var(--cyan-accent);
+            border-radius: 1px;
+            transition: height 0.3s ease, opacity 0.3s ease;
+        }
+
+        .toggle-bar:nth-child(1) { height: 8px; opacity: 0.5; }
+        .toggle-bar:nth-child(2) { height: 12px; opacity: 0.75; }
+        .toggle-bar:nth-child(3) { height: 16px; opacity: 1; }
+
+        [data-theme="dark"] .toggle-bar:nth-child(1) { height: 16px; opacity: 1; }
+        [data-theme="dark"] .toggle-bar:nth-child(2) { height: 12px; opacity: 0.75; }
+        [data-theme="dark"] .toggle-bar:nth-child(3) { height: 8px; opacity: 0.5; }
+
+        .theme-toggle:hover .toggle-label { color: var(--cyan-accent); }
+
+        /* Code text */
+        .code-text {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 0.15em;
+            color: var(--text-faint);
+            transition: color 0.4s ease;
+        }
+
+        .code-text.cyan { color: var(--cyan-accent); }
+
+        /* Hero */
+        .hero {
+            text-align: center;
+            padding: 4rem 2rem 3rem;
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: var(--bg-primary);
+            transition: background-color 0.4s ease;
+        }
+
+        .hero h1 {
+            font-family: 'Archivo', sans-serif;
+            font-size: 2.8rem;
+            font-weight: 300;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            margin: 1.5rem 0 0.5rem;
+            transition: color 0.4s ease;
+        }
+
+        .hero .instrumentum {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.75rem;
+            letter-spacing: 0.2em;
+            color: var(--cyan-accent);
+            margin-bottom: 1.5rem;
+        }
+
+        .hero .subtitle {
+            font-size: 0.9rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+            transition: color 0.4s ease;
+        }
+
+        .hero p:not(.code-text):not(.instrumentum):not(.subtitle) {
+            font-size: 1.05rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.8;
+            transition: color 0.4s ease;
+        }
+
+        /* Main content */
+        main {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 2rem 4rem;
+            background-color: var(--bg-primary);
+            transition: background-color 0.4s ease;
+        }
+
+        main section {
+            margin-bottom: 3rem;
+        }
+
+        .section-label {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 0.15em;
+            color: var(--text-faint);
+            text-align: center;
+            margin-bottom: 1.5rem;
+            transition: color 0.4s ease;
+        }
+
+        main h2 {
+            font-family: 'Archivo', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 400;
+            letter-spacing: 0.1em;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+            transition: color 0.4s ease;
+        }
+
+        main p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            transition: color 0.4s ease;
+        }
+
+        main strong {
+            color: var(--text-primary);
+            font-weight: 400;
+            transition: color 0.4s ease;
+        }
+
+        /* Metrics */
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .metric-card {
+            text-align: center;
+            padding: 1.5rem;
+            border: 1px solid var(--border-color);
+            background: var(--bg-card);
+            transition: all 0.4s ease;
+        }
+
+        .metric-card:hover {
+            border-color: var(--cyan-accent);
+        }
+
+        .metric-value {
+            font-family: 'Archivo', sans-serif;
+            font-size: 1.6rem;
+            font-weight: 300;
+            letter-spacing: 0.05em;
+            color: var(--cyan-accent);
+            margin-bottom: 0.5rem;
+        }
+
+        .metric-label {
+            font-size: 0.75rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            transition: color 0.4s ease;
+        }
+
+        /* Video */
+        .video-container {
+            border: 1px solid var(--border-color);
+            background: var(--bg-card);
+            overflow: hidden;
+            transition: all 0.4s ease;
+        }
+
+        .video-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1.25rem;
+            border-bottom: 1px solid var(--border-color);
+            background: var(--bg-secondary);
+            transition: all 0.4s ease;
+        }
+
+        .video-title {
+            font-size: 0.75rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            transition: color 0.4s ease;
+        }
+
+        .video-badge {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.6rem;
+            letter-spacing: 0.1em;
+            color: var(--text-faint);
+            transition: color 0.4s ease;
+        }
+
+        .video-container video {
+            width: 100%;
+            display: block;
+        }
+
+        /* Workflow */
+        .workflow {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .workflow-step {
+            display: flex;
+            gap: 1.25rem;
+            align-items: flex-start;
+            padding: 1.25rem;
+            border: 1px solid var(--border-color);
+            background: var(--bg-card);
+            transition: all 0.4s ease;
+        }
+
+        .workflow-step:hover {
+            border-color: var(--cyan-accent);
+        }
+
+        .step-number {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.8rem;
+            color: var(--cyan-accent);
+            min-width: 1.5rem;
+        }
+
+        .step-content h3 {
+            font-family: 'Archivo', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 400;
+            letter-spacing: 0.08em;
+            margin-bottom: 0.25rem;
+            color: var(--text-primary);
+            transition: color 0.4s ease;
+        }
+
+        .step-content p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin: 0;
+            transition: color 0.4s ease;
+        }
+
+        /* Classified Section */
+        .classified-wrapper {
+            position: relative;
+        }
+
+        .classified-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--bg-primary);
+            backdrop-filter: blur(8px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+            border: 1px solid var(--border-color);
+            transition: all 0.4s ease;
+        }
+
+        .classified-overlay:hover {
+            border-color: var(--cyan-accent);
+        }
+
+        .classified-overlay .classified-label {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.7rem;
+            letter-spacing: 0.2em;
+            color: var(--cyan-accent);
+            margin-bottom: 0.5rem;
+        }
+
+        .classified-overlay .classified-hint {
+            font-size: 0.7rem;
+            color: var(--text-faint);
+            letter-spacing: 0.1em;
+        }
+
+        .classified-wrapper.unlocked .classified-overlay {
+            display: none;
+        }
+
+        /* Architecture */
+        .architecture {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .arch-layer {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 1.25rem;
+            border: 1px solid var(--border-color);
+            background: var(--bg-card);
+            transition: all 0.4s ease;
+        }
+
+        .layer-name {
+            font-family: 'Archivo', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 400;
+            letter-spacing: 0.08em;
+            min-width: 120px;
+            color: var(--text-primary);
+            transition: color 0.4s ease;
+        }
+
+        .layer-tech {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            transition: color 0.4s ease;
+        }
+
+        .layer-tech span {
+            display: inline-block;
+            padding: 0.2rem 0.5rem;
+            margin-right: 0.5rem;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.7rem;
+            border: 1px solid var(--border-color);
+            transition: border-color 0.4s ease;
+        }
+
+        /* Differentiators */
+        .diff-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .diff-card {
+            padding: 1.5rem;
+            border: 1px solid var(--border-color);
+            background: var(--bg-card);
+            transition: all 0.4s ease;
+        }
+
+        .diff-card:hover {
+            border-color: var(--cyan-accent);
+        }
+
+        .diff-card h3 {
+            font-family: 'Archivo', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 400;
+            letter-spacing: 0.08em;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+            transition: color 0.4s ease;
+        }
+
+        .diff-card p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin: 0;
+            line-height: 1.6;
+            transition: color 0.4s ease;
+        }
+
+        /* Downloads */
+        .downloads {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .download-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.25rem;
+            border: 1px solid var(--border-color);
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+        }
+
+        .download-link:hover {
+            border-color: var(--cyan-accent);
+            color: var(--cyan-accent);
+        }
+
+        /* CTA */
+        .cta {
+            text-align: center;
+            padding: 3rem 2rem;
+            border-top: 1px solid var(--border-color);
+            margin-top: 2rem;
+            background-color: var(--bg-primary);
+            transition: all 0.4s ease;
+        }
+
+        .cta p {
+            margin-bottom: 1.5rem;
+            color: var(--text-secondary);
+            transition: color 0.4s ease;
+        }
+
+        .btn-ghost {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            border: 1px solid var(--text-primary);
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 0.7rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            transition: all 0.4s ease;
+            background: transparent;
+        }
+
+        .btn-ghost:hover {
+            background-color: var(--text-primary);
+            color: var(--bg-primary);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            border-top: 1px solid var(--border-color);
+            background-color: var(--bg-primary);
+            transition: all 0.4s ease;
+        }
+
+        footer p {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.6rem;
+            letter-spacing: 0.15em;
+            color: var(--text-faint);
+            transition: color 0.4s ease;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header { padding: 1rem; }
+            .logo { font-size: 1.1rem; }
+            .header-nav { gap: 1.5rem; }
+            .header-nav a { font-size: 0.6rem; }
+            .hero h1 { font-size: 2rem; letter-spacing: 0.15em; }
+            main { padding: 0 1rem 3rem; }
+        }
+    </style>
 </head>
 <body>
-    <p>Redirecting to <a href="protocols/concordia.html">Concordia</a>...</p>
+
+<header>
+    <a href="index.html" class="logo">
+        <span class="logo-grey">Grey</span>
+        <div class="logo-gradus">
+            <div class="gradus-bar"></div>
+            <div class="gradus-bar"></div>
+            <div class="gradus-bar"></div>
+        </div>
+        <span class="logo-stratum">Stratum</span>
+    </a>
+    <nav class="header-nav">
+        <div class="nav-dropdown">
+            <span class="nav-dropdown-trigger active">Protocol</span>
+            <div class="nav-dropdown-menu">
+                <a href="protocol.html" class="active">Concordia</a>
+                <a href="cantara.html">Cantara</a>
+            </div>
+        </div>
+        <a href="index.html#capabilities">Genesis</a>
+        <a href="portal.html">Signal</a>
+        <div class="nav-divider"></div>
+        <div class="theme-toggle" onclick="toggleTheme()">
+            <span class="toggle-label" id="themeLabel">[ LUX ]</span>
+            <div class="toggle-indicator">
+                <div class="toggle-bar"></div>
+                <div class="toggle-bar"></div>
+                <div class="toggle-bar"></div>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<section class="hero">
+    <p class="code-text">[ PROTOCOL 001 ]</p>
+    <h1>Concordia</h1>
+    <p class="instrumentum">Instrumentum: NDA+</p>
+    <p class="subtitle">Automated Document Intelligence for Legal Professionals</p>
+    <p>NDA analysis benchmarked against institutional standards. Gaps identified before they become problems. Review time measured in minutes, not hours.</p>
+</section>
+
+<main>
+    <!-- Metrics -->
+    <section>
+        <p class="section-label">[ PERFORMANCE METRICS ]</p>
+        <div class="metrics">
+            <div class="metric-card">
+                <div class="metric-value">4 hrs → 12 min</div>
+                <div class="metric-label">Review Time</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">43</div>
+                <div class="metric-label">Provision Benchmarks</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">12/12</div>
+                <div class="metric-label">Detection Precision</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- The Problem -->
+    <section>
+        <h2>The Problem</h2>
+        <p>Banks and law firms review thousands of NDAs annually as information recipients in commercial lending transactions. Each review requires experienced attorneys to manually identify gaps, evaluate compliance against institutional standards, and draft remediation language.</p>
+        <p>This process is <strong>time-intensive, inconsistent, and expensive</strong>—consuming 2-4 hours per document while diverting senior legal talent from higher-value work.</p>
+    </section>
+
+    <!-- The Solution -->
+    <section>
+        <h2>The Solution</h2>
+        <p>Concordia NDA+ combines <strong>deterministic rules-based analysis</strong> with <strong>AI-powered enhancement</strong> to deliver institutional-quality document review in minutes. The system encodes decades of legal expertise into structured provision libraries, while AI provides semantic understanding and remediation synthesis.</p>
+    </section>
+
+    <!-- Demo Video -->
+    <section>
+        <p class="section-label">[ SYSTEM PREVIEW ]</p>
+        <div class="video-container">
+            <div class="video-header">
+                <span class="video-title">Concordia — Workflow Demonstration</span>
+                <span class="video-badge">[ PREVIEW BUILD ]</span>
+            </div>
+            <video controls>
+                <source src="concordia-demo.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section>
+        <p class="section-label">[ WORKFLOW ]</p>
+        <h2>How It Works</h2>
+        <div class="workflow">
+            <div class="workflow-step">
+                <div class="step-number">01</div>
+                <div class="step-content">
+                    <h3>Load Document</h3>
+                    <p>Attorney opens .docx file in the Concordia desktop application</p>
+                </div>
+            </div>
+            <div class="workflow-step">
+                <div class="step-number">02</div>
+                <div class="step-content">
+                    <h3>Analyze</h3>
+                    <p>System scans document against provision benchmarks, flags gaps and deviations</p>
+                </div>
+            </div>
+            <div class="workflow-step">
+                <div class="step-number">03</div>
+                <div class="step-content">
+                    <h3>Decide</h3>
+                    <p>Attorney reviews flagged provisions, selects remediation tier for each</p>
+                </div>
+            </div>
+            <div class="workflow-step">
+                <div class="step-number">04</div>
+                <div class="step-content">
+                    <h3>Remediate</h3>
+                    <p>AI generates remediation language based on decision tier and provision context</p>
+                </div>
+            </div>
+            <div class="workflow-step">
+                <div class="step-number">05</div>
+                <div class="step-content">
+                    <h3>Export</h3>
+                    <p>Generate redline with Track Changes or clean version ready for execution</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Architecture (Protected) -->
+    <section>
+        <p class="section-label">[ ARCHITECTURE ]</p>
+        <h2>System Layers</h2>
+        <div class="classified-wrapper" id="archSection">
+            <div class="classified-overlay" onclick="requestAccess('archSection')">
+                <span class="classified-label">[ CLASSIFIED ]</span>
+                <span class="classified-hint">Click to authenticate</span>
+            </div>
+            <div class="architecture">
+                <div class="arch-layer">
+                    <span class="layer-name">Interface</span>
+                    <div class="layer-tech">
+                        <span>Electron</span>
+                        <span>React</span>
+                        <span>Fluent UI</span>
+                    </div>
+                </div>
+                <div class="arch-layer">
+                    <span class="layer-name">Engine</span>
+                    <div class="layer-tech">
+                        <span>Python</span>
+                        <span>FastAPI</span>
+                        <span>YAML Rules</span>
+                    </div>
+                </div>
+                <div class="arch-layer">
+                    <span class="layer-name">Intelligence</span>
+                    <div class="layer-tech">
+                        <span>Azure OpenAI</span>
+                        <span>GPT-4o</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Differentiators -->
+    <section>
+        <p class="section-label">[ DIFFERENTIATION ]</p>
+        <div class="diff-grid">
+            <div class="diff-card">
+                <h3>Hybrid Intelligence</h3>
+                <p>Deterministic rules provide structure; AI provides synthesis. The best of both approaches.</p>
+            </div>
+            <div class="diff-card">
+                <h3>Attorney Authority</h3>
+                <p>AI assists, attorneys decide. Every remediation requires human approval before application.</p>
+            </div>
+            <div class="diff-card">
+                <h3>Institutional Memory</h3>
+                <p>Provision libraries encode decades of legal expertise. The rules are the IP.</p>
+            </div>
+            <div class="diff-card">
+                <h3>Enterprise Ready</h3>
+                <p>Desktop deployment, cloud integration, air-gapped operation capability. Built for institutional requirements.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Documentation (Protected) -->
+    <section>
+        <p class="section-label">[ DOCUMENTATION ]</p>
+        <div class="classified-wrapper" id="docsSection">
+            <div class="classified-overlay" onclick="requestAccess('docsSection')">
+                <span class="classified-label">[ CLASSIFIED ]</span>
+                <span class="classified-hint">Click to authenticate</span>
+            </div>
+            <div class="downloads">
+                <a href="assets/Concordia_NDA_Plus_One_Pager.pdf" class="download-link" target="_blank">
+                    ↓ Executive Summary (PDF)
+                </a>
+                <a href="assets/concordia-architecture.svg" class="download-link" target="_blank">
+                    ↓ Architecture Diagram (SVG)
+                </a>
+            </div>
+        </div>
+    </section>
+</main>
+
+<section class="cta">
+    <p>Ready to transform your document review process?</p>
+    <a href="mailto:mark@greystratum.com?subject=Concordia%20NDA%2B%20Inquiry" class="btn-ghost">Request Access</a>
+</section>
+
+<footer>
+    <p>© 2025 Grey Stratum — All transmissions monitored</p>
+</footer>
+
+<script>
+    // Theme toggle
+    function toggleTheme() {
+        const html = document.documentElement;
+        const label = document.getElementById('themeLabel');
+        if (html.getAttribute('data-theme') === 'dark') {
+            html.setAttribute('data-theme', 'light');
+            label.textContent = '[ LUX ]';
+            localStorage.setItem('theme', 'light');
+        } else {
+            html.setAttribute('data-theme', 'dark');
+            label.textContent = '[ NOX ]';
+            localStorage.setItem('theme', 'dark');
+        }
+    }
+
+    // Initialize theme on load
+    (function() {
+        const saved = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const theme = saved || (prefersDark ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-theme', theme);
+        const label = document.getElementById('themeLabel');
+        if (label) label.textContent = theme === 'dark' ? '[ NOX ]' : '[ LUX ]';
+    })();
+
+    // Classified section access
+    const PASSPHRASE = 'stratum0304';
+
+    function requestAccess(sectionId) {
+        // Check if already authenticated this session
+        if (sessionStorage.getItem('classified_access') === 'granted') {
+            unlockSection(sectionId);
+            return;
+        }
+
+        const input = prompt('[ AUTHENTICATION REQUIRED ]\n\nEnter passphrase:');
+        if (input && input.toLowerCase() === PASSPHRASE) {
+            sessionStorage.setItem('classified_access', 'granted');
+            unlockSection(sectionId);
+            // Unlock all classified sections
+            document.querySelectorAll('.classified-wrapper').forEach(el => {
+                el.classList.add('unlocked');
+            });
+        } else if (input !== null) {
+            alert('[ ACCESS DENIED ]');
+        }
+    }
+
+    function unlockSection(sectionId) {
+        const section = document.getElementById(sectionId);
+        if (section) section.classList.add('unlocked');
+    }
+
+    // Check for existing session access on load
+    (function() {
+        if (sessionStorage.getItem('classified_access') === 'granted') {
+            document.querySelectorAll('.classified-wrapper').forEach(el => {
+                el.classList.add('unlocked');
+            });
+        }
+    })();
+</script>
+
 </body>
 </html>
