@@ -1,513 +1,602 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cantara — Grey Stratum</title>
-  <meta name="description" content="AI-powered music creation. Section-by-section control over the songwriting process.">
-  
-  <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@300;400;500&family=Fira+Code:wght@400;500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
-  
-  <style>
-    :root {
-      --bg-primary: #1A1D21;
-      --bg-secondary: #22272E;
-      --bg-card: #2D333B;
-      --border: #3D444D;
-      --text-primary: #E6EDF3;
-      --text-secondary: #768390;
-      --accent: #5BA4B5;
-      --accent-hover: #4A8A99;
-      --gradus-dark: #4A7C8A;
-      --gradus-mid: #5BA4B5;
-      --gradus-light: #6BB8C9;
-    }
-    
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    
-    body {
-      font-family: 'Inter', system-ui, sans-serif;
-      background-color: var(--bg-primary);
-      color: var(--text-primary);
-      line-height: 1.6;
-      font-weight: 300;
-      min-height: 100vh;
-    }
-    
-    /* Navigation */
-    .nav {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      padding: 1.5rem 2rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: rgba(26, 29, 33, 0.9);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border);
-      z-index: 100;
-    }
-    
-    .nav-brand {
-      font-family: 'Archivo', sans-serif;
-      font-weight: 300;
-      font-size: 0.75rem;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      color: var(--text-secondary);
-      text-decoration: none;
-    }
-    
-    .nav-brand:hover {
-      color: var(--text-primary);
-    }
-    
-    .nav-links {
-      display: flex;
-      gap: 2rem;
-      align-items: center;
-    }
-    
-    .nav-link {
-      font-family: 'Archivo', sans-serif;
-      font-weight: 400;
-      font-size: 0.65rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--text-secondary);
-      text-decoration: none;
-      transition: color 0.2s ease;
-    }
-    
-    .nav-link:hover {
-      color: var(--text-primary);
-    }
-    
-    .nav-link.active {
-      color: var(--accent);
-    }
-    
-    /* Hero Section */
-    .hero {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      padding: 8rem 2rem 4rem;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-    
-    .protocol-badge {
-      font-family: 'Fira Code', monospace;
-      font-size: 0.6875rem;
-      color: var(--accent);
-      letter-spacing: 0.1em;
-      margin-bottom: 1.5rem;
-    }
-    
-    .hero-title {
-      font-family: 'Archivo', sans-serif;
-      font-weight: 300;
-      font-size: clamp(2.5rem, 6vw, 4rem);
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      color: var(--text-primary);
-      margin-bottom: 1.5rem;
-    }
-    
-    .hero-subtitle {
-      font-family: 'Inter', sans-serif;
-      font-weight: 300;
-      font-size: 1.125rem;
-      color: var(--text-secondary);
-      max-width: 600px;
-      margin-bottom: 3rem;
-    }
-    
-    .hero-actions {
-      display: flex;
-      gap: 1rem;
-      flex-wrap: wrap;
-    }
-    
-    /* Bracketed Buttons */
-    .btn-bracket {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 0.875rem 1.5rem;
-      font-family: 'Fira Code', monospace;
-      font-size: 0.6875rem;
-      font-weight: 400;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      text-decoration: none;
-      border: 1px solid var(--accent);
-      border-radius: 6px;
-      background: transparent;
-      color: var(--accent);
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
-    
-    .btn-bracket::before {
-      content: '[';
-      margin-right: 0.5rem;
-    }
-    
-    .btn-bracket::after {
-      content: ']';
-      margin-left: 0.5rem;
-    }
-    
-    .btn-bracket:hover {
-      background: rgba(91, 164, 181, 0.1);
-      box-shadow: 0 0 20px rgba(91, 164, 181, 0.3);
-    }
-    
-    .btn-bracket-primary {
-      background: var(--accent);
-      color: var(--bg-primary);
-    }
-    
-    .btn-bracket-primary:hover {
-      background: var(--accent-hover);
-      box-shadow: 0 0 30px rgba(91, 164, 181, 0.4);
-    }
-    
-    /* Dispatch (animated pulse) */
-    .btn-dispatch {
-      animation: dispatchPulse 3s ease-in-out infinite;
-    }
-    
-    @keyframes dispatchPulse {
-      0%, 100% { box-shadow: 0 0 10px rgba(91, 164, 181, 0.2); }
-      50% { box-shadow: 0 0 30px rgba(91, 164, 181, 0.5); }
-    }
-    
-    /* Instrumentum Section */
-    .instrumentum-section {
-      padding: 4rem 2rem 6rem;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-    
-    .section-label {
-      font-family: 'Fira Code', monospace;
-      font-size: 0.6875rem;
-      color: var(--text-secondary);
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      margin-bottom: 2rem;
-    }
-    
-    .instrumentum-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 1.5rem;
-    }
-    
-    .instrumentum-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 2rem;
-      transition: all 0.2s ease;
-    }
-    
-    .instrumentum-card:hover {
-      border-color: var(--accent);
-      box-shadow: 0 0 0 2px rgba(91, 164, 181, 0.3), 0 4px 12px rgba(0, 0, 0, 0.3);
-    }
-    
-    .card-header {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      margin-bottom: 1rem;
-    }
-    
-    .gradus-mark {
-      display: flex;
-      align-items: flex-end;
-      gap: 3px;
-      height: 24px;
-    }
-    
-    .gradus-bar {
-      width: 4px;
-      border-radius: 9999px;
-      background: linear-gradient(180deg, var(--gradus-light), var(--gradus-dark));
-    }
-    
-    .gradus-bar-1 { height: 40%; }
-    .gradus-bar-2 { height: 65%; }
-    .gradus-bar-3 { height: 90%; }
-    
-    .card-title {
-      font-family: 'Archivo', sans-serif;
-      font-weight: 300;
-      font-size: 1.25rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--text-primary);
-    }
-    
-    .card-description {
-      font-size: 0.9375rem;
-      color: var(--text-secondary);
-      margin-bottom: 1.5rem;
-      line-height: 1.7;
-    }
-    
-    .card-status {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-family: 'Fira Code', monospace;
-      font-size: 0.6875rem;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-    }
-    
-    .status-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-    }
-    
-    .status-active {
-      background: var(--accent);
-      box-shadow: 0 0 8px var(--accent);
-    }
-    
-    .status-pending {
-      background: var(--text-secondary);
-    }
-    
-    /* Capability Section */
-    .capability-section {
-      padding: 4rem 2rem 6rem;
-      background: var(--bg-secondary);
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-    }
-    
-    .capability-content {
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-    
-    .capability-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 2rem;
-      margin-top: 2rem;
-    }
-    
-    .capability-item {
-      padding: 1.5rem 0;
-      border-bottom: 1px solid var(--border);
-    }
-    
-    .capability-number {
-      font-family: 'Fira Code', monospace;
-      font-size: 0.625rem;
-      color: var(--accent);
-      margin-bottom: 0.75rem;
-    }
-    
-    .capability-title {
-      font-family: 'Archivo', sans-serif;
-      font-weight: 400;
-      font-size: 0.875rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--text-primary);
-      margin-bottom: 0.5rem;
-    }
-    
-    .capability-text {
-      font-size: 0.875rem;
-      color: var(--text-secondary);
-      line-height: 1.6;
-    }
-    
-    /* Footer */
-    .footer {
-      padding: 2rem;
-      text-align: center;
-      border-top: 1px solid var(--border);
-    }
-    
-    .footer-text {
-      font-family: 'Inter', sans-serif;
-      font-size: 0.75rem;
-      color: var(--text-secondary);
-    }
-    
-    .footer-tagline {
-      font-family: 'Archivo', sans-serif;
-      font-size: 0.625rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--text-secondary);
-      margin-top: 1rem;
-    }
-    
-    /* Responsive */
-    @media (max-width: 768px) {
-      .nav {
-        padding: 1rem;
-      }
-      
-      .nav-links {
-        gap: 1rem;
-      }
-      
-      .hero {
-        padding: 6rem 1.5rem 3rem;
-      }
-      
-      .hero-title {
-        letter-spacing: 0.15em;
-      }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cantara | Grey Stratum</title>
+    <meta name="description" content="AI-powered music creation with section-by-section control.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@300;400;500&family=Inter:wght@300;400;500&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Light Mode */
+            --bg-primary: #f8f9fa;
+            --bg-card: #ffffff;
+            --text-primary: #1a1a1a;
+            --text-secondary: #4a4f54;
+            --text-muted: #5a6068;
+            --text-faint: #7a818a;
+            --gray-muted: #99ACB0;
+            --border-color: #d8dce0;
+            --cyan-accent: #5BA4B5;
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #1a1d21;
+            --bg-card: #22272e;
+            --text-primary: #e6edf3;
+            --text-secondary: #adbac7;
+            --text-muted: #768390;
+            --text-faint: #636e7b;
+            --border-color: #373e47;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            font-weight: 300;
+            min-height: 100vh;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 1.5rem 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--bg-primary);
+            border-bottom: 1px solid var(--border-color);
+            z-index: 100;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+
+        .nav-brand {
+            font-family: 'Archivo', sans-serif;
+            font-weight: 300;
+            font-size: 0.75rem;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .nav-brand:hover {
+            color: var(--text-primary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            font-family: 'Archivo', sans-serif;
+            font-weight: 400;
+            font-size: 0.7rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--text-primary);
+        }
+
+        /* Dropdown */
+        .nav-dropdown {
+            position: relative;
+        }
+
+        .nav-dropdown-trigger {
+            font-family: 'Archivo', sans-serif;
+            font-weight: 400;
+            font-size: 0.7rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            text-decoration: none;
+            cursor: pointer;
+            background: none;
+            border: none;
+            transition: color 0.2s ease;
+        }
+
+        .nav-dropdown-trigger:hover {
+            color: var(--text-primary);
+        }
+
+        .nav-dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 0.75rem 0;
+            min-width: 180px;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            margin-top: 0;
+        }
+
+        .nav-dropdown:hover .nav-dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            margin-top: 0.5rem;
+        }
+
+        .nav-dropdown-item {
+            display: block;
+            padding: 0.5rem 1.25rem;
+            font-family: 'Archivo', sans-serif;
+            font-size: 0.65rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .nav-dropdown-item:hover {
+            color: var(--cyan-accent);
+            background: rgba(91, 164, 181, 0.1);
+        }
+
+        /* Theme Toggle */
+        .theme-toggle {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 0.1em;
+            color: var(--cyan-accent);
+            background: none;
+            border: 1px solid var(--cyan-accent);
+            padding: 0.4rem 0.75rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .theme-toggle:hover {
+            background: rgba(91, 164, 181, 0.1);
+        }
+
+        /* Hero */
+        .hero {
+            padding: 10rem 3rem 5rem;
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .protocol-badge {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.7rem;
+            color: var(--cyan-accent);
+            letter-spacing: 0.15em;
+            margin-bottom: 2rem;
+        }
+
+        .hero-title {
+            font-family: 'Archivo', sans-serif;
+            font-weight: 300;
+            font-size: 3.5rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--text-primary);
+            margin-bottom: 0.75rem;
+        }
+
+        .hero-instrumentum {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            letter-spacing: 0.1em;
+            margin-bottom: 2rem;
+        }
+
+        .hero-description {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto 3rem;
+            line-height: 1.8;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* Buttons */
+        .btn-bracket {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.875rem 1.75rem;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.7rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            text-decoration: none;
+            border: 1px solid var(--cyan-accent);
+            border-radius: 4px;
+            background: transparent;
+            color: var(--cyan-accent);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-bracket:hover {
+            background: rgba(91, 164, 181, 0.1);
+            box-shadow: 0 0 20px rgba(91, 164, 181, 0.2);
+        }
+
+        .btn-bracket-primary {
+            background: var(--cyan-accent);
+            color: var(--bg-primary);
+        }
+
+        .btn-bracket-primary:hover {
+            background: #4A8A99;
+            box-shadow: 0 0 30px rgba(91, 164, 181, 0.3);
+        }
+
+        /* Sections */
+        .section {
+            padding: 5rem 3rem;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .section-label {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 2.5rem;
+            text-align: center;
+        }
+
+        /* Instrumentum Grid */
+        .instrumentum-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+
+        .instrumentum-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 2rem;
+            transition: all 0.2s ease;
+        }
+
+        .instrumentum-card:hover {
+            border-color: var(--cyan-accent);
+            box-shadow: 0 0 0 1px rgba(91, 164, 181, 0.3);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .gradus-mark {
+            display: flex;
+            align-items: flex-end;
+            gap: 3px;
+            height: 24px;
+        }
+
+        .gradus-bar {
+            width: 4px;
+            border-radius: 9999px;
+            background: linear-gradient(180deg, #6BB8C9, #4A7C8A);
+        }
+
+        .gradus-bar-1 { height: 40%; }
+        .gradus-bar-2 { height: 65%; }
+        .gradus-bar-3 { height: 90%; }
+
+        .card-title {
+            font-family: 'Archivo', sans-serif;
+            font-weight: 300;
+            font-size: 1.25rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--text-primary);
+        }
+
+        .card-description {
+            font-size: 0.9375rem;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            line-height: 1.7;
+        }
+
+        .card-status {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .status-active {
+            background: var(--cyan-accent);
+            box-shadow: 0 0 8px var(--cyan-accent);
+        }
+
+        .status-pending {
+            background: var(--text-muted);
+        }
+
+        /* Capability Grid */
+        .capability-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 2rem;
+        }
+
+        .capability-item {
+            padding: 1.5rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .capability-number {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.65rem;
+            color: var(--cyan-accent);
+            margin-bottom: 0.75rem;
+        }
+
+        .capability-title {
+            font-family: 'Archivo', sans-serif;
+            font-weight: 400;
+            font-size: 0.85rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .capability-text {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* Footer */
+        .footer {
+            padding: 3rem;
+            text-align: center;
+            border-top: 1px solid var(--border-color);
+            margin-top: 4rem;
+        }
+
+        .footer-text {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-tagline {
+            font-family: 'Archivo', sans-serif;
+            font-size: 0.65rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--text-faint);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav {
+                padding: 1rem 1.5rem;
+            }
+            .nav-links {
+                gap: 1.5rem;
+            }
+            .hero {
+                padding: 8rem 1.5rem 4rem;
+            }
+            .hero-title {
+                font-size: 2.5rem;
+                letter-spacing: 0.2em;
+            }
+            .section {
+                padding: 3rem 1.5rem;
+            }
+        }
+    </style>
 </head>
 <body>
-  <!-- Navigation -->
-  <nav class="nav">
-    <a href="../index.html" class="nav-brand">Grey Stratum</a>
-    <div class="nav-links">
-      <a href="../index.html" class="nav-link">Protocol</a>
-      <a href="../portal.html" class="nav-link">Signal</a>
-      <a href="../consultum.html" class="nav-link">Consultum</a>
-    </div>
-  </nav>
-
-  <!-- Hero -->
-  <section class="hero">
-    <div class="protocol-badge">[ PROTOCOL 002 ]</div>
-    <h1 class="hero-title">Cantara</h1>
-    <p class="hero-subtitle">
-      AI-powered music creation with section-by-section control. 
-      Write lyrics, generate melodies, synthesize voices — 
-      craft songs with precision instruments, not black boxes.
-    </p>
-    <div class="hero-actions">
-      <a href="https://songcraft-six.vercel.app" class="btn-bracket btn-bracket-primary btn-dispatch" target="_blank" rel="noopener">
-        Launch Craft
-      </a>
-      <a href="#instrumentum" class="btn-bracket">
-        View Instrumentum
-      </a>
-    </div>
-  </section>
-
-  <!-- Instrumentum -->
-  <section id="instrumentum" class="instrumentum-section">
-    <div class="section-label">[ Instrumentum ]</div>
-    <div class="instrumentum-grid">
-      <!-- Cantara Craft -->
-      <div class="instrumentum-card">
-        <div class="card-header">
-          <div class="gradus-mark">
-            <div class="gradus-bar gradus-bar-1"></div>
-            <div class="gradus-bar gradus-bar-2"></div>
-            <div class="gradus-bar gradus-bar-3"></div>
-          </div>
-          <h3 class="card-title">Craft</h3>
+    <!-- Navigation -->
+    <nav class="nav">
+        <a href="../index.html" class="nav-brand">Grey Stratum</a>
+        <div class="nav-links">
+            <div class="nav-dropdown">
+                <button class="nav-dropdown-trigger">Protocol ▼</button>
+                <div class="nav-dropdown-menu">
+                    <a href="concordia.html" class="nav-dropdown-item">001 Concordia</a>
+                    <a href="cantara.html" class="nav-dropdown-item">002 Cantara</a>
+                    <a href="cadencia.html" class="nav-dropdown-item">003 Cadencia</a>
+                </div>
+            </div>
+            <a href="../portal.html" class="nav-link">Signal</a>
+            <a href="../consultum.html" class="nav-link">Consultum</a>
+            <button class="theme-toggle" onclick="toggleTheme()">[ LUX ]</button>
         </div>
-        <p class="card-description">
-          Full music creation studio. Section-by-section songwriting with AI-powered 
-          lyrics generation, multi-platform music synthesis, and voice integration. 
-          Built for those who want control over every verse, chorus, and bridge.
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="protocol-badge">[ PROTOCOL 002 ]</div>
+        <h1 class="hero-title">Cantara</h1>
+        <p class="hero-instrumentum">Instrumentum: Music+</p>
+        <p class="hero-description">
+            AI-powered music creation with section-by-section control. 
+            Write lyrics, generate melodies, synthesize voices—craft songs 
+            with precision instruments, not black boxes.
         </p>
-        <div class="card-status">
-          <span class="status-dot status-active"></span>
-          <span style="color: var(--accent);">Active</span>
+        <div class="hero-actions">
+            <a href="https://songcraft-six.vercel.app" class="btn-bracket btn-bracket-primary" target="_blank" rel="noopener">
+                [ Launch Craft ]
+            </a>
+            <a href="cantara-console.html" class="btn-bracket">
+                [ Launch TTS ]
+            </a>
         </div>
-      </div>
-      
-      <!-- Cantara TTS -->
-      <div class="instrumentum-card">
-        <div class="card-header">
-          <div class="gradus-mark">
-            <div class="gradus-bar gradus-bar-1"></div>
-            <div class="gradus-bar gradus-bar-2"></div>
-            <div class="gradus-bar gradus-bar-3"></div>
-          </div>
-          <h3 class="card-title">TTS</h3>
-        </div>
-        <p class="card-description">
-          Neural voice synthesis. Access hundreds of premium voices across 
-          languages and styles. Convert text to natural speech with precise 
-          control over tone, pace, and emotional delivery.
-        </p>
-        <div class="card-status">
-          <span class="status-dot status-pending"></span>
-          <span style="color: var(--text-secondary);">Pending</span>
-        </div>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- Capabilities -->
-  <section class="capability-section">
-    <div class="capability-content">
-      <div class="section-label">[ Capability Matrix ]</div>
-      <div class="capability-grid">
-        <div class="capability-item">
-          <div class="capability-number">001</div>
-          <h4 class="capability-title">Section Control</h4>
-          <p class="capability-text">
-            Build songs piece by piece. Craft each intro, verse, chorus, bridge, 
-            and outro independently. Keep lyrics while regenerating music, or vice versa.
-          </p>
+    <!-- Instrumentum -->
+    <section class="section">
+        <div class="section-label">[ Instrumentum ]</div>
+        <div class="instrumentum-grid">
+            <div class="instrumentum-card">
+                <div class="card-header">
+                    <div class="gradus-mark">
+                        <div class="gradus-bar gradus-bar-1"></div>
+                        <div class="gradus-bar gradus-bar-2"></div>
+                        <div class="gradus-bar gradus-bar-3"></div>
+                    </div>
+                    <h3 class="card-title">Craft</h3>
+                </div>
+                <p class="card-description">
+                    Full music creation studio. Section-by-section songwriting with AI-powered 
+                    lyrics generation, multi-platform music synthesis, and voice integration. 
+                    Built for those who want control over every verse, chorus, and bridge.
+                </p>
+                <div class="card-status">
+                    <span class="status-dot status-active"></span>
+                    <span style="color: var(--cyan-accent);">Active</span>
+                </div>
+            </div>
+            
+            <div class="instrumentum-card">
+                <div class="card-header">
+                    <div class="gradus-mark">
+                        <div class="gradus-bar gradus-bar-1"></div>
+                        <div class="gradus-bar gradus-bar-2"></div>
+                        <div class="gradus-bar gradus-bar-3"></div>
+                    </div>
+                    <h3 class="card-title">TTS</h3>
+                </div>
+                <p class="card-description">
+                    Neural voice synthesis. Access hundreds of premium voices across 
+                    languages and styles. Convert text to natural speech with precise 
+                    control over tone, pace, and emotional delivery.
+                </p>
+                <div class="card-status">
+                    <span class="status-dot status-active"></span>
+                    <span style="color: var(--cyan-accent);">Active</span>
+                </div>
+            </div>
         </div>
-        <div class="capability-item">
-          <div class="capability-number">002</div>
-          <h4 class="capability-title">AI Collaboration</h4>
-          <p class="capability-text">
-            Claude as creative partner. Generate lyrics from prompts, refine 
-            existing lines, or ask for suggestions on arrangement and structure.
-          </p>
-        </div>
-        <div class="capability-item">
-          <div class="capability-number">003</div>
-          <h4 class="capability-title">Multi-Platform Synthesis</h4>
-          <p class="capability-text">
-            Generate music through Suno and Udio integration. Compare variations, 
-            select favorites, iterate until perfect.
-          </p>
-        </div>
-        <div class="capability-item">
-          <div class="capability-number">004</div>
-          <h4 class="capability-title">Voice Integration</h4>
-          <p class="capability-text">
-            Azure Neural Voices for speech synthesis. Hundreds of voices, 
-            dozens of languages. Premium quality, enterprise infrastructure.
-          </p>
-        </div>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- Footer -->
-  <footer class="footer">
-    <p class="footer-text">© 2025 Grey Stratum — Precision instruments for the meticulous</p>
-    <p class="footer-tagline">Real expertise. Unreal intelligence.™</p>
-  </footer>
+    <!-- Capabilities -->
+    <section class="section">
+        <div class="section-label">[ Capability Matrix ]</div>
+        <div class="capability-grid">
+            <div class="capability-item">
+                <div class="capability-number">001</div>
+                <h4 class="capability-title">Section Control</h4>
+                <p class="capability-text">
+                    Build songs piece by piece. Craft each intro, verse, chorus, bridge, 
+                    and outro independently. Keep lyrics while regenerating music, or vice versa.
+                </p>
+            </div>
+            <div class="capability-item">
+                <div class="capability-number">002</div>
+                <h4 class="capability-title">AI Collaboration</h4>
+                <p class="capability-text">
+                    Claude as creative partner. Generate lyrics from prompts, refine 
+                    existing lines, or ask for suggestions on arrangement and structure.
+                </p>
+            </div>
+            <div class="capability-item">
+                <div class="capability-number">003</div>
+                <h4 class="capability-title">Multi-Platform Synthesis</h4>
+                <p class="capability-text">
+                    Generate music through Suno and Udio integration. Compare variations, 
+                    select favorites, iterate until perfect.
+                </p>
+            </div>
+            <div class="capability-item">
+                <div class="capability-number">004</div>
+                <h4 class="capability-title">Voice Integration</h4>
+                <p class="capability-text">
+                    Azure Neural Voices for speech synthesis. Hundreds of voices, 
+                    dozens of languages. Premium quality, enterprise infrastructure.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p class="footer-text">© 2025 Grey Stratum — Precision instruments for the meticulous</p>
+        <p class="footer-tagline">Real expertise. Unreal intelligence.™</p>
+    </footer>
+
+    <script>
+        function toggleTheme() {
+            const html = document.documentElement;
+            const btn = document.querySelector('.theme-toggle');
+            if (html.getAttribute('data-theme') === 'dark') {
+                html.setAttribute('data-theme', 'light');
+                btn.textContent = '[ NOX ]';
+                localStorage.setItem('theme', 'light');
+            } else {
+                html.setAttribute('data-theme', 'dark');
+                btn.textContent = '[ LUX ]';
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        // Load saved theme
+        document.addEventListener('DOMContentLoaded', () => {
+            const saved = localStorage.getItem('theme');
+            const btn = document.querySelector('.theme-toggle');
+            if (saved === 'light') {
+                document.documentElement.setAttribute('data-theme', 'light');
+                btn.textContent = '[ NOX ]';
+            }
+        });
+    </script>
 </body>
 </html>
