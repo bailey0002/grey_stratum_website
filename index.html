@@ -390,36 +390,20 @@
             margin-bottom: 1.5rem;
         }
 
-        /* Hero Video - Atmospheric Background */
+        /* Hero Particle Field */
         .hero {
             position: relative;
             overflow: hidden;
         }
 
-        .hero-visual {
+        .hero-particles {
             position: absolute;
-            top: 38%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             pointer-events: none;
             z-index: 0;
-        }
-
-        .hero-visual video {
-            width: 680px;
-            height: auto;
-            opacity: 0.15;
-        }
-        
-        @media (max-width: 768px) {
-            .hero-visual video {
-                width: 420px;
-            }
-        }
-
-        [data-theme="dark"] .hero-visual video {
-            opacity: 0.25;
-            mix-blend-mode: screen;
         }
 
         .hero h1,
@@ -816,12 +800,7 @@
 </nav>
 
 <section class="hero">
-    <div class="hero-visual">
-        <video autoplay muted loop playsinline poster="assets/Welcome.jpg">
-            <source src="assets/Welcome.webm" type="video/webm">
-            <source src="assets/Welcome.mp4" type="video/mp4">
-        </video>
-    </div>
+    <canvas class="hero-particles" id="particleCanvas"></canvas>
     <h1 class="fade-in">Real expertise. Unreal intelligence.™</h1>
     <p class="fade-in fade-in-delay-1">Precision instruments for those who read between the lines. Built for the meticulous. Invisible to the rest.</p>
     <a href="#" class="btn-ghost fade-in fade-in-delay-2">Request Access</a>
@@ -983,6 +962,117 @@
             closeModal();
         }
     });
+
+    // Particle Field
+    (function() {
+        const canvas = document.getElementById('particleCanvas');
+        if (!canvas) return;
+        
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        let animationId;
+        
+        const config = {
+            particleCount: 40,
+            minSize: 1,
+            maxSize: 2.5,
+            minSpeed: 0.15,
+            maxSpeed: 0.4,
+            opacity: 0.3
+        };
+        
+        function isDarkMode() {
+            return document.documentElement.getAttribute('data-theme') === 'dark';
+        }
+        
+        function getParticleColor() {
+            if (isDarkMode()) {
+                return 'rgba(91, 164, 181, '; // cyan accent
+            } else {
+                return 'rgba(90, 96, 104, '; // muted gray
+            }
+        }
+        
+        function resize() {
+            const hero = canvas.parentElement;
+            canvas.width = hero.offsetWidth;
+            canvas.height = hero.offsetHeight;
+        }
+        
+        function createParticle() {
+            return {
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                size: config.minSize + Math.random() * (config.maxSize - config.minSize),
+                speedX: (Math.random() - 0.5) * config.maxSpeed,
+                speedY: (Math.random() - 0.5) * config.maxSpeed,
+                opacity: (0.1 + Math.random() * config.opacity),
+                pulse: Math.random() * Math.PI * 2,
+                pulseSpeed: 0.01 + Math.random() * 0.02
+            };
+        }
+        
+        function init() {
+            resize();
+            particles = [];
+            for (let i = 0; i < config.particleCount; i++) {
+                particles.push(createParticle());
+            }
+        }
+        
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            const colorBase = getParticleColor();
+            
+            particles.forEach(p => {
+                // Update position
+                p.x += p.speedX;
+                p.y += p.speedY;
+                
+                // Wrap around edges
+                if (p.x < 0) p.x = canvas.width;
+                if (p.x > canvas.width) p.x = 0;
+                if (p.y < 0) p.y = canvas.height;
+                if (p.y > canvas.height) p.y = 0;
+                
+                // Pulse opacity
+                p.pulse += p.pulseSpeed;
+                const pulseOpacity = p.opacity * (0.5 + 0.5 * Math.sin(p.pulse));
+                
+                // Draw particle
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fillStyle = colorBase + pulseOpacity + ')';
+                ctx.fill();
+            });
+            
+            animationId = requestAnimationFrame(animate);
+        }
+        
+        // Initialize
+        init();
+        animate();
+        
+        // Handle resize
+        window.addEventListener('resize', function() {
+            resize();
+        });
+        
+        // Respect reduced motion preference
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            cancelAnimationFrame(animationId);
+            // Draw static particles once
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            const colorBase = getParticleColor();
+            particles.forEach(p => {
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fillStyle = colorBase + p.opacity + ')';
+                ctx.fill();
+            });
+        }
+    })();
 </script>
 
 </body>
