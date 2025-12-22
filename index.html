@@ -398,7 +398,7 @@
 
         .hero-visual {
             position: absolute;
-            top: 50%;
+            top: 45%;
             left: 50%;
             transform: translate(-50%, -50%);
             pointer-events: none;
@@ -406,9 +406,15 @@
         }
 
         .hero-visual video {
-            width: 500px;
+            width: 680px;
             height: auto;
             opacity: 0.15;
+        }
+        
+        @media (max-width: 768px) {
+            .hero-visual video {
+                width: 420px;
+            }
         }
 
         [data-theme="dark"] .hero-visual video {
