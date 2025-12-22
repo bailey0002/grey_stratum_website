@@ -8,17 +8,12 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <title>Grey Stratum</title>
 
-        <link rel="icon" type="image/png" href="/my-favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/my-favicon/favicon-96x96.png" sizes="96x96">
     <link rel="icon" type="image/svg+xml" href="/my-favicon/favicon.svg">
     <link rel="shortcut icon" href="/my-favicon/favicon.ico">
     <link rel="apple-touch-icon" sizes="180x180" href="/my-favicon/apple-touch-icon.png">
     <link rel="manifest" href="/my-favicon/site.webmanifest">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="icon" type="image/png" href="/my-favicon/favicon-96x96.png" sizes="96x96">
-    <link rel="icon" type="image/svg+xml" href="/my-favicon/favicon.svg">
-    <link rel="shortcut icon" href="/my-favicon/favicon.ico">
-    <link rel="apple-touch-icon" sizes="180x180" href="/my-favicon/apple-touch-icon.png">
-    <link rel="manifest" href="/my-favicon/site.webmanifest">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Archivo:wght@300;400;500&family=Fira+Code:wght@400&display=swap" rel="stylesheet">
 
@@ -395,6 +390,19 @@
             margin-bottom: 1.5rem;
         }
 
+        /* Hero Video */
+        .hero-visual {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-visual video {
+            width: 100%;
+            max-width: 320px;
+            height: auto;
+        }
+
         .hero h1 {
             font-family: 'Archivo', sans-serif;
             font-size: 2.4rem;
@@ -709,6 +717,10 @@
             header {
                 padding: 1.5rem 1rem;
             }
+
+            .hero-visual video {
+                max-width: 240px;
+            }
         }
 
         /* iOS Safe Areas */
@@ -782,7 +794,12 @@
 </nav>
 
 <section class="hero">
-    <p class="code-text hero-tag fade-in">[ GREY STRATUM ]</p>
+    <div class="hero-visual fade-in">
+        <video autoplay muted loop playsinline poster="assets/Welcome.jpg">
+            <source src="assets/Welcome.webm" type="video/webm">
+            <source src="assets/Welcome.mp4" type="video/mp4">
+        </video>
+    </div>
     <h1 class="fade-in fade-in-delay-1">Real expertise. Unreal intelligence.™</h1>
     <p class="fade-in fade-in-delay-2">Precision instruments for those who read between the lines. Built for the meticulous. Invisible to the rest.</p>
     <a href="#" class="btn-ghost fade-in fade-in-delay-3">Request Access</a>
