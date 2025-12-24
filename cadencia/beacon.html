@@ -6,164 +6,261 @@
     <meta name="color-scheme" content="light dark">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <title>Beacon | Cadencia | Grey Stratum</title>
-    <link rel="icon" type="image/png" href="/my-favicon/favicon-96x96.png" sizes="96x96">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&family=Inter:wght@300;400;500&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@300;400;500&family=Fira+Code:wght@400;500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
     <style>
         :root, [data-theme="light"] {
-            --bg-primary: #FAFAF8;
-            --bg-secondary: #F5F0E6;
+            --bg-primary: #f8f9fa;
+            --bg-secondary: #F0F2F4;
             --bg-card: #FFFFFF;
-            --bg-scripture: #F5F0E6;
-            --bg-prayer: #F0F4F8;
-            --text-primary: #333333;
-            --text-secondary: #666666;
-            --text-muted: #888888;
-            --navy-primary: #1E3A5F;
-            --navy-secondary: #2E5984;
-            --gold-accent: #D4A853;
-            --gold-light: rgba(212, 168, 83, 0.15);
-            --success: #2E7D32;
-            --border: #E0DCD4;
-            --border-light: #EBE7DF;
+            --bg-elevated: #F8F9FA;
+            --bg-scripture: #F5F2F3;
+            --bg-prayer: #F0F4F6;
+            --text-primary: #1a1a1a;
+            --text-secondary: #4a4f54;
+            --text-muted: #5a6068;
+            --text-faint: #7a818a;
+            --accent: #CAA9B1;
+            --accent-hover: #B8949C;
+            --accent-glow: rgba(202, 169, 177, 0.3);
+            --accent-light: rgba(202, 169, 177, 0.15);
+            --cyan-accent: #5BA4B5;
+            --cyan-glow: rgba(91, 164, 181, 0.3);
+            --success: #4CAF50;
+            --border: #d8dce0;
+            --border-light: #e8ebed;
             --shadow: 0 2px 8px rgba(0,0,0,0.08);
             --shadow-lg: 0 4px 16px rgba(0,0,0,0.12);
+            --shadow-glow: 0 0 0 2px rgba(202, 169, 177, 0.25);
         }
         [data-theme="dark"] {
             --bg-primary: #1A1D21;
             --bg-secondary: #22272E;
             --bg-card: #2D333B;
-            --bg-scripture: #2A2520;
+            --bg-elevated: #363D47;
+            --bg-scripture: #2A2528;
             --bg-prayer: #1E2530;
             --text-primary: #E6EDF3;
             --text-secondary: #ADBAC7;
             --text-muted: #768390;
-            --navy-primary: #5BA4B5;
-            --navy-secondary: #7BBFCE;
-            --gold-accent: #D4A853;
-            --gold-light: rgba(212, 168, 83, 0.1);
+            --text-faint: #636e7b;
+            --accent: #CAA9B1;
+            --accent-hover: #D4B8BF;
+            --accent-glow: rgba(202, 169, 177, 0.3);
+            --accent-light: rgba(202, 169, 177, 0.1);
+            --cyan-accent: #5BA4B5;
+            --cyan-glow: rgba(91, 164, 181, 0.3);
             --success: #4CAF50;
             --border: #3D444D;
             --border-light: #444C56;
             --shadow: 0 2px 8px rgba(0,0,0,0.3);
             --shadow-lg: 0 4px 16px rgba(0,0,0,0.4);
+            --shadow-glow: 0 0 0 2px rgba(202, 169, 177, 0.2);
         }
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
         html { font-size: 16px; background: var(--bg-primary); scroll-behavior: smooth; }
         body { font-family: 'Inter', -apple-system, sans-serif; font-weight: 300; background: var(--bg-primary); color: var(--text-primary); min-height: 100vh; line-height: 1.7; -webkit-font-smoothing: antialiased; transition: background-color 0.3s ease, color 0.3s ease; }
         .app-container { max-width: 520px; margin: 0 auto; min-height: 100vh; background: var(--bg-primary); }
-        .header { background: var(--navy-primary); color: white; padding: 1.25rem 1.5rem; position: sticky; top: 0; z-index: 100; }
-        .header-content { display: flex; align-items: center; justify-content: space-between; }
+        
+        /* Header - Praxia style */
+        .header { background: var(--bg-secondary); padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; }
+        .header-content { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; flex-wrap: wrap; }
         .logo { display: flex; align-items: center; gap: 0.75rem; }
-        .logo-icon { width: 36px; height: 36px; background: var(--gold-accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Merriweather', Georgia, serif; font-size: 1.25rem; font-weight: 700; color: var(--navy-primary); }
+        
+        /* Gradus logo element */
+        .logo-gradus { display: flex; align-items: center; gap: 3px; height: 1.5rem; }
+        .gradus-bar { width: 3px; background-color: var(--accent); border-radius: 1.5px; transition: height 0.3s ease, opacity 0.3s ease; }
+        .gradus-bar:nth-child(1) { height: 40%; opacity: 0.5; }
+        .gradus-bar:nth-child(2) { height: 65%; opacity: 0.75; }
+        .gradus-bar:nth-child(3) { height: 90%; opacity: 1; }
+        [data-theme="dark"] .gradus-bar:nth-child(1) { height: 90%; opacity: 1; }
+        [data-theme="dark"] .gradus-bar:nth-child(2) { height: 65%; opacity: 0.75; }
+        [data-theme="dark"] .gradus-bar:nth-child(3) { height: 40%; opacity: 0.5; }
+        
+        @keyframes gradusIlluminate { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
+        .logo-gradus.animated .gradus-bar:nth-child(1) { animation: gradusIlluminate 2.4s ease-in-out infinite 0s; }
+        .logo-gradus.animated .gradus-bar:nth-child(2) { animation: gradusIlluminate 2.4s ease-in-out infinite 0.15s; }
+        .logo-gradus.animated .gradus-bar:nth-child(3) { animation: gradusIlluminate 2.4s ease-in-out infinite 0.3s; }
+        
         .logo-text { display: flex; flex-direction: column; }
-        .logo-title { font-family: 'Merriweather', Georgia, serif; font-size: 1.25rem; font-weight: 400; letter-spacing: 0.05em; }
-        .logo-protocol { font-family: 'Fira Code', monospace; font-size: 0.625rem; letter-spacing: 0.1em; opacity: 0.7; }
-        .theme-toggle { background: rgba(255,255,255,0.1); border: none; padding: 0.5rem; border-radius: 6px; cursor: pointer; color: white; font-size: 1rem; }
-        .theme-toggle:hover { background: rgba(255,255,255,0.2); }
+        .logo-title { font-family: 'Archivo', sans-serif; font-size: 1.25rem; font-weight: 300; letter-spacing: 0.25em; text-transform: uppercase; color: var(--text-primary); }
+        .logo-protocol { font-family: 'Fira Code', monospace; font-size: 0.625rem; letter-spacing: 0.15em; color: var(--text-muted); }
+        
+        /* Theme toggle - Praxia style */
+        .theme-toggle { display: flex; align-items: center; gap: 0.5rem; cursor: pointer; padding: 0.5rem; }
+        .theme-label { font-family: 'Fira Code', monospace; font-size: 0.5625rem; letter-spacing: 0.15em; color: var(--text-muted); }
+        .theme-indicator { display: flex; align-items: center; gap: 2px; }
+        .theme-indicator .gradus-bar { width: 2px; background: var(--accent); border-radius: 1px; }
+        .theme-indicator .gradus-bar:nth-child(1) { height: 6px; opacity: 0.5; }
+        .theme-indicator .gradus-bar:nth-child(2) { height: 10px; opacity: 0.75; }
+        .theme-indicator .gradus-bar:nth-child(3) { height: 14px; opacity: 1; }
+        [data-theme="dark"] .theme-indicator .gradus-bar:nth-child(1) { height: 14px; opacity: 1; }
+        [data-theme="dark"] .theme-indicator .gradus-bar:nth-child(2) { height: 10px; opacity: 0.75; }
+        [data-theme="dark"] .theme-indicator .gradus-bar:nth-child(3) { height: 6px; opacity: 0.5; }
+        
         .main-content { padding: 1.5rem; padding-bottom: 100px; }
         .view { display: none; animation: fadeIn 0.3s ease; }
         .view.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
-        .page-title { font-family: 'Merriweather', Georgia, serif; font-size: 1.75rem; font-weight: 400; color: var(--navy-primary); margin-bottom: 0.25rem; line-height: 1.3; }
-        .page-subtitle { font-size: 1rem; color: var(--text-secondary); margin-bottom: 1.5rem; font-weight: 300; }
-        .section-label { font-family: 'Fira Code', monospace; font-size: 0.6875rem; letter-spacing: 0.15em; color: var(--gold-accent); text-transform: uppercase; margin-bottom: 0.5rem; }
-        .card { background: var(--bg-card); border-radius: 12px; padding: 1.25rem; box-shadow: var(--shadow); margin-bottom: 1rem; border: 1px solid var(--border-light); transition: all 0.2s ease; }
-        .card:hover { box-shadow: var(--shadow-lg); }
-        .card-title { font-family: 'Merriweather', Georgia, serif; font-size: 1rem; font-weight: 400; color: var(--text-primary); margin-bottom: 0.25rem; }
-        .card-subtitle { font-size: 0.875rem; color: var(--text-secondary); font-weight: 300; }
-        .week-card { background: linear-gradient(135deg, var(--navy-primary) 0%, var(--navy-secondary) 100%); color: white; border-radius: 16px; padding: 1.5rem; margin-bottom: 1.5rem; cursor: pointer; transition: transform 0.2s ease; }
-        .week-card:hover { transform: translateY(-2px); }
+        
+        /* Typography - Grey Stratum style */
+        .page-title { font-family: 'Archivo', sans-serif; font-size: 1.5rem; font-weight: 300; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-primary); margin-bottom: 0.25rem; line-height: 1.3; }
+        .page-subtitle { font-size: 0.9375rem; color: var(--text-secondary); margin-bottom: 1.5rem; font-weight: 300; }
+        .section-label { font-family: 'Fira Code', monospace; font-size: 0.6875rem; letter-spacing: 0.15em; color: var(--cyan-accent); text-transform: uppercase; margin-bottom: 0.5rem; }
+        
+        /* Cards */
+        .card { background: var(--bg-card); border-radius: 8px; padding: 1.25rem; box-shadow: var(--shadow); margin-bottom: 1rem; border: 1px solid var(--border-light); transition: all 0.2s ease; }
+        .card:hover { box-shadow: var(--shadow-glow), var(--shadow); }
+        .card-title { font-family: 'Archivo', sans-serif; font-size: 0.875rem; font-weight: 400; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-primary); margin-bottom: 0.25rem; }
+        .card-subtitle { font-size: 0.8125rem; color: var(--text-secondary); font-weight: 300; }
+        
+        /* Week Card */
+        .week-card { background: var(--accent); color: var(--bg-primary); border-radius: 8px; padding: 1.5rem; margin-bottom: 1.5rem; cursor: pointer; transition: all 0.2s ease; border: 1px solid var(--accent); }
+        .week-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
         .week-card:active { transform: scale(0.98); }
-        .week-card-label { font-family: 'Fira Code', monospace; font-size: 0.6875rem; letter-spacing: 0.15em; opacity: 0.8; margin-bottom: 0.5rem; }
-        .week-card-title { font-family: 'Merriweather', Georgia, serif; font-size: 1.5rem; font-weight: 400; margin-bottom: 0.25rem; }
-        .week-card-theme { font-size: 0.9375rem; opacity: 0.9; font-weight: 300; }
+        .week-card-label { font-family: 'Fira Code', monospace; font-size: 0.6875rem; letter-spacing: 0.15em; opacity: 0.8; margin-bottom: 0.5rem; text-transform: uppercase; }
+        .week-card-title { font-family: 'Archivo', sans-serif; font-size: 1.25rem; font-weight: 300; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.25rem; }
+        .week-card-theme { font-size: 0.875rem; opacity: 0.9; font-weight: 300; }
         .week-card-progress { display: flex; gap: 0.5rem; margin-top: 1rem; }
-        .progress-dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.3); transition: all 0.2s ease; }
-        .progress-dot.complete { background: var(--gold-accent); }
-        .progress-dot.current { background: white; box-shadow: 0 0 0 3px rgba(255,255,255,0.3); }
+        .progress-dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(26, 29, 33, 0.3); transition: all 0.2s ease; }
+        .progress-dot.complete { background: var(--cyan-accent); }
+        .progress-dot.current { background: var(--bg-primary); box-shadow: 0 0 0 3px rgba(255,255,255,0.3); }
+        
+        /* Stats */
         .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; margin-bottom: 1.5rem; }
-        .stat-card { background: var(--bg-card); border-radius: 12px; padding: 1rem; text-align: center; border: 1px solid var(--border-light); }
-        .stat-value { font-family: 'Merriweather', Georgia, serif; font-size: 1.75rem; font-weight: 400; color: var(--navy-primary); }
+        .stat-card { background: var(--bg-card); border-radius: 8px; padding: 1rem; text-align: center; border: 1px solid var(--border-light); }
+        .stat-value { font-family: 'Archivo', sans-serif; font-size: 1.75rem; font-weight: 300; color: var(--accent); }
         .stat-label { font-family: 'Fira Code', monospace; font-size: 0.625rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 0.25rem; }
+        
+        /* Calendar */
         .calendar-grid { display: grid; grid-template-columns: repeat(8, 1fr); gap: 6px; margin: 1rem 0; }
-        .calendar-week { aspect-ratio: 1; border-radius: 6px; background: var(--bg-secondary); border: 1px solid var(--border-light); display: flex; align-items: center; justify-content: center; font-family: 'Fira Code', monospace; font-size: 0.625rem; color: var(--text-muted); cursor: pointer; transition: all 0.2s ease; }
-        .calendar-week:hover { border-color: var(--navy-primary); }
-        .calendar-week.complete { background: var(--navy-primary); color: white; border-color: var(--navy-primary); }
-        .calendar-week.current { border-color: var(--gold-accent); box-shadow: 0 0 0 2px var(--gold-light); }
-        .day-tabs { display: flex; gap: 0.25rem; background: var(--bg-secondary); padding: 4px; border-radius: 10px; margin-bottom: 1.5rem; overflow-x: auto; }
-        .day-tab { flex: 1; min-width: 50px; padding: 0.625rem 0.5rem; border: none; background: transparent; font-family: 'Fira Code', monospace; font-size: 0.6rem; letter-spacing: 0.05em; color: var(--text-muted); cursor: pointer; border-radius: 8px; transition: all 0.2s ease; text-align: center; }
+        .calendar-week { aspect-ratio: 1; border-radius: 4px; background: var(--bg-secondary); border: 1px solid var(--border-light); display: flex; align-items: center; justify-content: center; font-family: 'Fira Code', monospace; font-size: 0.625rem; color: var(--text-muted); cursor: pointer; transition: all 0.2s ease; }
+        .calendar-week:hover { border-color: var(--accent); }
+        .calendar-week.complete { background: var(--accent); color: var(--bg-primary); border-color: var(--accent); }
+        .calendar-week.current { border-color: var(--cyan-accent); box-shadow: 0 0 0 2px var(--cyan-glow); }
+        
+        /* Day tabs */
+        .day-tabs { display: flex; gap: 0.25rem; background: var(--bg-secondary); padding: 4px; border-radius: 6px; margin-bottom: 1.5rem; overflow-x: auto; }
+        .day-tab { flex: 1; min-width: 50px; padding: 0.625rem 0.5rem; border: none; background: transparent; font-family: 'Fira Code', monospace; font-size: 0.6rem; letter-spacing: 0.05em; color: var(--text-muted); cursor: pointer; border-radius: 4px; transition: all 0.2s ease; text-align: center; text-transform: uppercase; }
         .day-tab:hover { color: var(--text-primary); }
-        .day-tab.active { background: var(--bg-card); color: var(--navy-primary); box-shadow: var(--shadow); }
+        .day-tab.active { background: var(--bg-card); color: var(--accent); box-shadow: var(--shadow); }
         .day-tab.complete { color: var(--success); }
-        .scripture-block { background: var(--bg-scripture); border-radius: 12px; padding: 1.5rem; margin: 1rem 0; border-left: 4px solid var(--gold-accent); }
-        .scripture-ref { font-family: 'Fira Code', monospace; font-size: 0.75rem; color: var(--gold-accent); margin-bottom: 0.75rem; letter-spacing: 0.05em; }
-        .scripture-text { font-family: 'Merriweather', Georgia, serif; font-size: 1rem; font-style: italic; line-height: 1.8; color: var(--text-primary); }
+        
+        /* Scripture block */
+        .scripture-block { background: var(--bg-scripture); border-radius: 8px; padding: 1.5rem; margin: 1rem 0; border-left: 3px solid var(--cyan-accent); }
+        .scripture-ref { font-family: 'Fira Code', monospace; font-size: 0.75rem; color: var(--cyan-accent); margin-bottom: 0.75rem; letter-spacing: 0.05em; }
+        .scripture-text { font-family: 'Inter', sans-serif; font-size: 0.9375rem; font-style: italic; line-height: 1.8; color: var(--text-primary); font-weight: 300; }
         .scripture-version { font-family: 'Fira Code', monospace; font-size: 0.625rem; color: var(--text-muted); margin-top: 0.75rem; text-align: right; }
-        .devotional-text { font-size: 1rem; line-height: 1.8; color: var(--text-secondary); margin: 1rem 0; }
+        
+        /* Devotional */
+        .devotional-text { font-size: 0.9375rem; line-height: 1.8; color: var(--text-secondary); margin: 1rem 0; font-weight: 300; }
         .devotional-text p { margin-bottom: 1rem; }
+        
+        /* Prompts */
         .prompts-list { margin: 1rem 0; }
-        .prompt-item { background: var(--bg-card); border-radius: 10px; padding: 1rem; margin-bottom: 0.75rem; border: 1px solid var(--border-light); }
-        .prompt-number { font-family: 'Fira Code', monospace; font-size: 0.625rem; color: var(--gold-accent); margin-bottom: 0.5rem; }
-        .prompt-text { font-size: 0.9375rem; color: var(--text-primary); line-height: 1.6; }
+        .prompt-item { background: var(--bg-card); border-radius: 8px; padding: 1rem; margin-bottom: 0.75rem; border: 1px solid var(--border-light); }
+        .prompt-number { font-family: 'Fira Code', monospace; font-size: 0.625rem; color: var(--cyan-accent); margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.1em; }
+        .prompt-text { font-size: 0.875rem; color: var(--text-primary); line-height: 1.6; font-weight: 300; }
+        
+        /* Journal */
         .journal-entry { margin-top: 0.75rem; }
-        .journal-textarea { width: 100%; min-height: 80px; padding: 0.875rem; border: 1px solid var(--border); border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 0.9375rem; line-height: 1.6; color: var(--text-primary); background: var(--bg-primary); resize: vertical; }
-        .journal-textarea:focus { outline: none; border-color: var(--navy-primary); }
+        .journal-textarea { width: 100%; min-height: 80px; padding: 0.875rem; border: 1px solid var(--border); border-radius: 4px; font-family: 'Inter', sans-serif; font-size: 0.875rem; line-height: 1.6; color: var(--text-primary); background: var(--bg-primary); resize: vertical; font-weight: 300; }
+        .journal-textarea:focus { outline: none; border-color: var(--accent); box-shadow: var(--shadow-glow); }
         .journal-saved { font-family: 'Fira Code', monospace; font-size: 0.625rem; color: var(--success); margin-top: 0.5rem; opacity: 0; transition: opacity 0.3s ease; }
         .journal-saved.visible { opacity: 1; }
-        .prayer-block { background: var(--bg-prayer); border-radius: 12px; padding: 1.5rem; margin: 1rem 0; }
-        .prayer-label { font-family: 'Fira Code', monospace; font-size: 0.6875rem; color: var(--navy-primary); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 0.75rem; }
-        .prayer-text { font-family: 'Merriweather', Georgia, serif; font-size: 1rem; font-style: italic; line-height: 1.8; color: var(--text-primary); }
-        .challenge-block { background: var(--gold-light); border-radius: 12px; padding: 1.5rem; margin: 1rem 0; border: 1px solid var(--gold-accent); }
-        .challenge-title { font-family: 'Merriweather', Georgia, serif; font-size: 1.125rem; font-weight: 400; color: var(--text-primary); margin-bottom: 0.75rem; }
+        
+        /* Prayer block */
+        .prayer-block { background: var(--bg-prayer); border-radius: 8px; padding: 1.5rem; margin: 1rem 0; }
+        .prayer-label { font-family: 'Fira Code', monospace; font-size: 0.6875rem; color: var(--accent); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 0.75rem; }
+        .prayer-text { font-family: 'Inter', sans-serif; font-size: 0.9375rem; font-style: italic; line-height: 1.8; color: var(--text-primary); font-weight: 300; }
+        
+        /* Challenge block */
+        .challenge-block { background: var(--accent-light); border-radius: 8px; padding: 1.5rem; margin: 1rem 0; border: 1px solid var(--accent); }
+        .challenge-title { font-family: 'Archivo', sans-serif; font-size: 1rem; font-weight: 400; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-primary); margin-bottom: 0.75rem; }
         .challenge-steps { list-style: none; margin: 0.75rem 0; }
-        .challenge-steps li { position: relative; padding-left: 1.5rem; margin-bottom: 0.75rem; font-size: 0.9375rem; line-height: 1.6; color: var(--text-secondary); }
-        .challenge-steps li::before { content: '→'; position: absolute; left: 0; color: var(--gold-accent); }
-        .couple-study { background: var(--bg-secondary); border-radius: 12px; padding: 1.5rem; margin: 1rem 0; }
-        .couple-study-title { font-family: 'Merriweather', Georgia, serif; font-size: 1.125rem; color: var(--navy-primary); margin-bottom: 0.75rem; }
-        .couple-study-text { font-size: 0.9375rem; line-height: 1.7; color: var(--text-secondary); }
-        .btn { display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; padding: 0.875rem 1.5rem; border: none; border-radius: 8px; font-family: 'Fira Code', monospace; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; transition: all 0.2s ease; }
+        .challenge-steps li { position: relative; padding-left: 1.5rem; margin-bottom: 0.75rem; font-size: 0.875rem; line-height: 1.6; color: var(--text-secondary); font-weight: 300; }
+        .challenge-steps li::before { content: '→'; position: absolute; left: 0; color: var(--cyan-accent); }
+        
+        /* Couple study */
+        .couple-study { background: var(--bg-secondary); border-radius: 8px; padding: 1.5rem; margin: 1rem 0; }
+        .couple-study-title { font-family: 'Archivo', sans-serif; font-size: 0.875rem; font-weight: 400; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.75rem; }
+        .couple-study-text { font-size: 0.875rem; line-height: 1.7; color: var(--text-secondary); font-weight: 300; }
+        
+        /* Buttons */
+        .btn { display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; padding: 0.875rem 1.5rem; border: 1px solid transparent; border-radius: 6px; font-family: 'Fira Code', monospace; font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; cursor: pointer; transition: all 0.2s ease; }
         .btn:active { transform: scale(0.96); }
-        .btn-primary { background: var(--navy-primary); color: white; }
-        .btn-primary:hover { background: var(--navy-secondary); }
+        .btn-primary { background: var(--accent); color: var(--bg-primary); border-color: var(--accent); }
+        .btn-primary:hover { background: var(--accent-hover); box-shadow: var(--shadow-glow); }
         .btn-success { background: var(--success); color: white; }
         .btn-block { width: 100%; }
         .btn-lg { padding: 1rem 2rem; font-size: 0.8125rem; }
-        .back-btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 0; background: none; border: none; color: var(--navy-primary); font-family: 'Fira Code', monospace; font-size: 0.6875rem; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; margin-bottom: 1rem; }
-        .couple-card { background: var(--bg-card); border-radius: 12px; padding: 1.25rem; margin-bottom: 1.5rem; border: 1px solid var(--border-light); display: flex; align-items: center; gap: 1rem; }
+        
+        /* Back button */
+        .back-btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 0; background: none; border: none; color: var(--accent); font-family: 'Fira Code', monospace; font-size: 0.6875rem; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; margin-bottom: 1rem; }
+        
+        /* Couple card */
+        .couple-card { background: var(--bg-card); border-radius: 8px; padding: 1.25rem; margin-bottom: 1.5rem; border: 1px solid var(--border-light); display: flex; align-items: center; gap: 1rem; }
         .couple-avatars { display: flex; }
-        .avatar { width: 44px; height: 44px; border-radius: 50%; background: var(--navy-primary); color: white; display: flex; align-items: center; justify-content: center; font-family: 'Merriweather', Georgia, serif; font-size: 1rem; font-weight: 400; border: 3px solid var(--bg-card); }
-        .avatar:nth-child(2) { margin-left: -12px; background: var(--gold-accent); color: var(--navy-primary); }
+        .avatar { width: 44px; height: 44px; border-radius: 50%; background: var(--accent); color: var(--bg-primary); display: flex; align-items: center; justify-content: center; font-family: 'Archivo', sans-serif; font-size: 1rem; font-weight: 400; border: 3px solid var(--bg-card); }
+        .avatar:nth-child(2) { margin-left: -12px; background: var(--cyan-accent); color: var(--bg-primary); }
         .couple-info { flex: 1; }
-        .couple-names { font-family: 'Merriweather', Georgia, serif; font-size: 1rem; color: var(--text-primary); }
+        .couple-names { font-family: 'Archivo', sans-serif; font-size: 0.875rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-primary); }
         .couple-status { font-family: 'Fira Code', monospace; font-size: 0.625rem; color: var(--text-muted); letter-spacing: 0.1em; }
-        .bottom-nav { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 520px; background: var(--bg-card); border-top: 1px solid var(--border); display: flex; justify-content: space-around; padding: 0.75rem 0; padding-bottom: calc(0.75rem + env(safe-area-inset-bottom, 0)); z-index: 100; }
-        .nav-item { display: flex; flex-direction: column; align-items: center; gap: 0.25rem; padding: 0.5rem 1rem; background: none; border: none; color: var(--text-muted); font-family: 'Fira Code', monospace; font-size: 0.5625rem; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; border-radius: 8px; }
-        .nav-item:hover, .nav-item.active { color: var(--navy-primary); }
-        .nav-icon { font-size: 1.25rem; }
-        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); display: none; align-items: center; justify-content: center; z-index: 200; padding: 1.5rem; }
+        
+        /* Bottom nav - Praxia style with gradus icons */
+        .bottom-nav { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 520px; background: var(--bg-secondary); border-top: 1px solid var(--border); display: flex; justify-content: space-around; padding: 0.75rem 0; padding-bottom: calc(0.75rem + env(safe-area-inset-bottom, 0)); z-index: 100; }
+        .nav-item { display: flex; flex-direction: column; align-items: center; gap: 0.25rem; padding: 0.5rem 1rem; background: none; border: none; color: var(--text-muted); font-family: 'Fira Code', monospace; font-size: 0.5625rem; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; border-radius: 6px; }
+        .nav-item .nav-icon { display: flex; align-items: center; gap: 2px; height: 20px; }
+        .nav-item .nav-icon .gradus-bar { width: 2px; background: currentColor; border-radius: 1px; }
+        .nav-item .nav-icon .gradus-bar:nth-child(1) { height: 6px; }
+        .nav-item .nav-icon .gradus-bar:nth-child(2) { height: 10px; }
+        .nav-item .nav-icon .gradus-bar:nth-child(3) { height: 14px; }
+        .nav-item:hover, .nav-item.active { color: var(--accent); }
+        
+        /* Modal */
+        .modal-overlay { position: fixed; inset: 0; background: rgba(26, 29, 33, 0.85); backdrop-filter: blur(4px); display: none; align-items: center; justify-content: center; z-index: 200; padding: 1.5rem; }
         .modal-overlay.active { display: flex; }
-        .modal { background: var(--bg-card); border-radius: 16px; padding: 2rem; width: 100%; max-width: 320px; box-shadow: var(--shadow-lg); text-align: center; }
-        .modal-icon { width: 64px; height: 64px; background: var(--gold-light); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; font-size: 2rem; }
-        .modal-title { font-family: 'Merriweather', Georgia, serif; font-size: 1.25rem; color: var(--text-primary); margin-bottom: 0.5rem; }
-        .modal-message { font-size: 0.9375rem; color: var(--text-secondary); margin-bottom: 1.5rem; line-height: 1.6; }
+        .modal { background: var(--bg-card); border-radius: 8px; padding: 2rem; width: 100%; max-width: 320px; box-shadow: var(--shadow-lg); text-align: center; border: 1px solid var(--border); }
+        .modal-icon { display: flex; justify-content: center; margin-bottom: 1rem; }
+        .modal-icon .gradus-confirm { display: flex; align-items: center; gap: 4px; height: 48px; }
+        .modal-icon .gradus-confirm .gradus-bar { width: 4px; background: var(--success); border-radius: 2px; }
+        .modal-icon .gradus-confirm .gradus-bar:nth-child(1) { height: 16px; }
+        .modal-icon .gradus-confirm .gradus-bar:nth-child(2) { height: 28px; }
+        .modal-icon .gradus-confirm .gradus-bar:nth-child(3) { height: 40px; }
+        .modal-title { font-family: 'Archivo', sans-serif; font-size: 1.25rem; font-weight: 300; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-primary); margin-bottom: 0.5rem; }
+        .modal-message { font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 1.5rem; line-height: 1.6; font-weight: 300; }
+        
+        /* Setup screen */
         .setup-container { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2rem; text-align: center; }
-        .setup-logo { width: 80px; height: 80px; background: var(--navy-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem; }
-        .setup-logo-text { font-family: 'Merriweather', Georgia, serif; font-size: 2.5rem; font-weight: 700; color: var(--gold-accent); }
-        .setup-title { font-family: 'Merriweather', Georgia, serif; font-size: 2rem; color: var(--navy-primary); margin-bottom: 0.5rem; }
-        .setup-subtitle { font-size: 1rem; color: var(--text-secondary); margin-bottom: 2rem; max-width: 300px; }
+        .setup-gradus { display: flex; align-items: center; gap: 6px; height: 80px; margin-bottom: 1.5rem; }
+        .setup-gradus .gradus-bar { width: 6px; background: var(--accent); border-radius: 3px; }
+        .setup-gradus .gradus-bar:nth-child(1) { height: 32px; opacity: 0.5; }
+        .setup-gradus .gradus-bar:nth-child(2) { height: 52px; opacity: 0.75; }
+        .setup-gradus .gradus-bar:nth-child(3) { height: 72px; opacity: 1; }
+        .setup-title { font-family: 'Archivo', sans-serif; font-size: 2rem; font-weight: 300; letter-spacing: 0.3em; text-transform: uppercase; color: var(--text-primary); margin-bottom: 0.5rem; }
+        .setup-subtitle { font-size: 0.9375rem; color: var(--text-secondary); margin-bottom: 2rem; max-width: 300px; font-weight: 300; }
         .form-group { width: 100%; max-width: 300px; margin-bottom: 1rem; text-align: left; }
         .form-label { display: block; font-family: 'Fira Code', monospace; font-size: 0.6875rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-secondary); margin-bottom: 0.5rem; }
-        .form-input { width: 100%; padding: 0.875rem 1rem; border: 1px solid var(--border); border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 1rem; color: var(--text-primary); background: var(--bg-card); }
-        .form-input:focus { outline: none; border-color: var(--navy-primary); }
+        .form-input { width: 100%; padding: 0.875rem 1rem; border: 1px solid var(--border); border-radius: 4px; font-family: 'Inter', sans-serif; font-size: 0.9375rem; color: var(--text-primary); background: var(--bg-card); font-weight: 300; }
+        .form-input:focus { outline: none; border-color: var(--accent); box-shadow: var(--shadow-glow); }
         .mt-lg { margin-top: 1.5rem; }
+        .setup-protocol { font-family: 'Fira Code', monospace; font-size: 0.625rem; letter-spacing: 0.15em; color: var(--text-muted); margin-top: 1.5rem; }
+        
+        @media (max-width: 380px) { 
+            .header-content { flex-wrap: wrap; justify-content: center; gap: 0.5rem; } 
+            .theme-label { display: none; } 
+        }
     </style>
 </head>
 <body>
     <div class="app-container">
         <div id="setup-screen" class="setup-container">
-            <div class="setup-logo"><span class="setup-logo-text">B</span></div>
+            <div class="setup-gradus">
+                <div class="gradus-bar"></div>
+                <div class="gradus-bar"></div>
+                <div class="gradus-bar"></div>
+            </div>
             <h1 class="setup-title">Beacon</h1>
             <p class="setup-subtitle">A 52-week Bible study journey for married couples. Enter your names to begin.</p>
             <div class="form-group">
@@ -174,21 +271,32 @@
                 <label class="form-label">Partner 2</label>
                 <input type="text" class="form-input" id="partner2-name" placeholder="First name">
             </div>
-            <button class="btn btn-primary btn-lg btn-block mt-lg" onclick="startJourney()">Begin Journey</button>
-            <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 1.5rem;"><em>Cadencia Protocol 003 · Grey Stratum</em></p>
+            <button class="btn btn-primary btn-lg btn-block mt-lg" onclick="startJourney()">[ Begin Journey ]</button>
+            <p class="setup-protocol">[ Cadencia · Protocol 003 · Grey Stratum ]</p>
         </div>
         
         <div id="main-app" style="display: none;">
             <header class="header">
                 <div class="header-content">
                     <div class="logo">
-                        <div class="logo-icon">B</div>
+                        <div class="logo-gradus animated">
+                            <div class="gradus-bar"></div>
+                            <div class="gradus-bar"></div>
+                            <div class="gradus-bar"></div>
+                        </div>
                         <div class="logo-text">
                             <span class="logo-title">Beacon</span>
                             <span class="logo-protocol">[ Cadencia ]</span>
                         </div>
                     </div>
-                    <button class="theme-toggle" onclick="toggleTheme()" id="themeToggle">☀️</button>
+                    <div class="theme-toggle" onclick="toggleTheme()" title="Toggle theme">
+                        <span class="theme-label" id="themeLabel">[ LUX ]</span>
+                        <div class="theme-indicator">
+                            <div class="gradus-bar"></div>
+                            <div class="gradus-bar"></div>
+                            <div class="gradus-bar"></div>
+                        </div>
+                    </div>
                 </div>
             </header>
             
@@ -218,22 +326,22 @@
                         <div class="stat-card"><div class="stat-value">8</div><div class="stat-label">Pilot</div></div>
                     </div>
                     
-                    <div class="section-label">Journey Progress</div>
+                    <div class="section-label">[ Journey Progress ]</div>
                     <div class="calendar-grid" id="calendar-grid"></div>
                 </section>
                 
                 <section id="view-week" class="view">
-                    <button class="back-btn" onclick="showView('view-dashboard'); updateDashboard();">← Dashboard</button>
+                    <button class="back-btn" onclick="showView('view-dashboard'); updateDashboard();">← Revert</button>
                     <div class="section-label">WEEK <span id="week-view-num">1</span></div>
                     <h1 class="page-title" id="week-view-title">God's Design for Marriage</h1>
                     <p class="page-subtitle" id="week-view-theme">Understanding Marriage as Divine Institution</p>
                     <div class="day-tabs" id="day-tabs"></div>
                     <div id="day-content"></div>
-                    <button class="btn btn-success btn-block btn-lg mt-lg" id="complete-day-btn" onclick="completeDay()">Mark Day Complete</button>
+                    <button class="btn btn-success btn-block btn-lg mt-lg" id="complete-day-btn" onclick="completeDay()">[ Mark Day Complete ]</button>
                 </section>
                 
                 <section id="view-progress" class="view">
-                    <h1 class="page-title">Journey Progress</h1>
+                    <h1 class="page-title">Progressio</h1>
                     <p class="page-subtitle">Your path through the 8-week pilot</p>
                     <div class="stats-grid">
                         <div class="stat-card"><div class="stat-value" id="prog-streak">0</div><div class="stat-label">Streak</div></div>
@@ -245,17 +353,37 @@
             </main>
             
             <nav class="bottom-nav">
-                <button class="nav-item active" onclick="navigateTo('dashboard')"><span class="nav-icon">🏠</span><span>Home</span></button>
-                <button class="nav-item" onclick="navigateTo('progress')"><span class="nav-icon">📊</span><span>Progress</span></button>
+                <button class="nav-item active" onclick="navigateTo('dashboard')">
+                    <div class="nav-icon">
+                        <div class="gradus-bar"></div>
+                        <div class="gradus-bar"></div>
+                        <div class="gradus-bar"></div>
+                    </div>
+                    <span>Home</span>
+                </button>
+                <button class="nav-item" onclick="navigateTo('progress')">
+                    <div class="nav-icon">
+                        <div class="gradus-bar"></div>
+                        <div class="gradus-bar"></div>
+                        <div class="gradus-bar"></div>
+                    </div>
+                    <span>Progressio</span>
+                </button>
             </nav>
         </div>
         
         <div class="modal-overlay" id="modal-complete">
             <div class="modal">
-                <div class="modal-icon">✨</div>
-                <h3 class="modal-title" id="modal-title">Day Complete!</h3>
+                <div class="modal-icon">
+                    <div class="gradus-confirm">
+                        <div class="gradus-bar"></div>
+                        <div class="gradus-bar"></div>
+                        <div class="gradus-bar"></div>
+                    </div>
+                </div>
+                <h3 class="modal-title" id="modal-title">Confirmed</h3>
                 <p class="modal-message" id="modal-message">Great work continuing your journey together.</p>
-                <button class="btn btn-primary" onclick="hideModal()">Continue</button>
+                <button class="btn btn-primary" onclick="hideModal()">[ Dismiss ]</button>
             </div>
         </div>
     </div>
@@ -269,7 +397,13 @@ function loadData(){try{const r=localStorage.getItem(STORAGE_KEY);return r?{...D
 function saveData(d){localStorage.setItem(STORAGE_KEY,JSON.stringify(d));}
 let data=loadData();
 
-function applyTheme(t){document.documentElement.setAttribute('data-theme',t);document.getElementById('themeToggle').textContent=t==='dark'?'🌙':'☀️';data.theme=t;saveData(data);}
+function applyTheme(t){
+    document.documentElement.setAttribute('data-theme',t);
+    const label=document.getElementById('themeLabel');
+    if(label) label.textContent=t==='dark'?'[ NOX ]':'[ LUX ]';
+    data.theme=t;
+    saveData(data);
+}
 function toggleTheme(){applyTheme(document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark');}
 function showView(id){document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));document.getElementById(id)?.classList.add('active');}
 function setActiveNav(k){document.querySelectorAll('.bottom-nav .nav-item').forEach(b=>b.classList.remove('active'));if(k==='dashboard')document.querySelector('.bottom-nav .nav-item:nth-child(1)')?.classList.add('active');if(k==='progress')document.querySelector('.bottom-nav .nav-item:nth-child(2)')?.classList.add('active');}
@@ -282,10 +416,10 @@ function renderCalendar(){const grid=document.getElementById('calendar-grid');gr
 function openWeek(){showView('view-week');renderWeekView();}
 function renderWeekView(){const week=WEEKS[data.currentWeek-1];document.getElementById('week-view-num').textContent=week.week;document.getElementById('week-view-title').textContent=week.title;document.getElementById('week-view-theme').textContent=week.theme;renderDayTabs();renderDayContent();updateCompleteButton();}
 function renderDayTabs(){const container=document.getElementById('day-tabs');container.innerHTML='';const week=WEEKS[data.currentWeek-1];const weekProgress=data.progress[week.week]||{days:[]};const dayLabels=[{day:1,label:'Day 1'},{day:2,label:'Day 2'},{day:3,label:'Day 3'},{day:4,label:'Day 4'},{day:5,label:'Days 5-6'},{day:7,label:'Day 7'}];dayLabels.forEach(({day,label})=>{const tab=document.createElement('button');tab.className='day-tab';tab.textContent=label;if(day===data.currentDay)tab.classList.add('active');if(weekProgress.days.includes(day))tab.classList.add('complete');tab.onclick=()=>{data.currentDay=day;saveData(data);renderDayTabs();renderDayContent();updateCompleteButton();};container.appendChild(tab);});}
-function renderDayContent(){const container=document.getElementById('day-content');const week=WEEKS[data.currentWeek-1];const dayData=week.days[data.currentDay];if(!dayData){container.innerHTML='<p>No content for this day.</p>';return;}let html=`<h2 class="card-title" style="margin-bottom:1rem;">${dayData.title}</h2>`;if(dayData.scriptureRef){html+=`<div class="scripture-block"><div class="scripture-ref">${dayData.scriptureRef}</div><div class="scripture-text">${dayData.scriptureText}</div><div class="scripture-version">— ESV</div></div>`;}if(dayData.devotional){html+=`<div class="devotional-text">${dayData.devotional}</div>`;}if(dayData.coupleStudy){html+=`<div class="couple-study"><div class="couple-study-title">Biblical Couple: ${week.couple}</div><div class="couple-study-text">${dayData.coupleStudy}</div></div>`;}if(dayData.prompts){html+=`<div class="section-label" style="margin-top:1.5rem;">Journal Prompts</div><div class="prompts-list">`;dayData.prompts.forEach((prompt,i)=>{const journalKey=`${week.week}-${data.currentDay}-${i}`;const savedEntry=data.journals[journalKey]||'';html+=`<div class="prompt-item"><div class="prompt-number">PROMPT ${i+1}</div><div class="prompt-text">${prompt}</div><div class="journal-entry"><textarea class="journal-textarea" placeholder="Write your thoughts..." data-key="${journalKey}" onchange="saveJournal(this)">${savedEntry}</textarea><div class="journal-saved" id="saved-${journalKey}">Saved</div></div></div>`;});html+=`</div>`;}if(dayData.challengeTitle){html+=`<div class="challenge-block"><div class="section-label">Practical Challenge</div><h3 class="challenge-title">${dayData.challengeTitle}</h3><p class="devotional-text">${dayData.challengeDesc}</p><ul class="challenge-steps">${dayData.challengeSteps.map(step=>`<li>${step}</li>`).join('')}</ul></div>`;}if(dayData.reflectionQuestions){html+=`<div class="section-label" style="margin-top:1.5rem;">Reflection Questions</div><div class="prompts-list">`;dayData.reflectionQuestions.forEach((q,i)=>{html+=`<div class="prompt-item"><div class="prompt-number">QUESTION ${i+1}</div><div class="prompt-text">${q}</div></div>`;});html+=`</div>`;}if(dayData.prayer){html+=`<div class="prayer-block"><div class="prayer-label">Guided Couple Prayer</div><div class="prayer-text">${dayData.prayer}</div></div>`;}container.innerHTML=html;}
+function renderDayContent(){const container=document.getElementById('day-content');const week=WEEKS[data.currentWeek-1];const dayData=week.days[data.currentDay];if(!dayData){container.innerHTML='<p>No content for this day.</p>';return;}let html=`<h2 class="card-title" style="margin-bottom:1rem;">${dayData.title}</h2>`;if(dayData.scriptureRef){html+=`<div class="scripture-block"><div class="scripture-ref">${dayData.scriptureRef}</div><div class="scripture-text">${dayData.scriptureText}</div><div class="scripture-version">— ESV</div></div>`;}if(dayData.devotional){html+=`<div class="devotional-text">${dayData.devotional}</div>`;}if(dayData.coupleStudy){html+=`<div class="couple-study"><div class="couple-study-title">Biblical Couple: ${week.couple}</div><div class="couple-study-text">${dayData.coupleStudy}</div></div>`;}if(dayData.prompts){html+=`<div class="section-label" style="margin-top:1.5rem;">[ Journal Prompts ]</div><div class="prompts-list">`;dayData.prompts.forEach((prompt,i)=>{const journalKey=`${week.week}-${data.currentDay}-${i}`;const savedEntry=data.journals[journalKey]||'';html+=`<div class="prompt-item"><div class="prompt-number">PROMPT ${i+1}</div><div class="prompt-text">${prompt}</div><div class="journal-entry"><textarea class="journal-textarea" placeholder="Write your thoughts..." data-key="${journalKey}" onchange="saveJournal(this)">${savedEntry}</textarea><div class="journal-saved" id="saved-${journalKey}">Saved</div></div></div>`;});html+=`</div>`;}if(dayData.challengeTitle){html+=`<div class="challenge-block"><div class="section-label">[ Practical Challenge ]</div><h3 class="challenge-title">${dayData.challengeTitle}</h3><p class="devotional-text">${dayData.challengeDesc}</p><ul class="challenge-steps">${dayData.challengeSteps.map(step=>`<li>${step}</li>`).join('')}</ul></div>`;}if(dayData.reflectionQuestions){html+=`<div class="section-label" style="margin-top:1.5rem;">[ Reflection Questions ]</div><div class="prompts-list">`;dayData.reflectionQuestions.forEach((q,i)=>{html+=`<div class="prompt-item"><div class="prompt-number">QUESTION ${i+1}</div><div class="prompt-text">${q}</div></div>`;});html+=`</div>`;}if(dayData.prayer){html+=`<div class="prayer-block"><div class="prayer-label">[ Guided Couple Prayer ]</div><div class="prayer-text">${dayData.prayer}</div></div>`;}container.innerHTML=html;}
 function saveJournal(textarea){const key=textarea.dataset.key;data.journals[key]=textarea.value;saveData(data);const indicator=document.getElementById(`saved-${key}`);if(indicator){indicator.classList.add('visible');setTimeout(()=>indicator.classList.remove('visible'),2000);}}
-function updateCompleteButton(){const btn=document.getElementById('complete-day-btn');const week=WEEKS[data.currentWeek-1];const weekProgress=data.progress[week.week]||{days:[]};if(weekProgress.days.includes(data.currentDay)){btn.textContent='✓ Day Complete';btn.disabled=true;btn.style.opacity='0.6';}else{btn.textContent='Mark Day Complete';btn.disabled=false;btn.style.opacity='1';}}
-function completeDay(){const week=WEEKS[data.currentWeek-1];if(!data.progress[week.week]){data.progress[week.week]={days:[],complete:false};}if(!data.progress[week.week].days.includes(data.currentDay)){data.progress[week.week].days.push(data.currentDay);}const allDays=[1,2,3,4,5,7];const isWeekComplete=allDays.every(d=>data.progress[week.week].days.includes(d));if(isWeekComplete){data.progress[week.week].complete=true;if(data.currentWeek<8){showModal('Week Complete! 🎉',`Congratulations! You've completed Week ${week.week}. Ready to begin Week ${week.week+1}?`);data.currentWeek++;data.currentDay=1;}else{showModal('Pilot Complete! 🎉',`Amazing! You've completed all 8 weeks of Beacon. May God continue to bless your marriage!`);}}else{const dayOrder=[1,2,3,4,5,7];const currentIdx=dayOrder.indexOf(data.currentDay);if(currentIdx<dayOrder.length-1){data.currentDay=dayOrder[currentIdx+1];}showModal('Day Complete!','Great work continuing your journey together.');}saveData(data);renderWeekView();updateDashboard();}
+function updateCompleteButton(){const btn=document.getElementById('complete-day-btn');const week=WEEKS[data.currentWeek-1];const weekProgress=data.progress[week.week]||{days:[]};if(weekProgress.days.includes(data.currentDay)){btn.textContent='[ ✓ Day Complete ]';btn.disabled=true;btn.style.opacity='0.6';}else{btn.textContent='[ Mark Day Complete ]';btn.disabled=false;btn.style.opacity='1';}}
+function completeDay(){const week=WEEKS[data.currentWeek-1];if(!data.progress[week.week]){data.progress[week.week]={days:[],complete:false};}if(!data.progress[week.week].days.includes(data.currentDay)){data.progress[week.week].days.push(data.currentDay);}const allDays=[1,2,3,4,5,7];const isWeekComplete=allDays.every(d=>data.progress[week.week].days.includes(d));if(isWeekComplete){data.progress[week.week].complete=true;if(data.currentWeek<8){showModal('Week Complete',`Congratulations! You've completed Week ${week.week}. Ready to begin Week ${week.week+1}?`);data.currentWeek++;data.currentDay=1;}else{showModal('Pilot Complete',`Amazing! You've completed all 8 weeks of Beacon. May God continue to bless your marriage!`);}}else{const dayOrder=[1,2,3,4,5,7];const currentIdx=dayOrder.indexOf(data.currentDay);if(currentIdx<dayOrder.length-1){data.currentDay=dayOrder[currentIdx+1];}showModal('Confirmed','Great work continuing your journey together.');}saveData(data);renderWeekView();updateDashboard();}
 function updateProgressView(){const completedWeeks=Object.values(data.progress).filter(p=>p.complete).length;const totalDays=Object.values(data.progress).reduce((sum,p)=>sum+(p.days?.length||0),0);document.getElementById('prog-streak').textContent=calculateStreak();document.getElementById('prog-weeks').textContent=completedWeeks;document.getElementById('prog-days').textContent=totalDays;const list=document.getElementById('progress-weeks-list');list.innerHTML='';WEEKS.forEach(week=>{const progress=data.progress[week.week]||{days:[],complete:false};const dayCount=progress.days?.length||0;const item=document.createElement('div');item.className='prompt-item';item.style.cursor='pointer';item.innerHTML=`<div style="display:flex;justify-content:space-between;align-items:center;"><div><div class="prompt-number">WEEK ${week.week}</div><div class="prompt-text" style="font-size:0.875rem;">${week.title}</div></div><div style="text-align:right;"><div style="font-size:0.875rem;color:${progress.complete?'var(--success)':'var(--text-muted)'};">${progress.complete?'✓ Complete':`${dayCount}/6 days`}</div></div></div>`;item.onclick=()=>{data.currentWeek=week.week;data.currentDay=1;saveData(data);openWeek();};list.appendChild(item);});}
 function showModal(title,message){document.getElementById('modal-title').textContent=title;document.getElementById('modal-message').textContent=message;document.getElementById('modal-complete').classList.add('active');}
 function hideModal(){document.getElementById('modal-complete').classList.remove('active');}
