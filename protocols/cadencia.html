@@ -18,14 +18,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Archivo:wght@300;400;500&family=Fira+Code:wght@400&display=swap" rel="stylesheet">
 
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         :root {
-            /* Light Mode */
             --bg-primary: #f8f9fa;
             --bg-card: #ffffff;
             --text-primary: #1a1a1a;
@@ -35,6 +30,7 @@
             --gray-muted: #99ACB0;
             --border-color: #d8dce0;
             --cyan-accent: #5BA4B5;
+            --gold-accent: #D4A853;
             --error-color: #c53030;
         }
 
@@ -49,9 +45,7 @@
             --error-color: #fc8181;
         }
 
-        html {
-            background-color: var(--bg-primary);
-        }
+        html { background-color: var(--bg-primary); }
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -63,7 +57,6 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        /* Navigation - Cantara Style */
         .nav {
             position: fixed;
             top: 0;
@@ -90,15 +83,9 @@
             transition: color 0.2s ease;
         }
 
-        .nav-brand:hover {
-            color: var(--text-primary);
-        }
+        .nav-brand:hover { color: var(--text-primary); }
 
-        .nav-links {
-            display: flex;
-            gap: 2.5rem;
-            align-items: center;
-        }
+        .nav-links { display: flex; gap: 2.5rem; align-items: center; }
 
         .nav-link {
             font-family: 'Archivo', sans-serif;
@@ -111,14 +98,9 @@
             transition: color 0.2s ease;
         }
 
-        .nav-link:hover {
-            color: var(--text-primary);
-        }
+        .nav-link:hover { color: var(--text-primary); }
 
-        /* Dropdown */
-        .nav-dropdown {
-            position: relative;
-        }
+        .nav-dropdown { position: relative; }
 
         .nav-dropdown-trigger {
             font-family: 'Archivo', sans-serif;
@@ -127,16 +109,13 @@
             letter-spacing: 0.15em;
             text-transform: uppercase;
             color: var(--text-muted);
-            text-decoration: none;
             cursor: pointer;
             background: none;
             border: none;
             transition: color 0.2s ease;
         }
 
-        .nav-dropdown-trigger:hover {
-            color: var(--text-primary);
-        }
+        .nav-dropdown-trigger:hover { color: var(--text-primary); }
 
         .nav-dropdown-menu {
             position: absolute;
@@ -177,7 +156,6 @@
             background: rgba(91, 164, 181, 0.1);
         }
 
-        /* Theme Toggle */
         .theme-toggle {
             font-family: 'Fira Code', monospace;
             font-size: 0.65rem;
@@ -191,20 +169,11 @@
             transition: all 0.2s ease;
         }
 
-        .theme-toggle:hover {
-            background: rgba(91, 164, 181, 0.1);
-        }
+        .theme-toggle:hover { background: rgba(91, 164, 181, 0.1); }
 
-        /* Animations */
         @keyframes pulse {
-            0%, 100% { 
-                opacity: 0.6; 
-                box-shadow: 0 0 8px rgba(91, 164, 181, 0.3); 
-            }
-            50% { 
-                opacity: 1; 
-                box-shadow: 0 0 16px rgba(91, 164, 181, 0.6); 
-            }
+            0%, 100% { opacity: 0.6; box-shadow: 0 0 8px rgba(91, 164, 181, 0.3); }
+            50% { opacity: 1; box-shadow: 0 0 16px rgba(91, 164, 181, 0.6); }
         }
 
         @keyframes breathe {
@@ -213,29 +182,16 @@
         }
 
         @keyframes fadeUp {
-            from { 
-                opacity: 0; 
-                transform: translateY(20px); 
-            }
-            to { 
-                opacity: 1; 
-                transform: translateY(0); 
-            }
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        .cyan-bar {
-            animation: pulse 3s ease-in-out infinite, breathe 3s ease-in-out infinite;
-        }
+        .cyan-bar { animation: pulse 3s ease-in-out infinite, breathe 3s ease-in-out infinite; }
 
-        .fade-in {
-            opacity: 0;
-            animation: fadeUp 0.8s ease-out forwards;
-        }
-
+        .fade-in { opacity: 0; animation: fadeUp 0.8s ease-out forwards; }
         .fade-in-delay-1 { animation-delay: 0.2s; }
         .fade-in-delay-2 { animation-delay: 0.4s; }
 
-        /* Code text */
         .code-text {
             font-family: 'Fira Code', monospace;
             font-size: 0.7rem;
@@ -243,7 +199,6 @@
             color: var(--text-faint);
         }
 
-        /* Hero */
         .hero {
             padding: 10rem 3rem 5rem;
             max-width: 900px;
@@ -285,7 +240,6 @@
             line-height: 1.8;
         }
 
-        /* Dividers */
         .divider-row {
             display: flex;
             align-items: center;
@@ -307,7 +261,8 @@
             margin: 0 1rem;
         }
 
-        /* Instrumentum Section */
+        .divider-dot.gold { background-color: var(--gold-accent); }
+
         .instrumentum {
             padding: 4rem 2rem;
             text-align: center;
@@ -334,7 +289,9 @@
             margin: 0 auto 2rem;
         }
 
-        /* Button */
+        .instrumentum.beacon h2 { color: var(--gold-accent); }
+        .instrumentum.beacon .code-text { color: var(--gold-accent); }
+
         .btn-ghost {
             display: inline-block;
             padding: 0.9rem 2.2rem;
@@ -356,7 +313,11 @@
             color: var(--cyan-accent);
         }
 
-        /* Features Section */
+        .btn-ghost.gold:hover {
+            border-color: var(--gold-accent);
+            color: var(--gold-accent);
+        }
+
         .features {
             padding: 4rem 2rem;
             text-align: center;
@@ -378,9 +339,7 @@
             transition: all 0.4s ease;
         }
 
-        .card:hover {
-            border-color: var(--cyan-accent);
-        }
+        .card:hover { border-color: var(--cyan-accent); }
 
         .card h3 {
             font-family: 'Archivo', sans-serif;
@@ -396,7 +355,6 @@
             color: var(--text-secondary);
         }
 
-        /* Footer */
         footer {
             padding: 3rem 2rem;
             text-align: center;
@@ -440,7 +398,6 @@
         [data-theme="dark"] .footer-gradus .gradus-bar:nth-child(2) { height: 65%; opacity: 0.75; }
         [data-theme="dark"] .footer-gradus .gradus-bar:nth-child(3) { height: 40%; opacity: 0.5; }
 
-        /* Password Modal */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -457,10 +414,7 @@
             transition: all 0.3s ease;
         }
 
-        .modal-overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
+        .modal-overlay.active { opacity: 1; visibility: visible; }
 
         .modal-content {
             background-color: var(--bg-card);
@@ -486,6 +440,8 @@
             background-color: var(--cyan-accent);
             border-radius: 2px;
         }
+
+        .modal-gradus.gold .gradus-bar { background-color: var(--gold-accent); }
 
         .modal-gradus .gradus-bar:nth-child(1) { height: 40%; opacity: 0.5; }
         .modal-gradus .gradus-bar:nth-child(2) { height: 65%; opacity: 0.75; }
@@ -523,14 +479,8 @@
             transition: border-color 0.3s ease;
         }
 
-        .password-input:focus {
-            border-color: var(--cyan-accent);
-        }
-
-        .password-input.error {
-            border-color: var(--error-color);
-            animation: shake 0.4s ease;
-        }
+        .password-input:focus { border-color: var(--cyan-accent); }
+        .password-input.error { border-color: var(--error-color); animation: shake 0.4s ease; }
 
         @keyframes shake {
             0%, 100% { transform: translateX(0); }
@@ -547,9 +497,7 @@
             transition: opacity 0.3s ease;
         }
 
-        .error-message.visible {
-            opacity: 1;
-        }
+        .error-message.visible { opacity: 1; }
 
         .modal-actions {
             display: flex;
@@ -586,30 +534,16 @@
             color: var(--bg-primary);
         }
 
-        .btn-submit:hover {
-            background: #4A8A99;
-            border-color: #4A8A99;
-        }
+        .btn-submit:hover { background: #4A8A99; border-color: #4A8A99; }
+        .btn-submit.gold { background: var(--gold-accent); border-color: var(--gold-accent); }
+        .btn-submit.gold:hover { background: #C49943; border-color: #C49943; }
 
-        /* Responsive */
         @media (max-width: 768px) {
-            .nav {
-                padding: 1rem 1.5rem;
-            }
-            .nav-links {
-                gap: 1.5rem;
-            }
-            .hero {
-                padding: 8rem 1.5rem 4rem;
-            }
-            .hero-title {
-                font-size: 2.5rem;
-                letter-spacing: 0.2em;
-            }
-            .instrumentum,
-            .features {
-                padding: 3rem 1.5rem;
-            }
+            .nav { padding: 1rem 1.5rem; }
+            .nav-links { gap: 1.5rem; }
+            .hero { padding: 8rem 1.5rem 4rem; }
+            .hero-title { font-size: 2.5rem; letter-spacing: 0.2em; }
+            .instrumentum, .features { padding: 3rem 1.5rem; }
         }
 
         @supports (padding: max(0px)) {
@@ -655,13 +589,28 @@
     <div class="divider-line"></div>
 </div>
 
-<!-- INSTRUMENTUM Section -->
+<!-- INSTRUMENTUM: Praxia-1 -->
 <section class="instrumentum">
     <p class="code-text">[ INSTRUMENTUM ]</p>
     <h2>Praxia-1</h2>
     <p>Parent-child interaction companion.</p>
     <p class="subtext">PCIT-informed skill practice. Timed sessions. Emotional state tracking.<br>Structured protocols for moments that matter.</p>
-    <button class="btn-ghost" onclick="openPasswordModal()">Enter</button>
+    <button class="btn-ghost" onclick="openPasswordModal('praxia')">Enter</button>
+</section>
+
+<div class="divider-row">
+    <div class="divider-line"></div>
+    <div class="divider-dot gold cyan-bar"></div>
+    <div class="divider-line"></div>
+</div>
+
+<!-- INSTRUMENTUM: Beacon -->
+<section class="instrumentum beacon">
+    <p class="code-text">[ INSTRUMENTUM ]</p>
+    <h2>Beacon</h2>
+    <p>Covenant marriage companion.</p>
+    <p class="subtext">52-week Bible study journey for married couples. Scripture. Reflection. Shared growth.<br>Building stronger bonds through intentional practice.</p>
+    <button class="btn-ghost gold" onclick="openPasswordModal('beacon')">Enter</button>
 </section>
 
 <div class="divider-row">
@@ -685,8 +634,8 @@
         </div>
         <div class="card">
             <p class="code-text">003</p>
-            <h3>State Tracking</h3>
-            <p>Intensity assessments and emotional vocabulary tagging. Pattern recognition over time reveals what works.</p>
+            <h3>Covenant Journey</h3>
+            <p>Weekly Bible studies with scripture, devotionals, and journal prompts. Progress tracking and guided couple prayers.</p>
         </div>
     </div>
 </section>
@@ -707,13 +656,13 @@
 <!-- Password Modal -->
 <div class="modal-overlay" id="passwordModal" onclick="closeModalOnOverlay(event)">
     <div class="modal-content">
-        <div class="modal-gradus">
+        <div class="modal-gradus" id="modalGradus">
             <div class="gradus-bar"></div>
             <div class="gradus-bar"></div>
             <div class="gradus-bar"></div>
         </div>
         <h3 class="modal-title">Access Required</h3>
-        <p class="modal-subtitle">[ Praxia-1 — Preview Build ]</p>
+        <p class="modal-subtitle" id="modalSubtitle">[ Praxia-1 — Preview Build ]</p>
         <input 
             type="password" 
             class="password-input" 
@@ -725,12 +674,14 @@
         <p class="error-message" id="errorMessage">Invalid access code</p>
         <div class="modal-actions">
             <button class="btn-cancel" onclick="closePasswordModal()">Cancel</button>
-            <button class="btn-submit" onclick="validatePassword()">Enter</button>
+            <button class="btn-submit" id="submitBtn" onclick="validatePassword()">Enter</button>
         </div>
     </div>
 </div>
 
 <script>
+    let currentTarget = 'praxia';
+
     function toggleTheme() {
         const html = document.documentElement;
         const btn = document.querySelector('.theme-toggle');
@@ -759,8 +710,24 @@
     const passwordModal = document.getElementById('passwordModal');
     const passwordInput = document.getElementById('passwordInput');
     const errorMessage = document.getElementById('errorMessage');
+    const modalSubtitle = document.getElementById('modalSubtitle');
+    const modalGradus = document.getElementById('modalGradus');
+    const submitBtn = document.getElementById('submitBtn');
 
-    function openPasswordModal() {
+    function openPasswordModal(target) {
+        currentTarget = target;
+        
+        // Update modal styling based on target
+        if (target === 'beacon') {
+            modalSubtitle.textContent = '[ Beacon — Preview Build ]';
+            modalGradus.classList.add('gold');
+            submitBtn.classList.add('gold');
+        } else {
+            modalSubtitle.textContent = '[ Praxia-1 — Preview Build ]';
+            modalGradus.classList.remove('gold');
+            submitBtn.classList.remove('gold');
+        }
+        
         passwordModal.classList.add('active');
         document.body.style.overflow = 'hidden';
         setTimeout(() => passwordInput.focus(), 100);
@@ -793,7 +760,11 @@
         const password = passwordInput.value.toLowerCase().trim();
         
         if (password === 'stratum') {
-            window.location.href = '/praxia/';
+            if (currentTarget === 'beacon') {
+                window.location.href = '/cadencia/beacon.html';
+            } else {
+                window.location.href = '/praxia/';
+            }
         } else {
             passwordInput.classList.add('error');
             errorMessage.classList.add('visible');
