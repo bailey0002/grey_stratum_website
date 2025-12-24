@@ -1,1327 +1,1219 @@
 /**
-
-- Praxia-1 Main Application
-- Cadencia Protocol | Grey Stratum
-  */
+ * Praxia-1 Main Application
+ * Cadencia Protocol | Grey Stratum
+ */
 
 const Praxia = (function() {
-‘use strict’;
+  'use strict';
 
-// Application state
-const state = {
-initialized: false,
-activeView: null,
-praxisSession: {
-active: false,
-startTime: null,
-timer: null,
-secondsRemaining: 900,
-preMood: null,
-postMood: null,
-skills: { praise: 0, reflect: 0, imitate: 0, describe: 0, enjoy: 0 },
-currentSkillIndex: 0
-},
-respiro: { step: 0 },
-filiusRespiro: { step: 0 },
-gauge: { value: 5 },
-selectedWords: new Set(),
-selectedInterventions: new Set()
-};
+  // Application state
+  const state = {
+    initialized: false,
+    activeView: null,
+    praxisSession: {
+      active: false,
+      startTime: null,
+      timer: null,
+      secondsRemaining: 900,
+      preMood: null,
+      postMood: null,
+      skills: { praise: 0, reflect: 0, imitate: 0, describe: 0, enjoy: 0 },
+      currentSkillIndex: 0
+    },
+    respiro: { step: 0 },
+    filiusRespiro: { step: 0 },
+    gauge: { value: 5 },
+    selectedWords: new Set(),
+    selectedInterventions: new Set()
+  };
 
-// Skill prompts
-const SKILL_PROMPTS = [
-{ skill: ‘praise’, text: ‘Labeled Praise’, hint: ‘“I love how carefully you're building that!”’ },
-{ skill: ‘praise’, text: ‘Effort Praise’, hint: ‘“You're working so hard on that!”’ },
-{ skill: ‘reflect’, text: ‘Word Reflection’, hint: ‘Child: “Look!” → “You want me to see!”’ },
-{ skill: ‘reflect’, text: ‘Feeling Reflection’, hint: ‘“You seem really excited about that!”’ },
-{ skill: ‘describe’, text: ‘Action Description’, hint: ‘“You're putting the blue block on top.”’ },
-{ skill: ‘describe’, text: ‘Choice Description’, hint: ‘“You decided to use the red pieces.”’ }
-];
+  // Skill prompts
+  const SKILL_PROMPTS = [
+    { skill: 'praise', text: 'Labeled Praise', hint: '"I love how carefully you\'re building that!"' },
+    { skill: 'praise', text: 'Effort Praise', hint: '"You\'re working so hard on that!"' },
+    { skill: 'reflect', text: 'Word Reflection', hint: 'Child: "Look!" → "You want me to see!"' },
+    { skill: 'reflect', text: 'Feeling Reflection', hint: '"You seem really excited about that!"' },
+    { skill: 'describe', text: 'Action Description', hint: '"You\'re putting the blue block on top."' },
+    { skill: 'describe', text: 'Choice Description', hint: '"You decided to use the red pieces."' }
+  ];
 
-// Respiro steps
-const RESPIRO_STEPS = [
-{ id: ‘halt’, title: ‘Halt’, instruction: ‘Freeze. Do not react. Pause here.’, childInstruction: ‘Freeze like a statue!’, class: ‘step-halt’ },
-{ id: ‘retreat’, title: ‘Retreat’, instruction: ‘Create space. Lower stimulation.’, childInstruction: ‘Hug yourself like a shell.’, class: ‘step-retreat’ },
-{ id: ‘breathe’, title: ‘Breathe’, instruction: ‘Take 3 deep breaths. In through nose, out through mouth.’, childInstruction: ‘Smell the flower, blow out the candle.’, class: ‘step-breathe’ },
-{ id: ‘reflect’, title: ‘Reflect’, instruction: ‘Ask: What am I feeling? What do I need?’, childInstruction: ‘How do I feel? What happened?’, class: ‘step-reflect’ },
-{ id: ‘resolve’, title: ‘Resolve’, instruction: ‘Now you can think clearly. What's one small step?’, childInstruction: ‘What can I do now?’, class: ‘step-resolve’ }
-];
+  // Respiro steps
+  const RESPIRO_STEPS = [
+    { id: 'halt', title: 'Halt', instruction: 'Freeze. Do not react. Pause here.', childInstruction: 'Freeze like a statue!', class: 'step-halt' },
+    { id: 'retreat', title: 'Retreat', instruction: 'Create space. Lower stimulation.', childInstruction: 'Hug yourself like a shell.', class: 'step-retreat' },
+    { id: 'breathe', title: 'Breathe', instruction: 'Take 3 deep breaths. In through nose, out through mouth.', childInstruction: 'Smell the flower, blow out the candle.', class: 'step-breathe' },
+    { id: 'reflect', title: 'Reflect', instruction: 'Ask: What am I feeling? What do I need?', childInstruction: 'How do I feel? What happened?', class: 'step-reflect' },
+    { id: 'resolve', title: 'Resolve', instruction: 'Now you can think clearly. What\'s one small step?', childInstruction: 'What can I do now?', class: 'step-resolve' }
+  ];
 
-// State vocabulary
-const STATE_WORDS = {
-low: [‘calm’, ‘content’, ‘peaceful’, ‘relaxed’, ‘stable’, ‘neutral’],
-medium: [‘uncertain’, ‘unsettled’, ‘agitated’, ‘uncomfortable’, ‘stressed’, ‘anxious’],
-high: [‘frustrated’, ‘elevated’, ‘overwhelmed’, ‘intense’, ‘dysregulated’, ‘critical’]
-};
+  // State vocabulary
+  const STATE_WORDS = {
+    low: ['calm', 'content', 'peaceful', 'relaxed', 'stable', 'neutral'],
+    medium: ['uncertain', 'unsettled', 'agitated', 'uncomfortable', 'stressed', 'anxious'],
+    high: ['frustrated', 'elevated', 'overwhelmed', 'intense', 'dysregulated', 'critical']
+  };
 
-/**
-
-- Initialize the application
-  */
+  /**
+   * Initialize the application
+   */
   async function init() {
-  console.log(’[Praxia] Initializing…’);
+    console.log('[Praxia] Initializing...');
+    
+    // Load configurations
+    await Promise.all([
+      PraxiaCurriculum.loadCurriculum(),
+      PraxiaRewards.loadRewards()
+    ]);
 
-```
-// Load configurations
-await Promise.all([
-  PraxiaCurriculum.loadCurriculum(),
-  PraxiaRewards.loadRewards()
-]);
+    // Initialize or load user data
+    initializeUserData();
+    
+    // Apply saved theme
+    applyTheme(PraxiaStorage.get('settings')?.theme || 'dark');
+    
+    // Set up event listeners
+    setupEventListeners();
+    
+    // Initialize UI components
+    initGauges();
+    startBreathingAnimation();
+    
+    // Navigate to home
+    const user = PraxiaUsers.getActiveUser();
+    navigateToHome(user?.role || 'custos');
+    
+    // Update dashboard
+    updateDashboard();
+    
+    state.initialized = true;
+    console.log('[Praxia] Initialized');
+  }
 
-// Initialize or load user data
-initializeUserData();
-
-// Apply saved theme
-applyTheme(PraxiaStorage.get('settings')?.theme || 'dark');
-
-// Set up event listeners
-setupEventListeners();
-
-// Initialize UI components
-initGauges();
-startBreathingAnimation();
-
-// Navigate to home
-const user = PraxiaUsers.getActiveUser();
-navigateToHome(user?.role || 'custos');
-
-// Update dashboard
-updateDashboard();
-
-state.initialized = true;
-console.log('[Praxia] Initialized');
-```
-
-}
-
-/**
-
-- Initialize user data if not exists
-  */
+  /**
+   * Initialize user data if not exists
+   */
   function initializeUserData() {
-  const users = PraxiaUsers.getAllUsers();
+    const users = PraxiaUsers.getAllUsers();
+    
+    if (users.length === 0) {
+      // Create default family and users
+      PraxiaUsers.initializeFamily('Our Family');
+      PraxiaUsers.createUser({ role: 'custos', name: 'Parent 1', displayLabel: 'Custos' });
+      PraxiaUsers.createUser({ role: 'filius', name: 'Child', displayLabel: 'Filius' });
+    }
+  }
 
-```
-if (users.length === 0) {
-  // Create default family and users
-  PraxiaUsers.initializeFamily('Our Family');
-  PraxiaUsers.createUser({ role: 'custos', name: 'Parent 1', displayLabel: 'Custos' });
-  PraxiaUsers.createUser({ role: 'filius', name: 'Child', displayLabel: 'Filius' });
-}
-```
-
-}
-
-/**
-
-- Set up global event listeners
-  */
+  /**
+   * Set up global event listeners
+   */
   function setupEventListeners() {
-  // Theme toggle
-  document.querySelector(’.theme-toggle’)?.addEventListener(‘click’, toggleTheme);
-
-```
-// User toggle buttons
-document.getElementById('toggle-custos')?.addEventListener('click', () => switchUser('custos'));
-document.getElementById('toggle-filius')?.addEventListener('click', () => switchUser('filius'));
-
-// Navigation - handle data-nav attribute
-document.querySelectorAll('.nav-item').forEach(btn => {
-  btn.addEventListener('click', () => navigateTo(btn.dataset.nav));
-});
-```
-
-}
-
-// ========================================
-// THEME
-// ========================================
-
-function applyTheme(theme) {
-const t = theme === ‘light’ ? ‘light’ : ‘dark’;
-document.documentElement.setAttribute(‘data-theme’, t);
-const label = document.getElementById(‘themeLabel’);
-if (label) label.textContent = t === ‘dark’ ? ‘[ NOX ]’ : ‘[ LUX ]’;
-
-```
-const settings = PraxiaStorage.get('settings') || {};
-settings.theme = t;
-PraxiaStorage.set('settings', settings);
-```
-
-}
-
-function toggleTheme() {
-const current = document.documentElement.getAttribute(‘data-theme’) || ‘dark’;
-applyTheme(current === ‘dark’ ? ‘light’ : ‘dark’);
-}
-
-// ========================================
-// NAVIGATION
-// ========================================
-
-function showView(viewId) {
-document.querySelectorAll(’.view’).forEach(v => v.classList.remove(‘active’));
-const el = document.getElementById(viewId);
-if (el) {
-el.classList.add(‘active’);
-state.activeView = viewId;
-}
-
-```
-// Initialize view-specific components
-if (viewId === 'view-status-checkin') {
-  renderStateVocabulary();
-} else if (viewId === 'view-respiro') {
-  state.respiro.step = 0;
-  renderRespiroStep('respiro', state.respiro.step);
-} else if (viewId === 'view-filius-respiro') {
-  state.filiusRespiro.step = 0;
-  renderRespiroStep('filius-respiro', state.filiusRespiro.step, true);
-} else if (viewId === 'view-progressio') {
-  updateProgressio();
-} else if (viewId === 'view-curriculum') {
-  renderCurriculum();
-} else if (viewId === 'view-achievements' || viewId === 'view-filius-achievements') {
-  renderAchievements();
-} else if (viewId === 'view-settings') {
-  renderSettings();
-}
-```
-
-}
-
-function switchUser(role) {
-const users = PraxiaUsers.getUsersByRole(role);
-if (users.length > 0) {
-PraxiaUsers.setActiveUser(users[0].id);
-}
-
-```
-// Update toggle buttons
-document.getElementById('toggle-custos')?.classList.toggle('active', role === 'custos');
-document.getElementById('toggle-filius')?.classList.toggle('active', role === 'filius');
-
-navigateToHome(role);
-updateDashboard();
-```
-
-}
-
-function navigateToHome(role) {
-showView(role === ‘filius’ ? ‘view-filius-home’ : ‘view-custos-home’);
-setActiveNav(‘home’);
-}
-
-function navigateTo(dest) {
-const user = PraxiaUsers.getActiveUser();
-const role = user?.role || ‘custos’;
-
-```
-if (dest === 'home') {
-  navigateToHome(role);
-} else if (dest === 'progressio') {
-  if (role === 'filius') {
-    showView('view-filius-achievements');
-  } else {
-    showView('view-progressio');
+    // Theme toggle
+    document.querySelector('.theme-toggle')?.addEventListener('click', toggleTheme);
+    
+    // User toggle buttons
+    document.getElementById('toggle-custos')?.addEventListener('click', () => switchUser('custos'));
+    document.getElementById('toggle-filius')?.addEventListener('click', () => switchUser('filius'));
+    
+    // Navigation - handle data-nav attribute
+    document.querySelectorAll('.nav-item').forEach(btn => {
+      btn.addEventListener('click', () => navigateTo(btn.dataset.nav));
+    });
   }
-  setActiveNav('progressio');
-} else if (dest === 'curriculum') {
-  showView('view-curriculum');
-  setActiveNav('curriculum');
-} else if (dest === 'settings') {
-  showView('view-settings');
-  setActiveNav('settings');
-}
 
-// Update nav visibility based on role
-updateNavForRole(role);
-```
+  // ========================================
+  // THEME
+  // ========================================
 
-}
-
-function setActiveNav(key) {
-document.querySelectorAll(’.bottom-nav .nav-item’).forEach(btn => {
-btn.classList.toggle(‘active’, btn.dataset.nav === key);
-});
-}
-
-function updateNavForRole(role) {
-const nav = document.getElementById(‘bottom-nav’);
-if (!nav) return;
-
-```
-const curriculumBtn = nav.querySelector('[data-nav="curriculum"]');
-const settingsBtn = nav.querySelector('[data-nav="settings"]');
-const progressioBtn = nav.querySelector('[data-nav="progressio"]');
-
-// For Filius: hide curriculum & settings, show simpler nav
-if (role === 'filius') {
-  if (curriculumBtn) curriculumBtn.style.display = 'none';
-  if (settingsBtn) settingsBtn.style.display = 'none';
-  if (progressioBtn) {
-    progressioBtn.querySelector('span').textContent = 'Badges';
+  function applyTheme(theme) {
+    const t = theme === 'light' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', t);
+    const label = document.getElementById('themeLabel');
+    if (label) label.textContent = t === 'dark' ? '[ NOX ]' : '[ LUX ]';
+    
+    const settings = PraxiaStorage.get('settings') || {};
+    settings.theme = t;
+    PraxiaStorage.set('settings', settings);
   }
-} else {
-  if (curriculumBtn) curriculumBtn.style.display = '';
-  if (settingsBtn) settingsBtn.style.display = '';
-  if (progressioBtn) {
-    progressioBtn.querySelector('span').textContent = 'Progressio';
+
+  function toggleTheme() {
+    const current = document.documentElement.getAttribute('data-theme') || 'dark';
+    applyTheme(current === 'dark' ? 'light' : 'dark');
   }
-}
-```
 
-}
+  // ========================================
+  // NAVIGATION
+  // ========================================
 
-// ========================================
-// DASHBOARD
-// ========================================
-
-function updateDashboard() {
-const user = PraxiaUsers.getActiveUser();
-if (!user) return;
-
-```
-const sessions = PraxiaStorage.query('sessions', { userId: user.id });
-const streak = PraxiaRewards.calculateStreak(user.id);
-
-const totalSkills = sessions.reduce((sum, s) => {
-  const skills = s.skills || {};
-  return sum + Object.values(skills).reduce((a, b) => a + (typeof b === 'number' ? b : 0), 0);
-}, 0);
-
-const streakEl = document.getElementById('stat-streak');
-const sessionsEl = document.getElementById('stat-sessions');
-const skillsEl = document.getElementById('stat-skills');
-
-if (streakEl) streakEl.textContent = String(streak);
-if (sessionsEl) sessionsEl.textContent = String(sessions.length);
-if (skillsEl) skillsEl.textContent = String(totalSkills);
-```
-
-}
-
-// ========================================
-// PRAXIS SESSION
-// ========================================
-
-function selectPreMood(mood) {
-state.praxisSession.preMood = mood;
-selectMoodScale(‘pre-mood-scale’, mood);
-const btn = document.getElementById(‘start-praxis-btn’);
-if (btn) btn.disabled = false;
-}
-
-function selectPostMood(mood) {
-state.praxisSession.postMood = mood;
-selectMoodScale(‘post-mood-scale’, mood);
-const btn = document.getElementById(‘save-session-btn’);
-if (btn) btn.disabled = false;
-}
-
-function selectMoodScale(containerId, mood) {
-const container = document.getElementById(containerId);
-if (!container) return;
-container.querySelectorAll(’.mood-scale-btn’).forEach(btn => {
-btn.classList.toggle(‘selected’, parseInt(btn.dataset.mood) === mood);
-});
-}
-
-function startPraxis() {
-state.praxisSession.active = true;
-state.praxisSession.startTime = Date.now();
-state.praxisSession.secondsRemaining = 900;
-state.praxisSession.skills = { praise: 0, reflect: 0, imitate: 0, describe: 0, enjoy: 0 };
-state.praxisSession.currentSkillIndex = 0;
-
-```
-showView('view-praxis-active');
-updateSkillPrompt();
-updateTimerDisplay();
-setTimerProgress(state.praxisSession.secondsRemaining, 900);
-
-state.praxisSession.timer = setInterval(() => {
-  state.praxisSession.secondsRemaining--;
-  updateTimerDisplay();
-  setTimerProgress(state.praxisSession.secondsRemaining, 900);
-  
-  if (state.praxisSession.secondsRemaining <= 0) {
-    completePraxis();
+  function showView(viewId) {
+    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+    const el = document.getElementById(viewId);
+    if (el) {
+      el.classList.add('active');
+      state.activeView = viewId;
+    }
+    
+    // Initialize view-specific components
+    if (viewId === 'view-status-checkin') {
+      renderStateVocabulary();
+    } else if (viewId === 'view-respiro') {
+      state.respiro.step = 0;
+      renderRespiroStep('respiro', state.respiro.step);
+    } else if (viewId === 'view-filius-respiro') {
+      state.filiusRespiro.step = 0;
+      renderRespiroStep('filius-respiro', state.filiusRespiro.step, true);
+    } else if (viewId === 'view-progressio') {
+      updateProgressio();
+    } else if (viewId === 'view-curriculum') {
+      renderCurriculum();
+    } else if (viewId === 'view-achievements' || viewId === 'view-filius-achievements') {
+      renderAchievements();
+    } else if (viewId === 'view-settings') {
+      renderSettings();
+    }
   }
-}, 1000);
-```
 
-}
+  function switchUser(role) {
+    const users = PraxiaUsers.getUsersByRole(role);
+    if (users.length > 0) {
+      PraxiaUsers.setActiveUser(users[0].id);
+    }
+    
+    // Update toggle buttons
+    document.getElementById('toggle-custos')?.classList.toggle('active', role === 'custos');
+    document.getElementById('toggle-filius')?.classList.toggle('active', role === 'filius');
+    
+    navigateToHome(role);
+    updateDashboard();
+  }
 
-function updateTimerDisplay() {
-const sec = state.praxisSession.secondsRemaining;
-const m = Math.floor(sec / 60);
-const s = sec % 60;
-const el = document.getElementById(‘timer-display’);
-if (el) el.textContent = `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
-}
+  function navigateToHome(role) {
+    showView(role === 'filius' ? 'view-filius-home' : 'view-custos-home');
+    setActiveNav('home');
+  }
 
-function setTimerProgress(remaining, total) {
-const circle = document.getElementById(‘timer-progress’);
-if (!circle) return;
-const circumference = 565;
-const progress = remaining / total;
-circle.style.strokeDashoffset = String(circumference * (1 - progress));
-}
+  function navigateTo(dest) {
+    const user = PraxiaUsers.getActiveUser();
+    const role = user?.role || 'custos';
+    
+    if (dest === 'home') {
+      navigateToHome(role);
+    } else if (dest === 'progressio') {
+      if (role === 'filius') {
+        showView('view-filius-achievements');
+      } else {
+        showView('view-progressio');
+      }
+      setActiveNav('progressio');
+    } else if (dest === 'curriculum') {
+      showView('view-curriculum');
+      setActiveNav('curriculum');
+    } else if (dest === 'settings') {
+      showView('view-settings');
+      setActiveNav('settings');
+    }
+    
+    // Update nav visibility based on role
+    updateNavForRole(role);
+  }
 
-function updateSkillPrompt() {
-const prompt = SKILL_PROMPTS[state.praxisSession.currentSkillIndex];
-const textEl = document.getElementById(‘skill-prompt-text’);
-const hintEl = document.getElementById(‘skill-prompt-hint’);
-const countEl = document.getElementById(‘skill-count’);
+  function setActiveNav(key) {
+    document.querySelectorAll('.bottom-nav .nav-item').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.nav === key);
+    });
+  }
 
-```
-if (textEl) textEl.textContent = prompt.text;
-if (hintEl) hintEl.textContent = prompt.hint;
-if (countEl) countEl.textContent = String(state.praxisSession.skills[prompt.skill] || 0);
-```
+  function updateNavForRole(role) {
+    const nav = document.getElementById('bottom-nav');
+    if (!nav) return;
+    
+    const curriculumBtn = nav.querySelector('[data-nav="curriculum"]');
+    const settingsBtn = nav.querySelector('[data-nav="settings"]');
+    const progressioBtn = nav.querySelector('[data-nav="progressio"]');
+    
+    // For Filius: hide curriculum & settings, show simpler nav
+    if (role === 'filius') {
+      if (curriculumBtn) curriculumBtn.style.display = 'none';
+      if (settingsBtn) settingsBtn.style.display = 'none';
+      if (progressioBtn) {
+        progressioBtn.querySelector('span').textContent = 'Badges';
+      }
+    } else {
+      if (curriculumBtn) curriculumBtn.style.display = '';
+      if (settingsBtn) settingsBtn.style.display = '';
+      if (progressioBtn) {
+        progressioBtn.querySelector('span').textContent = 'Progressio';
+      }
+    }
+  }
 
-}
+  // ========================================
+  // DASHBOARD
+  // ========================================
 
-function incrementSkill() {
-const prompt = SKILL_PROMPTS[state.praxisSession.currentSkillIndex];
-state.praxisSession.skills[prompt.skill]++;
-const countEl = document.getElementById(‘skill-count’);
-if (countEl) countEl.textContent = String(state.praxisSession.skills[prompt.skill]);
-}
+  function updateDashboard() {
+    const user = PraxiaUsers.getActiveUser();
+    if (!user) return;
 
-function decrementSkill() {
-const prompt = SKILL_PROMPTS[state.praxisSession.currentSkillIndex];
-if (state.praxisSession.skills[prompt.skill] > 0) {
-state.praxisSession.skills[prompt.skill]–;
-const countEl = document.getElementById(‘skill-count’);
-if (countEl) countEl.textContent = String(state.praxisSession.skills[prompt.skill]);
-}
-}
+    const sessions = PraxiaStorage.query('sessions', { userId: user.id });
+    const streak = PraxiaRewards.calculateStreak(user.id);
+    
+    const totalSkills = sessions.reduce((sum, s) => {
+      const skills = s.skills || {};
+      return sum + Object.values(skills).reduce((a, b) => a + (typeof b === 'number' ? b : 0), 0);
+    }, 0);
 
-function nextSkillPrompt() {
-state.praxisSession.currentSkillIndex = (state.praxisSession.currentSkillIndex + 1) % SKILL_PROMPTS.length;
-updateSkillPrompt();
-}
+    const streakEl = document.getElementById('stat-streak');
+    const sessionsEl = document.getElementById('stat-sessions');
+    const skillsEl = document.getElementById('stat-skills');
 
-function endPraxisEarly() {
-if (confirm(‘Terminate session early?’)) {
-completePraxis();
-}
-}
+    if (streakEl) streakEl.textContent = String(streak);
+    if (sessionsEl) sessionsEl.textContent = String(sessions.length);
+    if (skillsEl) skillsEl.textContent = String(totalSkills);
+  }
 
-function completePraxis() {
-clearInterval(state.praxisSession.timer);
-state.praxisSession.active = false;
+  // ========================================
+  // PRAXIS SESSION
+  // ========================================
 
-```
-const duration = Math.max(1, Math.round((900 - state.praxisSession.secondsRemaining) / 60));
+  function selectPreMood(mood) {
+    state.praxisSession.preMood = mood;
+    selectMoodScale('pre-mood-scale', mood);
+    const btn = document.getElementById('start-praxis-btn');
+    if (btn) btn.disabled = false;
+  }
 
-document.getElementById('session-duration').textContent = String(duration);
-document.getElementById('final-praise').textContent = String(state.praxisSession.skills.praise);
-document.getElementById('final-reflect').textContent = String(state.praxisSession.skills.reflect);
-document.getElementById('final-describe').textContent = String(state.praxisSession.skills.describe);
+  function selectPostMood(mood) {
+    state.praxisSession.postMood = mood;
+    selectMoodScale('post-mood-scale', mood);
+    const btn = document.getElementById('save-session-btn');
+    if (btn) btn.disabled = false;
+  }
 
-showView('view-praxis-complete');
-```
+  function selectMoodScale(containerId, mood) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+    container.querySelectorAll('.mood-scale-btn').forEach(btn => {
+      btn.classList.toggle('selected', parseInt(btn.dataset.mood) === mood);
+    });
+  }
 
-}
+  function startPraxis() {
+    state.praxisSession.active = true;
+    state.praxisSession.startTime = Date.now();
+    state.praxisSession.secondsRemaining = 900;
+    state.praxisSession.skills = { praise: 0, reflect: 0, imitate: 0, describe: 0, enjoy: 0 };
+    state.praxisSession.currentSkillIndex = 0;
 
-function saveSession() {
-const user = PraxiaUsers.getActiveUser();
-if (!user) return;
+    showView('view-praxis-active');
+    updateSkillPrompt();
+    updateTimerDisplay();
+    setTimerProgress(state.praxisSession.secondsRemaining, 900);
 
-```
-const session = {
-  userId: user.id,
-  date: new Date().toISOString(),
-  durationMinutes: Math.max(1, Math.round((900 - state.praxisSession.secondsRemaining) / 60)),
-  preMood: state.praxisSession.preMood,
-  postMood: state.praxisSession.postMood,
-  skills: { ...state.praxisSession.skills },
-  notes: document.getElementById('session-notes')?.value || ''
-};
+    state.praxisSession.timer = setInterval(() => {
+      state.praxisSession.secondsRemaining--;
+      updateTimerDisplay();
+      setTimerProgress(state.praxisSession.secondsRemaining, 900);
+      
+      if (state.praxisSession.secondsRemaining <= 0) {
+        completePraxis();
+      }
+    }, 1000);
+  }
 
-PraxiaStorage.append('sessions', session);
+  function updateTimerDisplay() {
+    const sec = state.praxisSession.secondsRemaining;
+    const m = Math.floor(sec / 60);
+    const s = sec % 60;
+    const el = document.getElementById('timer-display');
+    if (el) el.textContent = `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+  }
 
-// Award points
-const points = PraxiaRewards.getPointsForAction('sessionComplete') +
-  PraxiaRewards.getPointsForAction('skillUsed', 
-    Object.values(session.skills).reduce((a, b) => a + (typeof b === 'number' ? b : 0), 0));
-PraxiaUsers.addPoints(user.id, points);
+  function setTimerProgress(remaining, total) {
+    const circle = document.getElementById('timer-progress');
+    if (!circle) return;
+    const circumference = 565;
+    const progress = remaining / total;
+    circle.style.strokeDashoffset = String(circumference * (1 - progress));
+  }
 
-// Update streak
-PraxiaRewards.updateStreak(user.id);
+  function updateSkillPrompt() {
+    const prompt = SKILL_PROMPTS[state.praxisSession.currentSkillIndex];
+    const textEl = document.getElementById('skill-prompt-text');
+    const hintEl = document.getElementById('skill-prompt-hint');
+    const countEl = document.getElementById('skill-count');
 
-// Check achievements
-PraxiaRewards.checkAchievements(user.id);
+    if (textEl) textEl.textContent = prompt.text;
+    if (hintEl) hintEl.textContent = prompt.hint;
+    if (countEl) countEl.textContent = String(state.praxisSession.skills[prompt.skill] || 0);
+  }
 
-// Reset UI
-resetPraxisUI();
+  function incrementSkill() {
+    const prompt = SKILL_PROMPTS[state.praxisSession.currentSkillIndex];
+    state.praxisSession.skills[prompt.skill]++;
+    const countEl = document.getElementById('skill-count');
+    if (countEl) countEl.textContent = String(state.praxisSession.skills[prompt.skill]);
+  }
 
-showModal('Confirmed', 'Praxis session recorded.');
-setTimeout(() => {
-  hideModal();
-  navigateToHome('custos');
-  updateDashboard();
-}, 2000);
-```
+  function decrementSkill() {
+    const prompt = SKILL_PROMPTS[state.praxisSession.currentSkillIndex];
+    if (state.praxisSession.skills[prompt.skill] > 0) {
+      state.praxisSession.skills[prompt.skill]--;
+      const countEl = document.getElementById('skill-count');
+      if (countEl) countEl.textContent = String(state.praxisSession.skills[prompt.skill]);
+    }
+  }
 
-}
+  function nextSkillPrompt() {
+    state.praxisSession.currentSkillIndex = (state.praxisSession.currentSkillIndex + 1) % SKILL_PROMPTS.length;
+    updateSkillPrompt();
+  }
 
-function resetPraxisUI() {
-state.praxisSession.preMood = null;
-state.praxisSession.postMood = null;
-document.getElementById(‘session-notes’).value = ‘’;
-document.querySelectorAll(’#pre-mood-scale .mood-scale-btn, #post-mood-scale .mood-scale-btn’)
-.forEach(btn => btn.classList.remove(‘selected’));
-document.getElementById(‘start-praxis-btn’).disabled = true;
-document.getElementById(‘save-session-btn’).disabled = true;
-}
+  function endPraxisEarly() {
+    if (confirm('Terminate session early?')) {
+      completePraxis();
+    }
+  }
 
-// ========================================
-// GAUGE
-// ========================================
+  function completePraxis() {
+    clearInterval(state.praxisSession.timer);
+    state.praxisSession.active = false;
 
-function initGauges() {
-initGauge(‘gauge-track’, ‘gauge-handle’, v => { state.gauge.value = v; renderStateVocabulary(); });
-initGauge(‘episode-gauge-track’, ‘episode-gauge-handle’, v => { state.gauge.value = v; });
-}
+    const duration = Math.max(1, Math.round((900 - state.praxisSession.secondsRemaining) / 60));
+    
+    document.getElementById('session-duration').textContent = String(duration);
+    document.getElementById('final-praise').textContent = String(state.praxisSession.skills.praise);
+    document.getElementById('final-reflect').textContent = String(state.praxisSession.skills.reflect);
+    document.getElementById('final-describe').textContent = String(state.praxisSession.skills.describe);
 
-function initGauge(trackId, handleId, onChange) {
-const track = document.getElementById(trackId);
-const handle = document.getElementById(handleId);
-if (!track || !handle) return;
+    showView('view-praxis-complete');
+  }
 
-```
-const update = (clientX) => {
-  const rect = track.getBoundingClientRect();
-  let pct = (clientX - rect.left) / rect.width;
-  pct = Math.max(0, Math.min(1, pct));
-  const val = Math.round(pct * 9) + 1;
-  handle.style.left = `${pct * 100}%`;
-  handle.textContent = String(val);
-  if (onChange) onChange(val);
-};
+  function saveSession() {
+    const user = PraxiaUsers.getActiveUser();
+    if (!user) return;
 
-handle.addEventListener('pointerdown', e => {
-  handle.setPointerCapture(e.pointerId);
-  update(e.clientX);
-});
-track.addEventListener('pointermove', e => { if (e.buttons) update(e.clientX); });
-track.addEventListener('pointerdown', e => update(e.clientX));
-```
+    const session = {
+      userId: user.id,
+      date: new Date().toISOString(),
+      durationMinutes: Math.max(1, Math.round((900 - state.praxisSession.secondsRemaining) / 60)),
+      preMood: state.praxisSession.preMood,
+      postMood: state.praxisSession.postMood,
+      skills: { ...state.praxisSession.skills },
+      notes: document.getElementById('session-notes')?.value || ''
+    };
 
-}
+    PraxiaStorage.append('sessions', session);
+    
+    // Award points
+    const points = PraxiaRewards.getPointsForAction('sessionComplete') +
+      PraxiaRewards.getPointsForAction('skillUsed', 
+        Object.values(session.skills).reduce((a, b) => a + (typeof b === 'number' ? b : 0), 0));
+    PraxiaUsers.addPoints(user.id, points);
+    
+    // Update streak
+    PraxiaRewards.updateStreak(user.id);
+    
+    // Check achievements
+    PraxiaRewards.checkAchievements(user.id);
 
-// ========================================
-// STATE VOCABULARY
-// ========================================
+    // Reset UI
+    resetPraxisUI();
+    
+    showModal('Confirmed', 'Praxis session recorded.');
+    setTimeout(() => {
+      hideModal();
+      navigateToHome('custos');
+      updateDashboard();
+    }, 2000);
+  }
 
-function renderStateVocabulary() {
-const container = document.getElementById(‘state-vocabulary’);
-if (!container) return;
+  function resetPraxisUI() {
+    state.praxisSession.preMood = null;
+    state.praxisSession.postMood = null;
+    document.getElementById('session-notes').value = '';
+    document.querySelectorAll('#pre-mood-scale .mood-scale-btn, #post-mood-scale .mood-scale-btn')
+      .forEach(btn => btn.classList.remove('selected'));
+    document.getElementById('start-praxis-btn').disabled = true;
+    document.getElementById('save-session-btn').disabled = true;
+  }
 
-```
-let words;
-if (state.gauge.value <= 3) words = STATE_WORDS.low;
-else if (state.gauge.value <= 6) words = STATE_WORDS.medium;
-else words = STATE_WORDS.high;
+  // ========================================
+  // GAUGE
+  // ========================================
 
-container.innerHTML = words.map(w => 
-  `<span class="state-word ${state.selectedWords.has(w) ? 'selected' : ''}" data-word="${w}">${w}</span>`
-).join('');
+  function initGauges() {
+    initGauge('gauge-track', 'gauge-handle', v => { state.gauge.value = v; renderStateVocabulary(); });
+    initGauge('episode-gauge-track', 'episode-gauge-handle', v => { state.gauge.value = v; });
+  }
 
-container.querySelectorAll('.state-word').forEach(el => {
-  el.addEventListener('click', () => {
-    const word = el.dataset.word;
-    if (state.selectedWords.has(word)) {
-      state.selectedWords.delete(word);
+  function initGauge(trackId, handleId, onChange) {
+    const track = document.getElementById(trackId);
+    const handle = document.getElementById(handleId);
+    if (!track || !handle) return;
+
+    const update = (clientX) => {
+      const rect = track.getBoundingClientRect();
+      let pct = (clientX - rect.left) / rect.width;
+      pct = Math.max(0, Math.min(1, pct));
+      const val = Math.round(pct * 9) + 1;
+      handle.style.left = `${pct * 100}%`;
+      handle.textContent = String(val);
+      if (onChange) onChange(val);
+    };
+
+    handle.addEventListener('pointerdown', e => {
+      handle.setPointerCapture(e.pointerId);
+      update(e.clientX);
+    });
+    track.addEventListener('pointermove', e => { if (e.buttons) update(e.clientX); });
+    track.addEventListener('pointerdown', e => update(e.clientX));
+  }
+
+  // ========================================
+  // STATE VOCABULARY
+  // ========================================
+
+  function renderStateVocabulary() {
+    const container = document.getElementById('state-vocabulary');
+    if (!container) return;
+
+    let words;
+    if (state.gauge.value <= 3) words = STATE_WORDS.low;
+    else if (state.gauge.value <= 6) words = STATE_WORDS.medium;
+    else words = STATE_WORDS.high;
+
+    container.innerHTML = words.map(w => 
+      `<span class="state-word ${state.selectedWords.has(w) ? 'selected' : ''}" data-word="${w}">${w}</span>`
+    ).join('');
+
+    container.querySelectorAll('.state-word').forEach(el => {
+      el.addEventListener('click', () => {
+        const word = el.dataset.word;
+        if (state.selectedWords.has(word)) {
+          state.selectedWords.delete(word);
+          el.classList.remove('selected');
+        } else {
+          state.selectedWords.add(word);
+          el.classList.add('selected');
+        }
+      });
+    });
+  }
+
+  function saveStatusCheckin() {
+    const user = PraxiaUsers.getActiveUser();
+    if (!user) return;
+
+    const checkin = {
+      userId: user.id,
+      intensity: state.gauge.value,
+      words: Array.from(state.selectedWords),
+      context: document.getElementById('status-context')?.value || ''
+    };
+
+    PraxiaStorage.append('statusCheckins', checkin);
+    PraxiaUsers.addPoints(user.id, PraxiaRewards.getPointsForAction('dailyCheckin'));
+
+    // Reset
+    state.gauge.value = 5;
+    state.selectedWords.clear();
+    document.getElementById('status-context').value = '';
+    const handle = document.getElementById('gauge-handle');
+    if (handle) { handle.textContent = '5'; handle.style.left = '50%'; }
+
+    showModal('Confirmed', 'Status check-in saved.');
+    setTimeout(() => {
+      hideModal();
+      navigateToHome('custos');
+    }, 1500);
+  }
+
+  // ========================================
+  // RESPIRO
+  // ========================================
+
+  function renderRespiroStep(prefix, stepIndex, isChild = false) {
+    const step = RESPIRO_STEPS[stepIndex];
+    const dotsContainer = document.getElementById(`${prefix}-dots`);
+    const visual = document.getElementById(`${prefix}-visual`);
+    const title = document.getElementById(`${prefix}-title`);
+    const instruction = document.getElementById(`${prefix}-instruction`);
+    const prevBtn = document.getElementById(`${prefix}-prev`);
+    const nextBtn = document.getElementById(`${prefix}-next`);
+
+    if (dotsContainer) {
+      [...dotsContainer.children].forEach((dot, i) => dot.classList.toggle('active', i === stepIndex));
+    }
+    if (visual) visual.className = `respiro-visual ${step.class}`;
+    if (title) title.textContent = step.title;
+    if (instruction) instruction.textContent = isChild ? step.childInstruction : step.instruction;
+    if (prevBtn) prevBtn.disabled = stepIndex === 0;
+    if (nextBtn) nextBtn.textContent = stepIndex === RESPIRO_STEPS.length - 1 ? '[ Done ]' : '[ Next ]';
+  }
+
+  function respiroNext() {
+    if (state.respiro.step < RESPIRO_STEPS.length - 1) {
+      state.respiro.step++;
+      renderRespiroStep('respiro', state.respiro.step);
+    } else {
+      completeRespiro();
+    }
+  }
+
+  function respiroPrev() {
+    if (state.respiro.step > 0) {
+      state.respiro.step--;
+      renderRespiroStep('respiro', state.respiro.step);
+    }
+  }
+
+  function filiusRespiroNext() {
+    if (state.filiusRespiro.step < RESPIRO_STEPS.length - 1) {
+      state.filiusRespiro.step++;
+      renderRespiroStep('filius-respiro', state.filiusRespiro.step, true);
+    } else {
+      completeRespiro(true);
+    }
+  }
+
+  function filiusRespiroPrev() {
+    if (state.filiusRespiro.step > 0) {
+      state.filiusRespiro.step--;
+      renderRespiroStep('filius-respiro', state.filiusRespiro.step, true);
+    }
+  }
+
+  function completeRespiro(isChild = false) {
+    const user = PraxiaUsers.getActiveUser();
+    if (user) {
+      PraxiaStorage.append('respiroCompletions', {
+        userId: user.id,
+        guided: true,
+        completedAt: new Date().toISOString()
+      });
+      PraxiaUsers.addPoints(user.id, PraxiaRewards.getPointsForAction('respiroComplete'));
+      PraxiaRewards.checkAchievements(user.id);
+    }
+
+    showModal('Confirmed', isChild ? 'Great job calming down!' : 'Respiro protocol completed.');
+    setTimeout(() => {
+      hideModal();
+      navigateToHome(isChild ? 'filius' : 'custos');
+    }, 1500);
+  }
+
+  // ========================================
+  // EPISODES
+  // ========================================
+
+  function toggleIntervention(el, intervention) {
+    if (state.selectedInterventions.has(intervention)) {
+      state.selectedInterventions.delete(intervention);
       el.classList.remove('selected');
     } else {
-      state.selectedWords.add(word);
+      state.selectedInterventions.add(intervention);
       el.classList.add('selected');
     }
-  });
-});
-```
-
-}
-
-function saveStatusCheckin() {
-const user = PraxiaUsers.getActiveUser();
-if (!user) return;
-
-```
-const checkin = {
-  userId: user.id,
-  intensity: state.gauge.value,
-  words: Array.from(state.selectedWords),
-  context: document.getElementById('status-context')?.value || ''
-};
-
-PraxiaStorage.append('statusCheckins', checkin);
-PraxiaUsers.addPoints(user.id, PraxiaRewards.getPointsForAction('dailyCheckin'));
-
-// Reset
-state.gauge.value = 5;
-state.selectedWords.clear();
-document.getElementById('status-context').value = '';
-const handle = document.getElementById('gauge-handle');
-if (handle) { handle.textContent = '5'; handle.style.left = '50%'; }
-
-showModal('Confirmed', 'Status check-in saved.');
-setTimeout(() => {
-  hideModal();
-  navigateToHome('custos');
-}, 1500);
-```
-
-}
-
-// ========================================
-// RESPIRO
-// ========================================
-
-function renderRespiroStep(prefix, stepIndex, isChild = false) {
-const step = RESPIRO_STEPS[stepIndex];
-const dotsContainer = document.getElementById(`${prefix}-dots`);
-const visual = document.getElementById(`${prefix}-visual`);
-const title = document.getElementById(`${prefix}-title`);
-const instruction = document.getElementById(`${prefix}-instruction`);
-const prevBtn = document.getElementById(`${prefix}-prev`);
-const nextBtn = document.getElementById(`${prefix}-next`);
-
-```
-if (dotsContainer) {
-  [...dotsContainer.children].forEach((dot, i) => dot.classList.toggle('active', i === stepIndex));
-}
-if (visual) visual.className = `respiro-visual ${step.class}`;
-if (title) title.textContent = step.title;
-if (instruction) instruction.textContent = isChild ? step.childInstruction : step.instruction;
-if (prevBtn) prevBtn.disabled = stepIndex === 0;
-if (nextBtn) nextBtn.textContent = stepIndex === RESPIRO_STEPS.length - 1 ? '[ Done ]' : '[ Next ]';
-```
-
-}
-
-function respiroNext() {
-if (state.respiro.step < RESPIRO_STEPS.length - 1) {
-state.respiro.step++;
-renderRespiroStep(‘respiro’, state.respiro.step);
-} else {
-completeRespiro();
-}
-}
-
-function respiroPrev() {
-if (state.respiro.step > 0) {
-state.respiro.step–;
-renderRespiroStep(‘respiro’, state.respiro.step);
-}
-}
-
-function filiusRespiroNext() {
-if (state.filiusRespiro.step < RESPIRO_STEPS.length - 1) {
-state.filiusRespiro.step++;
-renderRespiroStep(‘filius-respiro’, state.filiusRespiro.step, true);
-} else {
-completeRespiro(true);
-}
-}
-
-function filiusRespiroPrev() {
-if (state.filiusRespiro.step > 0) {
-state.filiusRespiro.step–;
-renderRespiroStep(‘filius-respiro’, state.filiusRespiro.step, true);
-}
-}
-
-function completeRespiro(isChild = false) {
-const user = PraxiaUsers.getActiveUser();
-if (user) {
-PraxiaStorage.append(‘respiroCompletions’, {
-userId: user.id,
-guided: true,
-completedAt: new Date().toISOString()
-});
-PraxiaUsers.addPoints(user.id, PraxiaRewards.getPointsForAction(‘respiroComplete’));
-PraxiaRewards.checkAchievements(user.id);
-}
-
-```
-showModal('Confirmed', isChild ? 'Great job calming down!' : 'Respiro protocol completed.');
-setTimeout(() => {
-  hideModal();
-  navigateToHome(isChild ? 'filius' : 'custos');
-}, 1500);
-```
-
-}
-
-// ========================================
-// EPISODES
-// ========================================
-
-function toggleIntervention(el, intervention) {
-if (state.selectedInterventions.has(intervention)) {
-state.selectedInterventions.delete(intervention);
-el.classList.remove(‘selected’);
-} else {
-state.selectedInterventions.add(intervention);
-el.classList.add(‘selected’);
-}
-}
-
-function saveEpisode() {
-const user = PraxiaUsers.getActiveUser();
-if (!user) return;
-
-```
-const episode = {
-  userId: user.id,
-  intensity: parseInt(document.getElementById('episode-gauge-handle')?.textContent || '5'),
-  trigger: document.getElementById('episode-trigger')?.value || '',
-  interventions: Array.from(state.selectedInterventions),
-  durationMinutes: parseInt(document.getElementById('episode-duration')?.value) || null,
-  notes: document.getElementById('episode-notes')?.value || ''
-};
-
-PraxiaStorage.append('episodes', episode);
-
-// Reset
-state.selectedInterventions.clear();
-document.getElementById('episode-trigger').value = '';
-document.getElementById('episode-duration').value = '';
-document.getElementById('episode-notes').value = '';
-document.querySelectorAll('#intervention-options .state-word').forEach(el => el.classList.remove('selected'));
-const handle = document.getElementById('episode-gauge-handle');
-if (handle) { handle.textContent = '5'; handle.style.left = '50%'; }
-
-showModal('Confirmed', 'Episode logged for pattern analysis.');
-setTimeout(() => {
-  hideModal();
-  navigateToHome('custos');
-}, 1500);
-```
-
-}
-
-// ========================================
-// FILIUS
-// ========================================
-
-function selectFiliusMood(mood, btn) {
-const user = PraxiaUsers.getActiveUser();
-if (user) {
-PraxiaStorage.append(‘moodCheckins’, {
-userId: user.id,
-mood
-});
-PraxiaUsers.addPoints(user.id, PraxiaRewards.getPointsForAction(‘dailyCheckin’));
-}
-
-```
-document.querySelectorAll('#filius-mood-grid .mood-btn').forEach(b => b.classList.remove('selected'));
-btn?.classList.add('selected');
-
-showModal('Confirmed', 'Status recorded.');
-setTimeout(() => {
-  hideModal();
-  btn?.classList.remove('selected');
-}, 1500);
-```
-
-}
-
-// ========================================
-// PROGRESSIO
-// ========================================
-
-function updateProgressio() {
-const user = PraxiaUsers.getActiveUser();
-if (!user) return;
-
-```
-const sessions = PraxiaStorage.query('sessions', { userId: user.id });
-const episodes = PraxiaStorage.query('episodes', { userId: user.id });
-const streak = PraxiaRewards.calculateStreak(user.id);
-
-document.getElementById('progress-streak').textContent = String(streak);
-document.getElementById('progress-sessions').textContent = String(sessions.length);
-document.getElementById('progress-episodes').textContent = String(episodes.length);
-
-// Weekly skills
-const oneWeekAgo = new Date();
-oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
-const weeklySessions = sessions.filter(s => new Date(s.date) >= oneWeekAgo);
-const weeklySkills = weeklySessions.reduce((acc, s) => {
-  acc.praise += s.skills?.praise || 0;
-  acc.reflect += s.skills?.reflect || 0;
-  acc.describe += s.skills?.describe || 0;
-  return acc;
-}, { praise: 0, reflect: 0, describe: 0 });
-
-document.getElementById('weekly-praise').textContent = String(weeklySkills.praise);
-document.getElementById('weekly-reflect').textContent = String(weeklySkills.reflect);
-document.getElementById('weekly-describe').textContent = String(weeklySkills.describe);
-
-// Calendar
-renderCalendar(sessions);
-```
-
-}
-
-function renderCalendar(sessions) {
-const cal = document.getElementById(‘progressio-calendar’);
-if (!cal) return;
-
-```
-const today = new Date();
-const sessionDates = new Set(sessions.map(s => (s.date || s.createdAt).slice(0, 10)));
-const dayLabels = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
-
-const days = [];
-for (let i = 6; i >= 0; i--) {
-  const d = new Date(today);
-  d.setDate(d.getDate() - i);
-  days.push(d);
-}
-
-cal.innerHTML = days.map(d => {
-  const ds = d.toISOString().slice(0, 10);
-  const isToday = ds === today.toISOString().slice(0, 10);
-  const completed = sessionDates.has(ds);
-  return `<div class="calendar-day ${completed ? 'completed' : ''} ${isToday ? 'today' : ''}">${dayLabels[d.getDay()]}</div>`;
-}).join('');
-```
-
-}
-
-// ========================================
-// MODAL
-// ========================================
-
-function showModal(title, message) {
-document.getElementById(‘modal-title’).textContent = title;
-document.getElementById(‘modal-message’).textContent = message;
-document.getElementById(‘modal-confirm’).classList.add(‘active’);
-}
-
-function hideModal() {
-document.getElementById(‘modal-confirm’).classList.remove(‘active’);
-}
-
-// ========================================
-// CURRICULUM VIEW
-// ========================================
-
-let currentPhase = ‘fundamentum’;
-let currentLessonId = null;
-
-function renderCurriculum() {
-const curriculum = PraxiaCurriculum.getCurriculum();
-if (!curriculum) return;
-
-```
-const progress = PraxiaStorage.get('curriculumProgress') || { currentWeek: 1, completedLessons: [] };
-const phase = curriculum.phases.find(p => p.weeks.includes(progress.currentWeek)) || curriculum.phases[0];
-currentPhase = phase.id;
-
-updateElement('curriculum-phase-name', phase.name);
-updateElement('curriculum-phase-subtitle', phase.subtitle);
-updateElement('curriculum-phase-desc', phase.description);
-updateElement('curriculum-week', `Week ${progress.currentWeek}`);
-
-const phaseWeeks = phase.weeks;
-const weekIndex = phaseWeeks.indexOf(progress.currentWeek);
-const phaseProgress = ((weekIndex + 1) / phaseWeeks.length) * 100;
-const progressFill = document.getElementById('curriculum-progress-fill');
-if (progressFill) progressFill.style.width = `${phaseProgress}%`;
-
-renderWeekLessons(phase, progress.currentWeek, progress.completedLessons);
-updatePhaseNav(currentPhase);
-```
-
-}
-
-function renderWeekLessons(phase, week, completedLessons) {
-const container = document.getElementById(‘curriculum-lessons-container’);
-if (!container) return;
-
-```
-const lessons = phase.lessons.filter(l => l.week === week);
-container.innerHTML = lessons.map(lesson => {
-  const isComplete = completedLessons.includes(lesson.id);
-  return `
-    <div class="lesson-card ${isComplete ? 'completed' : ''}" onclick="openLesson('${lesson.id}')">
-      <div class="lesson-status ${isComplete ? 'completed' : ''}">
-        <span class="check-mark">✓</span>
-      </div>
-      <div class="lesson-info">
-        <div class="lesson-title">${lesson.title}</div>
-        <div class="lesson-subtitle">${lesson.subtitle}</div>
-      </div>
-      <div class="lesson-meta">${lesson.duration} min</div>
-    </div>
-  `;
-}).join('');
-```
-
-}
-
-function updatePhaseNav(activePhase) {
-document.querySelectorAll(’.phase-nav-btn’).forEach(btn => {
-btn.classList.toggle(‘active’, btn.dataset.phase === activePhase);
-});
-}
-
-function selectPhase(phaseId) {
-currentPhase = phaseId;
-const curriculum = PraxiaCurriculum.getCurriculum();
-const phase = curriculum.phases.find(p => p.id === phaseId);
-if (!phase) return;
-
-```
-const progress = PraxiaStorage.get('curriculumProgress') || { currentWeek: 1, completedLessons: [] };
-const weekToShow = phase.weeks[0];
-
-updateElement('curriculum-phase-name', phase.name);
-updateElement('curriculum-phase-subtitle', phase.subtitle);
-updateElement('curriculum-phase-desc', phase.description);
-updateElement('curriculum-week', `Week ${weekToShow}`);
-
-renderWeekLessons(phase, weekToShow, progress.completedLessons);
-updatePhaseNav(phaseId);
-```
-
-}
-
-function openLesson(lessonId) {
-currentLessonId = lessonId;
-const curriculum = PraxiaCurriculum.getCurriculum();
-let lesson = null;
-
-```
-for (const phase of curriculum.phases) {
-  lesson = phase.lessons.find(l => l.id === lessonId);
-  if (lesson) break;
-}
-if (!lesson) return;
-
-const progress = PraxiaStorage.get('curriculumProgress') || { currentWeek: 1, completedLessons: [] };
-const isComplete = progress.completedLessons.includes(lessonId);
-
-updateElement('lesson-detail-title', lesson.title);
-updateElement('lesson-detail-subtitle', lesson.subtitle);
-updateElement('lesson-type-badge', lesson.type);
-updateElement('lesson-detail-description', lesson.description);
-
-const objectivesList = document.getElementById('lesson-objectives-list');
-if (objectivesList && lesson.objectives) {
-  objectivesList.innerHTML = lesson.objectives.map(o => `<li>${o}</li>`).join('');
-}
-
-const briefingCard = document.getElementById('lesson-briefing-card');
-if (lesson.custosContent?.briefing) {
-  updateElement('lesson-briefing-text', lesson.custosContent.briefing);
-  if (briefingCard) briefingCard.style.display = '';
-} else if (briefingCard) briefingCard.style.display = 'none';
-
-const keyPointsCard = document.getElementById('lesson-key-points-card');
-const keyPointsList = document.getElementById('lesson-key-points-list');
-if (lesson.custosContent?.keyPoints && keyPointsList) {
-  keyPointsList.innerHTML = lesson.custosContent.keyPoints.map(p => `<li>${p}</li>`).join('');
-  if (keyPointsCard) keyPointsCard.style.display = '';
-} else if (keyPointsCard) keyPointsCard.style.display = 'none';
-
-const assignmentCard = document.getElementById('lesson-assignment-card');
-if (lesson.assignment) {
-  updateElement('lesson-assignment-text', lesson.assignment.description);
-  updateElement('lesson-assignment-count', `0 / ${lesson.assignment.targetCount}`);
-  const statusEl = document.getElementById('lesson-assignment-status');
-  if (statusEl) {
-    statusEl.textContent = isComplete ? 'Complete' : 'Incomplete';
-    statusEl.className = `assignment-status ${isComplete ? 'complete' : 'incomplete'}`;
   }
-  if (assignmentCard) assignmentCard.style.display = '';
-} else if (assignmentCard) assignmentCard.style.display = 'none';
 
-const btn = document.getElementById('lesson-complete-btn');
-if (btn) btn.textContent = isComplete ? '[ Mark Incomplete ]' : '[ Mark Complete ]';
+  function saveEpisode() {
+    const user = PraxiaUsers.getActiveUser();
+    if (!user) return;
 
-showView('view-lesson-detail');
-```
+    const episode = {
+      userId: user.id,
+      intensity: parseInt(document.getElementById('episode-gauge-handle')?.textContent || '5'),
+      trigger: document.getElementById('episode-trigger')?.value || '',
+      interventions: Array.from(state.selectedInterventions),
+      durationMinutes: parseInt(document.getElementById('episode-duration')?.value) || null,
+      notes: document.getElementById('episode-notes')?.value || ''
+    };
 
-}
+    PraxiaStorage.append('episodes', episode);
 
-function toggleLessonComplete() {
-if (!currentLessonId) return;
-const progress = PraxiaStorage.get(‘curriculumProgress’) || { currentWeek: 1, completedLessons: [] };
-const index = progress.completedLessons.indexOf(currentLessonId);
+    // Reset
+    state.selectedInterventions.clear();
+    document.getElementById('episode-trigger').value = '';
+    document.getElementById('episode-duration').value = '';
+    document.getElementById('episode-notes').value = '';
+    document.querySelectorAll('#intervention-options .state-word').forEach(el => el.classList.remove('selected'));
+    const handle = document.getElementById('episode-gauge-handle');
+    if (handle) { handle.textContent = '5'; handle.style.left = '50%'; }
 
-```
-if (index > -1) {
-  progress.completedLessons.splice(index, 1);
-} else {
-  progress.completedLessons.push(currentLessonId);
-}
+    showModal('Confirmed', 'Episode logged for pattern analysis.');
+    setTimeout(() => {
+      hideModal();
+      navigateToHome('custos');
+    }, 1500);
+  }
 
-PraxiaStorage.set('curriculumProgress', progress);
-showModal('Confirmed', index > -1 ? 'Lesson marked incomplete.' : 'Lesson completed!');
-setTimeout(() => showView('view-curriculum'), 1500);
-```
+  // ========================================
+  // FILIUS
+  // ========================================
 
-}
+  function selectFiliusMood(mood, btn) {
+    const user = PraxiaUsers.getActiveUser();
+    if (user) {
+      PraxiaStorage.append('moodCheckins', {
+        userId: user.id,
+        mood
+      });
+      PraxiaUsers.addPoints(user.id, PraxiaRewards.getPointsForAction('dailyCheckin'));
+    }
 
-// ========================================
-// ACHIEVEMENTS VIEW
-// ========================================
+    document.querySelectorAll('#filius-mood-grid .mood-btn').forEach(b => b.classList.remove('selected'));
+    btn?.classList.add('selected');
 
-function renderAchievements() {
-const user = PraxiaUsers.getActiveUser();
-if (!user) return;
+    showModal('Confirmed', 'Status recorded.');
+    setTimeout(() => {
+      hideModal();
+      btn?.classList.remove('selected');
+    }, 1500);
+  }
 
-```
-const isFilius = user.role === 'filius';
-const rewards = PraxiaRewards.getRewards();
-const userAchievements = PraxiaStorage.get(`achievements_${user.id}`) || [];
-const points = PraxiaStorage.get(`points_${user.id}`) || 0;
-const streak = PraxiaRewards.calculateStreak(user.id);
+  // ========================================
+  // PROGRESSIO
+  // ========================================
 
-const streakEl = isFilius ? document.getElementById('filius-streak') : document.getElementById('achievement-streak');
-if (streakEl) streakEl.textContent = String(streak);
+  function updateProgressio() {
+    const user = PraxiaUsers.getActiveUser();
+    if (!user) return;
 
-const pointsEl = isFilius ? document.getElementById('filius-points') : document.getElementById('total-points');
-if (pointsEl) pointsEl.textContent = String(points);
+    const sessions = PraxiaStorage.query('sessions', { userId: user.id });
+    const episodes = PraxiaStorage.query('episodes', { userId: user.id });
+    const streak = PraxiaRewards.calculateStreak(user.id);
 
-if (!isFilius) {
-  renderStreakMilestones(streak, rewards?.streakSystem?.milestones || []);
-  const roleAchievements = rewards?.achievements?.custos || [];
-  renderAchievementCards(roleAchievements, userAchievements);
-  renderRewardsList(rewards?.unlockableRewards || [], points);
-} else {
-  const roleAchievements = rewards?.achievements?.filius || [];
-  renderFiliusAchievements(roleAchievements, userAchievements);
-}
-```
+    document.getElementById('progress-streak').textContent = String(streak);
+    document.getElementById('progress-sessions').textContent = String(sessions.length);
+    document.getElementById('progress-episodes').textContent = String(episodes.length);
 
-}
+    // Weekly skills
+    const oneWeekAgo = new Date();
+    oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+    const weeklySessions = sessions.filter(s => new Date(s.date) >= oneWeekAgo);
+    const weeklySkills = weeklySessions.reduce((acc, s) => {
+      acc.praise += s.skills?.praise || 0;
+      acc.reflect += s.skills?.reflect || 0;
+      acc.describe += s.skills?.describe || 0;
+      return acc;
+    }, { praise: 0, reflect: 0, describe: 0 });
 
-function renderStreakMilestones(currentStreak, milestones) {
-const container = document.getElementById(‘streak-milestones’);
-const nextEl = document.getElementById(‘streak-next-milestone’);
-if (!container) return;
+    document.getElementById('weekly-praise').textContent = String(weeklySkills.praise);
+    document.getElementById('weekly-reflect').textContent = String(weeklySkills.reflect);
+    document.getElementById('weekly-describe').textContent = String(weeklySkills.describe);
 
-```
-let nextMilestone = null;
-container.innerHTML = milestones.slice(0, 5).map(m => {
-  const achieved = currentStreak >= m.days;
-  if (!achieved && !nextMilestone) nextMilestone = m;
-  const progress = achieved ? 100 : Math.min(100, (currentStreak / m.days) * 100);
-  return `<div class="streak-milestone ${achieved ? 'achieved' : 'current'}" style="--progress: ${progress}%" title="${m.name}: ${m.days} days"></div>`;
-}).join('');
+    // Calendar
+    renderCalendar(sessions);
+  }
 
-if (nextEl) {
-  nextEl.textContent = nextMilestone ? `Next: ${nextMilestone.name} at ${nextMilestone.days} days` : 'All milestones achieved!';
-}
-```
+  function renderCalendar(sessions) {
+    const cal = document.getElementById('progressio-calendar');
+    if (!cal) return;
 
-}
+    const today = new Date();
+    const sessionDates = new Set(sessions.map(s => (s.date || s.createdAt).slice(0, 10)));
+    const dayLabels = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
 
-function renderAchievementCards(allAchievements, earnedIds) {
-const earnedContainer = document.getElementById(‘achievements-earned’);
-const availableContainer = document.getElementById(‘achievements-available’);
+    const days = [];
+    for (let i = 6; i >= 0; i--) {
+      const d = new Date(today);
+      d.setDate(d.getDate() - i);
+      days.push(d);
+    }
 
-```
-const earned = allAchievements.filter(a => earnedIds.includes(a.id));
-const available = allAchievements.filter(a => !earnedIds.includes(a.id) && !a.hidden);
+    cal.innerHTML = days.map(d => {
+      const ds = d.toISOString().slice(0, 10);
+      const isToday = ds === today.toISOString().slice(0, 10);
+      const completed = sessionDates.has(ds);
+      return `<div class="calendar-day ${completed ? 'completed' : ''} ${isToday ? 'today' : ''}">${dayLabels[d.getDay()]}</div>`;
+    }).join('');
+  }
 
-if (earnedContainer) {
-  earnedContainer.innerHTML = earned.length > 0 ? earned.map(a => `
-    <div class="achievement-card earned">
-      <div class="achievement-icon"><div class="gradus-mini"><div class="gradus-bar"></div><div class="gradus-bar"></div><div class="gradus-bar"></div></div></div>
-      <div class="achievement-name">${a.name}</div>
-      <div class="achievement-desc">${a.description}</div>
-      <div class="achievement-points">+${a.points} pts</div>
-    </div>
-  `).join('') : '<div class="achievement-empty">Complete activities to earn achievements</div>';
-}
+  // ========================================
+  // MODAL
+  // ========================================
 
-if (availableContainer) {
-  availableContainer.innerHTML = available.map(a => `
-    <div class="achievement-card">
-      <div class="achievement-icon"><div class="gradus-mini"><div class="gradus-bar"></div><div class="gradus-bar"></div><div class="gradus-bar"></div></div></div>
-      <div class="achievement-name">${a.name}</div>
-      <div class="achievement-desc">${a.description}</div>
-      <div class="achievement-points">${a.points} pts</div>
-    </div>
-  `).join('');
-}
-```
+  function showModal(title, message) {
+    document.getElementById('modal-title').textContent = title;
+    document.getElementById('modal-message').textContent = message;
+    document.getElementById('modal-confirm').classList.add('active');
+  }
 
-}
+  function hideModal() {
+    document.getElementById('modal-confirm').classList.remove('active');
+  }
 
-function renderRewardsList(rewards, currentPoints) {
-const container = document.getElementById(‘rewards-list’);
-if (!container) return;
+  // ========================================
+  // CURRICULUM VIEW
+  // ========================================
 
-```
-if (!rewards || rewards.length === 0) {
-  container.innerHTML = '<div class="achievement-empty">Rewards coming soon</div>';
-  return;
-}
+  let currentPhase = 'fundamentum';
+  let currentLessonId = null;
 
-container.innerHTML = rewards.map(r => {
-  const unlocked = currentPoints >= (r.cost || 0);
-  return `
-    <div class="reward-card ${unlocked ? 'unlocked' : 'locked'}">
-      <div class="reward-icon"><div class="gradus-mini"><div class="gradus-bar"></div><div class="gradus-bar"></div><div class="gradus-bar"></div></div></div>
-      <div class="reward-info">
-        <div class="reward-name">${r.name}</div>
-        <div class="reward-desc">${r.description}</div>
+  function renderCurriculum() {
+    const curriculum = PraxiaCurriculum.getCurriculum();
+    if (!curriculum) return;
+
+    const progress = PraxiaStorage.get('curriculumProgress') || { currentWeek: 1, completedLessons: [] };
+    const phase = curriculum.phases.find(p => p.weeks.includes(progress.currentWeek)) || curriculum.phases[0];
+    currentPhase = phase.id;
+    
+    updateElement('curriculum-phase-name', phase.name);
+    updateElement('curriculum-phase-subtitle', phase.subtitle);
+    updateElement('curriculum-phase-desc', phase.description);
+    updateElement('curriculum-week', `Week ${progress.currentWeek}`);
+    
+    const phaseWeeks = phase.weeks;
+    const weekIndex = phaseWeeks.indexOf(progress.currentWeek);
+    const phaseProgress = ((weekIndex + 1) / phaseWeeks.length) * 100;
+    const progressFill = document.getElementById('curriculum-progress-fill');
+    if (progressFill) progressFill.style.width = `${phaseProgress}%`;
+    
+    renderWeekLessons(phase, progress.currentWeek, progress.completedLessons);
+    updatePhaseNav(currentPhase);
+  }
+
+  function renderWeekLessons(phase, week, completedLessons) {
+    const container = document.getElementById('curriculum-lessons-container');
+    if (!container) return;
+    
+    const lessons = phase.lessons.filter(l => l.week === week);
+    container.innerHTML = lessons.map(lesson => {
+      const isComplete = completedLessons.includes(lesson.id);
+      return `
+        <div class="lesson-card ${isComplete ? 'completed' : ''}" onclick="openLesson('${lesson.id}')">
+          <div class="lesson-status ${isComplete ? 'completed' : ''}">
+            <span class="check-mark">✓</span>
+          </div>
+          <div class="lesson-info">
+            <div class="lesson-title">${lesson.title}</div>
+            <div class="lesson-subtitle">${lesson.subtitle}</div>
+          </div>
+          <div class="lesson-meta">${lesson.duration} min</div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  function updatePhaseNav(activePhase) {
+    document.querySelectorAll('.phase-nav-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.phase === activePhase);
+    });
+  }
+
+  function selectPhase(phaseId) {
+    currentPhase = phaseId;
+    const curriculum = PraxiaCurriculum.getCurriculum();
+    const phase = curriculum.phases.find(p => p.id === phaseId);
+    if (!phase) return;
+    
+    const progress = PraxiaStorage.get('curriculumProgress') || { currentWeek: 1, completedLessons: [] };
+    const weekToShow = phase.weeks[0];
+    
+    updateElement('curriculum-phase-name', phase.name);
+    updateElement('curriculum-phase-subtitle', phase.subtitle);
+    updateElement('curriculum-phase-desc', phase.description);
+    updateElement('curriculum-week', `Week ${weekToShow}`);
+    
+    renderWeekLessons(phase, weekToShow, progress.completedLessons);
+    updatePhaseNav(phaseId);
+  }
+
+  function openLesson(lessonId) {
+    currentLessonId = lessonId;
+    const curriculum = PraxiaCurriculum.getCurriculum();
+    let lesson = null;
+    
+    for (const phase of curriculum.phases) {
+      lesson = phase.lessons.find(l => l.id === lessonId);
+      if (lesson) break;
+    }
+    if (!lesson) return;
+    
+    const progress = PraxiaStorage.get('curriculumProgress') || { currentWeek: 1, completedLessons: [] };
+    const isComplete = progress.completedLessons.includes(lessonId);
+    
+    updateElement('lesson-detail-title', lesson.title);
+    updateElement('lesson-detail-subtitle', lesson.subtitle);
+    updateElement('lesson-type-badge', lesson.type);
+    updateElement('lesson-detail-description', lesson.description);
+    
+    const objectivesList = document.getElementById('lesson-objectives-list');
+    if (objectivesList && lesson.objectives) {
+      objectivesList.innerHTML = lesson.objectives.map(o => `<li>${o}</li>`).join('');
+    }
+    
+    const briefingCard = document.getElementById('lesson-briefing-card');
+    if (lesson.custosContent?.briefing) {
+      updateElement('lesson-briefing-text', lesson.custosContent.briefing);
+      if (briefingCard) briefingCard.style.display = '';
+    } else if (briefingCard) briefingCard.style.display = 'none';
+    
+    const keyPointsCard = document.getElementById('lesson-key-points-card');
+    const keyPointsList = document.getElementById('lesson-key-points-list');
+    if (lesson.custosContent?.keyPoints && keyPointsList) {
+      keyPointsList.innerHTML = lesson.custosContent.keyPoints.map(p => `<li>${p}</li>`).join('');
+      if (keyPointsCard) keyPointsCard.style.display = '';
+    } else if (keyPointsCard) keyPointsCard.style.display = 'none';
+    
+    const assignmentCard = document.getElementById('lesson-assignment-card');
+    if (lesson.assignment) {
+      updateElement('lesson-assignment-text', lesson.assignment.description);
+      updateElement('lesson-assignment-count', `0 / ${lesson.assignment.targetCount}`);
+      const statusEl = document.getElementById('lesson-assignment-status');
+      if (statusEl) {
+        statusEl.textContent = isComplete ? 'Complete' : 'Incomplete';
+        statusEl.className = `assignment-status ${isComplete ? 'complete' : 'incomplete'}`;
+      }
+      if (assignmentCard) assignmentCard.style.display = '';
+    } else if (assignmentCard) assignmentCard.style.display = 'none';
+    
+    const btn = document.getElementById('lesson-complete-btn');
+    if (btn) btn.textContent = isComplete ? '[ Mark Incomplete ]' : '[ Mark Complete ]';
+    
+    showView('view-lesson-detail');
+  }
+
+  function toggleLessonComplete() {
+    if (!currentLessonId) return;
+    const progress = PraxiaStorage.get('curriculumProgress') || { currentWeek: 1, completedLessons: [] };
+    const index = progress.completedLessons.indexOf(currentLessonId);
+    
+    if (index > -1) {
+      progress.completedLessons.splice(index, 1);
+    } else {
+      progress.completedLessons.push(currentLessonId);
+    }
+    
+    PraxiaStorage.set('curriculumProgress', progress);
+    showModal('Confirmed', index > -1 ? 'Lesson marked incomplete.' : 'Lesson completed!');
+    setTimeout(() => showView('view-curriculum'), 1500);
+  }
+
+  // ========================================
+  // ACHIEVEMENTS VIEW
+  // ========================================
+
+  function renderAchievements() {
+    const user = PraxiaUsers.getActiveUser();
+    if (!user) return;
+    
+    const isFilius = user.role === 'filius';
+    const rewards = PraxiaRewards.getRewards();
+    const userAchievements = PraxiaStorage.get(`achievements_${user.id}`) || [];
+    const points = PraxiaStorage.get(`points_${user.id}`) || 0;
+    const streak = PraxiaRewards.calculateStreak(user.id);
+    
+    const streakEl = isFilius ? document.getElementById('filius-streak') : document.getElementById('achievement-streak');
+    if (streakEl) streakEl.textContent = String(streak);
+    
+    const pointsEl = isFilius ? document.getElementById('filius-points') : document.getElementById('total-points');
+    if (pointsEl) pointsEl.textContent = String(points);
+    
+    if (!isFilius) {
+      renderStreakMilestones(streak, rewards?.streakSystem?.milestones || []);
+      const roleAchievements = rewards?.achievements?.custos || [];
+      renderAchievementCards(roleAchievements, userAchievements);
+      renderRewardsList(rewards?.unlockableRewards || [], points);
+    } else {
+      const roleAchievements = rewards?.achievements?.filius || [];
+      renderFiliusAchievements(roleAchievements, userAchievements);
+    }
+  }
+
+  function renderStreakMilestones(currentStreak, milestones) {
+    const container = document.getElementById('streak-milestones');
+    const nextEl = document.getElementById('streak-next-milestone');
+    if (!container) return;
+    
+    let nextMilestone = null;
+    container.innerHTML = milestones.slice(0, 5).map(m => {
+      const achieved = currentStreak >= m.days;
+      if (!achieved && !nextMilestone) nextMilestone = m;
+      const progress = achieved ? 100 : Math.min(100, (currentStreak / m.days) * 100);
+      return `<div class="streak-milestone ${achieved ? 'achieved' : 'current'}" style="--progress: ${progress}%" title="${m.name}: ${m.days} days"></div>`;
+    }).join('');
+    
+    if (nextEl) {
+      nextEl.textContent = nextMilestone ? `Next: ${nextMilestone.name} at ${nextMilestone.days} days` : 'All milestones achieved!';
+    }
+  }
+
+  function renderAchievementCards(allAchievements, earnedIds) {
+    const earnedContainer = document.getElementById('achievements-earned');
+    const availableContainer = document.getElementById('achievements-available');
+    
+    const earned = allAchievements.filter(a => earnedIds.includes(a.id));
+    const available = allAchievements.filter(a => !earnedIds.includes(a.id) && !a.hidden);
+    
+    if (earnedContainer) {
+      earnedContainer.innerHTML = earned.length > 0 ? earned.map(a => `
+        <div class="achievement-card earned">
+          <div class="achievement-icon"><div class="gradus-mini"><div class="gradus-bar"></div><div class="gradus-bar"></div><div class="gradus-bar"></div></div></div>
+          <div class="achievement-name">${a.name}</div>
+          <div class="achievement-desc">${a.description}</div>
+          <div class="achievement-points">+${a.points} pts</div>
+        </div>
+      `).join('') : '<div class="achievement-empty">Complete activities to earn achievements</div>';
+    }
+    
+    if (availableContainer) {
+      availableContainer.innerHTML = available.map(a => `
+        <div class="achievement-card">
+          <div class="achievement-icon"><div class="gradus-mini"><div class="gradus-bar"></div><div class="gradus-bar"></div><div class="gradus-bar"></div></div></div>
+          <div class="achievement-name">${a.name}</div>
+          <div class="achievement-desc">${a.description}</div>
+          <div class="achievement-points">${a.points} pts</div>
+        </div>
+      `).join('');
+    }
+  }
+
+  function renderRewardsList(rewards, currentPoints) {
+    const container = document.getElementById('rewards-list');
+    if (!container) return;
+    
+    if (!rewards || rewards.length === 0) {
+      container.innerHTML = '<div class="achievement-empty">Rewards coming soon</div>';
+      return;
+    }
+    
+    container.innerHTML = rewards.map(r => {
+      const unlocked = currentPoints >= (r.cost || 0);
+      return `
+        <div class="reward-card ${unlocked ? 'unlocked' : 'locked'}">
+          <div class="reward-icon"><div class="gradus-mini"><div class="gradus-bar"></div><div class="gradus-bar"></div><div class="gradus-bar"></div></div></div>
+          <div class="reward-info">
+            <div class="reward-name">${r.name}</div>
+            <div class="reward-desc">${r.description}</div>
+          </div>
+          <div class="reward-cost">${r.cost || 0} pts</div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  function renderFiliusAchievements(allAchievements, earnedIds) {
+    const container = document.getElementById('filius-achievements-grid');
+    if (!container) return;
+    
+    const earned = allAchievements.filter(a => earnedIds.includes(a.id));
+    container.innerHTML = earned.length > 0 ? earned.map(a => `
+      <div class="achievement-card earned">
+        <div class="achievement-icon"><div class="gradus-mini"><div class="gradus-bar"></div><div class="gradus-bar"></div><div class="gradus-bar"></div></div></div>
+        <div class="achievement-name">${a.name}</div>
+        <div class="achievement-desc">${a.description}</div>
       </div>
-      <div class="reward-cost">${r.cost || 0} pts</div>
-    </div>
-  `;
-}).join('');
-```
+    `).join('') : '<div class="achievement-empty" id="filius-no-achievements">Keep practicing to earn badges!</div>';
+  }
 
-}
+  // ========================================
+  // SETTINGS VIEW
+  // ========================================
 
-function renderFiliusAchievements(allAchievements, earnedIds) {
-const container = document.getElementById(‘filius-achievements-grid’);
-if (!container) return;
+  let newUserRole = 'custos';
 
-```
-const earned = allAchievements.filter(a => earnedIds.includes(a.id));
-container.innerHTML = earned.length > 0 ? earned.map(a => `
-  <div class="achievement-card earned">
-    <div class="achievement-icon"><div class="gradus-mini"><div class="gradus-bar"></div><div class="gradus-bar"></div><div class="gradus-bar"></div></div></div>
-    <div class="achievement-name">${a.name}</div>
-    <div class="achievement-desc">${a.description}</div>
-  </div>
-`).join('') : '<div class="achievement-empty" id="filius-no-achievements">Keep practicing to earn badges!</div>';
-```
+  function renderSettings() {
+    const family = PraxiaStorage.get('family') || { name: 'Our Family' };
+    const familyNameInput = document.getElementById('settings-family-name');
+    if (familyNameInput) familyNameInput.value = family.name;
+    
+    const settings = PraxiaStorage.get('settings') || {};
+    const themeBtn = document.getElementById('settings-theme-btn');
+    if (themeBtn) themeBtn.textContent = `[ ${settings.theme === 'light' ? 'LUX' : 'NOX'} ]`;
+    
+    const durationSelect = document.getElementById('settings-praxis-duration');
+    if (durationSelect) durationSelect.value = String(settings.praxisDuration || 900);
+    
+    const notifToggle = document.getElementById('settings-notifications-toggle');
+    if (notifToggle) notifToggle.classList.toggle('active', settings.notifications === true);
+    
+    renderUsersList();
+  }
 
-}
+  function renderUsersList() {
+    const container = document.getElementById('settings-users-list');
+    if (!container) return;
+    
+    const users = PraxiaUsers.getAllUsers();
+    container.innerHTML = users.map(u => `
+      <div class="user-item">
+        <div class="user-avatar"><span class="user-avatar-text">${u.name.charAt(0)}</span></div>
+        <div class="user-info">
+          <div class="user-name">${u.name}</div>
+          <div class="user-role">${u.role}</div>
+        </div>
+      </div>
+    `).join('');
+  }
 
-// ========================================
-// SETTINGS VIEW
-// ========================================
+  function saveFamilyName() {
+    const input = document.getElementById('settings-family-name');
+    if (!input) return;
+    const family = PraxiaStorage.get('family') || {};
+    family.name = input.value || 'Our Family';
+    PraxiaStorage.set('family', family);
+    showModal('Confirmed', 'Family name updated.');
+  }
 
-let newUserRole = ‘custos’;
+  function savePraxisDuration() {
+    const select = document.getElementById('settings-praxis-duration');
+    if (!select) return;
+    const settings = PraxiaStorage.get('settings') || {};
+    settings.praxisDuration = parseInt(select.value, 10);
+    PraxiaStorage.set('settings', settings);
+  }
 
-function renderSettings() {
-const family = PraxiaStorage.get(‘family’) || { name: ‘Our Family’ };
-const familyNameInput = document.getElementById(‘settings-family-name’);
-if (familyNameInput) familyNameInput.value = family.name;
+  function toggleNotifications() {
+    const toggle = document.getElementById('settings-notifications-toggle');
+    const settings = PraxiaStorage.get('settings') || {};
+    settings.notifications = !settings.notifications;
+    PraxiaStorage.set('settings', settings);
+    if (toggle) toggle.classList.toggle('active', settings.notifications);
+  }
 
-```
-const settings = PraxiaStorage.get('settings') || {};
-const themeBtn = document.getElementById('settings-theme-btn');
-if (themeBtn) themeBtn.textContent = `[ ${settings.theme === 'light' ? 'LUX' : 'NOX'} ]`;
+  function showAddUserModal() {
+    document.getElementById('modal-add-user')?.classList.add('active');
+    newUserRole = 'custos';
+  }
 
-const durationSelect = document.getElementById('settings-praxis-duration');
-if (durationSelect) durationSelect.value = String(settings.praxisDuration || 900);
+  function hideAddUserModal() {
+    document.getElementById('modal-add-user')?.classList.remove('active');
+    const nameInput = document.getElementById('new-user-name');
+    if (nameInput) nameInput.value = '';
+  }
 
-const notifToggle = document.getElementById('settings-notifications-toggle');
-if (notifToggle) notifToggle.classList.toggle('active', settings.notifications === true);
+  function selectNewUserRole(role, btn) {
+    newUserRole = role;
+    document.querySelectorAll('.role-btn').forEach(b => b.classList.toggle('active', b === btn));
+  }
 
-renderUsersList();
-```
+  function addNewUser() {
+    const nameInput = document.getElementById('new-user-name');
+    const name = nameInput?.value?.trim();
+    if (!name) {
+      showModal('Error', 'Please enter a name.');
+      return;
+    }
+    PraxiaUsers.createUser({ role: newUserRole, name, displayLabel: newUserRole === 'custos' ? 'Custos' : 'Filius' });
+    hideAddUserModal();
+    renderUsersList();
+    showModal('Confirmed', `${name} added to family.`);
+  }
 
-}
+  function exportData() {
+    const data = {
+      family: PraxiaStorage.get('family'),
+      users: PraxiaUsers.getAllUsers(),
+      sessions: PraxiaStorage.getAll('sessions'),
+      episodes: PraxiaStorage.getAll('episodes'),
+      curriculumProgress: PraxiaStorage.get('curriculumProgress'),
+      settings: PraxiaStorage.get('settings')
+    };
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `praxia-export-${new Date().toISOString().split('T')[0]}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
 
-function renderUsersList() {
-const container = document.getElementById(‘settings-users-list’);
-if (!container) return;
+  function confirmResetProgress() {
+    document.getElementById('modal-reset')?.classList.add('active');
+  }
 
-```
-const users = PraxiaUsers.getAllUsers();
-container.innerHTML = users.map(u => `
-  <div class="user-item">
-    <div class="user-avatar"><span class="user-avatar-text">${u.name.charAt(0)}</span></div>
-    <div class="user-info">
-      <div class="user-name">${u.name}</div>
-      <div class="user-role">${u.role}</div>
-    </div>
-  </div>
-`).join('');
-```
+  function hideResetModal() {
+    document.getElementById('modal-reset')?.classList.remove('active');
+  }
 
-}
+  function executeReset() {
+    // Fixed: Use clearKey instead of clear for specific keys
+    PraxiaStorage.clearKey('sessions');
+    PraxiaStorage.clearKey('episodes');
+    PraxiaStorage.set('curriculumProgress', { currentWeek: 1, completedLessons: [] });
+    const users = PraxiaUsers.getAllUsers();
+    users.forEach(u => {
+      PraxiaStorage.remove(`achievements_${u.id}`);
+      PraxiaStorage.remove(`points_${u.id}`);
+    });
+    hideResetModal();
+    showModal('Confirmed', 'All progress has been reset.');
+    updateDashboard();
+  }
 
-function saveFamilyName() {
-const input = document.getElementById(‘settings-family-name’);
-if (!input) return;
-const family = PraxiaStorage.get(‘family’) || {};
-family.name = input.value || ‘Our Family’;
-PraxiaStorage.set(‘family’, family);
-showModal(‘Confirmed’, ‘Family name updated.’);
-}
+  function updateElement(id, text) {
+    const el = document.getElementById(id);
+    if (el) el.textContent = text;
+  }
 
-function savePraxisDuration() {
-const select = document.getElementById(‘settings-praxis-duration’);
-if (!select) return;
-const settings = PraxiaStorage.get(‘settings’) || {};
-settings.praxisDuration = parseInt(select.value, 10);
-PraxiaStorage.set(‘settings’, settings);
-}
+  // ========================================
+  // BREATHING ANIMATION
+  // ========================================
 
-function toggleNotifications() {
-const toggle = document.getElementById(‘settings-notifications-toggle’);
-const settings = PraxiaStorage.get(‘settings’) || {};
-settings.notifications = !settings.notifications;
-PraxiaStorage.set(‘settings’, settings);
-if (toggle) toggle.classList.toggle(‘active’, settings.notifications);
-}
+  function startBreathingAnimation() {
+    const texts = ['Inhale', 'Hold', 'Exhale', 'Hold'];
+    const durations = [4000, 1000, 4000, 1000];
+    let i = 0;
 
-function showAddUserModal() {
-document.getElementById(‘modal-add-user’)?.classList.add(‘active’);
-newUserRole = ‘custos’;
-}
+    function update() {
+      const els = [document.getElementById('breathing-text'), document.getElementById('filius-breathing-text')];
+      els.forEach(el => { if (el) el.textContent = texts[i]; });
+      setTimeout(() => { i = (i + 1) % texts.length; update(); }, durations[i]);
+    }
+    update();
+  }
 
-function hideAddUserModal() {
-document.getElementById(‘modal-add-user’)?.classList.remove(‘active’);
-const nameInput = document.getElementById(‘new-user-name’);
-if (nameInput) nameInput.value = ‘’;
-}
+  // ========================================
+  // PUBLIC API
+  // ========================================
 
-function selectNewUserRole(role, btn) {
-newUserRole = role;
-document.querySelectorAll(’.role-btn’).forEach(b => b.classList.toggle(‘active’, b === btn));
-}
-
-function addNewUser() {
-const nameInput = document.getElementById(‘new-user-name’);
-const name = nameInput?.value?.trim();
-if (!name) {
-showModal(‘Error’, ‘Please enter a name.’);
-return;
-}
-PraxiaUsers.createUser({ role: newUserRole, name, displayLabel: newUserRole === ‘custos’ ? ‘Custos’ : ‘Filius’ });
-hideAddUserModal();
-renderUsersList();
-showModal(‘Confirmed’, `${name} added to family.`);
-}
-
-function exportData() {
-const data = {
-family: PraxiaStorage.get(‘family’),
-users: PraxiaUsers.getAllUsers(),
-sessions: PraxiaStorage.getAll(‘sessions’),
-episodes: PraxiaStorage.getAll(‘episodes’),
-curriculumProgress: PraxiaStorage.get(‘curriculumProgress’),
-settings: PraxiaStorage.get(‘settings’)
-};
-const blob = new Blob([JSON.stringify(data, null, 2)], { type: ‘application/json’ });
-const url = URL.createObjectURL(blob);
-const a = document.createElement(‘a’);
-a.href = url;
-a.download = `praxia-export-${new Date().toISOString().split('T')[0]}.json`;
-a.click();
-URL.revokeObjectURL(url);
-}
-
-function confirmResetProgress() {
-document.getElementById(‘modal-reset’)?.classList.add(‘active’);
-}
-
-function hideResetModal() {
-document.getElementById(‘modal-reset’)?.classList.remove(‘active’);
-}
-
-function executeReset() {
-PraxiaStorage.clearKey(‘sessions’);
-PraxiaStorage.clearKey(‘episodes’);
-PraxiaStorage.set(‘curriculumProgress’, { currentWeek: 1, completedLessons: [] });
-const users = PraxiaUsers.getAllUsers();
-users.forEach(u => {
-PraxiaStorage.remove(`achievements_${u.id}`);
-PraxiaStorage.remove(`points_${u.id}`);
-});
-hideResetModal();
-showModal(‘Confirmed’, ‘All progress has been reset.’);
-updateDashboard();
-}
-
-function updateElement(id, text) {
-const el = document.getElementById(id);
-if (el) el.textContent = text;
-}
-
-// ========================================
-// BREATHING ANIMATION
-// ========================================
-
-function startBreathingAnimation() {
-const texts = [‘Inhale’, ‘Hold’, ‘Exhale’, ‘Hold’];
-const durations = [4000, 1000, 4000, 1000];
-let i = 0;
-
-```
-function update() {
-  const els = [document.getElementById('breathing-text'), document.getElementById('filius-breathing-text')];
-  els.forEach(el => { if (el) el.textContent = texts[i]; });
-  setTimeout(() => { i = (i + 1) % texts.length; update(); }, durations[i]);
-}
-update();
-```
-
-}
-
-// ========================================
-// PUBLIC API
-// ========================================
-
-return {
-init,
-showView,
-switchUser,
-navigateTo,
-toggleTheme,
-selectPreMood,
-selectPostMood,
-startPraxis,
-incrementSkill,
-decrementSkill,
-nextSkillPrompt,
-endPraxisEarly,
-saveSession,
-saveStatusCheckin,
-respiroNext,
-respiroPrev,
-filiusRespiroNext,
-filiusRespiroPrev,
-toggleIntervention,
-saveEpisode,
-selectFiliusMood,
-showModal,
-hideModal,
-updateDashboard,
-// Curriculum
-selectPhase,
-openLesson,
-toggleLessonComplete,
-// Settings
-saveFamilyName,
-savePraxisDuration,
-toggleNotifications,
-showAddUserModal,
-hideAddUserModal,
-selectNewUserRole,
-addNewUser,
-exportData,
-confirmResetProgress,
-hideResetModal,
-executeReset
-};
+  return {
+    init,
+    showView,
+    switchUser,
+    navigateTo,
+    toggleTheme,
+    selectPreMood,
+    selectPostMood,
+    startPraxis,
+    incrementSkill,
+    decrementSkill,
+    nextSkillPrompt,
+    endPraxisEarly,
+    saveSession,
+    saveStatusCheckin,
+    respiroNext,
+    respiroPrev,
+    filiusRespiroNext,
+    filiusRespiroPrev,
+    toggleIntervention,
+    saveEpisode,
+    selectFiliusMood,
+    showModal,
+    hideModal,
+    updateDashboard,
+    // Curriculum
+    selectPhase,
+    openLesson,
+    toggleLessonComplete,
+    // Settings
+    saveFamilyName,
+    savePraxisDuration,
+    toggleNotifications,
+    showAddUserModal,
+    hideAddUserModal,
+    selectNewUserRole,
+    addNewUser,
+    exportData,
+    confirmResetProgress,
+    hideResetModal,
+    executeReset
+  };
 })();
 
 // Initialize on DOM ready
-document.addEventListener(‘DOMContentLoaded’, () => Praxia.init());
+document.addEventListener('DOMContentLoaded', () => Praxia.init());
 
 // Expose globally for HTML onclick handlers
 window.showView = Praxia.showView;

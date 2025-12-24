@@ -244,6 +244,248 @@
                 </div>
             </section>
 
+            <!-- ============================================
+                 CURRICULUM VIEW
+                 ============================================ -->
+            <section id="view-curriculum" class="view">
+                <h1 class="page-title">Curriculum</h1>
+                <p class="page-subtitle">Your 12-week learning journey</p>
+                
+                <!-- Phase Progress Card -->
+                <div class="card" id="curriculum-phase-card">
+                    <div class="phase-header">
+                        <div class="phase-info">
+                            <div class="phase-name" id="curriculum-phase-name">Fundamentum</div>
+                            <div class="phase-subtitle" id="curriculum-phase-subtitle">Foundation</div>
+                        </div>
+                        <div class="phase-progress">
+                            <div class="phase-week" id="curriculum-week">Week 1</div>
+                            <div class="phase-progress-bar">
+                                <div class="phase-progress-fill" id="curriculum-progress-fill" style="width: 0%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="phase-description" id="curriculum-phase-desc">Building the relationship foundation through child-directed interaction</p>
+                </div>
+
+                <!-- Weekly Lessons -->
+                <div class="section-label">This Week's Lessons</div>
+                <div id="curriculum-lessons-container">
+                    <!-- Lessons will be dynamically rendered here -->
+                </div>
+
+                <!-- Phase Navigation -->
+                <div class="section-label mt-lg">All Phases</div>
+                <div class="phase-nav" id="phase-nav">
+                    <button class="phase-nav-btn active" data-phase="fundamentum" onclick="selectPhase('fundamentum')">
+                        <div class="gradus-mini"><div class="gradus-bar"></div><div class="gradus-bar"></div><div class="gradus-bar"></div></div>
+                        <span>Fundamentum</span>
+                    </button>
+                    <button class="phase-nav-btn" data-phase="praxis" onclick="selectPhase('praxis')">
+                        <div class="gradus-mini"><div class="gradus-bar"></div><div class="gradus-bar"></div><div class="gradus-bar"></div></div>
+                        <span>Praxis</span>
+                    </button>
+                    <button class="phase-nav-btn" data-phase="imperium" onclick="selectPhase('imperium')">
+                        <div class="gradus-mini"><div class="gradus-bar"></div><div class="gradus-bar"></div><div class="gradus-bar"></div></div>
+                        <span>Imperium</span>
+                    </button>
+                    <button class="phase-nav-btn" data-phase="autonomia" onclick="selectPhase('autonomia')">
+                        <div class="gradus-mini"><div class="gradus-bar"></div><div class="gradus-bar"></div><div class="gradus-bar"></div></div>
+                        <span>Autonomia</span>
+                    </button>
+                </div>
+            </section>
+
+            <!-- Lesson Detail View -->
+            <section id="view-lesson-detail" class="view">
+                <button class="back-btn" onclick="showView('view-curriculum')">← Revert</button>
+                <div class="lesson-header">
+                    <div class="lesson-type-badge" id="lesson-type-badge">Skill</div>
+                    <h1 class="page-title" id="lesson-detail-title">Lesson Title</h1>
+                    <p class="page-subtitle" id="lesson-detail-subtitle">Lesson subtitle</p>
+                </div>
+
+                <div class="card">
+                    <div class="card-title mb-md">Overview</div>
+                    <p class="lesson-description" id="lesson-detail-description">Lesson description text</p>
+                </div>
+
+                <div class="card">
+                    <div class="card-title mb-md">Objectives</div>
+                    <ul class="objectives-list" id="lesson-objectives-list">
+                        <!-- Objectives rendered dynamically -->
+                    </ul>
+                </div>
+
+                <div class="card" id="lesson-briefing-card">
+                    <div class="card-title mb-md">Briefing</div>
+                    <p class="lesson-briefing" id="lesson-briefing-text">Briefing content</p>
+                </div>
+
+                <div class="card" id="lesson-key-points-card">
+                    <div class="card-title mb-md">Key Points</div>
+                    <ul class="key-points-list" id="lesson-key-points-list">
+                        <!-- Key points rendered dynamically -->
+                    </ul>
+                </div>
+
+                <div class="card" id="lesson-assignment-card">
+                    <div class="card-title mb-md">Assignment</div>
+                    <p class="assignment-description" id="lesson-assignment-text">Assignment description</p>
+                    <div class="assignment-progress" id="lesson-assignment-progress">
+                        <span class="assignment-count" id="lesson-assignment-count">0 / 1</span>
+                        <span class="assignment-status" id="lesson-assignment-status">Incomplete</span>
+                    </div>
+                </div>
+
+                <button class="btn btn-primary btn-large btn-block" id="lesson-complete-btn" onclick="toggleLessonComplete()">[ Mark Complete ]</button>
+            </section>
+
+            <!-- ============================================
+                 ACHIEVEMENTS / REWARDS VIEW
+                 ============================================ -->
+            <section id="view-achievements" class="view">
+                <h1 class="page-title">Achievements</h1>
+                <p class="page-subtitle">Your progress and rewards</p>
+
+                <!-- Consecutio (Streak) Card -->
+                <div class="card streak-card">
+                    <div class="streak-header">
+                        <div class="streak-icon">
+                            <div class="gradus-large animated"><div class="gradus-bar"></div><div class="gradus-bar"></div><div class="gradus-bar"></div></div>
+                        </div>
+                        <div class="streak-info">
+                            <div class="streak-value" id="achievement-streak">0</div>
+                            <div class="streak-label">Day Consecutio</div>
+                        </div>
+                    </div>
+                    <div class="streak-milestones" id="streak-milestones">
+                        <!-- Milestone markers rendered dynamically -->
+                    </div>
+                    <div class="streak-next" id="streak-next-milestone">Next: Initium at 3 days</div>
+                </div>
+
+                <!-- Points Card -->
+                <div class="card">
+                    <div class="card-title mb-sm">Total Points</div>
+                    <div class="points-display">
+                        <span class="points-value" id="total-points">0</span>
+                        <span class="points-label">pts</span>
+                    </div>
+                </div>
+
+                <!-- Achievements Grid -->
+                <div class="section-label">Earned Achievements</div>
+                <div class="achievements-grid" id="achievements-earned">
+                    <!-- Earned achievements rendered dynamically -->
+                    <div class="achievement-empty" id="no-achievements-msg">Complete activities to earn achievements</div>
+                </div>
+
+                <div class="section-label mt-lg">Available Achievements</div>
+                <div class="achievements-grid" id="achievements-available">
+                    <!-- Available achievements rendered dynamically -->
+                </div>
+
+                <!-- Unlockable Rewards -->
+                <div class="section-label mt-lg">Rewards</div>
+                <div class="rewards-list" id="rewards-list">
+                    <!-- Rewards rendered dynamically -->
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SETTINGS VIEW
+                 ============================================ -->
+            <section id="view-settings" class="view">
+                <h1 class="page-title">Settings</h1>
+                <p class="page-subtitle">Family profile and preferences</p>
+
+                <!-- Family Profile Card -->
+                <div class="card">
+                    <div class="card-title mb-md">Family Profile</div>
+                    <div class="form-group">
+                        <label class="form-label">Family Name</label>
+                        <input type="text" class="form-input" id="settings-family-name" placeholder="Our Family">
+                    </div>
+                    <button class="btn btn-secondary btn-block" onclick="saveFamilyName()">[ Update Family Name ]</button>
+                </div>
+
+                <!-- Users Card -->
+                <div class="card">
+                    <div class="card-title mb-md">Family Members</div>
+                    <div class="users-list" id="settings-users-list">
+                        <!-- Users rendered dynamically -->
+                    </div>
+                    <button class="btn btn-secondary btn-block mt-md" onclick="showAddUserModal()">[ Add Member ]</button>
+                </div>
+
+                <!-- Preferences Card -->
+                <div class="card">
+                    <div class="card-title mb-md">Preferences</div>
+                    
+                    <div class="setting-row">
+                        <div class="setting-info">
+                            <div class="setting-label">Theme</div>
+                            <div class="setting-desc">NOX (dark) or LUX (light)</div>
+                        </div>
+                        <button class="btn btn-secondary btn-small" onclick="toggleTheme()" id="settings-theme-btn">[ NOX ]</button>
+                    </div>
+
+                    <div class="setting-row">
+                        <div class="setting-info">
+                            <div class="setting-label">Praxis Duration</div>
+                            <div class="setting-desc">Default session length</div>
+                        </div>
+                        <select class="form-select" id="settings-praxis-duration" onchange="savePraxisDuration()">
+                            <option value="600">10 min</option>
+                            <option value="900" selected>15 min</option>
+                            <option value="1200">20 min</option>
+                        </select>
+                    </div>
+
+                    <div class="setting-row">
+                        <div class="setting-info">
+                            <div class="setting-label">Notifications</div>
+                            <div class="setting-desc">Daily practice reminders</div>
+                        </div>
+                        <button class="toggle-switch" id="settings-notifications-toggle" onclick="toggleNotifications()">
+                            <span class="toggle-track"><span class="toggle-thumb"></span></span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Data Management Card -->
+                <div class="card">
+                    <div class="card-title mb-md">Data Management</div>
+                    
+                    <div class="setting-row">
+                        <div class="setting-info">
+                            <div class="setting-label">Export Data</div>
+                            <div class="setting-desc">Download your family's data</div>
+                        </div>
+                        <button class="btn btn-secondary btn-small" onclick="exportData()">[ Export ]</button>
+                    </div>
+
+                    <div class="setting-row">
+                        <div class="setting-info">
+                            <div class="setting-label">Reset Progress</div>
+                            <div class="setting-desc">Clear all session data</div>
+                        </div>
+                        <button class="btn btn-ghost btn-small" style="color: var(--status-failed);" onclick="confirmResetProgress()">[ Reset ]</button>
+                    </div>
+                </div>
+
+                <!-- About Card -->
+                <div class="card">
+                    <div class="card-title mb-md">About</div>
+                    <div class="about-info">
+                        <div class="about-row"><span class="about-label">Version</span><span class="about-value">1.0.0</span></div>
+                        <div class="about-row"><span class="about-label">Protocol</span><span class="about-value">Cadencia</span></div>
+                        <div class="about-row"><span class="about-label">System</span><span class="about-value">Grey Stratum</span></div>
+                    </div>
+                </div>
+            </section>
+
             <!-- Filius Home -->
             <section id="view-filius-home" class="view">
                 <h1 class="page-title" style="font-size: 1.75rem;">Salve</h1>
@@ -291,13 +533,61 @@
                 <p class="text-center mt-lg" style="color: var(--text-secondary); font-size: 1rem; font-weight: 300;">Expand = breathe in<br>Contract = breathe out</p>
                 <button class="btn btn-secondary btn-large btn-block mt-lg" onclick="showView('view-filius-home')">[ Confirmed ]</button>
             </section>
+
+            <!-- Filius Achievements -->
+            <section id="view-filius-achievements" class="view">
+                <h1 class="page-title" style="font-size: 1.75rem;">My Achievements</h1>
+                <p class="page-subtitle" style="font-size: 1.125rem;">You're doing great!</p>
+
+                <div class="card streak-card">
+                    <div class="streak-header">
+                        <div class="streak-icon">
+                            <div class="gradus-large animated"><div class="gradus-bar"></div><div class="gradus-bar"></div><div class="gradus-bar"></div></div>
+                        </div>
+                        <div class="streak-info">
+                            <div class="streak-value" id="filius-streak">0</div>
+                            <div class="streak-label">Day Streak!</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title mb-sm">My Points</div>
+                    <div class="points-display">
+                        <span class="points-value" id="filius-points">0</span>
+                        <span class="points-label">pts</span>
+                    </div>
+                </div>
+
+                <div class="section-label">My Badges</div>
+                <div class="achievements-grid filius-achievements" id="filius-achievements-grid">
+                    <!-- Filius achievements rendered dynamically -->
+                    <div class="achievement-empty" id="filius-no-achievements">Keep practicing to earn badges!</div>
+                </div>
+            </section>
         </main>
 
-        <nav class="bottom-nav">
-            <button type="button" class="nav-item active"><div class="nav-icon"><div class="gradus-bar"></div><div class="gradus-bar"></div><div class="gradus-bar"></div></div><span>Home</span></button>
-            <button type="button" class="nav-item"><div class="nav-icon"><div class="gradus-bar"></div><div class="gradus-bar"></div><div class="gradus-bar"></div></div><span>Progressio</span></button>
+        <!-- Bottom Navigation (4 items for Custos, 3 for Filius) -->
+        <nav class="bottom-nav" id="bottom-nav">
+            <button type="button" class="nav-item active" data-nav="home">
+                <div class="nav-icon"><div class="gradus-bar"></div><div class="gradus-bar"></div><div class="gradus-bar"></div></div>
+                <span>Home</span>
+            </button>
+            <button type="button" class="nav-item" data-nav="curriculum">
+                <div class="nav-icon"><div class="gradus-bar"></div><div class="gradus-bar"></div><div class="gradus-bar"></div></div>
+                <span>Curriculum</span>
+            </button>
+            <button type="button" class="nav-item" data-nav="progressio">
+                <div class="nav-icon"><div class="gradus-bar"></div><div class="gradus-bar"></div><div class="gradus-bar"></div></div>
+                <span>Progressio</span>
+            </button>
+            <button type="button" class="nav-item" data-nav="settings">
+                <div class="nav-icon"><div class="gradus-bar"></div><div class="gradus-bar"></div><div class="gradus-bar"></div></div>
+                <span>Settings</span>
+            </button>
         </nav>
 
+        <!-- Confirmation Modal -->
         <div class="modal-overlay" id="modal-confirm">
             <div class="modal">
                 <div class="text-center">
@@ -305,6 +595,43 @@
                     <h3 class="modal-title" id="modal-title">Confirmed</h3>
                     <p style="color: var(--text-secondary); margin-bottom: 1.5rem; font-weight: 300;" id="modal-message">Your data has been recorded.</p>
                     <button class="btn btn-primary" onclick="hideModal()">[ Dismiss ]</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Add User Modal -->
+        <div class="modal-overlay" id="modal-add-user">
+            <div class="modal">
+                <h3 class="modal-title">Add Family Member</h3>
+                <div class="form-group">
+                    <label class="form-label">Name</label>
+                    <input type="text" class="form-input" id="new-user-name" placeholder="Enter name">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Role</label>
+                    <div class="role-select">
+                        <button class="role-btn active" data-role="custos" onclick="selectNewUserRole('custos', this)">Custos</button>
+                        <button class="role-btn" data-role="filius" onclick="selectNewUserRole('filius', this)">Filius</button>
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button class="btn btn-ghost" onclick="hideAddUserModal()">[ Cancel ]</button>
+                    <button class="btn btn-primary" onclick="addNewUser()">[ Add ]</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reset Confirmation Modal -->
+        <div class="modal-overlay" id="modal-reset">
+            <div class="modal">
+                <div class="text-center">
+                    <div class="modal-icon"><div class="gradus-confirm" style="--accent: var(--status-failed);"><div class="gradus-bar" style="background: var(--status-failed);"></div><div class="gradus-bar" style="background: var(--status-failed);"></div><div class="gradus-bar" style="background: var(--status-failed);"></div></div></div>
+                    <h3 class="modal-title">Reset Progress?</h3>
+                    <p style="color: var(--text-secondary); margin-bottom: 1.5rem; font-weight: 300;">This will clear all session data, episodes, and achievements. This cannot be undone.</p>
+                    <div class="modal-actions">
+                        <button class="btn btn-ghost" onclick="hideResetModal()">[ Cancel ]</button>
+                        <button class="btn btn-primary" style="background: var(--status-failed);" onclick="executeReset()">[ Reset ]</button>
+                    </div>
                 </div>
             </div>
         </div>

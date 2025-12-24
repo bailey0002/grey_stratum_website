@@ -2,9 +2,7 @@
   "meta": {
     "version": "1.0.0",
     "name": "Cadencia Curriculum",
-    "description": "Evidence-based behavioral training curriculum adapted from PCIT and Incredible Years",
-    "totalWeeks": 12,
-    "sessionsPerWeek": 3
+    "description": "12-week evidence-based behavioral training curriculum"
   },
   "phases": [
     {
@@ -14,316 +12,141 @@
       "description": "Building the relationship foundation through child-directed interaction",
       "weeks": [1, 2, 3],
       "unlockCriteria": null,
-      "objectives": [
-        "Establish daily special time routine",
-        "Master PRIDE skills fundamentals",
-        "Build positive attention patterns"
-      ],
-      "skills": ["praise", "reflect", "imitate", "describe", "enjoy"],
       "lessons": [
         {
           "id": "F1",
           "week": 1,
-          "title": "Initium",
-          "subtitle": "The Beginning",
-          "type": "orientation",
-          "duration": 20,
-          "description": "Introduction to Praxia and the science of connection",
+          "title": "Introduction to PRIDE",
+          "subtitle": "The foundation of positive interaction",
+          "type": "concept",
+          "duration": 15,
+          "description": "Learn the PRIDE skills that form the foundation of positive parent-child interaction: Praise, Reflect, Imitate, Describe, and Enjoy.",
           "objectives": [
-            "Understand the purpose of special time",
-            "Learn why child-led play matters",
-            "Set up your practice environment"
+            "Understand the purpose of child-directed interaction",
+            "Learn the five PRIDE skills",
+            "Practice identifying PRIDE skills in examples"
           ],
           "custosContent": {
-            "briefing": "This lesson introduces the core philosophy: following your child's lead builds trust and reduces power struggles. Research shows 10-15 minutes of daily child-directed play significantly reduces oppositional behavior.",
+            "briefing": "PRIDE skills come from Parent-Child Interaction Therapy (PCIT), one of the most evidence-based approaches to improving parent-child relationships. These skills help build warmth, reduce conflict, and increase cooperation.",
             "keyPoints": [
-              "Let your child choose the activity",
-              "Your role is to follow, not lead",
-              "No teaching, questioning, or correcting during special time",
-              "Focus on being present and attentive"
-            ],
-            "commonMistakes": [
-              "Taking over the activity",
-              "Asking too many questions",
-              "Trying to teach or correct"
+              "Praise: Specific, labeled praise is more effective than general praise",
+              "Reflect: Mirroring your child's words shows you're listening",
+              "Imitate: Copying their actions shows interest and builds connection",
+              "Describe: Narrating play teaches vocabulary and shows attention",
+              "Enjoy: Genuine enthusiasm makes interactions rewarding"
             ]
           },
-          "filiusContent": {
-            "title": "Welcome to Praxia!",
-            "message": "This is your special place to learn cool skills and have fun with your family.",
-            "activity": null
-          },
           "assignment": {
-            "type": "practice",
-            "description": "Complete one 10-minute special time session",
+            "description": "Practice one 15-minute PRIDE session with your child",
             "targetCount": 1
           }
         },
         {
           "id": "F2",
           "week": 1,
-          "title": "Laudatio",
-          "subtitle": "The Art of Praise",
+          "title": "Labeled Praise",
+          "subtitle": "Specific recognition of positive behavior",
           "type": "skill",
-          "duration": 15,
-          "skill": "praise",
-          "description": "Learning specific, labeled praise",
+          "duration": 10,
+          "description": "Master the art of labeled praise—specific, descriptive praise that tells your child exactly what they did well.",
           "objectives": [
-            "Distinguish labeled from unlabeled praise",
-            "Practice crafting specific praise statements",
-            "Understand why labeled praise works"
+            "Distinguish between labeled and unlabeled praise",
+            "Practice creating labeled praise statements",
+            "Use labeled praise during play sessions"
           ],
           "custosContent": {
-            "briefing": "Labeled praise tells your child exactly what they did well. Instead of 'Good job!' say 'I love how carefully you stacked those blocks!' This builds specific positive behaviors.",
+            "briefing": "Research shows that labeled praise is significantly more effective than general praise like 'Good job!' Children learn faster and feel more confident when they know specifically what they did right.",
             "keyPoints": [
-              "Name the specific behavior you're praising",
-              "Be genuine and enthusiastic",
+              "Include the specific behavior: 'I love how you shared the crayons!'",
+              "Use enthusiasm in your voice",
               "Praise effort and process, not just outcomes",
-              "Aim for 10+ labeled praises per session"
-            ],
-            "examples": [
-              "I love how gently you're being with that toy.",
-              "You're being so patient waiting for your turn!",
-              "Great job using your words to tell me what you need.",
-              "I can see you're really concentrating on that."
-            ],
-            "commonMistakes": [
-              "Generic praise ('Good job!')",
-              "Praising only outcomes, not effort",
-              "Insincere or forced praise"
+              "Aim for at least 10 labeled praises per session"
             ]
           },
-          "filiusContent": {
-            "title": "Super Star Words",
-            "message": "Learn what makes you feel awesome when someone notices what you did!",
-            "activity": "praise-recognition"
-          },
           "assignment": {
-            "type": "skill-count",
-            "skill": "praise",
-            "description": "Use 10 labeled praises during special time",
-            "targetCount": 10
+            "description": "Complete 3 PRIDE sessions focusing on labeled praise",
+            "targetCount": 3
           }
         },
         {
           "id": "F3",
-          "week": 1,
-          "title": "Speculum",
-          "subtitle": "The Mirror",
+          "week": 2,
+          "title": "Reflection Skills",
+          "subtitle": "Active listening through mirroring",
           "type": "skill",
-          "duration": 15,
-          "skill": "reflect",
-          "description": "Reflecting your child's words back to them",
+          "duration": 10,
+          "description": "Learn to reflect your child's words back to them, showing you're truly listening and building their language skills.",
           "objectives": [
-            "Understand reflective listening",
-            "Practice paraphrasing without changing meaning",
-            "Learn to reflect feelings, not just words"
+            "Understand the purpose of reflections",
+            "Practice reflecting statements and feelings",
+            "Combine reflections with other PRIDE skills"
           ],
           "custosContent": {
-            "briefing": "Reflection shows you're truly listening. When your child says 'Look at my tower!' respond with 'You built a tall tower!' This validates their experience and encourages more communication.",
+            "briefing": "Reflections are a powerful form of active listening. When you repeat or paraphrase what your child says, they feel heard and validated. This builds trust and encourages more communication.",
             "keyPoints": [
-              "Repeat or paraphrase what they say",
-              "Match their emotional tone",
-              "Reflect feelings when you notice them",
-              "Avoid adding questions or corrections"
-            ],
-            "examples": [
-              "Child: 'I made it blue!' â†’ You: 'You chose blue for that one.'",
-              "Child: 'This is hard!' â†’ You: 'This part is tricky.'",
-              "Child: 'Look what I did!' â†’ You: 'You did that all by yourself!'"
-            ],
-            "commonMistakes": [
-              "Turning reflections into questions",
-              "Adding your own opinions",
-              "Correcting their grammar or facts"
+              "Reflect the content: Child says 'Look at my tower!' → 'You built a tall tower!'",
+              "Reflect emotions: 'You seem really proud of that!'",
+              "Avoid questions during reflection—statements are more effective",
+              "Simple reflections can be brief but should match their enthusiasm"
             ]
           },
-          "filiusContent": {
-            "title": "Echo Game",
-            "message": "When someone really listens, they can say back what you said!",
-            "activity": "reflection-game"
-          },
           "assignment": {
-            "type": "skill-count",
-            "skill": "reflect",
-            "description": "Use 5 reflections during special time",
-            "targetCount": 5
+            "description": "Complete 3 sessions with focus on reflections",
+            "targetCount": 3
           }
         },
         {
           "id": "F4",
           "week": 2,
-          "title": "Imago",
-          "subtitle": "The Image",
+          "title": "Behavioral Description",
+          "subtitle": "Narrating positive actions",
           "type": "skill",
-          "duration": 15,
-          "skill": "imitate",
-          "description": "Following your child's play by imitating their actions",
+          "duration": 10,
+          "description": "Practice describing your child's actions like a sports commentator, keeping attention positive and teaching vocabulary.",
           "objectives": [
-            "Learn to follow rather than lead",
-            "Practice parallel play",
-            "Understand why imitation builds connection"
+            "Learn to narrate play without judging",
+            "Practice describing actions, not asking questions",
+            "Build child's vocabulary through descriptions"
           ],
           "custosContent": {
-            "briefing": "Imitation is the highest form of flattery. When you copy your child's play, you communicate 'What you're doing matters.' This shifts the power dynamic and reduces defiance.",
+            "briefing": "Behavioral descriptions are like being a friendly sportscaster of your child's play. You narrate what they're doing without judging or directing. This shows them you're paying attention and teaches new words.",
             "keyPoints": [
-              "Do what they do, with your own materials",
-              "Stay slightly behindâ€”don't take over",
-              "Narrate that you're copying them",
-              "Let them notice and enjoy your imitation"
-            ],
-            "examples": [
-              "If they stack blocks, you stack blocks nearby",
-              "If they draw circles, you draw circles too",
-              "If they make car sounds, you make car sounds"
-            ],
-            "commonMistakes": [
-              "Taking over and doing it 'better'",
-              "Moving too fast",
-              "Competing with their creation"
+              "Describe what you see: 'You're stacking the blocks'",
+              "Keep it neutral or positive—avoid criticism",
+              "Replace questions with descriptions",
+              "Match their pace—don't overwhelm with constant commentary"
             ]
           },
-          "filiusContent": {
-            "title": "Copy Cat",
-            "message": "It's fun when someone plays the same way you do!",
-            "activity": "imitation-game"
-          },
           "assignment": {
-            "type": "skill-count",
-            "skill": "imitate",
-            "description": "Imitate your child's play 5 times during special time",
-            "targetCount": 5
+            "description": "Complete 3 sessions emphasizing behavioral descriptions",
+            "targetCount": 3
           }
         },
         {
           "id": "F5",
-          "week": 2,
-          "title": "Narratio",
-          "subtitle": "The Narration",
-          "type": "skill",
-          "duration": 15,
-          "skill": "describe",
-          "description": "Describing your child's actions like a sportscaster",
-          "objectives": [
-            "Learn behavioral description technique",
-            "Practice neutral, non-evaluative narration",
-            "Understand how description maintains attention"
-          ],
-          "custosContent": {
-            "briefing": "Behavioral description is like being a sportscaster for your child's play. 'You're putting the red block on top of the blue one.' This shows attention without evaluation.",
-            "keyPoints": [
-              "Describe actions, not judgments",
-              "Use present tense ('You're putting...')",
-              "Keep it simple and accurate",
-              "This shows you're paying attention"
-            ],
-            "examples": [
-              "You're drawing a big circle.",
-              "You picked up the dinosaur.",
-              "Now you're making them walk together.",
-              "You're using lots of colors."
-            ],
-            "commonMistakes": [
-              "Adding evaluations ('You're drawing a beautiful circle')",
-              "Asking questions instead of describing",
-              "Describing too much (overwhelming)"
-            ]
-          },
-          "filiusContent": {
-            "title": "Play-by-Play",
-            "message": "Imagine someone is telling the story of what you're doing right now!",
-            "activity": "description-game"
-          },
-          "assignment": {
-            "type": "skill-count",
-            "skill": "describe",
-            "description": "Use 10 behavioral descriptions during special time",
-            "targetCount": 10
-          }
-        },
-        {
-          "id": "F6",
-          "week": 2,
-          "title": "Gaudium",
-          "subtitle": "The Joy",
-          "type": "skill",
-          "duration": 15,
-          "skill": "enjoy",
-          "description": "Showing genuine enjoyment and enthusiasm",
-          "objectives": [
-            "Learn to express authentic enjoyment",
-            "Practice warm, engaged body language",
-            "Understand the power of your genuine presence"
-          ],
-          "custosContent": {
-            "briefing": "Children detect fake enthusiasm instantly. True enjoymentâ€”being present, smiling genuinely, showing interestâ€”communicates 'I want to be here with you.' This is the heart of PRIDE.",
-            "keyPoints": [
-              "Put away distractions (phone!)",
-              "Get on their physical level",
-              "Make eye contact and smile",
-              "Let yourself be curious about their play"
-            ],
-            "examples": [
-              "Genuine laughter at something funny",
-              "Leaning in with interest",
-              "Warm facial expressions",
-              "Relaxed, open body posture"
-            ],
-            "commonMistakes": [
-              "Checking your phone",
-              "Distracted or flat affect",
-              "Rushing through special time"
-            ]
-          },
-          "filiusContent": {
-            "title": "Happy Together",
-            "message": "The best times are when everyone is really there and having fun!",
-            "activity": "enjoyment-reflection"
-          },
-          "assignment": {
-            "type": "practice",
-            "description": "Complete a full PRIDE session with all 5 skills",
-            "targetCount": 1
-          }
-        },
-        {
-          "id": "F7",
           "week": 3,
-          "title": "Synthesis I",
-          "subtitle": "Bringing It Together",
+          "title": "Integration Practice",
+          "subtitle": "Combining all PRIDE skills",
           "type": "integration",
-          "duration": 20,
-          "description": "Integrating all PRIDE skills in practice",
+          "duration": 15,
+          "description": "Put all the PRIDE skills together in fluid, natural practice sessions.",
           "objectives": [
-            "Use all PRIDE skills in one session",
-            "Self-assess skill balance",
-            "Identify personal strengths and growth areas"
+            "Combine all five PRIDE skills naturally",
+            "Develop a rhythm for shifting between skills",
+            "Build confidence in child-directed interaction"
           ],
           "custosContent": {
-            "briefing": "Now we bring it all together. A full PRIDE session flows naturally between skills. Don't force itâ€”let the interaction guide which skill to use. The goal is 10 praises, 10 reflections, 10 descriptions per session.",
+            "briefing": "Now that you've practiced each skill individually, it's time to combine them. Don't worry about using them perfectly—focus on staying positive and following your child's lead.",
             "keyPoints": [
-              "PRIDE skills work together, not separately",
-              "Quality matters more than hitting exact numbers",
-              "Notice which skills feel natural vs. challenging",
-              "Review your session data to track progress"
-            ],
-            "practiceGoals": {
-              "praise": 10,
-              "reflect": 10,
-              "imitate": 5,
-              "describe": 10,
-              "enjoy": "throughout"
-            }
-          },
-          "filiusContent": {
-            "title": "Super Session",
-            "message": "Let's have the best special time ever!",
-            "activity": null
+              "Let your child lead the play—don't direct or suggest",
+              "Rotate naturally between skills based on opportunities",
+              "Focus on connection, not perfection",
+              "Enjoy the time together!"
+            ]
           },
           "assignment": {
-            "type": "mastery",
-            "description": "Complete 3 consecutive PRIDE sessions meeting skill targets",
-            "targetCount": 3
+            "description": "Complete 5 full PRIDE sessions",
+            "targetCount": 5
           }
         }
       ]
@@ -332,215 +155,119 @@
       "id": "praxis",
       "name": "Praxis",
       "subtitle": "Practice",
-      "description": "Deepening skills and introducing emotion regulation",
+      "description": "Developing consistency and building habit through regular practice",
       "weeks": [4, 5, 6],
       "unlockCriteria": {
         "phase": "fundamentum",
-        "sessionsCompleted": 9,
-        "skillThresholds": {
-          "praise": 30,
-          "reflect": 15,
-          "describe": 30
-        }
+        "sessionsCompleted": 10
       },
-      "objectives": [
-        "Master emotion identification",
-        "Learn the Respiro (turtle) technique",
-        "Develop proactive calming strategies"
-      ],
-      "skills": ["emotion-id", "respiro", "co-regulation"],
       "lessons": [
         {
           "id": "P1",
           "week": 4,
-          "title": "Affectus",
-          "subtitle": "The Feelings",
-          "type": "skill",
-          "duration": 20,
-          "skill": "emotion-id",
-          "description": "Building emotional vocabulary and awareness",
+          "title": "Building the Habit",
+          "subtitle": "Creating consistent practice routines",
+          "type": "concept",
+          "duration": 10,
+          "description": "Establish a sustainable routine for daily PRIDE practice that fits your family's schedule.",
           "objectives": [
-            "Learn nuanced emotion words",
-            "Practice the feeling thermometer",
-            "Connect body sensations to emotions"
+            "Identify the best time for daily practice",
+            "Create environmental cues for consistency",
+            "Track progress and celebrate streaks"
           ],
           "custosContent": {
-            "briefing": "Children need words for their feelings before they can manage them. Moving beyond 'mad' and 'sad' to 'frustrated,' 'disappointed,' 'overwhelmed' gives them precision tools.",
+            "briefing": "Research shows that 15 minutes of daily PRIDE practice produces significant improvements in just 6-8 weeks. The key is consistency—same time, same place, same routine.",
             "keyPoints": [
-              "Teach feeling words during calm moments",
-              "Use the thermometer to gauge intensity",
-              "Notice body signals (tight fists, fast heart)",
-              "Model naming your own emotions"
-            ],
-            "vocabulary": {
-              "low": ["calm", "content", "peaceful", "relaxed", "fine", "okay"],
-              "medium": ["uncertain", "worried", "annoyed", "uncomfortable", "stressed", "anxious"],
-              "high": ["frustrated", "angry", "overwhelmed", "furious", "upset", "out of control"]
-            }
-          },
-          "filiusContent": {
-            "title": "Feeling Words",
-            "message": "There are so many words for how we feel inside!",
-            "activity": "emotion-vocabulary"
+              "Pick a time when both you and your child have energy",
+              "Remove distractions (phones, screens, other activities)",
+              "Set a visible timer so both of you know the commitment",
+              "Celebrate your streak to build motivation"
+            ]
           },
           "assignment": {
-            "type": "checkin",
-            "description": "Complete 5 emotion check-ins using the thermometer",
-            "targetCount": 5
+            "description": "Complete 7 consecutive days of PRIDE practice",
+            "targetCount": 7
           }
         },
         {
           "id": "P2",
           "week": 4,
-          "title": "Respiro I",
-          "subtitle": "The Breath",
+          "title": "Avoiding Common Pitfalls",
+          "subtitle": "What to do (and not do) during special time",
           "type": "skill",
-          "duration": 20,
-          "skill": "respiro",
-          "description": "Introduction to the Respiro calming protocol",
+          "duration": 10,
+          "description": "Learn to identify and avoid behaviors that undermine connection during child-directed play.",
           "objectives": [
-            "Learn the 5 steps of Respiro",
-            "Practice during calm moments",
-            "Understand the neuroscience of breathing"
+            "Identify the 'Don't Skills' to avoid",
+            "Practice redirecting yourself when you slip",
+            "Understand why questions and commands reduce connection"
           ],
           "custosContent": {
-            "briefing": "Respiro is our adaptation of the Turtle Technique. The 5 stepsâ€”Halt, Retreat, Breathe, Reflect, Resolveâ€”give a structured path from escalation to calm. Practice during calm moments first.",
+            "briefing": "During PRIDE time, we avoid Commands, Questions, and Criticism (the 'Don't Skills'). These behaviors shift control away from the child and can reduce the positive effects of the interaction.",
             "keyPoints": [
-              "HALT: Stop all action, freeze",
-              "RETREAT: Create space, lower stimulation",
-              "BREATHE: 4-count in, 4-count out",
-              "REFLECT: Name the feeling and need",
-              "RESOLVE: Choose the next small step"
-            ],
-            "practiceInstructions": [
-              "Practice when calm, not during escalation",
-              "Make it a game at first",
-              "Use the Gradus visual to track steps",
-              "Celebrate completing the sequence"
+              "Avoid commands: Instead of 'Put that there,' describe what they're doing",
+              "Reduce questions: Questions demand answers and take the lead",
+              "Eliminate criticism: Even gentle corrections undermine the positive focus",
+              "If you slip, just return to PRIDE skills—no need to apologize"
             ]
           },
-          "filiusContent": {
-            "title": "Calm Down Steps",
-            "message": "When big feelings come, we have special steps to feel better!",
-            "activity": "respiro-practice"
-          },
           "assignment": {
-            "type": "practice",
-            "description": "Practice Respiro together 3 times during calm moments",
-            "targetCount": 3
+            "description": "Track and reduce 'Don't Skills' over 5 sessions",
+            "targetCount": 5
           }
         },
         {
           "id": "P3",
           "week": 5,
-          "title": "Respiro II",
-          "subtitle": "The Deepening",
+          "title": "Emotion Coaching Basics",
+          "subtitle": "Helping children understand feelings",
           "type": "skill",
-          "duration": 20,
-          "skill": "respiro",
-          "description": "Advanced breathing and self-talk techniques",
+          "duration": 15,
+          "description": "Begin incorporating emotion coaching into your interactions to help your child develop emotional intelligence.",
           "objectives": [
-            "Learn 4-7-8 breathing pattern",
-            "Develop personal calming phrases",
-            "Create a calm-down toolkit"
+            "Learn to label emotions accurately",
+            "Practice validating feelings without fixing",
+            "Help children connect feelings to experiences"
           ],
           "custosContent": {
-            "briefing": "Now we deepen the breathing practice and add cognitive tools. The 4-7-8 breath activates the parasympathetic nervous system. Personal mantras give the mind something to hold onto.",
+            "briefing": "Emotion coaching helps children recognize, understand, and manage their emotions. When we name feelings ('You look frustrated'), we help children develop emotional vocabulary and self-awareness.",
             "keyPoints": [
-              "4-7-8 breathing: 4 in, 7 hold, 8 out",
-              "Help child create their own calming phrase",
-              "Identify physical calm-down tools (squeeze ball, etc.)",
-              "Create a designated 'calm spot' at home"
-            ],
-            "mantras": [
-              "I can handle this.",
-              "Big feelings pass.",
-              "I am safe.",
-              "Breathe and think."
+              "Label emotions you observe: 'You seem excited about that!'",
+              "Validate all feelings: 'It's okay to feel frustrated'",
+              "Avoid dismissing: Never say 'Don't cry' or 'You're fine'",
+              "Help connect feelings to causes: 'Are you sad because the tower fell?'"
             ]
           },
-          "filiusContent": {
-            "title": "My Calm Words",
-            "message": "Create your own special words that help you feel better!",
-            "activity": "mantra-creation"
-          },
           "assignment": {
-            "type": "practice",
-            "description": "Practice 4-7-8 breathing 3 times and create a calming phrase",
-            "targetCount": 3
+            "description": "Practice emotion labeling in 5 sessions",
+            "targetCount": 5
           }
         },
         {
           "id": "P4",
-          "week": 5,
-          "title": "Praemonitio",
-          "subtitle": "The Early Warning",
-          "type": "skill",
-          "duration": 15,
-          "skill": "co-regulation",
-          "description": "Recognizing escalation signals and intervening early",
-          "objectives": [
-            "Identify your child's escalation signals",
-            "Learn early prompting techniques",
-            "Practice co-regulation phrases"
-          ],
-          "custosContent": {
-            "briefing": "Early intervention is key. Learn your child's specific signals (clenched fists, raised voice, pacing) and prompt before escalation peaks. 'I notice your body is getting tense. Let's breathe together.'",
-            "keyPoints": [
-              "Every child has unique warning signs",
-              "Intervene at level 4-5, not level 8",
-              "Use calm, neutral prompts",
-              "Offer choices, not commands"
-            ],
-            "prompts": [
-              "I notice your body is getting tense.",
-              "Looks like you might need a break.",
-              "Want to try some breaths together?",
-              "Should we use our calm-down steps?"
-            ]
-          },
-          "filiusContent": {
-            "title": "Body Signals",
-            "message": "Your body gives you clues when big feelings are coming!",
-            "activity": "signal-identification"
-          },
-          "assignment": {
-            "type": "observation",
-            "description": "Identify 3 early warning signs unique to your child",
-            "targetCount": 3
-          }
-        },
-        {
-          "id": "P5",
           "week": 6,
-          "title": "Synthesis II",
-          "subtitle": "Integration Practice",
+          "title": "Extending to Daily Life",
+          "subtitle": "PRIDE skills beyond special time",
           "type": "integration",
-          "duration": 25,
-          "description": "Combining PRIDE skills with emotion regulation",
+          "duration": 10,
+          "description": "Learn to apply PRIDE skills throughout the day, not just during designated practice time.",
           "objectives": [
-            "Flow between relationship skills and calming skills",
-            "Practice responding to minor frustrations",
-            "Build automaticity"
+            "Identify opportunities for PRIDE skills in daily routines",
+            "Practice brief PRIDE interactions",
+            "Build a more positive overall communication pattern"
           ],
           "custosContent": {
-            "briefing": "Now we integrate everything. During special time, if mild frustration arises, you can model emotion labeling and offer co-regulation while maintaining the PRIDE approach. These skills support each other.",
+            "briefing": "While dedicated special time is important, the real power of PRIDE comes from using these skills throughout the day. Brief moments of connection add up to transformed relationships.",
             "keyPoints": [
-              "PRIDE builds the relationship foundation",
-              "Strong relationships make regulation easier",
-              "Use natural moments to practice skills",
-              "Keep practicing even when things are going well"
+              "Look for natural play moments during the day",
+              "Use labeled praise during daily routines",
+              "Reflect and describe during car rides, meals, etc.",
+              "Even 2-3 minute interactions matter"
             ]
           },
-          "filiusContent": {
-            "title": "Putting It Together",
-            "message": "We've learned so much! Let's use all our skills!",
-            "activity": null
-          },
           "assignment": {
-            "type": "mastery",
-            "description": "Complete 3 sessions integrating PRIDE and Respiro",
-            "targetCount": 3
+            "description": "Log 10 brief PRIDE interactions outside special time",
+            "targetCount": 10
           }
         }
       ]
@@ -549,58 +276,124 @@
       "id": "imperium",
       "name": "Imperium",
       "subtitle": "Mastery",
-      "description": "Parent-directed interaction and consistent discipline",
+      "description": "Advanced techniques for challenging situations and emotional regulation",
       "weeks": [7, 8, 9],
       "unlockCriteria": {
         "phase": "praxis",
-        "sessionsCompleted": 15,
-        "respiroCompleted": 6
+        "sessionsCompleted": 20,
+        "skillThresholds": {
+          "praise": 50,
+          "reflect": 30,
+          "describe": 30
+        }
       },
-      "objectives": [
-        "Learn effective command-giving",
-        "Establish consistent consequences",
-        "Balance warmth with structure"
-      ],
-      "skills": ["commands", "consequences", "repair"],
       "lessons": [
         {
           "id": "I1",
           "week": 7,
-          "title": "Mandatum",
-          "subtitle": "The Command",
-          "type": "skill",
-          "duration": 20,
-          "skill": "commands",
-          "description": "Giving clear, effective commands",
+          "title": "The Respiro Protocol",
+          "subtitle": "In-the-moment de-escalation",
+          "type": "concept",
+          "duration": 15,
+          "description": "Master the Respiro protocol for staying calm and helping your child regulate during difficult moments.",
           "objectives": [
-            "Learn direct vs. indirect commands",
-            "Practice the command sequence",
-            "Understand when commands are appropriate"
+            "Learn the 5 steps of Respiro",
+            "Practice each step in low-stress moments",
+            "Understand the neuroscience behind co-regulation"
           ],
           "custosContent": {
-            "briefing": "After building a strong PRIDE foundation, we can now give effective commands. Direct commands are clear, specific, and stated positively. 'Please put the toys in the bin' not 'Can you maybe clean up?'",
+            "briefing": "Respiro (Halt, Retreat, Breathe, Reflect, Resolve) is a systematic approach to de-escalation. Your calm nervous system can help regulate your child's—this is called co-regulation.",
             "keyPoints": [
-              "Use direct, specific language",
-              "State what TO do, not what NOT to do",
-              "Give one command at a time",
-              "Wait 5 seconds for compliance",
-              "Praise compliance immediately"
-            ],
-            "examples": {
-              "indirect": "Would you like to come to dinner now?",
-              "direct": "Please come to the dinner table now.",
-              "negative": "Stop running!",
-              "positive": "Please walk."
-            }
-          },
-          "filiusContent": {
-            "title": "Clear Directions",
-            "message": "Sometimes grown-ups need to tell us what to do. Here's how it works!",
-            "activity": "command-understanding"
+              "Halt: Stop. Don't react in the heat of the moment",
+              "Retreat: Create physical and emotional space",
+              "Breathe: Use slow breathing to calm your own system",
+              "Reflect: Identify feelings (yours and theirs)",
+              "Resolve: Choose a thoughtful response"
+            ]
           },
           "assignment": {
-            "type": "practice",
-            "description": "Practice 5 direct commands with immediate praise for compliance",
+            "description": "Practice Respiro 5 times (even in non-crisis moments)",
+            "targetCount": 5
+          }
+        },
+        {
+          "id": "I2",
+          "week": 7,
+          "title": "Co-Regulation Strategies",
+          "subtitle": "Being the calm in their storm",
+          "type": "skill",
+          "duration": 15,
+          "description": "Develop advanced skills for helping your child regulate their emotions through your own calm presence.",
+          "objectives": [
+            "Understand how your state affects your child",
+            "Learn physical co-regulation techniques",
+            "Practice staying calm under pressure"
+          ],
+          "custosContent": {
+            "briefing": "Children's nervous systems are still developing. They literally cannot regulate themselves the way adults can. Your calm presence provides the external regulation they need to learn internal regulation.",
+            "keyPoints": [
+              "Your heart rate affects theirs—slow yourself down first",
+              "Use a calm, low voice (not a whisper, which can seem threatening)",
+              "Get on their physical level",
+              "Offer physical comfort if they accept it"
+            ]
+          },
+          "assignment": {
+            "description": "Practice co-regulation techniques in 3 challenging moments",
+            "targetCount": 3
+          }
+        },
+        {
+          "id": "I3",
+          "week": 8,
+          "title": "Effective Commands",
+          "subtitle": "When direction is necessary",
+          "type": "skill",
+          "duration": 15,
+          "description": "Learn to give effective commands when needed, maximizing compliance while maintaining connection.",
+          "objectives": [
+            "Distinguish between necessary and unnecessary commands",
+            "Learn the structure of effective commands",
+            "Practice giving commands that children can follow"
+          ],
+          "custosContent": {
+            "briefing": "While PRIDE time avoids commands, real life requires them. Effective commands are specific, simple, stated as a statement (not a question), and given one at a time.",
+            "keyPoints": [
+              "Be specific: 'Put your shoes in the closet' not 'Clean up'",
+              "Use statements, not questions: 'Time to wash hands' not 'Can you wash your hands?'",
+              "One command at a time",
+              "Wait 5 seconds for compliance before repeating"
+            ]
+          },
+          "assignment": {
+            "description": "Practice effective commands and track compliance",
+            "targetCount": 10
+          }
+        },
+        {
+          "id": "I4",
+          "week": 9,
+          "title": "Selective Attention",
+          "subtitle": "The power of ignoring",
+          "type": "skill",
+          "duration": 10,
+          "description": "Master the strategic use of attention to shape behavior—ignoring minor misbehavior while praising the opposite.",
+          "objectives": [
+            "Understand attention as a powerful reinforcer",
+            "Learn what behaviors to ignore vs. address",
+            "Practice praising the opposite behavior"
+          ],
+          "custosContent": {
+            "briefing": "Attention is like sunlight for behavior—whatever you shine it on will grow. Strategic ignoring of minor misbehavior combined with heavy praise for good behavior is highly effective.",
+            "keyPoints": [
+              "Ignore: Whining, mild tantrums, attention-seeking",
+              "Don't ignore: Dangerous, destructive, or aggressive behavior",
+              "When you ignore, truly ignore—no eye contact, no sighing",
+              "Immediately praise when the unwanted behavior stops"
+            ]
+          },
+          "assignment": {
+            "description": "Practice selective attention for 5 days, logging results",
             "targetCount": 5
           }
         }
@@ -610,42 +403,122 @@
       "id": "autonomia",
       "name": "Autonomia",
       "subtitle": "Independence",
-      "description": "Building lasting self-regulation and family harmony",
+      "description": "Teaching self-regulation and transitioning to independence",
       "weeks": [10, 11, 12],
       "unlockCriteria": {
         "phase": "imperium",
-        "sessionsCompleted": 24
+        "sessionsCompleted": 30
       },
-      "objectives": [
-        "Transfer skills to child's independent use",
-        "Develop problem-solving collaboration",
-        "Create maintenance routines"
-      ],
-      "skills": ["problem-solving", "self-regulation", "maintenance"],
-      "lessons": []
+      "lessons": [
+        {
+          "id": "A1",
+          "week": 10,
+          "title": "Teaching Self-Regulation",
+          "subtitle": "Helping children manage themselves",
+          "type": "concept",
+          "duration": 15,
+          "description": "Learn to scaffold your child's developing self-regulation skills, gradually reducing support as they grow.",
+          "objectives": [
+            "Understand the development of self-regulation",
+            "Learn scaffolding techniques",
+            "Practice gradual release of support"
+          ],
+          "custosContent": {
+            "briefing": "Self-regulation is learned gradually. Children move from needing full external regulation to self-regulation through a process of supported practice. Your role is to scaffold this development.",
+            "keyPoints": [
+              "Start with full support during high emotions",
+              "Gradually reduce support as skills develop",
+              "Teach coping strategies when calm, not during crises",
+              "Celebrate growing independence"
+            ]
+          },
+          "assignment": {
+            "description": "Practice scaffolding self-regulation in 5 situations",
+            "targetCount": 5
+          }
+        },
+        {
+          "id": "A2",
+          "week": 10,
+          "title": "Problem Solving Together",
+          "subtitle": "Collaborative approaches to challenges",
+          "type": "skill",
+          "duration": 15,
+          "description": "Use collaborative problem solving to address recurring challenges while building your child's thinking skills.",
+          "objectives": [
+            "Learn the collaborative problem-solving process",
+            "Practice identifying underlying concerns",
+            "Generate solutions together"
+          ],
+          "custosContent": {
+            "briefing": "Collaborative Problem Solving treats children as partners in addressing challenges. Instead of imposing solutions, we work together to find approaches that address both your concerns and theirs.",
+            "keyPoints": [
+              "Empathize first: Understand their perspective",
+              "Define the problem: Share your concern without blame",
+              "Brainstorm together: All ideas are valid initially",
+              "Choose together: Find solutions that work for both"
+            ]
+          },
+          "assignment": {
+            "description": "Use collaborative problem solving for one recurring issue",
+            "targetCount": 1
+          }
+        },
+        {
+          "id": "A3",
+          "week": 11,
+          "title": "Maintaining Gains",
+          "subtitle": "Preventing regression",
+          "type": "concept",
+          "duration": 10,
+          "description": "Learn strategies for maintaining your progress and preventing regression during stressful times.",
+          "objectives": [
+            "Identify warning signs of regression",
+            "Create a maintenance plan",
+            "Prepare for high-stress periods"
+          ],
+          "custosContent": {
+            "briefing": "Progress isn't always linear. Stress, transitions, and developmental changes can cause temporary regression. Having a plan helps you maintain gains through challenging periods.",
+            "keyPoints": [
+              "Continue daily special time even when things are good",
+              "Watch for early warning signs (increased conflict, reduced connection)",
+              "During stress, increase PRIDE time temporarily",
+              "Review your skills periodically"
+            ]
+          },
+          "assignment": {
+            "description": "Create and document your maintenance plan",
+            "targetCount": 1
+          }
+        },
+        {
+          "id": "A4",
+          "week": 12,
+          "title": "Graduation and Next Steps",
+          "subtitle": "Celebrating growth and planning ahead",
+          "type": "integration",
+          "duration": 20,
+          "description": "Review your progress, celebrate your growth, and plan for continued development.",
+          "objectives": [
+            "Review skills learned throughout the program",
+            "Celebrate progress and growth",
+            "Create a long-term development plan"
+          ],
+          "custosContent": {
+            "briefing": "You've completed 12 weeks of intensive practice and learning. Take time to acknowledge how far you've come and plan for continued growth.",
+            "keyPoints": [
+              "Review your session logs—notice the progress",
+              "Identify your strongest skills",
+              "Note areas for continued focus",
+              "Set goals for the next 3 months"
+            ]
+          },
+          "assignment": {
+            "description": "Complete the graduation reflection and set future goals",
+            "targetCount": 1
+          }
+        }
+      ]
     }
-  ],
-  "masteryThresholds": {
-    "fundamentum": {
-      "totalSessions": 9,
-      "skills": {
-        "praise": 90,
-        "reflect": 45,
-        "describe": 90
-      }
-    },
-    "praxis": {
-      "totalSessions": 15,
-      "emotionCheckins": 10,
-      "respiroCompleted": 6
-    },
-    "imperium": {
-      "totalSessions": 24,
-      "complianceRate": 0.75
-    },
-    "autonomia": {
-      "totalSessions": 36,
-      "independentRespiro": 10
-    }
-  }
+  ]
 }
