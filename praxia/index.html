@@ -1,647 +1,1036 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="color-scheme" content="dark light">
-    <meta name="description" content="Evidence-based behavioral training for families">
-    <title>Praxia-1 | Cadencia | Grey Stratum</title>
-    <link rel="icon" type="image/png" href="/my-favicon/favicon-96x96.png" sizes="96x96">
-    <link rel="icon" type="image/svg+xml" href="/my-favicon/favicon.svg">
-    <link rel="shortcut icon" href="/my-favicon/favicon.ico">
-    <link rel="apple-touch-icon" sizes="180x180" href="/my-favicon/apple-touch-icon.png">
-    <link rel="manifest" href="/my-favicon/site.webmanifest">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@300;400;500&family=Fira+Code:wght@400;500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="./grey-stratum.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="color-scheme" content="dark light">
+  <meta name="description" content="Praxia-1 - Evidence-based behavioral training for families">
+  <meta name="theme-color" content="#1A1D21">
+  <title>Praxia-1 | Cadencia | Grey Stratum</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@300;400;500&family=Fira+Code:wght@400;500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  
+  <!-- Styles -->
+  <link rel="stylesheet" href="grey-stratum.css">
 </head>
 <body>
-    <div class="app-container">
-        <header class="header">
-            <div class="header-content">
-                <div class="logo">
-                    <div class="logo-gradus animated"><div class="gradus-bar"></div><div class="gradus-bar"></div><div class="gradus-bar"></div></div>
-                    <div class="logo-text"><span class="logo-title">Praxia-1</span><span class="logo-protocol">[ Cadencia ]</span></div>
-                </div>
-                <div class="user-toggle">
-                    <button class="toggle-btn active" id="toggle-custos">Custos</button>
-                    <button class="toggle-btn" id="toggle-filius">Filius</button>
-                </div>
-                <div class="theme-toggle" title="Toggle theme">
-                    <span class="theme-label" id="themeLabel">[ NOX ]</span>
-                    <div class="theme-indicator"><div class="gradus-bar"></div><div class="gradus-bar"></div><div class="gradus-bar"></div></div>
-                </div>
-            </div>
-        </header>
-
-        <main class="main-content">
-            <!-- Custos Home -->
-            <section id="view-custos-home" class="view active">
-                <h1 class="page-title">Salve</h1>
-                <p class="page-subtitle">Building connection, one praxis at a time</p>
-                <div class="stats-grid">
-                    <div class="stat-card"><div class="stat-value" id="stat-streak">0</div><div class="stat-label">Consecutio</div></div>
-                    <div class="stat-card"><div class="stat-value" id="stat-sessions">0</div><div class="stat-label">Sessions</div></div>
-                    <div class="stat-card"><div class="stat-value" id="stat-skills">0</div><div class="stat-label">Skills</div></div>
-                </div>
-                <div class="card action-card" onclick="showView('view-praxis-setup')">
-                    <div class="card-icon"><div class="gradus-mini"><div class="gradus-bar"></div><div class="gradus-bar"></div><div class="gradus-bar"></div></div></div>
-                    <div class="card-content"><div class="card-title">[ Initiate Praxis ]</div><div class="card-subtitle">15 minutes of focused connection</div></div>
-                    <span class="chevron">›</span>
-                </div>
-                <div class="card action-card" onclick="showView('view-status-checkin')">
-                    <div class="card-icon"><div class="gradus-mini"><div class="gradus-bar"></div><div class="gradus-bar"></div><div class="gradus-bar"></div></div></div>
-                    <div class="card-content"><div class="card-title">[ Status Check ]</div><div class="card-subtitle">Track state and build awareness</div></div>
-                    <span class="chevron">›</span>
-                </div>
-                <div class="card action-card" onclick="showView('view-respiro')">
-                    <div class="card-icon"><div class="gradus-mini"><div class="gradus-bar"></div><div class="gradus-bar"></div><div class="gradus-bar"></div></div></div>
-                    <div class="card-content"><div class="card-title">[ Respiro ]</div><div class="card-subtitle">Guided calming protocol</div></div>
-                    <span class="chevron">›</span>
-                </div>
-                <div class="card action-card" onclick="showView('view-urgentia')">
-                    <div class="card-icon"><div class="gradus-mini"><div class="gradus-bar" style="background:var(--status-failed)"></div><div class="gradus-bar" style="background:var(--status-failed)"></div><div class="gradus-bar" style="background:var(--status-failed)"></div></div></div>
-                    <div class="card-content"><div class="card-title">[ Urgentia ]</div><div class="card-subtitle">In-the-moment support and scripts</div></div>
-                    <span class="chevron">›</span>
-                </div>
-                <div class="card action-card" onclick="showView('view-log-episode')">
-                    <div class="card-icon"><div class="gradus-mini"><div class="gradus-bar"></div><div class="gradus-bar"></div><div class="gradus-bar"></div></div></div>
-                    <div class="card-content"><div class="card-title">[ Log Episode ]</div><div class="card-subtitle">Record for pattern tracking</div></div>
-                    <span class="chevron">›</span>
-                </div>
-            </section>
-
-            <!-- Praxis Setup -->
-            <section id="view-praxis-setup" class="view">
-                <button class="back-btn" onclick="showView('view-custos-home')">← Revert</button>
-                <h1 class="page-title">Praxis Session</h1>
-                <p class="page-subtitle">15 minutes of child-led connection using PRIDE skills</p>
-                <div class="card">
-                    <div class="card-title mb-md">Protocol Preparation</div>
-                    <p style="color: var(--text-secondary); margin-bottom: 1rem; font-weight: 300;">Find a quiet space. Let your child choose the activity. Practice these skills:</p>
-                    <div class="praxis-skills">
-                        <div class="praxis-skill"><strong>P</strong>raise — Specific, labeled praise</div>
-                        <div class="praxis-skill"><strong>R</strong>eflect — Mirror their words back</div>
-                        <div class="praxis-skill"><strong>I</strong>mitate — Copy their play actions</div>
-                        <div class="praxis-skill"><strong>D</strong>escribe — Narrate what they're doing</div>
-                        <div class="praxis-skill"><strong>E</strong>njoy — Show genuine enthusiasm</div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Current State Assessment</label>
-                    <div class="mood-scale" id="pre-mood-scale">
-                        <button class="mood-scale-btn" data-mood="1" onclick="selectPreMood(1)"><div class="gradus-scale"><div class="gradus-bar"></div><div class="gradus-bar"></div><div class="gradus-bar"></div></div></button>
-                        <button class="mood-scale-btn" data-mood="2" onclick="selectPreMood(2)"><div class="gradus-scale"><div class="gradus-bar"></div><div class="gradus-bar"></div><div class="gradus-bar"></div></div></button>
-                        <button class="mood-scale-btn" data-mood="3" onclick="selectPreMood(3)"><div class="gradus-scale"><div class="gradus-bar"></div><div class="gradus-bar"></div><div class="gradus-bar"></div></div></button>
-                        <button class="mood-scale-btn" data-mood="4" onclick="selectPreMood(4)"><div class="gradus-scale"><div class="gradus-bar"></div><div class="gradus-bar"></div><div class="gradus-bar"></div></div></button>
-                        <button class="mood-scale-btn" data-mood="5" onclick="selectPreMood(5)"><div class="gradus-scale"><div class="gradus-bar"></div><div class="gradus-bar"></div><div class="gradus-bar"></div></div></button>
-                    </div>
-                </div>
-                <button class="btn btn-primary btn-large btn-block" onclick="startPraxis()" id="start-praxis-btn" disabled>[ Initiate ]</button>
-            </section>
-
-            <!-- Praxis Active -->
-            <section id="view-praxis-active" class="view">
-                <div class="timer-container">
-                    <div class="timer-ring">
-                        <svg viewBox="0 0 200 200"><circle class="timer-ring-bg" cx="100" cy="100" r="90" /><circle class="timer-ring-progress" id="timer-progress" cx="100" cy="100" r="90" /></svg>
-                        <div class="timer-display"><div class="timer-time" id="timer-display">15:00</div><div class="timer-label">Remaining</div></div>
-                    </div>
-                </div>
-                <div class="skill-prompt">
-                    <div class="skill-prompt-label">Current Skill Focus</div>
-                    <div class="skill-prompt-text" id="skill-prompt-text">Labeled Praise</div>
-                    <div class="skill-prompt-hint" id="skill-prompt-hint">"I love how carefully you're building that!"</div>
-                    <div class="skill-counter">
-                        <button class="skill-count-btn" onclick="decrementSkill()">−</button>
-                        <span class="skill-count-value" id="skill-count">0</span>
-                        <button class="skill-count-btn" onclick="incrementSkill()">+</button>
-                    </div>
-                </div>
-                <p class="text-center" style="color: var(--text-muted); font-size: 0.75rem; margin-bottom: 1rem;">Increment each time you use this skill</p>
-                <button class="btn btn-secondary btn-block" onclick="nextSkillPrompt()">[ Next Skill ]</button>
-                <button class="btn btn-ghost btn-block mt-lg" onclick="endPraxisEarly()">[ Terminate Early ]</button>
-            </section>
-
-            <!-- Praxis Complete -->
-            <section id="view-praxis-complete" class="view">
-                <div class="text-center" style="padding: 2rem 0;">
-                    <div class="modal-icon"><div class="gradus-confirm"><div class="gradus-bar"></div><div class="gradus-bar"></div><div class="gradus-bar"></div></div></div>
-                    <h1 class="page-title">Session Complete</h1>
-                    <p class="page-subtitle">You practiced connection skills for <span id="session-duration">15</span> minutes</p>
-                </div>
-                <div class="card">
-                    <div class="card-title mb-md">Skills Deployed</div>
-                    <div class="stats-grid">
-                        <div class="stat-card"><div class="stat-value" id="final-praise">0</div><div class="stat-label">Praise</div></div>
-                        <div class="stat-card"><div class="stat-value" id="final-reflect">0</div><div class="stat-label">Reflect</div></div>
-                        <div class="stat-card"><div class="stat-value" id="final-describe">0</div><div class="stat-label">Describe</div></div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Post-Session State</label>
-                    <div class="mood-scale" id="post-mood-scale">
-                        <button class="mood-scale-btn" data-mood="1" onclick="selectPostMood(1)"><div class="gradus-scale"><div class="gradus-bar"></div><div class="gradus-bar"></div><div class="gradus-bar"></div></div></button>
-                        <button class="mood-scale-btn" data-mood="2" onclick="selectPostMood(2)"><div class="gradus-scale"><div class="gradus-bar"></div><div class="gradus-bar"></div><div class="gradus-bar"></div></div></button>
-                        <button class="mood-scale-btn" data-mood="3" onclick="selectPostMood(3)"><div class="gradus-scale"><div class="gradus-bar"></div><div class="gradus-bar"></div><div class="gradus-bar"></div></div></button>
-                        <button class="mood-scale-btn" data-mood="4" onclick="selectPostMood(4)"><div class="gradus-scale"><div class="gradus-bar"></div><div class="gradus-bar"></div><div class="gradus-bar"></div></div></button>
-                        <button class="mood-scale-btn" data-mood="5" onclick="selectPostMood(5)"><div class="gradus-scale"><div class="gradus-bar"></div><div class="gradus-bar"></div><div class="gradus-bar"></div></div></button>
-                    </div>
-                </div>
-                <div class="form-group"><label class="form-label">Session Notes (Optional)</label><textarea class="form-textarea" id="session-notes" placeholder="What went well? What was challenging?"></textarea></div>
-                <button class="btn btn-primary btn-large btn-block" onclick="saveSession()" id="save-session-btn" disabled>[ Confirm Session ]</button>
-            </section>
-
-            <!-- Status Check-In -->
-            <section id="view-status-checkin" class="view">
-                <button class="back-btn" onclick="showView('view-custos-home')">← Revert</button>
-                <h1 class="page-title">Status Check</h1>
-                <p class="page-subtitle">Current intensity level assessment</p>
-                <div class="gauge-container">
-                    <div class="gauge-labels"><span class="gauge-label">Stable</span><span class="gauge-label">Elevated</span></div>
-                    <div class="gauge-track" id="gauge-track"><div class="gauge-handle" id="gauge-handle">5</div></div>
-                    <div class="gauge-labels"><span class="gauge-label">1</span><span class="gauge-label">10</span></div>
-                </div>
-                <div class="form-group"><label class="form-label">State Vocabulary</label><div class="state-vocabulary" id="state-vocabulary"></div></div>
-                <div class="form-group"><label class="form-label">Context (Optional)</label><textarea class="form-textarea" id="status-context" placeholder="What triggered this state..."></textarea></div>
-                <button class="btn btn-primary btn-large btn-block" onclick="saveStatusCheckin()">[ Confirm Status ]</button>
-            </section>
-
-            <!-- Respiro -->
-            <section id="view-respiro" class="view">
-                <button class="back-btn" onclick="showView('view-custos-home')">← Revert</button>
-                <div class="respiro-dots" id="respiro-dots"><span class="respiro-dot active"></span><span class="respiro-dot"></span><span class="respiro-dot"></span><span class="respiro-dot"></span><span class="respiro-dot"></span></div>
-                <div class="respiro-step">
-                    <div class="respiro-visual step-halt" id="respiro-visual"><div class="gradus-large"><div class="gradus-bar"></div><div class="gradus-bar"></div><div class="gradus-bar"></div></div></div>
-                    <h2 class="respiro-title" id="respiro-title">Halt</h2>
-                    <p class="respiro-instruction" id="respiro-instruction">Freeze. Do not react. Pause here.</p>
-                </div>
-                <div class="respiro-nav">
-                    <button class="btn btn-secondary btn-large" id="respiro-prev" onclick="respiroPrev()" disabled>←</button>
-                    <button class="btn btn-primary btn-large" id="respiro-next" onclick="respiroNext()">[ Next ]</button>
-                </div>
-            </section>
-
-            <!-- Urgentia -->
-            <section id="view-urgentia" class="view">
-                <button class="back-btn" onclick="showView('view-custos-home')">← Revert</button>
-                <div class="urgentia-header"><h2>Maintain Equanimity</h2><p>Your calm is contagious. Breathe first.</p></div>
-                <div class="breathing-pacer"><span class="breathing-pacer-text" id="breathing-text">Inhale</span></div>
-                <div class="section-label">Protocol Scripts</div>
-                <div class="protocol-scripts">
-                    <div class="protocol-script"><div class="protocol-script-label">Validate</div><div class="protocol-script-text">"I can see you're really upset right now. That's okay."</div></div>
-                    <div class="protocol-script"><div class="protocol-script-label">Early Prompt</div><div class="protocol-script-text">"I notice your body is getting tense. Let's take a breath together."</div></div>
-                    <div class="protocol-script"><div class="protocol-script-label">Offer Choice</div><div class="protocol-script-text">"Would you like to squeeze something or go to your calm spot?"</div></div>
-                    <div class="protocol-script"><div class="protocol-script-label">Selective Ignore</div><div class="protocol-script-text">Stay present. Don't engage with provocations. Wait for calm.</div></div>
-                    <div class="protocol-script"><div class="protocol-script-label">Post-Calm: Repair</div><div class="protocol-script-text">"That was hard. I'm glad you calmed down. Want to talk about what happened?"</div></div>
-                </div>
-                <button class="btn btn-secondary btn-block mt-lg" onclick="showView('view-respiro')">[ Initiate Respiro ]</button>
-            </section>
-
-            <!-- Log Episode -->
-            <section id="view-log-episode" class="view">
-                <button class="back-btn" onclick="showView('view-custos-home')">← Revert</button>
-                <h1 class="page-title">Log Episode</h1>
-                <p class="page-subtitle">Record for pattern analysis</p>
-                <div class="form-group"><label class="form-label">Intensity (1-10)</label><div class="gauge-container"><div class="gauge-track" id="episode-gauge-track"><div class="gauge-handle" id="episode-gauge-handle">5</div></div></div></div>
-                <div class="form-group"><label class="form-label">Trigger</label><input type="text" class="form-input" id="episode-trigger" placeholder="e.g., Asked to stop playing game"></div>
-                <div class="form-group">
-                    <label class="form-label">Interventions Applied</label>
-                    <div class="state-vocabulary" id="intervention-options">
-                        <span class="state-word" onclick="toggleIntervention(this, 'validation')">Validation</span>
-                        <span class="state-word" onclick="toggleIntervention(this, 'early-prompt')">Early Prompt</span>
-                        <span class="state-word" onclick="toggleIntervention(this, 'breathing')">Co-Breathing</span>
-                        <span class="state-word" onclick="toggleIntervention(this, 'choice')">Offered Choice</span>
-                        <span class="state-word" onclick="toggleIntervention(this, 'space')">Gave Space</span>
-                        <span class="state-word" onclick="toggleIntervention(this, 'respiro')">Respiro</span>
-                        <span class="state-word" onclick="toggleIntervention(this, 'ignore')">Selective Ignore</span>
-                    </div>
-                </div>
-                <div class="form-group"><label class="form-label">Duration to Calm (minutes)</label><input type="number" class="form-input" id="episode-duration" placeholder="e.g., 10" min="1" max="120"></div>
-                <div class="form-group"><label class="form-label">Notes</label><textarea class="form-textarea" id="episode-notes" placeholder="What worked? What didn't?"></textarea></div>
-                <button class="btn btn-primary btn-large btn-block" onclick="saveEpisode()">[ Confirm Episode ]</button>
-            </section>
-
-            <!-- Progressio -->
-            <section id="view-progressio" class="view">
-                <h1 class="page-title">Progressio</h1>
-                <p class="page-subtitle">Your advancement over time</p>
-                <div class="card"><div class="card-title mb-md">This Week</div><div class="progressio-calendar" id="progressio-calendar"></div></div>
-                <div class="stats-grid">
-                    <div class="stat-card"><div class="stat-value" id="progress-streak">0</div><div class="stat-label">Consecutio</div></div>
-                    <div class="stat-card"><div class="stat-value" id="progress-sessions">0</div><div class="stat-label">Sessions</div></div>
-                    <div class="stat-card"><div class="stat-value" id="progress-episodes">0</div><div class="stat-label">Episodes</div></div>
-                </div>
-                <div class="card">
-                    <div class="card-title mb-sm">Skills This Week</div>
-                    <div class="card-subtitle mb-md">PRIDE skills deployed in praxis sessions</div>
-                    <div class="stats-grid">
-                        <div class="stat-card"><div class="stat-value" id="weekly-praise">0</div><div class="stat-label">Praise</div></div>
-                        <div class="stat-card"><div class="stat-value" id="weekly-reflect">0</div><div class="stat-label">Reflect</div></div>
-                        <div class="stat-card"><div class="stat-value" id="weekly-describe">0</div><div class="stat-label">Describe</div></div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- ============================================
-                 CURRICULUM VIEW
-                 ============================================ -->
-            <section id="view-curriculum" class="view">
-                <h1 class="page-title">Curriculum</h1>
-                <p class="page-subtitle">Your 12-week learning journey</p>
-                
-                <!-- Phase Progress Card -->
-                <div class="card" id="curriculum-phase-card">
-                    <div class="phase-header">
-                        <div class="phase-info">
-                            <div class="phase-name" id="curriculum-phase-name">Fundamentum</div>
-                            <div class="phase-subtitle" id="curriculum-phase-subtitle">Foundation</div>
-                        </div>
-                        <div class="phase-progress">
-                            <div class="phase-week" id="curriculum-week">Week 1</div>
-                            <div class="phase-progress-bar">
-                                <div class="phase-progress-fill" id="curriculum-progress-fill" style="width: 0%"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <p class="phase-description" id="curriculum-phase-desc">Building the relationship foundation through child-directed interaction</p>
-                </div>
-
-                <!-- Weekly Lessons -->
-                <div class="section-label">This Week's Lessons</div>
-                <div id="curriculum-lessons-container">
-                    <!-- Lessons will be dynamically rendered here -->
-                </div>
-
-                <!-- Phase Navigation -->
-                <div class="section-label mt-lg">All Phases</div>
-                <div class="phase-nav" id="phase-nav">
-                    <button class="phase-nav-btn active" data-phase="fundamentum" onclick="selectPhase('fundamentum')">
-                        <div class="gradus-mini"><div class="gradus-bar"></div><div class="gradus-bar"></div><div class="gradus-bar"></div></div>
-                        <span>Fundamentum</span>
-                    </button>
-                    <button class="phase-nav-btn" data-phase="praxis" onclick="selectPhase('praxis')">
-                        <div class="gradus-mini"><div class="gradus-bar"></div><div class="gradus-bar"></div><div class="gradus-bar"></div></div>
-                        <span>Praxis</span>
-                    </button>
-                    <button class="phase-nav-btn" data-phase="imperium" onclick="selectPhase('imperium')">
-                        <div class="gradus-mini"><div class="gradus-bar"></div><div class="gradus-bar"></div><div class="gradus-bar"></div></div>
-                        <span>Imperium</span>
-                    </button>
-                    <button class="phase-nav-btn" data-phase="autonomia" onclick="selectPhase('autonomia')">
-                        <div class="gradus-mini"><div class="gradus-bar"></div><div class="gradus-bar"></div><div class="gradus-bar"></div></div>
-                        <span>Autonomia</span>
-                    </button>
-                </div>
-            </section>
-
-            <!-- Lesson Detail View -->
-            <section id="view-lesson-detail" class="view">
-                <button class="back-btn" onclick="showView('view-curriculum')">← Revert</button>
-                <div class="lesson-header">
-                    <div class="lesson-type-badge" id="lesson-type-badge">Skill</div>
-                    <h1 class="page-title" id="lesson-detail-title">Lesson Title</h1>
-                    <p class="page-subtitle" id="lesson-detail-subtitle">Lesson subtitle</p>
-                </div>
-
-                <div class="card">
-                    <div class="card-title mb-md">Overview</div>
-                    <p class="lesson-description" id="lesson-detail-description">Lesson description text</p>
-                </div>
-
-                <div class="card">
-                    <div class="card-title mb-md">Objectives</div>
-                    <ul class="objectives-list" id="lesson-objectives-list">
-                        <!-- Objectives rendered dynamically -->
-                    </ul>
-                </div>
-
-                <div class="card" id="lesson-briefing-card">
-                    <div class="card-title mb-md">Briefing</div>
-                    <p class="lesson-briefing" id="lesson-briefing-text">Briefing content</p>
-                </div>
-
-                <div class="card" id="lesson-key-points-card">
-                    <div class="card-title mb-md">Key Points</div>
-                    <ul class="key-points-list" id="lesson-key-points-list">
-                        <!-- Key points rendered dynamically -->
-                    </ul>
-                </div>
-
-                <div class="card" id="lesson-assignment-card">
-                    <div class="card-title mb-md">Assignment</div>
-                    <p class="assignment-description" id="lesson-assignment-text">Assignment description</p>
-                    <div class="assignment-progress" id="lesson-assignment-progress">
-                        <span class="assignment-count" id="lesson-assignment-count">0 / 1</span>
-                        <span class="assignment-status" id="lesson-assignment-status">Incomplete</span>
-                    </div>
-                </div>
-
-                <button class="btn btn-primary btn-large btn-block" id="lesson-complete-btn" onclick="toggleLessonComplete()">[ Mark Complete ]</button>
-            </section>
-
-            <!-- ============================================
-                 ACHIEVEMENTS / REWARDS VIEW
-                 ============================================ -->
-            <section id="view-achievements" class="view">
-                <h1 class="page-title">Achievements</h1>
-                <p class="page-subtitle">Your progress and rewards</p>
-
-                <!-- Consecutio (Streak) Card -->
-                <div class="card streak-card">
-                    <div class="streak-header">
-                        <div class="streak-icon">
-                            <div class="gradus-large animated"><div class="gradus-bar"></div><div class="gradus-bar"></div><div class="gradus-bar"></div></div>
-                        </div>
-                        <div class="streak-info">
-                            <div class="streak-value" id="achievement-streak">0</div>
-                            <div class="streak-label">Day Consecutio</div>
-                        </div>
-                    </div>
-                    <div class="streak-milestones" id="streak-milestones">
-                        <!-- Milestone markers rendered dynamically -->
-                    </div>
-                    <div class="streak-next" id="streak-next-milestone">Next: Initium at 3 days</div>
-                </div>
-
-                <!-- Points Card -->
-                <div class="card">
-                    <div class="card-title mb-sm">Total Points</div>
-                    <div class="points-display">
-                        <span class="points-value" id="total-points">0</span>
-                        <span class="points-label">pts</span>
-                    </div>
-                </div>
-
-                <!-- Achievements Grid -->
-                <div class="section-label">Earned Achievements</div>
-                <div class="achievements-grid" id="achievements-earned">
-                    <!-- Earned achievements rendered dynamically -->
-                    <div class="achievement-empty" id="no-achievements-msg">Complete activities to earn achievements</div>
-                </div>
-
-                <div class="section-label mt-lg">Available Achievements</div>
-                <div class="achievements-grid" id="achievements-available">
-                    <!-- Available achievements rendered dynamically -->
-                </div>
-
-                <!-- Unlockable Rewards -->
-                <div class="section-label mt-lg">Rewards</div>
-                <div class="rewards-list" id="rewards-list">
-                    <!-- Rewards rendered dynamically -->
-                </div>
-            </section>
-
-            <!-- ============================================
-                 SETTINGS VIEW
-                 ============================================ -->
-            <section id="view-settings" class="view">
-                <h1 class="page-title">Settings</h1>
-                <p class="page-subtitle">Family profile and preferences</p>
-
-                <!-- Family Profile Card -->
-                <div class="card">
-                    <div class="card-title mb-md">Family Profile</div>
-                    <div class="form-group">
-                        <label class="form-label">Family Name</label>
-                        <input type="text" class="form-input" id="settings-family-name" placeholder="Our Family">
-                    </div>
-                    <button class="btn btn-secondary btn-block" onclick="saveFamilyName()">[ Update Family Name ]</button>
-                </div>
-
-                <!-- Users Card -->
-                <div class="card">
-                    <div class="card-title mb-md">Family Members</div>
-                    <div class="users-list" id="settings-users-list">
-                        <!-- Users rendered dynamically -->
-                    </div>
-                    <button class="btn btn-secondary btn-block mt-md" onclick="showAddUserModal()">[ Add Member ]</button>
-                </div>
-
-                <!-- Preferences Card -->
-                <div class="card">
-                    <div class="card-title mb-md">Preferences</div>
-                    
-                    <div class="setting-row">
-                        <div class="setting-info">
-                            <div class="setting-label">Theme</div>
-                            <div class="setting-desc">NOX (dark) or LUX (light)</div>
-                        </div>
-                        <button class="btn btn-secondary btn-small" onclick="toggleTheme()" id="settings-theme-btn">[ NOX ]</button>
-                    </div>
-
-                    <div class="setting-row">
-                        <div class="setting-info">
-                            <div class="setting-label">Praxis Duration</div>
-                            <div class="setting-desc">Default session length</div>
-                        </div>
-                        <select class="form-select" id="settings-praxis-duration" onchange="savePraxisDuration()">
-                            <option value="600">10 min</option>
-                            <option value="900" selected>15 min</option>
-                            <option value="1200">20 min</option>
-                        </select>
-                    </div>
-
-                    <div class="setting-row">
-                        <div class="setting-info">
-                            <div class="setting-label">Notifications</div>
-                            <div class="setting-desc">Daily practice reminders</div>
-                        </div>
-                        <button class="toggle-switch" id="settings-notifications-toggle" onclick="toggleNotifications()">
-                            <span class="toggle-track"><span class="toggle-thumb"></span></span>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Data Management Card -->
-                <div class="card">
-                    <div class="card-title mb-md">Data Management</div>
-                    
-                    <div class="setting-row">
-                        <div class="setting-info">
-                            <div class="setting-label">Export Data</div>
-                            <div class="setting-desc">Download your family's data</div>
-                        </div>
-                        <button class="btn btn-secondary btn-small" onclick="exportData()">[ Export ]</button>
-                    </div>
-
-                    <div class="setting-row">
-                        <div class="setting-info">
-                            <div class="setting-label">Reset Progress</div>
-                            <div class="setting-desc">Clear all session data</div>
-                        </div>
-                        <button class="btn btn-ghost btn-small" style="color: var(--status-failed);" onclick="confirmResetProgress()">[ Reset ]</button>
-                    </div>
-                </div>
-
-                <!-- About Card -->
-                <div class="card">
-                    <div class="card-title mb-md">About</div>
-                    <div class="about-info">
-                        <div class="about-row"><span class="about-label">Version</span><span class="about-value">1.0.0</span></div>
-                        <div class="about-row"><span class="about-label">Protocol</span><span class="about-value">Cadencia</span></div>
-                        <div class="about-row"><span class="about-label">System</span><span class="about-value">Grey Stratum</span></div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Filius Home -->
-            <section id="view-filius-home" class="view">
-                <h1 class="page-title" style="font-size: 1.75rem;">Salve</h1>
-                <p class="page-subtitle" style="font-size: 1.125rem;">How are you feeling today?</p>
-                <div class="filius-mood-grid" id="filius-mood-grid">
-                    <button class="mood-btn" data-mood="1" onclick="selectFiliusMood(1, this)"><div class="gradus-mood"><div class="gradus-bar"></div><div class="gradus-bar"></div><div class="gradus-bar"></div></div></button>
-                    <button class="mood-btn" data-mood="2" onclick="selectFiliusMood(2, this)"><div class="gradus-mood"><div class="gradus-bar"></div><div class="gradus-bar"></div><div class="gradus-bar"></div></div></button>
-                    <button class="mood-btn" data-mood="3" onclick="selectFiliusMood(3, this)"><div class="gradus-mood"><div class="gradus-bar"></div><div class="gradus-bar"></div><div class="gradus-bar"></div></div></button>
-                    <button class="mood-btn" data-mood="4" onclick="selectFiliusMood(4, this)"><div class="gradus-mood"><div class="gradus-bar"></div><div class="gradus-bar"></div><div class="gradus-bar"></div></div></button>
-                    <button class="mood-btn" data-mood="5" onclick="selectFiliusMood(5, this)"><div class="gradus-mood"><div class="gradus-bar"></div><div class="gradus-bar"></div><div class="gradus-bar"></div></div></button>
-                </div>
-                <div class="card action-card" onclick="showView('view-filius-respiro')" style="margin-top: 1.5rem;">
-                    <div class="card-icon"><div class="gradus-mini"><div class="gradus-bar"></div><div class="gradus-bar"></div><div class="gradus-bar"></div></div></div>
-                    <div class="card-content"><div class="card-title" style="font-size: 1rem;">[ Calm Down ]</div><div class="card-subtitle">Use the Respiro technique</div></div>
-                    <span class="chevron">›</span>
-                </div>
-                <div class="card action-card" onclick="showView('view-filius-breathe')">
-                    <div class="card-icon"><div class="gradus-mini"><div class="gradus-bar"></div><div class="gradus-bar"></div><div class="gradus-bar"></div></div></div>
-                    <div class="card-content"><div class="card-title" style="font-size: 1rem;">[ Breathe ]</div><div class="card-subtitle">Follow the breathing pacer</div></div>
-                    <span class="chevron">›</span>
-                </div>
-            </section>
-
-            <!-- Filius Respiro -->
-            <section id="view-filius-respiro" class="view">
-                <button class="back-btn" onclick="showView('view-filius-home')">← Revert</button>
-                <div class="respiro-dots" id="filius-respiro-dots"><span class="respiro-dot active"></span><span class="respiro-dot"></span><span class="respiro-dot"></span><span class="respiro-dot"></span><span class="respiro-dot"></span></div>
-                <div class="respiro-step">
-                    <div class="respiro-visual step-halt" id="filius-respiro-visual"><div class="gradus-large"><div class="gradus-bar"></div><div class="gradus-bar"></div><div class="gradus-bar"></div></div></div>
-                    <h2 class="respiro-title" id="filius-respiro-title" style="font-size: 2rem;">Halt</h2>
-                    <p class="respiro-instruction" id="filius-respiro-instruction" style="font-size: 1.125rem;">Freeze like a statue!</p>
-                </div>
-                <div class="respiro-nav">
-                    <button class="btn btn-secondary btn-large" id="filius-respiro-prev" onclick="filiusRespiroPrev()" disabled>←</button>
-                    <button class="btn btn-primary btn-large" id="filius-respiro-next" onclick="filiusRespiroNext()">[ Next ]</button>
-                </div>
-            </section>
-
-            <!-- Filius Breathe -->
-            <section id="view-filius-breathe" class="view">
-                <button class="back-btn" onclick="showView('view-filius-home')">← Revert</button>
-                <h1 class="page-title text-center" style="font-size: 1.5rem; margin-top: 2rem;">Breathe With Me</h1>
-                <p class="page-subtitle text-center" style="font-size: 1rem;">Follow the pacer</p>
-                <div class="breathing-pacer" style="width: 180px; height: 180px; margin-top: 2rem;"><span class="breathing-pacer-text" id="filius-breathing-text" style="font-size: 1rem;">Inhale</span></div>
-                <p class="text-center mt-lg" style="color: var(--text-secondary); font-size: 1rem; font-weight: 300;">Expand = breathe in<br>Contract = breathe out</p>
-                <button class="btn btn-secondary btn-large btn-block mt-lg" onclick="showView('view-filius-home')">[ Confirmed ]</button>
-            </section>
-
-            <!-- Filius Achievements -->
-            <section id="view-filius-achievements" class="view">
-                <h1 class="page-title" style="font-size: 1.75rem;">My Achievements</h1>
-                <p class="page-subtitle" style="font-size: 1.125rem;">You're doing great!</p>
-
-                <div class="card streak-card">
-                    <div class="streak-header">
-                        <div class="streak-icon">
-                            <div class="gradus-large animated"><div class="gradus-bar"></div><div class="gradus-bar"></div><div class="gradus-bar"></div></div>
-                        </div>
-                        <div class="streak-info">
-                            <div class="streak-value" id="filius-streak">0</div>
-                            <div class="streak-label">Day Streak!</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-title mb-sm">My Points</div>
-                    <div class="points-display">
-                        <span class="points-value" id="filius-points">0</span>
-                        <span class="points-label">pts</span>
-                    </div>
-                </div>
-
-                <div class="section-label">My Badges</div>
-                <div class="achievements-grid filius-achievements" id="filius-achievements-grid">
-                    <!-- Filius achievements rendered dynamically -->
-                    <div class="achievement-empty" id="filius-no-achievements">Keep practicing to earn badges!</div>
-                </div>
-            </section>
-        </main>
-
-        <!-- Bottom Navigation (4 items for Custos, 3 for Filius) -->
-        <nav class="bottom-nav" id="bottom-nav">
-            <button type="button" class="nav-item active" data-nav="home">
-                <div class="nav-icon"><div class="gradus-bar"></div><div class="gradus-bar"></div><div class="gradus-bar"></div></div>
-                <span>Home</span>
-            </button>
-            <button type="button" class="nav-item" data-nav="curriculum">
-                <div class="nav-icon"><div class="gradus-bar"></div><div class="gradus-bar"></div><div class="gradus-bar"></div></div>
-                <span>Curriculum</span>
-            </button>
-            <button type="button" class="nav-item" data-nav="progressio">
-                <div class="nav-icon"><div class="gradus-bar"></div><div class="gradus-bar"></div><div class="gradus-bar"></div></div>
-                <span>Progressio</span>
-            </button>
-            <button type="button" class="nav-item" data-nav="settings">
-                <div class="nav-icon"><div class="gradus-bar"></div><div class="gradus-bar"></div><div class="gradus-bar"></div></div>
-                <span>Settings</span>
-            </button>
-        </nav>
-
-        <!-- Confirmation Modal -->
-        <div class="modal-overlay" id="modal-confirm">
-            <div class="modal">
-                <div class="text-center">
-                    <div class="modal-icon"><div class="gradus-confirm"><div class="gradus-bar"></div><div class="gradus-bar"></div><div class="gradus-bar"></div></div></div>
-                    <h3 class="modal-title" id="modal-title">Confirmed</h3>
-                    <p style="color: var(--text-secondary); margin-bottom: 1.5rem; font-weight: 300;" id="modal-message">Your data has been recorded.</p>
-                    <button class="btn btn-primary" onclick="hideModal()">[ Dismiss ]</button>
-                </div>
-            </div>
+  <div class="app-container">
+    
+    <!-- ========================================
+         HEADER
+         ======================================== -->
+    <header class="header">
+      <div class="header-content">
+        <div class="logo">
+          <div class="logo-gradus animated">
+            <div class="gradus-bar"></div>
+            <div class="gradus-bar"></div>
+            <div class="gradus-bar"></div>
+          </div>
+          <div class="logo-text">
+            <span class="logo-title">Praxia</span>
+            <span class="logo-protocol">Cadencia Protocol</span>
+          </div>
         </div>
-
-        <!-- Add User Modal -->
-        <div class="modal-overlay" id="modal-add-user">
-            <div class="modal">
-                <h3 class="modal-title">Add Family Member</h3>
-                <div class="form-group">
-                    <label class="form-label">Name</label>
-                    <input type="text" class="form-input" id="new-user-name" placeholder="Enter name">
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Role</label>
-                    <div class="role-select">
-                        <button class="role-btn active" data-role="custos" onclick="selectNewUserRole('custos', this)">Custos</button>
-                        <button class="role-btn" data-role="filius" onclick="selectNewUserRole('filius', this)">Filius</button>
-                    </div>
-                </div>
-                <div class="modal-actions">
-                    <button class="btn btn-ghost" onclick="hideAddUserModal()">[ Cancel ]</button>
-                    <button class="btn btn-primary" onclick="addNewUser()">[ Add ]</button>
-                </div>
-            </div>
+        
+        <div class="user-toggle">
+          <button id="toggle-custos" class="toggle-btn active">Custos</button>
+          <button id="toggle-filius" class="toggle-btn">Filius</button>
         </div>
-
-        <!-- Reset Confirmation Modal -->
-        <div class="modal-overlay" id="modal-reset">
-            <div class="modal">
-                <div class="text-center">
-                    <div class="modal-icon"><div class="gradus-confirm" style="--accent: var(--status-failed);"><div class="gradus-bar" style="background: var(--status-failed);"></div><div class="gradus-bar" style="background: var(--status-failed);"></div><div class="gradus-bar" style="background: var(--status-failed);"></div></div></div>
-                    <h3 class="modal-title">Reset Progress?</h3>
-                    <p style="color: var(--text-secondary); margin-bottom: 1.5rem; font-weight: 300;">This will clear all session data, episodes, and achievements. This cannot be undone.</p>
-                    <div class="modal-actions">
-                        <button class="btn btn-ghost" onclick="hideResetModal()">[ Cancel ]</button>
-                        <button class="btn btn-primary" style="background: var(--status-failed);" onclick="executeReset()">[ Reset ]</button>
-                    </div>
-                </div>
-            </div>
+        
+        <div class="theme-toggle" onclick="toggleTheme()">
+          <div class="theme-indicator">
+            <div class="gradus-bar"></div>
+            <div class="gradus-bar"></div>
+            <div class="gradus-bar"></div>
+          </div>
+          <span id="themeLabel" class="theme-label">[ NOX ]</span>
         </div>
+      </div>
+    </header>
+
+    <!-- ========================================
+         MAIN CONTENT
+         ======================================== -->
+    <main class="main-content">
+      
+      <!-- =====================================
+           ONBOARDING VIEW
+           ===================================== -->
+      <section id="view-onboarding" class="view">
+        <div id="onboarding-content" class="onboarding-container">
+          <!-- Rendered by JS -->
+        </div>
+        <div class="onboarding-nav">
+          <button id="onboarding-prev" class="btn btn-ghost" onclick="onboardingPrev()" style="display: none;">[ Back ]</button>
+          <button id="onboarding-skip" class="btn btn-ghost" onclick="skipOnboarding()">[ Skip ]</button>
+          <button id="onboarding-next" class="btn btn-primary" onclick="onboardingNext()">[ Next ]</button>
+        </div>
+      </section>
+
+      <!-- =====================================
+           CUSTOS HOME
+           ===================================== -->
+      <section id="view-custos-home" class="view">
+        <h1 class="page-title">Salve, Custos</h1>
+        <p class="page-subtitle">Your daily practice awaits</p>
+        
+        <!-- Stats Grid -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div id="stat-streak" class="stat-value">0</div>
+            <div class="stat-label">Consecutio</div>
+          </div>
+          <div class="stat-card">
+            <div id="stat-sessions" class="stat-value">0</div>
+            <div class="stat-label">Sessions</div>
+          </div>
+          <div class="stat-card">
+            <div id="stat-skills" class="stat-value">0</div>
+            <div class="stat-label">Skills</div>
+          </div>
+        </div>
+        
+        <!-- Quick Actions -->
+        <div class="section-label">Actions</div>
+        
+        <div class="card action-card" onclick="showView('view-praxis-setup')">
+          <div class="card-icon">
+            <div class="gradus-mini">
+              <div class="gradus-bar"></div>
+              <div class="gradus-bar"></div>
+              <div class="gradus-bar"></div>
+            </div>
+          </div>
+          <div class="card-content">
+            <div class="card-title">Begin Praxis</div>
+            <div class="card-subtitle">Start a timed practice session</div>
+          </div>
+          <span class="chevron">›</span>
+        </div>
+        
+        <div class="card action-card" onclick="showView('view-status-checkin')">
+          <div class="card-icon">
+            <div class="gradus-mini">
+              <div class="gradus-bar"></div>
+              <div class="gradus-bar"></div>
+              <div class="gradus-bar"></div>
+            </div>
+          </div>
+          <div class="card-content">
+            <div class="card-title">Status Check</div>
+            <div class="card-subtitle">Record current emotional state</div>
+          </div>
+          <span class="chevron">›</span>
+        </div>
+        
+        <div class="card action-card" onclick="showView('view-respiro')">
+          <div class="card-icon">
+            <div class="gradus-mini">
+              <div class="gradus-bar"></div>
+              <div class="gradus-bar"></div>
+              <div class="gradus-bar"></div>
+            </div>
+          </div>
+          <div class="card-content">
+            <div class="card-title">Respiro</div>
+            <div class="card-subtitle">Guided calming protocol</div>
+          </div>
+          <span class="chevron">›</span>
+        </div>
+        
+        <div class="card action-card" onclick="showView('view-urgentia')">
+          <div class="card-icon">
+            <div class="gradus-mini urgentia">
+              <div class="gradus-bar"></div>
+              <div class="gradus-bar"></div>
+              <div class="gradus-bar"></div>
+            </div>
+          </div>
+          <div class="card-content">
+            <div class="card-title">Urgentia</div>
+            <div class="card-subtitle">Crisis support & scripts</div>
+          </div>
+          <span class="chevron">›</span>
+        </div>
+      </section>
+
+      <!-- =====================================
+           FILIUS HOME
+           ===================================== -->
+      <section id="view-filius-home" class="view">
+        <h1 class="page-title">Salve!</h1>
+        <p class="page-subtitle">How are you feeling today?</p>
+        
+        <!-- Stats -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div id="filius-stat-streak" class="stat-value">0</div>
+            <div class="stat-label">Days</div>
+          </div>
+          <div class="stat-card">
+            <div id="filius-stat-points" class="stat-value">0</div>
+            <div class="stat-label">Points</div>
+          </div>
+        </div>
+        
+        <!-- Mood Grid -->
+        <div class="section-label">Tell me how you feel</div>
+        <div id="filius-mood-grid" class="filius-mood-grid">
+          <button class="mood-btn" data-mood="1" onclick="selectFiliusMood(1, this)">
+            <div class="gradus-mood">
+              <div class="gradus-bar"></div>
+              <div class="gradus-bar"></div>
+              <div class="gradus-bar"></div>
+            </div>
+          </button>
+          <button class="mood-btn" data-mood="2" onclick="selectFiliusMood(2, this)">
+            <div class="gradus-mood">
+              <div class="gradus-bar"></div>
+              <div class="gradus-bar"></div>
+              <div class="gradus-bar"></div>
+            </div>
+          </button>
+          <button class="mood-btn" data-mood="3" onclick="selectFiliusMood(3, this)">
+            <div class="gradus-mood">
+              <div class="gradus-bar"></div>
+              <div class="gradus-bar"></div>
+              <div class="gradus-bar"></div>
+            </div>
+          </button>
+          <button class="mood-btn" data-mood="4" onclick="selectFiliusMood(4, this)">
+            <div class="gradus-mood">
+              <div class="gradus-bar"></div>
+              <div class="gradus-bar"></div>
+              <div class="gradus-bar"></div>
+            </div>
+          </button>
+          <button class="mood-btn" data-mood="5" onclick="selectFiliusMood(5, this)">
+            <div class="gradus-mood">
+              <div class="gradus-bar"></div>
+              <div class="gradus-bar"></div>
+              <div class="gradus-bar"></div>
+            </div>
+          </button>
+        </div>
+        
+        <!-- Quick Actions -->
+        <div class="section-label mt-lg">Activities</div>
+        
+        <div class="card action-card" onclick="showView('view-filius-respiro')">
+          <div class="card-icon">
+            <div class="gradus-mini">
+              <div class="gradus-bar"></div>
+              <div class="gradus-bar"></div>
+              <div class="gradus-bar"></div>
+            </div>
+          </div>
+          <div class="card-content">
+            <div class="card-title">Calm Down</div>
+            <div class="card-subtitle">Breathe with me</div>
+          </div>
+          <span class="chevron">›</span>
+        </div>
+      </section>
+
+      <!-- =====================================
+           PRAXIS SETUP
+           ===================================== -->
+      <section id="view-praxis-setup" class="view">
+        <button class="back-btn" onclick="showView('view-custos-home')">← Back</button>
+        <h1 class="page-title">Praxis</h1>
+        <p class="page-subtitle">Prepare for your practice session</p>
+        
+        <div class="section-label">Pre-Session Check</div>
+        <p class="text-body mb-md">How are you feeling right now?</p>
+        
+        <div id="pre-mood-scale" class="mood-scale">
+          <button class="mood-scale-btn" data-mood="1" onclick="selectPreMood(1)">
+            <div class="gradus-scale"><div class="gradus-bar"></div><div class="gradus-bar"></div><div class="gradus-bar"></div></div>
+          </button>
+          <button class="mood-scale-btn" data-mood="2" onclick="selectPreMood(2)">
+            <div class="gradus-scale"><div class="gradus-bar"></div><div class="gradus-bar"></div><div class="gradus-bar"></div></div>
+          </button>
+          <button class="mood-scale-btn" data-mood="3" onclick="selectPreMood(3)">
+            <div class="gradus-scale"><div class="gradus-bar"></div><div class="gradus-bar"></div><div class="gradus-bar"></div></div>
+          </button>
+          <button class="mood-scale-btn" data-mood="4" onclick="selectPreMood(4)">
+            <div class="gradus-scale"><div class="gradus-bar"></div><div class="gradus-bar"></div><div class="gradus-bar"></div></div>
+          </button>
+          <button class="mood-scale-btn" data-mood="5" onclick="selectPreMood(5)">
+            <div class="gradus-scale"><div class="gradus-bar"></div><div class="gradus-bar"></div><div class="gradus-bar"></div></div>
+          </button>
+        </div>
+        
+        <div class="card mt-lg">
+          <div class="section-label">Remember</div>
+          <div class="praxis-skills">
+            <div class="praxis-skill"><strong>P</strong>raise — Labeled, specific praise</div>
+            <div class="praxis-skill"><strong>R</strong>eflect — Mirror their words</div>
+            <div class="praxis-skill"><strong>I</strong>mitate — Copy their play</div>
+            <div class="praxis-skill"><strong>D</strong>escribe — Narrate actions</div>
+            <div class="praxis-skill"><strong>E</strong>njoy — Be genuinely present</div>
+          </div>
+        </div>
+        
+        <button id="start-praxis-btn" class="btn btn-primary btn-block btn-large mt-lg" onclick="startPraxis()" disabled>
+          [ Initiate Praxis ]
+        </button>
+      </section>
+
+      <!-- =====================================
+           PRAXIS ACTIVE
+           ===================================== -->
+      <section id="view-praxis-active" class="view">
+        <div class="timer-container">
+          <div class="timer-ring">
+            <svg viewBox="0 0 200 200">
+              <circle class="timer-ring-bg" cx="100" cy="100" r="90" />
+              <circle id="timer-progress" class="timer-ring-progress" cx="100" cy="100" r="90" />
+            </svg>
+            <div class="timer-display">
+              <div id="timer-display" class="timer-time">15:00</div>
+              <div class="timer-label">Remaining</div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="skill-prompt">
+          <div class="skill-prompt-label">Current Focus</div>
+          <div id="skill-prompt-text" class="skill-prompt-text">Labeled Praise</div>
+          <div id="skill-prompt-hint" class="skill-prompt-hint">"I love how carefully you're building that!"</div>
+          <div class="skill-counter">
+            <button class="skill-count-btn" onclick="decrementSkill()">−</button>
+            <span id="skill-count" class="skill-count-value">0</span>
+            <button class="skill-count-btn" onclick="incrementSkill()">+</button>
+          </div>
+        </div>
+        
+        <div class="button-row mt-lg">
+          <button class="btn btn-ghost" onclick="nextSkillPrompt()">[ Next Skill ]</button>
+          <button class="btn btn-secondary" onclick="endPraxisEarly()">[ End Early ]</button>
+        </div>
+      </section>
+
+      <!-- =====================================
+           PRAXIS COMPLETE
+           ===================================== -->
+      <section id="view-praxis-complete" class="view">
+        <h1 class="page-title text-center">Session Complete</h1>
+        
+        <div class="completion-stats">
+          <div class="stat-card">
+            <div id="session-duration" class="stat-value">15</div>
+            <div class="stat-label">Minutes</div>
+          </div>
+        </div>
+        
+        <div class="section-label">Skills Used</div>
+        <div class="completion-skills">
+          <div class="completion-skill">
+            <span class="skill-name">Praise</span>
+            <span id="final-praise" class="skill-final">0</span>
+          </div>
+          <div class="completion-skill">
+            <span class="skill-name">Reflect</span>
+            <span id="final-reflect" class="skill-final">0</span>
+          </div>
+          <div class="completion-skill">
+            <span class="skill-name">Describe</span>
+            <span id="final-describe" class="skill-final">0</span>
+          </div>
+        </div>
+        
+        <div class="section-label mt-lg">Post-Session Check</div>
+        <p class="text-body mb-md">How are you feeling now?</p>
+        
+        <div id="post-mood-scale" class="mood-scale">
+          <button class="mood-scale-btn" data-mood="1" onclick="selectPostMood(1)">
+            <div class="gradus-scale"><div class="gradus-bar"></div><div class="gradus-bar"></div><div class="gradus-bar"></div></div>
+          </button>
+          <button class="mood-scale-btn" data-mood="2" onclick="selectPostMood(2)">
+            <div class="gradus-scale"><div class="gradus-bar"></div><div class="gradus-bar"></div><div class="gradus-bar"></div></div>
+          </button>
+          <button class="mood-scale-btn" data-mood="3" onclick="selectPostMood(3)">
+            <div class="gradus-scale"><div class="gradus-bar"></div><div class="gradus-bar"></div><div class="gradus-bar"></div></div>
+          </button>
+          <button class="mood-scale-btn" data-mood="4" onclick="selectPostMood(4)">
+            <div class="gradus-scale"><div class="gradus-bar"></div><div class="gradus-bar"></div><div class="gradus-bar"></div></div>
+          </button>
+          <button class="mood-scale-btn" data-mood="5" onclick="selectPostMood(5)">
+            <div class="gradus-scale"><div class="gradus-bar"></div><div class="gradus-bar"></div><div class="gradus-bar"></div></div>
+          </button>
+        </div>
+        
+        <div class="form-group mt-lg">
+          <label class="form-label">Notes (Optional)</label>
+          <textarea id="session-notes" class="form-textarea" placeholder="How did it go?"></textarea>
+        </div>
+        
+        <button id="save-session-btn" class="btn btn-primary btn-block btn-large mt-lg" onclick="saveSession()" disabled>
+          [ Save Session ]
+        </button>
+      </section>
+
+      <!-- =====================================
+           STATUS CHECK-IN
+           ===================================== -->
+      <section id="view-status-checkin" class="view">
+        <button class="back-btn" onclick="showView('view-custos-home')">← Back</button>
+        <h1 class="page-title">Status Check</h1>
+        <p class="page-subtitle">How are you right now?</p>
+        
+        <div class="section-label">Intensity Level</div>
+        <div class="gauge-container">
+          <div id="gauge-track" class="gauge-track">
+            <div id="gauge-handle" class="gauge-handle">5</div>
+          </div>
+          <div class="gauge-labels">
+            <span class="gauge-label">Calm</span>
+            <span class="gauge-label">Elevated</span>
+            <span class="gauge-label">Critical</span>
+          </div>
+        </div>
+        
+        <div class="section-label">What words fit?</div>
+        <div id="state-vocabulary" class="state-vocabulary">
+          <!-- Rendered by JS -->
+        </div>
+        
+        <div class="form-group mt-lg">
+          <label class="form-label">Context (Optional)</label>
+          <textarea id="status-context" class="form-textarea" placeholder="What's happening?"></textarea>
+        </div>
+        
+        <button class="btn btn-primary btn-block btn-large mt-lg" onclick="saveStatusCheckin()">
+          [ Save Check-In ]
+        </button>
+      </section>
+
+      <!-- =====================================
+           RESPIRO (Parent)
+           ===================================== -->
+      <section id="view-respiro" class="view">
+        <button class="back-btn" onclick="showView('view-custos-home')">← Back</button>
+        
+        <div class="respiro-step">
+          <div id="respiro-dots" class="respiro-dots">
+            <div class="respiro-dot active"></div>
+            <div class="respiro-dot"></div>
+            <div class="respiro-dot"></div>
+            <div class="respiro-dot"></div>
+            <div class="respiro-dot"></div>
+          </div>
+          
+          <div id="respiro-visual" class="respiro-visual step-halt">
+            <div class="gradus-large">
+              <div class="gradus-bar"></div>
+              <div class="gradus-bar"></div>
+              <div class="gradus-bar"></div>
+            </div>
+          </div>
+          
+          <h2 id="respiro-title" class="respiro-title">Halt</h2>
+          <p id="respiro-instruction" class="respiro-instruction">Freeze. Do not react. Pause here.</p>
+          
+          <div class="respiro-nav">
+            <button id="respiro-prev" class="btn btn-ghost" onclick="respiroPrev()" disabled>[ Back ]</button>
+            <button id="respiro-next" class="btn btn-primary" onclick="respiroNext()">[ Next ]</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- =====================================
+           RESPIRO (Child)
+           ===================================== -->
+      <section id="view-filius-respiro" class="view">
+        <button class="back-btn" onclick="showView('view-filius-home')">← Back</button>
+        
+        <div class="respiro-step">
+          <div id="filius-respiro-dots" class="respiro-dots">
+            <div class="respiro-dot active"></div>
+            <div class="respiro-dot"></div>
+            <div class="respiro-dot"></div>
+            <div class="respiro-dot"></div>
+            <div class="respiro-dot"></div>
+          </div>
+          
+          <div id="filius-respiro-visual" class="respiro-visual step-halt">
+            <div class="gradus-large">
+              <div class="gradus-bar"></div>
+              <div class="gradus-bar"></div>
+              <div class="gradus-bar"></div>
+            </div>
+          </div>
+          
+          <h2 id="filius-respiro-title" class="respiro-title">Halt</h2>
+          <p id="filius-respiro-instruction" class="respiro-instruction">Freeze like a statue!</p>
+          
+          <div class="respiro-nav">
+            <button id="filius-respiro-prev" class="btn btn-ghost" onclick="filiusRespiroPrev()" disabled>[ Back ]</button>
+            <button id="filius-respiro-next" class="btn btn-primary" onclick="filiusRespiroNext()">[ Next ]</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- =====================================
+           URGENTIA
+           ===================================== -->
+      <section id="view-urgentia" class="view">
+        <button class="back-btn" onclick="showView('view-custos-home')">← Back</button>
+        
+        <div class="urgentia-header">
+          <h2>Urgentia</h2>
+          <p>In-the-moment support</p>
+        </div>
+        
+        <div class="breathing-pacer">
+          <span id="breathing-text" class="breathing-pacer-text">Inhale</span>
+        </div>
+        
+        <div class="section-label">Quick Scripts</div>
+        <div class="protocol-scripts">
+          <div class="protocol-script">
+            <div class="protocol-script-label">Validate</div>
+            <div class="protocol-script-text">"I can see you're really upset right now. That's okay."</div>
+          </div>
+          <div class="protocol-script">
+            <div class="protocol-script-label">Early Prompt</div>
+            <div class="protocol-script-text">"I notice your body is getting tense. Let's take a breath together."</div>
+          </div>
+          <div class="protocol-script">
+            <div class="protocol-script-label">Offer Choice</div>
+            <div class="protocol-script-text">"Would you like to squeeze something or go to your calm spot?"</div>
+          </div>
+        </div>
+        
+        <div class="button-row mt-lg">
+          <button class="btn btn-primary" onclick="showView('view-respiro')">[ Start Respiro ]</button>
+          <button class="btn btn-secondary" onclick="showView('view-episode-log')">[ Log Episode ]</button>
+        </div>
+      </section>
+
+      <!-- =====================================
+           EPISODE LOG
+           ===================================== -->
+      <section id="view-episode-log" class="view">
+        <button class="back-btn" onclick="showView('view-urgentia')">← Back</button>
+        <h1 class="page-title">Log Episode</h1>
+        <p class="page-subtitle">Record what happened for pattern analysis</p>
+        
+        <div class="section-label">Peak Intensity</div>
+        <div class="gauge-container">
+          <div id="episode-gauge-track" class="gauge-track">
+            <div id="episode-gauge-handle" class="gauge-handle">5</div>
+          </div>
+          <div class="gauge-labels">
+            <span class="gauge-label">Mild</span>
+            <span class="gauge-label">Moderate</span>
+            <span class="gauge-label">Severe</span>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Trigger</label>
+          <input id="episode-trigger" type="text" class="form-input" placeholder="What started it?">
+        </div>
+        
+        <div class="section-label">What Helped?</div>
+        <div id="intervention-options" class="state-vocabulary">
+          <span class="state-word" onclick="toggleIntervention(this, 'validation')">validation</span>
+          <span class="state-word" onclick="toggleIntervention(this, 'breathing')">breathing</span>
+          <span class="state-word" onclick="toggleIntervention(this, 'space')">gave space</span>
+          <span class="state-word" onclick="toggleIntervention(this, 'choice')">offered choice</span>
+          <span class="state-word" onclick="toggleIntervention(this, 'respiro')">respiro</span>
+          <span class="state-word" onclick="toggleIntervention(this, 'ignore')">selective ignore</span>
+        </div>
+        
+        <div class="form-group mt-md">
+          <label class="form-label">Duration (minutes)</label>
+          <input id="episode-duration" type="number" class="form-input" placeholder="How long did it last?">
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Notes</label>
+          <textarea id="episode-notes" class="form-textarea" placeholder="Any other observations?"></textarea>
+        </div>
+        
+        <button class="btn btn-primary btn-block btn-large mt-lg" onclick="saveEpisode()">
+          [ Save Episode ]
+        </button>
+      </section>
+
+      <!-- =====================================
+           CONSILIUM (Parent Dashboard)
+           ===================================== -->
+      <section id="view-consilium" class="view">
+        <h1 class="page-title">Consilium</h1>
+        <p class="page-subtitle">Family progress overview</p>
+        
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div id="consilium-streak" class="stat-value">0</div>
+            <div class="stat-label">Family Streak</div>
+          </div>
+          <div class="stat-card">
+            <div id="consilium-points" class="stat-value">0</div>
+            <div class="stat-label">Points</div>
+          </div>
+        </div>
+        
+        <div class="section-label">This Week</div>
+        <div id="progressio-calendar" class="progressio-calendar">
+          <!-- Rendered by JS -->
+        </div>
+        
+        <div class="section-label mt-lg">Weekly Skills</div>
+        <div class="weekly-skills-grid">
+          <div class="weekly-skill">
+            <div class="weekly-skill-label">Praise</div>
+            <div id="weekly-praise" class="weekly-skill-value">0</div>
+          </div>
+          <div class="weekly-skill">
+            <div class="weekly-skill-label">Reflect</div>
+            <div id="weekly-reflect" class="weekly-skill-value">0</div>
+          </div>
+          <div class="weekly-skill">
+            <div class="weekly-skill-label">Describe</div>
+            <div id="weekly-describe" class="weekly-skill-value">0</div>
+          </div>
+        </div>
+        
+        <div class="section-label mt-lg">Assignments</div>
+        <div id="assignments-overview">
+          <!-- Rendered by JS -->
+        </div>
+        
+        <div class="card action-card mt-lg" onclick="showView('view-achievements')">
+          <div class="card-icon">
+            <div class="gradus-mini">
+              <div class="gradus-bar"></div>
+              <div class="gradus-bar"></div>
+              <div class="gradus-bar"></div>
+            </div>
+          </div>
+          <div class="card-content">
+            <div class="card-title">Achievements</div>
+            <div class="card-subtitle">View earned rewards</div>
+          </div>
+          <span class="chevron">›</span>
+        </div>
+      </section>
+
+      <!-- =====================================
+           PROGRESSIO (Legacy, redirects to Consilium)
+           ===================================== -->
+      <section id="view-progressio" class="view">
+        <h1 class="page-title">Progressio</h1>
+        <p class="page-subtitle">Track your journey</p>
+        
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div id="progress-streak" class="stat-value">0</div>
+            <div class="stat-label">Streak</div>
+          </div>
+          <div class="stat-card">
+            <div id="progress-sessions" class="stat-value">0</div>
+            <div class="stat-label">Sessions</div>
+          </div>
+          <div class="stat-card">
+            <div id="progress-episodes" class="stat-value">0</div>
+            <div class="stat-label">Episodes</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- =====================================
+           SCHOLA (Classroom)
+           ===================================== -->
+      <section id="view-schola" class="view">
+        <h1 class="page-title">Schola</h1>
+        <p class="page-subtitle">Your learning path</p>
+        
+        <!-- Phase Navigation -->
+        <div class="phase-nav">
+          <button class="phase-nav-btn active" data-phase="fundamentum" onclick="selectPhase('fundamentum')">I</button>
+          <button class="phase-nav-btn" data-phase="praxis" onclick="selectPhase('praxis')">II</button>
+          <button class="phase-nav-btn" data-phase="imperium" onclick="selectPhase('imperium')">III</button>
+          <button class="phase-nav-btn" data-phase="autonomia" onclick="selectPhase('autonomia')">IV</button>
+        </div>
+        
+        <!-- Current Phase Info -->
+        <div class="phase-header">
+          <h2 id="curriculum-phase-name" class="phase-name">Fundamentum</h2>
+          <p id="curriculum-phase-subtitle" class="phase-subtitle">Foundation</p>
+        </div>
+        
+        <div class="progress-bar mb-md">
+          <div id="curriculum-progress-fill" class="progress-fill" style="width: 0%"></div>
+        </div>
+        
+        <p id="curriculum-phase-desc" class="text-body mb-lg">Building the relationship foundation through child-directed interaction</p>
+        
+        <div class="section-label">
+          <span id="curriculum-week">Week 1</span>
+        </div>
+        
+        <div id="curriculum-lessons-container">
+          <!-- Rendered by JS -->
+        </div>
+      </section>
+
+      <!-- =====================================
+           CURRICULUM (Legacy, redirects to Schola)
+           ===================================== -->
+      <section id="view-curriculum" class="view">
+        <!-- Same as Schola -->
+      </section>
+
+      <!-- =====================================
+           LESSON DETAIL
+           ===================================== -->
+      <section id="view-lesson-detail" class="view">
+        <button class="back-btn" onclick="showView('view-schola')">← Back</button>
+        
+        <div class="lesson-header">
+          <span id="lesson-type-badge" class="lesson-type-badge">skill</span>
+          <h1 id="lesson-detail-title" class="page-title">Lesson Title</h1>
+          <p id="lesson-detail-subtitle" class="page-subtitle">Subtitle</p>
+        </div>
+        
+        <p id="lesson-detail-description" class="text-body mb-lg">Description</p>
+        
+        <div class="section-label">Objectives</div>
+        <ul id="lesson-objectives-list" class="objectives-list">
+          <!-- Rendered by JS -->
+        </ul>
+        
+        <div id="lesson-briefing-card" class="card mt-lg">
+          <div class="section-label">Briefing</div>
+          <p id="lesson-briefing-text" class="text-body"></p>
+        </div>
+        
+        <div id="lesson-key-points-card" class="card">
+          <div class="section-label">Key Points</div>
+          <ul id="lesson-key-points-list" class="key-points-list">
+            <!-- Rendered by JS -->
+          </ul>
+        </div>
+        
+        <div id="lesson-assignment-card" class="card">
+          <div class="section-label">Assignment</div>
+          <p id="lesson-assignment-text" class="text-body"></p>
+          <div class="assignment-progress">
+            <span id="lesson-assignment-count">0 / 1</span>
+            <span id="lesson-assignment-status" class="assignment-status">Incomplete</span>
+          </div>
+        </div>
+        
+        <button id="lesson-complete-btn" class="btn btn-primary btn-block btn-large mt-lg" onclick="toggleLessonComplete()">
+          [ Mark Complete ]
+        </button>
+      </section>
+
+      <!-- =====================================
+           LUDUS (Playground)
+           ===================================== -->
+      <section id="view-ludus" class="view">
+        <h1 class="page-title">Ludus</h1>
+        <p class="page-subtitle">Your playground</p>
+        
+        <div id="ludus-activities">
+          <!-- Rendered by JS -->
+        </div>
+      </section>
+
+      <!-- =====================================
+           BIBLIOTHECA (Library)
+           ===================================== -->
+      <section id="view-bibliotheca" class="view">
+        <h1 class="page-title">Bibliotheca</h1>
+        <p class="page-subtitle">Reference & research</p>
+        
+        <div id="bibliotheca-content">
+          <!-- Rendered by JS -->
+        </div>
+      </section>
+
+      <!-- =====================================
+           BIBLIOTHECA (Child Version)
+           ===================================== -->
+      <section id="view-bibliotheca-filius" class="view">
+        <h1 class="page-title">Library</h1>
+        <p class="page-subtitle">Learn cool stuff</p>
+        
+        <div class="card">
+          <div class="card-title">About Respiro</div>
+          <div class="card-subtitle">When big feelings come, you have steps to feel better!</div>
+        </div>
+        
+        <div class="card">
+          <div class="card-title">About Feelings</div>
+          <div class="card-subtitle">Everyone has feelings. It's okay to feel them all!</div>
+        </div>
+      </section>
+
+      <!-- =====================================
+           DETAIL VIEW (Generic)
+           ===================================== -->
+      <section id="view-detail" class="view">
+        <button class="back-btn" onclick="showView('view-bibliotheca')">← Back</button>
+        
+        <h1 id="detail-title" class="page-title">Title</h1>
+        <p id="detail-latin" class="page-subtitle"></p>
+        
+        <p id="detail-description" class="text-body mb-lg"></p>
+        
+        <div id="detail-examples">
+          <!-- Rendered by JS -->
+        </div>
+      </section>
+
+      <!-- =====================================
+           ACHIEVEMENTS
+           ===================================== -->
+      <section id="view-achievements" class="view">
+        <button class="back-btn" onclick="showView('view-consilium')">← Back</button>
+        <h1 class="page-title">Achievements</h1>
+        <p class="page-subtitle">Your accomplishments</p>
+        
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div id="achievement-streak" class="stat-value">0</div>
+            <div class="stat-label">Streak</div>
+          </div>
+          <div class="stat-card">
+            <div id="total-points" class="stat-value">0</div>
+            <div class="stat-label">Points</div>
+          </div>
+        </div>
+        
+        <div class="section-label">Streak Milestones</div>
+        <div id="streak-milestones" class="streak-milestones">
+          <!-- Rendered by JS -->
+        </div>
+        <p id="streak-next-milestone" class="text-body text-center mt-sm"></p>
+        
+        <div class="section-label mt-lg">Earned</div>
+        <div id="achievements-earned" class="achievements-grid">
+          <!-- Rendered by JS -->
+        </div>
+        
+        <div class="section-label mt-lg">Available</div>
+        <div id="achievements-available" class="achievements-grid">
+          <!-- Rendered by JS -->
+        </div>
+        
+        <div class="section-label mt-lg">Rewards</div>
+        <div id="rewards-list" class="rewards-list">
+          <!-- Rendered by JS -->
+        </div>
+      </section>
+
+      <!-- =====================================
+           FILIUS ACHIEVEMENTS
+           ===================================== -->
+      <section id="view-filius-achievements" class="view">
+        <h1 class="page-title">My Badges</h1>
+        <p class="page-subtitle">Look what you've earned!</p>
+        
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div id="filius-streak" class="stat-value">0</div>
+            <div class="stat-label">Days</div>
+          </div>
+          <div class="stat-card">
+            <div id="filius-points" class="stat-value">0</div>
+            <div class="stat-label">Points</div>
+          </div>
+        </div>
+        
+        <div class="section-label mt-lg">My Badges</div>
+        <div id="filius-achievements-grid" class="achievements-grid">
+          <!-- Rendered by JS -->
+        </div>
+      </section>
+
+      <!-- =====================================
+           SETTINGS
+           ===================================== -->
+      <section id="view-settings" class="view">
+        <h1 class="page-title">Settings</h1>
+        <p class="page-subtitle">Configure your experience</p>
+        
+        <div class="section-label">Family</div>
+        <div class="card">
+          <div class="form-group mb-sm">
+            <label class="form-label">Family Name</label>
+            <input id="settings-family-name" type="text" class="form-input" placeholder="Our Family">
+          </div>
+          <button class="btn btn-secondary" onclick="saveFamilyName()">[ Save ]</button>
+        </div>
+        
+        <div class="section-label mt-lg">Family Members</div>
+        <div id="settings-users-list" class="users-list">
+          <!-- Rendered by JS -->
+        </div>
+        <button class="btn btn-secondary btn-block mt-md" onclick="showAddUserModal()">[ Add Member ]</button>
+        
+        <div class="section-label mt-lg">Preferences</div>
+        <div class="card">
+          <div class="settings-row">
+            <span class="settings-label">Theme</span>
+            <button id="settings-theme-btn" class="btn btn-ghost" onclick="toggleTheme()">[ NOX ]</button>
+          </div>
+          <div class="settings-row">
+            <span class="settings-label">Session Duration</span>
+            <select id="settings-praxis-duration" class="form-select" onchange="savePraxisDuration()">
+              <option value="300">5 min</option>
+              <option value="600">10 min</option>
+              <option value="900" selected>15 min</option>
+              <option value="1200">20 min</option>
+            </select>
+          </div>
+          <div class="settings-row">
+            <span class="settings-label">Notifications</span>
+            <div id="settings-notifications-toggle" class="toggle-switch" onclick="toggleNotifications()">
+              <div class="toggle-slider"></div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="section-label mt-lg">Data</div>
+        <div class="card">
+          <button class="btn btn-secondary btn-block mb-md" onclick="exportData()">[ Export Data ]</button>
+          <button class="btn btn-danger btn-block" onclick="confirmResetProgress()">[ Reset Progress ]</button>
+        </div>
+        
+        <div class="app-info mt-xl text-center">
+          <p class="text-muted">Praxia-1 | Cadencia Protocol</p>
+          <p class="text-muted">Grey Stratum™</p>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- ========================================
+         BOTTOM NAVIGATION
+         ======================================== -->
+    <nav id="bottom-nav" class="bottom-nav">
+      <button class="nav-item active" data-nav="home">
+        <div class="nav-icon">
+          <div class="gradus-bar"></div>
+          <div class="gradus-bar"></div>
+          <div class="gradus-bar"></div>
+        </div>
+        <span>Home</span>
+      </button>
+      <button class="nav-item" data-nav="progressio">
+        <div class="nav-icon">
+          <div class="gradus-bar"></div>
+          <div class="gradus-bar"></div>
+          <div class="gradus-bar"></div>
+        </div>
+        <span>Consilium</span>
+      </button>
+      <button class="nav-item" data-nav="curriculum">
+        <div class="nav-icon">
+          <div class="gradus-bar"></div>
+          <div class="gradus-bar"></div>
+          <div class="gradus-bar"></div>
+        </div>
+        <span>Schola</span>
+      </button>
+      <button class="nav-item" data-nav="ludus" style="display: none;">
+        <div class="nav-icon">
+          <div class="gradus-bar"></div>
+          <div class="gradus-bar"></div>
+          <div class="gradus-bar"></div>
+        </div>
+        <span>Ludus</span>
+      </button>
+      <button class="nav-item" data-nav="bibliotheca">
+        <div class="nav-icon">
+          <div class="gradus-bar"></div>
+          <div class="gradus-bar"></div>
+          <div class="gradus-bar"></div>
+        </div>
+        <span>Bibliotheca</span>
+      </button>
+      <button class="nav-item" data-nav="settings">
+        <div class="nav-icon">
+          <div class="gradus-bar"></div>
+          <div class="gradus-bar"></div>
+          <div class="gradus-bar"></div>
+        </div>
+        <span>Settings</span>
+      </button>
+    </nav>
+
+    <!-- ========================================
+         MODALS
+         ======================================== -->
+    
+    <!-- Confirmation Modal -->
+    <div id="modal-confirm" class="modal-overlay">
+      <div class="modal">
+        <div class="modal-icon">
+          <div class="gradus-confirm">
+            <div class="gradus-bar"></div>
+            <div class="gradus-bar"></div>
+            <div class="gradus-bar"></div>
+          </div>
+        </div>
+        <h3 id="modal-title" class="modal-title">Confirmed</h3>
+        <p id="modal-message" class="text-body text-center">Action completed successfully.</p>
+        <button class="btn btn-primary btn-block mt-lg" onclick="hideModal()">[ Dismiss ]</button>
+      </div>
+    </div>
+    
+    <!-- Add User Modal -->
+    <div id="modal-add-user" class="modal-overlay">
+      <div class="modal">
+        <h3 class="modal-title">Add Family Member</h3>
+        <div class="form-group mt-lg">
+          <label class="form-label">Name</label>
+          <input id="new-user-name" type="text" class="form-input" placeholder="Enter name">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Role</label>
+          <div class="role-select">
+            <button class="role-btn active" onclick="selectNewUserRole('custos', this)">Custos</button>
+            <button class="role-btn" onclick="selectNewUserRole('filius', this)">Filius</button>
+          </div>
+        </div>
+        <div class="button-row mt-lg">
+          <button class="btn btn-ghost" onclick="hideAddUserModal()">[ Cancel ]</button>
+          <button class="btn btn-primary" onclick="addNewUser()">[ Add ]</button>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Reset Confirmation Modal -->
+    <div id="modal-reset" class="modal-overlay">
+      <div class="modal">
+        <h3 class="modal-title">Reset Progress?</h3>
+        <p class="text-body text-center mt-md">This will delete all sessions, episodes, and achievements. This cannot be undone.</p>
+        <div class="button-row mt-lg">
+          <button class="btn btn-ghost" onclick="hideResetModal()">[ Cancel ]</button>
+          <button class="btn btn-danger" onclick="executeReset()">[ Reset ]</button>
+        </div>
+      </div>
     </div>
 
-    <!-- External JavaScript Modules (flat structure) -->
-    <script src="./storage.js"></script>
-    <script src="./users.js"></script>
-    <script src="./curriculum.js"></script>
-    <script src="./rewards.js"></script>
-    <script src="./app.js"></script>
+  </div>
+
+  <!-- Scripts -->
+  <script src="storage.js"></script>
+  <script src="users.js"></script>
+  <script src="curriculum.js"></script>
+  <script src="rewards.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>

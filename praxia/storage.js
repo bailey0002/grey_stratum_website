@@ -1,7 +1,7 @@
 /**
  * Praxia Storage Module
  * Handles all data persistence with localStorage
- * Includes in-memory caching for performance
+ * Features: In-memory caching, dirty-flag invalidation, backend-ready abstraction
  */
 
 const PraxiaStorage = (function() {
@@ -9,8 +9,11 @@ const PraxiaStorage = (function() {
 
   const STORAGE_KEY = 'praxia_v2';
   
-  // Cache variable to prevent expensive JSON.parse on every read
-  let memoryCache = null;
+  // In-memory cache for performance
+  let cache = null;
+  let isDirty = false;
+  let saveTimeout = null;
+  const DEBOUNCE_MS = 500;
   
   const DEFAULT_DATA = {
     version: '2.0.0',
@@ -23,51 +26,82 @@ const PraxiaStorage = (function() {
     moodCheckins: [],
     respiroCompletions: [],
     assignments: [],
-    achievements: [],
+    curriculumProgress: {
+      currentWeek: 1,
+      completedLessons: []
+    },
     settings: {
       theme: 'dark',
       soundEnabled: true,
-      notificationsEnabled: true
+      notificationsEnabled: true,
+      praxisDuration: 900,
+      onboardingComplete: {
+        custos: false,
+        filius: false
+      }
     }
   };
 
   /**
-   * Load all data from storage (uses cache if available)
+   * Load all data from storage (with caching)
    */
   function load() {
-    // Return cache if it exists to avoid blocking main thread
-    if (memoryCache) {
-      return memoryCache;
+    if (cache && !isDirty) {
+      return cache;
     }
-
+    
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
       if (raw) {
         const parsed = JSON.parse(raw);
-        // Merge with default to ensure new schema fields exist
-        memoryCache = { ...DEFAULT_DATA, ...parsed };
+        cache = { ...DEFAULT_DATA, ...parsed };
       } else {
-        memoryCache = structuredClone(DEFAULT_DATA);
+        cache = structuredClone(DEFAULT_DATA);
       }
     } catch (e) {
       console.error('[Storage] Load error:', e);
-      // Fallback to defaults on error, but don't overwrite storage yet
-      return structuredClone(DEFAULT_DATA);
+      cache = structuredClone(DEFAULT_DATA);
     }
     
-    return memoryCache;
+    isDirty = false;
+    return cache;
   }
 
   /**
-   * Save all data to storage and update cache
+   * Save all data to storage (debounced)
    */
   function save(data) {
+    cache = data;
+    isDirty = true;
+    
+    // Debounce saves to prevent thrashing
+    if (saveTimeout) {
+      clearTimeout(saveTimeout);
+    }
+    
+    saveTimeout = setTimeout(() => {
+      persistToStorage(data);
+    }, DEBOUNCE_MS);
+    
+    return true;
+  }
+  
+  /**
+   * Immediate save (bypasses debounce)
+   */
+  function saveImmediate(data) {
+    cache = data;
+    return persistToStorage(data);
+  }
+  
+  /**
+   * Actual localStorage write
+   */
+  function persistToStorage(data) {
     try {
       data.lastModified = new Date().toISOString();
-      // Update cache immediately
-      memoryCache = data;
-      // Write to disk
       localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+      isDirty = false;
       return true;
     } catch (e) {
       console.error('[Storage] Save error:', e);
@@ -90,6 +124,14 @@ const PraxiaStorage = (function() {
     const data = load();
     data[key] = value;
     return save(data);
+  }
+
+  /**
+   * Get all items from an array key
+   */
+  function getAll(key) {
+    const data = load();
+    return data[key] || [];
   }
 
   /**
@@ -123,10 +165,18 @@ const PraxiaStorage = (function() {
   }
 
   /**
-   * Remove an item from an array by id
+   * Remove an item from an array by id (or remove a key entirely)
    */
   function remove(key, id) {
     const data = load();
+    
+    // If no id provided, remove the entire key
+    if (id === undefined) {
+      delete data[key];
+      save(data);
+      return true;
+    }
+    
     if (!Array.isArray(data[key])) return false;
     
     const index = data[key].findIndex(item => item.id === id);
@@ -143,6 +193,10 @@ const PraxiaStorage = (function() {
   function query(key, filters = {}) {
     const data = load();
     let items = data[key] || [];
+    
+    if (!Array.isArray(items)) {
+      return [];
+    }
     
     if (filters.userId) {
       items = items.filter(i => i.userId === filters.userId);
@@ -163,29 +217,18 @@ const PraxiaStorage = (function() {
   }
 
   /**
-   * Get all items from an array key
-   */
-  function getAll(key) {
-    const data = load();
-    return data[key] || [];
-  }
-
-  /**
-   * Generate unique ID using Crypto API
+   * Generate unique ID
    */
   function generateId() {
-    if (typeof crypto !== 'undefined' && crypto.randomUUID) {
-      return crypto.randomUUID();
-    }
     return `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
   }
 
   /**
-   * Clear all data (with confirmation)
+   * Clear all data
    */
   function clear() {
+    cache = null;
     localStorage.removeItem(STORAGE_KEY);
-    memoryCache = null; // Clear cache
     return true;
   }
 
@@ -216,32 +259,62 @@ const PraxiaStorage = (function() {
   function importData(jsonString) {
     try {
       const data = JSON.parse(jsonString);
-      save(data);
-      return true;
+      cache = data;
+      return saveImmediate(data);
     } catch (e) {
       console.error('[Storage] Import error:', e);
       return false;
     }
+  }
+  
+  /**
+   * Invalidate cache (force reload from localStorage)
+   */
+  function invalidateCache() {
+    cache = null;
+    isDirty = true;
+  }
+  
+  /**
+   * Flush pending saves immediately
+   */
+  function flush() {
+    if (saveTimeout) {
+      clearTimeout(saveTimeout);
+      saveTimeout = null;
+    }
+    if (cache) {
+      return persistToStorage(cache);
+    }
+    return true;
   }
 
   // Public API
   return {
     load,
     save,
+    saveImmediate,
     get,
     set,
+    getAll,
     append,
     update,
     remove,
     query,
-    getAll,
     generateId,
     clear,
     clearKey,
     exportData,
-    importData
+    importData,
+    invalidateCache,
+    flush
   };
 })();
+
+// Flush on page unload
+if (typeof window !== 'undefined') {
+  window.addEventListener('beforeunload', () => PraxiaStorage.flush());
+}
 
 // Export for module systems
 if (typeof module !== 'undefined' && module.exports) {

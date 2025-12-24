@@ -2,7 +2,7 @@
    GREY STRATUM DESIGN SYSTEM
    Praxia-1 | Cadencia Protocol
    
-   Real expertise. Unreal intelligence.™
+   Real expertise. Unreal intelligence.â„¢
    ============================================ */
 
 /* ----------------------------------------
@@ -471,4 +471,720 @@ body {
   .header, .bottom-nav, .modal-overlay { display: none !important; }
   .main-content { padding: 0; }
   .card { break-inside: avoid; }
+}
+
+/* ----------------------------------------
+   23. ADDITIONAL COMPONENTS
+   ---------------------------------------- */
+
+/* Phase Navigation */
+.phase-nav {
+  display: flex;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-lg);
+}
+
+.phase-nav-btn {
+  flex: 1;
+  padding: var(--space-sm) var(--space-md);
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  color: var(--text-muted);
+  font-family: 'Archivo', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  transition: all var(--transition-base);
+}
+
+.phase-nav-btn:hover {
+  border-color: var(--accent);
+  color: var(--text-secondary);
+}
+
+.phase-nav-btn.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--bg-primary);
+}
+
+/* Phase Header */
+.phase-header {
+  text-align: center;
+  margin-bottom: var(--space-md);
+}
+
+.phase-name {
+  font-family: 'Archivo', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 300;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-primary);
+}
+
+.phase-subtitle {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  margin-top: var(--space-xs);
+}
+
+/* Progress Bar */
+.progress-bar {
+  height: 4px;
+  background: var(--border);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: var(--radius-full);
+  transition: width var(--transition-slow);
+}
+
+/* Lesson Cards */
+.lesson-card {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-md);
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  margin-bottom: var(--space-sm);
+  cursor: pointer;
+  transition: all var(--transition-base);
+}
+
+.lesson-card:hover {
+  border-color: var(--accent);
+  box-shadow: var(--shadow-glow);
+}
+
+.lesson-card.completed {
+  border-color: var(--status-confirmed);
+}
+
+.lesson-card.completed .gradus-bar {
+  background: var(--status-confirmed);
+}
+
+.lesson-status {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lesson-info {
+  flex: 1;
+}
+
+.lesson-title {
+  font-family: 'Archivo', sans-serif;
+  font-size: 0.9375rem;
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  color: var(--text-primary);
+}
+
+.lesson-subtitle {
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+  margin-top: 2px;
+}
+
+.lesson-meta {
+  font-family: 'Fira Code', monospace;
+  font-size: 0.6875rem;
+  color: var(--text-muted);
+}
+
+/* Lesson Detail */
+.lesson-header {
+  margin-bottom: var(--space-lg);
+}
+
+.lesson-type-badge {
+  display: inline-block;
+  padding: var(--space-xs) var(--space-sm);
+  background: var(--accent-subtle);
+  color: var(--accent);
+  font-family: 'Fira Code', monospace;
+  font-size: 0.625rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border-radius: var(--radius-sm);
+  margin-bottom: var(--space-sm);
+}
+
+.objectives-list,
+.key-points-list {
+  list-style: none;
+  padding: 0;
+}
+
+.objectives-list li,
+.key-points-list li {
+  position: relative;
+  padding-left: var(--space-lg);
+  margin-bottom: var(--space-sm);
+  color: var(--text-secondary);
+  font-size: 0.9375rem;
+}
+
+.objectives-list li::before,
+.key-points-list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.5em;
+  width: 6px;
+  height: 6px;
+  background: var(--accent);
+  border-radius: 50%;
+}
+
+/* Assignment Progress */
+.assignment-progress {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: var(--space-md);
+  padding-top: var(--space-md);
+  border-top: 1px solid var(--border);
+}
+
+.assignment-status {
+  font-family: 'Fira Code', monospace;
+  font-size: 0.6875rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.assignment-status.complete {
+  color: var(--status-confirmed);
+}
+
+.assignment-status.incomplete {
+  color: var(--text-muted);
+}
+
+/* Assignment Cards */
+.assignment-card {
+  padding: var(--space-md);
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  margin-bottom: var(--space-sm);
+}
+
+.assignment-title {
+  font-family: 'Archivo', sans-serif;
+  font-size: 0.9375rem;
+  font-weight: 400;
+  color: var(--text-primary);
+  margin-bottom: var(--space-xs);
+}
+
+.assignment-desc {
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+  margin-bottom: var(--space-sm);
+}
+
+.assignment-count {
+  font-family: 'Fira Code', monospace;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  text-align: right;
+  margin-top: var(--space-xs);
+}
+
+/* Weekly Skills Grid */
+.weekly-skills-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-sm);
+}
+
+.weekly-skill {
+  text-align: center;
+  padding: var(--space-md);
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+}
+
+.weekly-skill-label {
+  font-family: 'Fira Code', monospace;
+  font-size: 0.625rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.weekly-skill-value {
+  font-family: 'Archivo', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 300;
+  color: var(--accent);
+  margin-top: var(--space-xs);
+}
+
+/* Achievements */
+.achievements-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-sm);
+}
+
+.achievement-card {
+  padding: var(--space-md);
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  text-align: center;
+}
+
+.achievement-card.earned {
+  border-color: var(--accent);
+}
+
+.achievement-card.earned .gradus-bar {
+  background: var(--status-confirmed);
+}
+
+.achievement-icon {
+  display: flex;
+  justify-content: center;
+  margin-bottom: var(--space-sm);
+}
+
+.achievement-name {
+  font-family: 'Archivo', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: var(--text-primary);
+  margin-bottom: var(--space-xs);
+}
+
+.achievement-desc {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.achievement-points {
+  font-family: 'Fira Code', monospace;
+  font-size: 0.625rem;
+  color: var(--accent);
+  margin-top: var(--space-sm);
+}
+
+/* Streak Milestones */
+.streak-milestones {
+  display: flex;
+  gap: var(--space-sm);
+  justify-content: center;
+}
+
+.streak-milestone {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-md);
+  background: var(--bg-card);
+  border: 2px solid var(--border);
+  position: relative;
+  overflow: hidden;
+}
+
+.streak-milestone::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: var(--progress);
+  background: var(--accent);
+  transition: height var(--transition-slow);
+}
+
+.streak-milestone.achieved {
+  border-color: var(--status-confirmed);
+}
+
+.streak-milestone.achieved::after {
+  background: var(--status-confirmed);
+}
+
+/* Rewards List */
+.rewards-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.reward-card {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-md);
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+}
+
+.reward-card.unlocked {
+  border-color: var(--accent);
+}
+
+.reward-card.locked {
+  opacity: 0.6;
+}
+
+.reward-icon {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.reward-info {
+  flex: 1;
+}
+
+.reward-name {
+  font-family: 'Archivo', sans-serif;
+  font-size: 0.875rem;
+  color: var(--text-primary);
+}
+
+.reward-desc {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.reward-cost {
+  font-family: 'Fira Code', monospace;
+  font-size: 0.75rem;
+  color: var(--accent);
+}
+
+/* Bibliotheca */
+.bibliotheca-card {
+  cursor: pointer;
+}
+
+.bibliotheca-card .card-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-sm);
+}
+
+.examples-list {
+  list-style: none;
+  padding: 0;
+}
+
+.examples-list li {
+  padding: var(--space-sm) 0;
+  border-bottom: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+  font-size: 0.9375rem;
+}
+
+.examples-list li:last-child {
+  border-bottom: none;
+}
+
+.examples-list.avoid li {
+  color: var(--status-failed);
+  opacity: 0.8;
+}
+
+.detail-text {
+  color: var(--text-secondary);
+  font-size: 0.9375rem;
+  line-height: 1.6;
+}
+
+.detail-citation {
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+/* Settings */
+.users-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.user-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-md);
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+}
+
+.user-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-full);
+  background: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.user-avatar-text {
+  font-family: 'Archivo', sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  color: var(--bg-primary);
+}
+
+.user-info {
+  flex: 1;
+}
+
+.user-name {
+  font-size: 0.9375rem;
+  color: var(--text-primary);
+}
+
+.user-role {
+  font-family: 'Fira Code', monospace;
+  font-size: 0.6875rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.settings-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-sm) 0;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.settings-row:last-child {
+  border-bottom: none;
+}
+
+.settings-label {
+  font-size: 0.9375rem;
+  color: var(--text-primary);
+}
+
+.form-select {
+  padding: var(--space-sm) var(--space-md);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  font-family: 'Fira Code', monospace;
+  font-size: 0.8125rem;
+}
+
+.toggle-switch {
+  width: 48px;
+  height: 24px;
+  background: var(--border);
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  position: relative;
+  transition: background var(--transition-base);
+}
+
+.toggle-switch.active {
+  background: var(--accent);
+}
+
+.toggle-slider {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 20px;
+  height: 20px;
+  background: var(--bg-primary);
+  border-radius: var(--radius-full);
+  transition: transform var(--transition-base);
+}
+
+.toggle-switch.active .toggle-slider {
+  transform: translateX(24px);
+}
+
+.role-select {
+  display: flex;
+  gap: var(--space-sm);
+}
+
+.role-btn {
+  flex: 1;
+  padding: var(--space-sm) var(--space-md);
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  color: var(--text-muted);
+  font-family: 'Fira Code', monospace;
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: all var(--transition-base);
+}
+
+.role-btn.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--bg-primary);
+}
+
+/* Onboarding */
+.onboarding-container {
+  min-height: 60vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: var(--space-xl) 0;
+}
+
+.onboarding-welcome {
+  text-align: center;
+}
+
+.onboarding-title {
+  font-family: 'Archivo', sans-serif;
+  font-size: 2rem;
+  font-weight: 300;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-primary);
+  margin: var(--space-xl) 0 var(--space-sm);
+}
+
+.onboarding-subtitle {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  margin-bottom: var(--space-lg);
+}
+
+.onboarding-text {
+  font-size: 0.9375rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  max-width: 320px;
+  margin: 0 auto;
+}
+
+.onboarding-step {
+  text-align: center;
+}
+
+.onboarding-step-number {
+  font-family: 'Fira Code', monospace;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-bottom: var(--space-md);
+}
+
+.onboarding-step-title {
+  font-family: 'Archivo', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 300;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-primary);
+  margin-bottom: var(--space-md);
+}
+
+.onboarding-step-content {
+  font-size: 0.9375rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.onboarding-nav {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-md);
+  margin-top: var(--space-xl);
+}
+
+/* Button Row */
+.button-row {
+  display: flex;
+  gap: var(--space-md);
+  justify-content: center;
+}
+
+/* Completion Stats */
+.completion-stats {
+  display: flex;
+  justify-content: center;
+  margin: var(--space-xl) 0;
+}
+
+.completion-stats .stat-card {
+  min-width: 120px;
+}
+
+.completion-skills {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.completion-skill {
+  display: flex;
+  justify-content: space-between;
+  padding: var(--space-sm) var(--space-md);
+  background: var(--bg-card);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+}
+
+.skill-name {
+  color: var(--text-secondary);
+}
+
+.skill-final {
+  font-family: 'Archivo', sans-serif;
+  font-weight: 400;
+  color: var(--accent);
+}
+
+/* Empty States */
+.empty-state {
+  text-align: center;
+  padding: var(--space-xl);
+  color: var(--text-muted);
+  font-size: 0.9375rem;
+}
+
+/* App Info */
+.app-info {
+  padding: var(--space-lg) 0;
+}
+
+.app-info p {
+  font-size: 0.75rem;
+  margin-bottom: var(--space-xs);
+}
+
+/* Urgentia Gradus */
+.gradus-mini.urgentia .gradus-bar {
+  background: var(--status-failed);
 }

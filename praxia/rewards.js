@@ -65,6 +65,38 @@ const PraxiaRewards = (function() {
 
     return streak;
   }
+  
+  /**
+   * Calculate family streak (any family member practiced)
+   */
+  function calculateFamilyStreak() {
+    const allSessions = PraxiaStorage.getAll('sessions');
+    if (!allSessions.length) return 0;
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    
+    const dates = [...new Set(allSessions.map(s => {
+      const d = new Date(s.date || s.createdAt);
+      d.setHours(0, 0, 0, 0);
+      return d.getTime();
+    }))].sort((a, b) => b - a);
+
+    let streak = 0;
+    let checkDate = today.getTime();
+    const DAY_MS = 86400000;
+
+    for (const date of dates) {
+      if (date === checkDate || date === checkDate - DAY_MS) {
+        streak++;
+        checkDate = date;
+      } else if (date < checkDate - DAY_MS) {
+        break;
+      }
+    }
+
+    return streak;
+  }
 
   /**
    * Update user's streak
@@ -75,6 +107,14 @@ const PraxiaRewards = (function() {
       streak,
       lastSessionDate: new Date().toISOString().split('T')[0]
     });
+    
+    // Update family streak
+    const familyStreak = calculateFamilyStreak();
+    const family = PraxiaUsers.getFamily();
+    if (family) {
+      family.sharedProgress.familyStreak = familyStreak;
+      PraxiaStorage.set('family', family);
+    }
     
     // Check streak milestones
     checkStreakMilestones(userId, streak);
@@ -89,11 +129,10 @@ const PraxiaRewards = (function() {
     if (!rewardsData) return;
     
     const milestones = rewardsData.streakSystem?.milestones || [];
-    const user = PraxiaUsers.getUser(userId);
-    const earned = user?.achievements || [];
+    const userAchievements = PraxiaStorage.get(`achievements_${userId}`) || [];
     
     for (const milestone of milestones) {
-      if (streak >= milestone.days && !earned.includes(milestone.reward)) {
+      if (streak >= milestone.days && milestone.reward && !userAchievements.includes(milestone.reward)) {
         awardAchievement(userId, milestone.reward);
       }
     }
@@ -105,38 +144,54 @@ const PraxiaRewards = (function() {
   function getAchievements(role = 'custos') {
     return rewardsData?.achievements?.[role] || [];
   }
+  
+  /**
+   * Get all available achievements (all roles)
+   */
+  function getAllAchievements() {
+    if (!rewardsData?.achievements) return [];
+    return [
+      ...(rewardsData.achievements.custos || []),
+      ...(rewardsData.achievements.filius || []),
+      ...(rewardsData.achievements.family || [])
+    ];
+  }
 
   /**
    * Check if user has earned an achievement
    */
   function hasAchievement(userId, achievementId) {
-    const user = PraxiaUsers.getUser(userId);
-    return user?.achievements?.includes(achievementId) || false;
+    const userAchievements = PraxiaStorage.get(`achievements_${userId}`) || [];
+    return userAchievements.includes(achievementId);
   }
 
   /**
    * Award an achievement to user
    */
   function awardAchievement(userId, achievementId) {
-    const user = PraxiaUsers.getUser(userId);
-    if (!user || hasAchievement(userId, achievementId)) return null;
-
-    const achievements = [...(user.achievements || []), achievementId];
-    PraxiaUsers.updateUser(userId, { achievements });
+    if (hasAchievement(userId, achievementId)) return null;
+    
+    const userAchievements = PraxiaStorage.get(`achievements_${userId}`) || [];
+    userAchievements.push(achievementId);
+    PraxiaStorage.set(`achievements_${userId}`, userAchievements);
 
     // Find achievement data for points
-    const allAchievements = [
-      ...(rewardsData?.achievements?.custos || []),
-      ...(rewardsData?.achievements?.filius || []),
-      ...(rewardsData?.achievements?.family || [])
-    ];
-    const achievement = allAchievements.find(a => a.id === achievementId);
+    const achievement = getAllAchievements().find(a => a.id === achievementId);
     
     if (achievement?.points) {
-      PraxiaUsers.addPoints(userId, achievement.points);
+      const currentPoints = PraxiaStorage.get(`points_${userId}`) || 0;
+      PraxiaStorage.set(`points_${userId}`, currentPoints + achievement.points);
     }
 
     return achievement;
+  }
+  
+  /**
+   * Get user's earned achievements
+   */
+  function getEarnedAchievements(userId) {
+    const earnedIds = PraxiaStorage.get(`achievements_${userId}`) || [];
+    return getAllAchievements().filter(a => earnedIds.includes(a.id));
   }
 
   /**
@@ -178,6 +233,14 @@ const PraxiaRewards = (function() {
           sum + (s.skills?.[criteria.skill] || 0), 0);
         return total >= criteria.count;
         
+      case 'total-skills':
+        const allSessions = PraxiaStorage.query('sessions', { userId });
+        const totalSkills = allSessions.reduce((sum, s) => {
+          const skills = s.skills || {};
+          return sum + Object.values(skills).reduce((a, b) => a + (typeof b === 'number' ? b : 0), 0);
+        }, 0);
+        return totalSkills >= criteria.count;
+        
       case 'checkins':
         const checkins = PraxiaStorage.query('moodCheckins', { userId });
         return checkins.length >= criteria.count;
@@ -187,13 +250,28 @@ const PraxiaRewards = (function() {
         return respiros.length >= criteria.count;
         
       case 'phase-complete':
-        const progress = PraxiaCurriculum.getUserProgress(userId);
-        const phase = PraxiaCurriculum.getPhase(criteria.phase);
-        if (!phase) return false;
-        const completedInPhase = progress.completedLessons.filter(
-          id => phase.lessons?.some(l => l.id === id)
-        ).length;
-        return completedInPhase >= (phase.lessons?.length || 0);
+        if (typeof PraxiaCurriculum !== 'undefined') {
+          const progress = PraxiaCurriculum.getUserProgress(userId);
+          const phase = PraxiaCurriculum.getPhase(criteria.phase);
+          if (!phase) return false;
+          const completedInPhase = progress.completedLessons.filter(
+            id => phase.lessons?.some(l => l.id === id)
+          ).length;
+          return completedInPhase >= (phase.lessons?.length || 0);
+        }
+        return false;
+        
+      case 'streak':
+        const streak = calculateStreak(userId);
+        return streak >= criteria.days;
+        
+      case 'assignments-completed':
+        if (typeof PraxiaCurriculum !== 'undefined') {
+          const assignments = PraxiaCurriculum.getAssignments(userId, true);
+          const completed = assignments.filter(a => a.completed).length;
+          return completed >= criteria.count;
+        }
+        return false;
         
       default:
         return false;
@@ -208,9 +286,9 @@ const PraxiaRewards = (function() {
     if (!user || !rewardsData) return { themes: [], gradusStyles: [], sounds: [] };
 
     const unlocked = { themes: [], gradusStyles: [], sounds: [] };
-    const points = user.progress?.points || 0;
-    const streak = user.progress?.streak || 0;
-    const achievements = user.achievements || [];
+    const points = PraxiaStorage.get(`points_${userId}`) || 0;
+    const streak = calculateStreak(userId);
+    const achievements = PraxiaStorage.get(`achievements_${userId}`) || [];
 
     // Check themes
     for (const theme of (rewardsData.unlockables?.themes || [])) {
@@ -258,7 +336,14 @@ const PraxiaRewards = (function() {
    * Get level info for points
    */
   function getLevelInfo(points) {
-    const levels = rewardsData?.levelSystem?.levels || [];
+    const levels = rewardsData?.levelSystem?.levels || [
+      { level: 1, name: 'Novice', pointsRequired: 0 },
+      { level: 2, name: 'Apprentice', pointsRequired: 50 },
+      { level: 3, name: 'Practitioner', pointsRequired: 150 },
+      { level: 4, name: 'Adept', pointsRequired: 300 },
+      { level: 5, name: 'Master', pointsRequired: 500 }
+    ];
+    
     let currentLevel = levels[0];
     let nextLevel = levels[1];
 
@@ -287,8 +372,47 @@ const PraxiaRewards = (function() {
    * Calculate points for an action
    */
   function getPointsForAction(action, count = 1) {
-    const economy = rewardsData?.pointsEconomy || {};
+    const economy = rewardsData?.pointsEconomy || {
+      sessionComplete: 10,
+      skillUsed: 1,
+      dailyCheckin: 5,
+      respiroComplete: 5,
+      lessonComplete: 15,
+      assignmentComplete: 20,
+      streakBonus: 2
+    };
     return (economy[action] || 0) * count;
+  }
+  
+  /**
+   * Get user's total points
+   */
+  function getUserPoints(userId) {
+    return PraxiaStorage.get(`points_${userId}`) || 0;
+  }
+  
+  /**
+   * Add points to user
+   */
+  function addPoints(userId, points) {
+    const current = getUserPoints(userId);
+    PraxiaStorage.set(`points_${userId}`, current + points);
+    return current + points;
+  }
+  
+  /**
+   * Get streak milestones
+   */
+  function getStreakMilestones() {
+    return rewardsData?.streakSystem?.milestones || [];
+  }
+  
+  /**
+   * Get next streak milestone
+   */
+  function getNextStreakMilestone(currentStreak) {
+    const milestones = getStreakMilestones();
+    return milestones.find(m => m.days > currentStreak) || null;
   }
 
   return {
@@ -296,14 +420,22 @@ const PraxiaRewards = (function() {
     getRewardsConfig,
     getRewards,
     calculateStreak,
+    calculateFamilyStreak,
     updateStreak,
     getAchievements,
+    getAllAchievements,
     hasAchievement,
     awardAchievement,
+    getEarnedAchievements,
     checkAchievements,
+    checkAchievementCriteria,
     getUnlockedRewards,
     getLevelInfo,
-    getPointsForAction
+    getPointsForAction,
+    getUserPoints,
+    addPoints,
+    getStreakMilestones,
+    getNextStreakMilestone
   };
 })();
 
