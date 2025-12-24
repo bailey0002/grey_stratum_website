@@ -51,12 +51,21 @@
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
         html { font-size: 16px; background-color: var(--bg-primary); }
         body { font-family: 'Inter', -apple-system, sans-serif; font-weight: 300; background: var(--bg-primary); color: var(--text-primary); min-height: 100vh; line-height: 1.6; -webkit-font-smoothing: antialiased; transition: background-color 0.3s ease, color 0.3s ease; }
-        .app-container { max-width: 480px; margin: 0 auto; min-height: 100vh; background: var(--bg-primary); position: relative; }
-        .header { background: var(--bg-secondary); padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; }
-        .header-content { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; flex-wrap: wrap; }
-        .logo { display: flex; align-items: center; gap: 0.75rem; }
-        .logo-gradus { display: flex; align-items: center; gap: 3px; height: 1.5rem; }
-        .gradus-bar { width: 3px; background-color: var(--accent); border-radius: 1.5px; transition: height 0.3s ease, opacity 0.3s ease; }
+        
+        /* Responsive container - wider on desktop */
+        .app-container { max-width: 600px; margin: 0 auto; min-height: 100vh; background: var(--bg-primary); position: relative; }
+        @media (min-width: 768px) { .app-container { max-width: 680px; } }
+        @media (min-width: 1024px) { .app-container { max-width: 760px; } }
+        
+        /* Clean header */
+        .header { background: var(--bg-secondary); padding: 1rem 1.5rem; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; }
+        .header-content { display: flex; align-items: center; justify-content: space-between; }
+        .header-left { display: flex; align-items: center; gap: 1rem; }
+        .exit-link { display: flex; align-items: center; color: var(--text-muted); font-family: 'Fira Code', monospace; font-size: 0.625rem; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; transition: color 0.2s ease; }
+        .exit-link:hover { color: var(--accent); }
+        .logo { display: flex; align-items: center; gap: 0.5rem; }
+        .logo-gradus { display: flex; align-items: center; gap: 2px; height: 1.25rem; }
+        .gradus-bar { width: 2.5px; background-color: var(--accent); border-radius: 1.5px; transition: height 0.3s ease, opacity 0.3s ease; }
         .gradus-bar:nth-child(1) { height: 40%; opacity: 0.5; }
         .gradus-bar:nth-child(2) { height: 65%; opacity: 0.75; }
         .gradus-bar:nth-child(3) { height: 90%; opacity: 1; }
@@ -67,22 +76,31 @@
         .logo-gradus.animated .gradus-bar:nth-child(1) { animation: gradusIlluminate 2.4s ease-in-out infinite 0s; }
         .logo-gradus.animated .gradus-bar:nth-child(2) { animation: gradusIlluminate 2.4s ease-in-out infinite 0.15s; }
         .logo-gradus.animated .gradus-bar:nth-child(3) { animation: gradusIlluminate 2.4s ease-in-out infinite 0.3s; }
-        .logo-text { display: flex; flex-direction: column; }
-        .logo-title { font-family: 'Archivo', sans-serif; font-size: 1.25rem; font-weight: 300; letter-spacing: 0.25em; text-transform: uppercase; color: var(--text-primary); }
-        .logo-protocol { font-family: 'Fira Code', monospace; font-size: 0.625rem; letter-spacing: 0.15em; color: var(--text-muted); }
-        .user-toggle { display: flex; background: var(--bg-card); border-radius: 6px; padding: 3px; border: 1px solid var(--border); }
-        .toggle-btn { padding: 0.5rem 0.875rem; border: none; background: transparent; font-family: 'Fira Code', monospace; font-size: 0.6875rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); cursor: pointer; border-radius: 4px; transition: all 0.2s ease; }
-        .toggle-btn.active { background: var(--accent); color: var(--bg-primary); }
-        .theme-toggle { display: flex; align-items: center; gap: 0.5rem; cursor: pointer; padding: 0.5rem; }
-        .theme-label { font-family: 'Fira Code', monospace; font-size: 0.5625rem; letter-spacing: 0.15em; color: var(--text-muted); }
+        .logo-text { display: flex; flex-direction: column; line-height: 1.2; }
+        .logo-title { font-family: 'Archivo', sans-serif; font-size: 1.125rem; font-weight: 300; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-primary); }
+        .logo-protocol { font-family: 'Fira Code', monospace; font-size: 0.5625rem; letter-spacing: 0.1em; color: var(--text-muted); }
+        
+        /* Theme toggle - right side of header */
+        .theme-toggle { display: flex; align-items: center; gap: 0.5rem; cursor: pointer; padding: 0.375rem; }
+        .theme-label { font-family: 'Fira Code', monospace; font-size: 0.5rem; letter-spacing: 0.1em; color: var(--text-muted); }
         .theme-indicator { display: flex; align-items: center; gap: 2px; }
         .theme-indicator .gradus-bar { width: 2px; background: var(--accent); border-radius: 1px; }
-        .theme-indicator .gradus-bar:nth-child(1) { height: 6px; opacity: 0.5; }
-        .theme-indicator .gradus-bar:nth-child(2) { height: 10px; opacity: 0.75; }
-        .theme-indicator .gradus-bar:nth-child(3) { height: 14px; opacity: 1; }
-        [data-theme="light"] .theme-indicator .gradus-bar:nth-child(1) { height: 14px; opacity: 1; }
-        [data-theme="light"] .theme-indicator .gradus-bar:nth-child(2) { height: 10px; opacity: 0.75; }
-        [data-theme="light"] .theme-indicator .gradus-bar:nth-child(3) { height: 6px; opacity: 0.5; }
+        .theme-indicator .gradus-bar:nth-child(1) { height: 5px; opacity: 0.5; }
+        .theme-indicator .gradus-bar:nth-child(2) { height: 8px; opacity: 0.75; }
+        .theme-indicator .gradus-bar:nth-child(3) { height: 11px; opacity: 1; }
+        [data-theme="light"] .theme-indicator .gradus-bar:nth-child(1) { height: 11px; opacity: 1; }
+        [data-theme="light"] .theme-indicator .gradus-bar:nth-child(2) { height: 8px; opacity: 0.75; }
+        [data-theme="light"] .theme-indicator .gradus-bar:nth-child(3) { height: 5px; opacity: 0.5; }
+        .theme-toggle:hover .theme-label { color: var(--accent); }
+        
+        /* Mode bar - below header */
+        .mode-bar { display: flex; justify-content: center; align-items: center; padding: 0.5rem 1.5rem; background: var(--bg-primary); border-bottom: 1px solid var(--border); }
+        .mode-toggle { display: flex; align-items: center; gap: 0; position: relative; }
+        .mode-btn { padding: 0.375rem 1rem; border: none; background: transparent; font-family: 'Fira Code', monospace; font-size: 0.5625rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-muted); cursor: pointer; transition: color 0.2s ease; position: relative; }
+        .mode-btn:hover { color: var(--text-secondary); }
+        .mode-btn.active { color: var(--accent); }
+        .mode-btn.active::after { content: ''; position: absolute; bottom: -0.5rem; left: 50%; transform: translateX(-50%); width: 16px; height: 2px; background: var(--accent); border-radius: 1px; }
+        .mode-divider { width: 1px; height: 10px; background: var(--border); margin: 0 0.25rem; }
         .main-content { padding: 1.5rem; padding-bottom: 100px; }
         .view { display: none; animation: fadeIn 0.3s ease; }
         .view.active { display: block; }
@@ -218,7 +236,9 @@
         .modal-icon .gradus-confirm .gradus-bar:nth-child(1) { height: 16px; }
         .modal-icon .gradus-confirm .gradus-bar:nth-child(2) { height: 28px; }
         .modal-icon .gradus-confirm .gradus-bar:nth-child(3) { height: 40px; }
-        .bottom-nav { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 480px; background: var(--bg-secondary); border-top: 1px solid var(--border); display: flex; justify-content: space-around; padding: 0.75rem 0; padding-bottom: calc(0.75rem + env(safe-area-inset-bottom, 0)); z-index: 100; }
+        .bottom-nav { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 600px; background: var(--bg-secondary); border-top: 1px solid var(--border); display: flex; justify-content: space-around; padding: 0.75rem 0; padding-bottom: calc(0.75rem + env(safe-area-inset-bottom, 0)); z-index: 100; }
+        @media (min-width: 768px) { .bottom-nav { max-width: 680px; } }
+        @media (min-width: 1024px) { .bottom-nav { max-width: 760px; } }
         .nav-item { display: flex; flex-direction: column; align-items: center; gap: 0.25rem; padding: 0.5rem 1rem; background: none; border: none; color: var(--text-muted); font-family: 'Fira Code', monospace; font-size: 0.5625rem; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; border-radius: 6px; }
         .nav-item .nav-icon { display: flex; align-items: center; gap: 2px; height: 20px; }
         .nav-item .nav-icon .gradus-bar { width: 2px; background: currentColor; border-radius: 1px; }
@@ -260,30 +280,47 @@
         .mt-md { margin-top: 1rem; }
         .mt-lg { margin-top: 1.5rem; }
         .back-btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 0; background: none; border: none; color: var(--accent); font-family: 'Fira Code', monospace; font-size: 0.6875rem; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; margin-bottom: 1rem; }
-        .exit-link { display: flex; align-items: center; gap: 0.5rem; color: var(--text-muted); font-family: 'Fira Code', monospace; font-size: 0.625rem; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; padding: 0.5rem; transition: color 0.2s ease; }
-        .exit-link:hover { color: var(--accent); }
-        @media (max-width: 380px) { .header-content { flex-wrap: wrap; justify-content: center; gap: 0.5rem; } .theme-label { display: none; } .exit-link span { display: none; } }
+        @media (max-width: 480px) { .header-content { gap: 0.5rem; } .theme-label { display: none; } .logo-title { font-size: 1rem; letter-spacing: 0.15em; } .exit-link span { display: none; } }
     </style>
 </head>
 <body>
     <div class="app-container">
         <header class="header">
             <div class="header-content">
-                <a href="../protocols/cadencia.html" class="exit-link" title="Exit to Cadencia">← <span>Exit</span></a>
-                <div class="logo">
-                    <div class="logo-gradus animated"><div class="gradus-bar"></div><div class="gradus-bar"></div><div class="gradus-bar"></div></div>
-                    <div class="logo-text"><span class="logo-title">Praxia-1</span><span class="logo-protocol">[ Cadencia ]</span></div>
-                </div>
-                <div class="user-toggle">
-                    <button class="toggle-btn active" id="toggle-custos" onclick="switchUser('custos')">Custos</button>
-                    <button class="toggle-btn" id="toggle-filius" onclick="switchUser('filius')">Filius</button>
+                <div class="header-left">
+                    <a href="../protocols/cadencia.html" class="exit-link" title="Exit to Cadencia">← <span>Exit</span></a>
+                    <div class="logo">
+                        <div class="logo-text">
+                            <span class="logo-title">Praxia-1</span>
+                            <span class="logo-protocol">[ Cadencia ]</span>
+                        </div>
+                        <div class="logo-gradus animated">
+                            <div class="gradus-bar"></div>
+                            <div class="gradus-bar"></div>
+                            <div class="gradus-bar"></div>
+                        </div>
+                    </div>
                 </div>
                 <div class="theme-toggle" onclick="toggleTheme()" title="Toggle theme">
                     <span class="theme-label" id="themeLabel">[ NOX ]</span>
-                    <div class="theme-indicator"><div class="gradus-bar"></div><div class="gradus-bar"></div><div class="gradus-bar"></div></div>
+                    <div class="theme-indicator">
+                        <div class="gradus-bar"></div>
+                        <div class="gradus-bar"></div>
+                        <div class="gradus-bar"></div>
+                    </div>
                 </div>
             </div>
         </header>
+        
+        <!-- Mode selector bar -->
+        <div class="mode-bar">
+            <div class="mode-toggle">
+                <button class="mode-btn active" id="toggle-custos" onclick="switchUser('custos')">Custos</button>
+                <div class="mode-divider"></div>
+                <button class="mode-btn" id="toggle-filius" onclick="switchUser('filius')">Filius</button>
+            </div>
+        </div>
+        
         <main class="main-content">
             <!-- Custos Home -->
             <section id="view-custos-home" class="view active">
@@ -1146,6 +1183,12 @@ document.addEventListener('DOMContentLoaded', () => {
   attachGauge('gauge-track', 'gauge-handle');
   attachGauge('episode-gauge-track', 'episode-gauge-handle');
   renderStateVocabulary();
+
+  // Restore user mode from saved data
+  const custosBtn = document.getElementById('toggle-custos');
+  const filiusBtn = document.getElementById('toggle-filius');
+  if (custosBtn) custosBtn.classList.toggle('active', data.activeUser === 'custos');
+  if (filiusBtn) filiusBtn.classList.toggle('active', data.activeUser === 'filius');
 
   navigateTo('home');
 
