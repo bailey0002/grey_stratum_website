@@ -31,12 +31,12 @@ The build output is in `dist/`.
 ## Deploy under GreyStratum site
 
 This project is configured to be hosted under:
-`/protocols/instrumentum-003/`
+`/protocols/pitchprep/`
 
 That is controlled by `vite.config.js`:
 
 ```js
-base: '/protocols/instrumentum-003/'
+base: '/protocols/pitchprep/'
 ```
 
 If you deploy to a different path, update `base`.
@@ -59,7 +59,7 @@ If you prefer to host the model assets on Azure Blob and reference them via abso
 
 You can add a new instrument card on `cantara.html` pointing to:
 
-`protocols/instrumentum-003/index.html` (or the folder URL)
+`protocols/pitchprep/index.html` (or the folder URL)
 
 Example link:
-`<a href="instrumentum-003/index.html" class="btn-bracket">[ Launch AcePrep ]</a>`
+`<a href="pitchprep/index.html" class="btn-bracket">[ Launch AcePrep ]</a>`

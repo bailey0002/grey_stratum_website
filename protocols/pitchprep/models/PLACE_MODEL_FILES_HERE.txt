@@ -1,0 +1,1 @@
+Place TFJS model.json and referenced weight shards in this folder.
