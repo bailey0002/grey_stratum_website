@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="color-scheme" content="dark light">
+    <title>Praxia-1 | Cadencia | Grey Stratum</title>
+    <link rel="icon" type="image/png" href="/my-favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/svg+xml" href="/my-favicon/favicon.svg">
+    <link rel="shortcut icon" href="/my-favicon/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/my-favicon/apple-touch-icon.png">
+    <link rel="manifest" href="/my-favicon/site.webmanifest">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@300;400;500&family=Fira+Code:wght@400;500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        /* ============================================
+           PRAXIA-1 — Cadencia Protocol
+           Grey Stratum Design System
+           ============================================ */
+
+        :root, [data-theme="dark"] {
+            --bg-primary: #1A1D21;
+            --bg-secondary: #22272E;
+            --bg-card: #2D333B;
+            --bg-elevated: #363D47;
+            --text-primary: #E6EDF3;
+            --text-secondary: #768390;
+            --text-muted: #545D68;
+            --accent: #5BA4B5;
+            --accent-hover: #4A8A99;
+            --accent-glow: rgba(91, 164, 181, 0.3);
+            --status-confirmed: #4CAF50;
+            --status-failed: #E05252;
+            --border: #3D444D;
+            --shadow-card: 0 4px 12px rgba(0, 0, 0, 0.3);
+            --shadow-glow: 0 0 0 2px rgba(91, 164, 181, 0.3);
+        }
+
+        [data-theme="light"] {
+            --bg-primary: #FFFFFF;
+            --bg-secondary: #F0F2F4;
+            --bg-card: #FFFFFF;
+            --bg-elevated: #F8F9FA;
+            --text-primary: #1A1D21;
+            --text-secondary: #4A4F54;
+            --text-muted: #768390;
+            --accent: #5BA4B5;
+            --accent-hover: #4A8A99;
+            --accent-glow: rgba(91, 164, 181, 0.2);
+            --status-confirmed: #4CAF50;
+            --status-failed: #E05252;
+            --border: #D0D7DE;
+            --shadow-card: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --shadow-glow: 0 0 0 2px rgba(91, 164, 181, 0.25);
+        }
+
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { font-size: 16px; background-color: var(--bg-primary); }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            font-weight: 300;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .app-container {
+            max-width: 600px;
+            margin: 0 auto;
+            min-height: 100vh;
+            background: var(--bg-primary);
+            position: relative;
+        }
+        @media (min-width: 768px) { .app-container { max-width: 680px; } }
+        @media (min-width: 1024px) { .app-container { max-width: 760px; } }
+
+        /* Header */
+        .header {
+            background: var(--bg-secondary);
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+        }
+        .logo { display: flex; align-items: center; gap: 0.75rem; }
+        .logo-gradus { display: flex; align-items: center; gap: 3px; height: 1.5rem; }
+        .gradus-bar {
+            width: 3px;
+            background-color: var(--accent);
+            border-radius: 1.5px;
+            transition: height 0.3s ease, opacity 0.3s ease;
+        }
+        .gradus-bar:nth-child(1) { height: 40%; opacity: 0.5; }
+        .gradus-bar:nth-child(2) { height: 65%; opacity: 0.75; }
+        .gradus-bar:nth-child(3) { height: 90%; opacity: 1; }
+        [data-theme="light"] .gradus-bar:nth-child(1) { height: 90%; opacity: 1; }
+        [data-theme="light"] .gradus-bar:nth-child(2) { height: 65%; opacity: 0.75; }
+        [data-theme="light"] .gradus-bar:nth-child(3) { height: 40%; opacity: 0.5; }
+
+        @keyframes gradusIlluminate {
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 1; }
+        }
+        .logo-gradus.animated .gradus-bar:nth-child(1) { animation: gradusIlluminate 2.4s ease-in-out infinite 0s; }
+        .logo-gradus.animated .gradus-bar:nth-child(2) { animation: gradusIlluminate 2.4s ease-in-out infinite 0.15s; }
+        .logo-gradus.animated .gradus-bar:nth-child(3) { animation: gradusIlluminate 2.4s ease-in-out infinite 0.3s; }
+
+        .logo-text { display: flex; flex-direction: column; }
+        .logo-title {
+            font-family: 'Archivo', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 300;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: var(--text-primary);
+        }
+        .logo-protocol {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.625rem;
+            letter-spacing: 0.15em;
+            color: var(--text-muted);
+        }
+
+        .user-toggle {
+            display: flex;
+            background: var(--bg-card);
+            border-radius: 6px;
+            padding: 3px;
+            border: 1px solid var(--border);
+        }
+        .toggle-btn {
+            padding: 0.5rem 0.875rem;
+            border: none;
+            background: transparent;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.6875rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            cursor: pointer;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+        }
+        .toggle-btn.active { background: var(--accent); color: var(--bg-primary); }
+
+        .theme-toggle {
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+        .theme-label {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.5625rem;
+            letter-spacing: 0.15em;
+            color: var(--text-muted);
+        }
+        .theme-indicator { display: flex; align-items: center; gap: 2px; }
+        .theme-indicator .gradus-bar { width: 2px; background: var(--accent); border-radius: 1px; }
+        .theme-indicator .gradus-bar:nth-child(1) { height: 6px; opacity: 0.5; }
+        .theme-indicator .gradus-bar:nth-child(2) { height: 10px; opacity: 0.75; }
+        .theme-indicator .gradus-bar:nth-child(3) { height: 14px; opacity: 1; }
+        [data-theme="light"] .theme-indicator .gradus-bar:nth-child(1) { height: 14px; opacity: 1; }
+        [data-theme="light"] .theme-indicator .gradus-bar:nth-child(2) { height: 10px; opacity: 0.75; }
+        [data-theme="light"] .theme-indicator .gradus-bar:nth-child(3) { height: 6px; opacity: 0.5; }
+
+        .main-content { padding: 1.5rem; padding-bottom: 100px; }
+        .view { display: none; animation: fadeIn 0.3s ease; }
+        .view.active { display: block; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Typography */
+        .page-title {
+            font-family: 'Archivo', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 300;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+        }
+        .page-subtitle {
+            font-size: 0.9375rem;
+            font-weight: 300;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+        .section-label {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.6875rem;
+            letter-spacing: 0.15em;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            margin-bottom: 0.75rem;
+        }
+
+        /* Cards */
+        .card {
+            background: var(--bg-card);
+            border-radius: 8px;
+            padding: 1.25rem;
+            box-shadow: var(--shadow-card);
+            margin-bottom: 1rem;
+            border: 1px solid var(--border);
+            transition: all 0.2s ease;
+        }
+        .card:hover { box-shadow: var(--shadow-glow), var(--shadow-card); }
+        .card-title {
+            font-family: 'Archivo', sans-serif;
+            font-weight: 400;
+            font-size: 0.875rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--text-primary);
+        }
+        .card-subtitle {
+            font-size: 0.8125rem;
+            color: var(--text-secondary);
+            margin-top: 0.25rem;
+            font-weight: 300;
+        }
+        .card-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--bg-elevated);
+            border: 1px solid var(--border);
+        }
+        .card-icon .gradus-mini { display: flex; align-items: center; gap: 2px; height: 20px; }
+        .card-icon .gradus-mini .gradus-bar { width: 2px; }
+        .card-icon .gradus-mini .gradus-bar:nth-child(1) { height: 8px; }
+        .card-icon .gradus-mini .gradus-bar:nth-child(2) { height: 12px; }
+        .card-icon .gradus-mini .gradus-bar:nth-child(3) { height: 16px; }
+
+        .action-card {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .action-card:active { transform: scale(0.98); }
+        .action-card .card-content { flex: 1; }
+        .action-card .chevron { color: var(--text-muted); font-size: 1.25rem; }
+        .action-card:hover .chevron { color: var(--accent); }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.875rem 1.5rem;
+            border: 1px solid transparent;
+            border-radius: 6px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.75rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .btn:active { transform: scale(0.96); }
+        .btn-primary { background: var(--accent); color: var(--bg-primary); border-color: var(--accent); }
+        .btn-primary:hover { background: var(--accent-hover); box-shadow: var(--shadow-glow); }
+        .btn-secondary { background: var(--bg-card); color: var(--text-secondary); border-color: var(--border); }
+        .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
+        .btn-ghost { background: transparent; color: var(--text-muted); padding: 0.5rem 0.75rem; }
+        .btn-ghost:hover { color: var(--accent); }
+        .btn-large { padding: 1rem 2rem; font-size: 0.8125rem; }
+        .btn-block { width: 100%; }
+        .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+        /* Stats */
+        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; margin-bottom: 1.5rem; }
+        .stat-card {
+            background: var(--bg-card);
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+            border: 1px solid var(--border);
+        }
+        .stat-value {
+            font-family: 'Archivo', sans-serif;
+            font-size: 1.75rem;
+            font-weight: 300;
+            color: var(--accent);
+        }
+        .stat-label {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.625rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-top: 0.25rem;
+        }
+
+        /* Timer */
+        .timer-container { display: flex; flex-direction: column; align-items: center; padding: 2rem 0; }
+        .timer-ring { position: relative; width: 200px; height: 200px; }
+        .timer-ring svg { transform: rotate(-90deg); width: 100%; height: 100%; }
+        .timer-ring-bg { fill: none; stroke: var(--border); stroke-width: 8; }
+        .timer-ring-progress {
+            fill: none;
+            stroke: var(--accent);
+            stroke-width: 8;
+            stroke-linecap: round;
+            stroke-dasharray: 565;
+            stroke-dashoffset: 0;
+            transition: stroke-dashoffset 1s linear;
+            filter: drop-shadow(0 0 6px var(--accent-glow));
+        }
+        .timer-display { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; }
+        .timer-time {
+            font-family: 'Archivo', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 300;
+            letter-spacing: 0.1em;
+            color: var(--text-primary);
+        }
+        .timer-label {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.625rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-top: 0.5rem;
+        }
+
+        /* Skill Prompt */
+        .skill-prompt {
+            background: var(--bg-card);
+            border: 1px solid var(--accent);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            text-align: center;
+            box-shadow: var(--shadow-glow);
+        }
+        .skill-prompt-label {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.625rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+        .skill-prompt-text {
+            font-family: 'Archivo', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 300;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+        .skill-prompt-hint {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            font-style: italic;
+            font-weight: 300;
+        }
+        .skill-counter { display: flex; align-items: center; justify-content: center; gap: 1.5rem; margin-top: 1.5rem; }
+        .skill-count-btn {
+            width: 48px;
+            height: 48px;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+            background: var(--bg-card);
+            color: var(--accent);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .skill-count-btn:hover { border-color: var(--accent); box-shadow: var(--shadow-glow); }
+        .skill-count-btn:active { transform: scale(0.95); }
+        .skill-count-value {
+            font-family: 'Archivo', sans-serif;
+            font-size: 2rem;
+            font-weight: 300;
+            color: var(--accent);
+            min-width: 48px;
+            text-align: center;
+        }
+
+        /* Gauge */
+        .gauge-container { padding: 1.5rem 0; }
+        .gauge-track {
+            position: relative;
+            height: 48px;
+            background: linear-gradient(to right, var(--accent) 0%, #E9A84A 50%, var(--status-failed) 100%);
+            border-radius: 6px;
+            margin: 1rem 0;
+        }
+        .gauge-handle {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 40px;
+            height: 40px;
+            background: var(--bg-card);
+            border-radius: 6px;
+            box-shadow: var(--shadow-card);
+            cursor: grab;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Archivo', sans-serif;
+            font-weight: 400;
+            font-size: 1rem;
+            color: var(--text-primary);
+            border: 2px solid var(--bg-primary);
+            touch-action: none;
+        }
+        .gauge-labels { display: flex; justify-content: space-between; padding: 0 0.25rem; }
+        .gauge-label {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.625rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+        }
+
+        /* State Vocabulary */
+        .state-vocabulary { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 1rem 0; }
+        .state-word {
+            padding: 0.5rem 0.875rem;
+            background: var(--bg-card);
+            border-radius: 6px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.6875rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 1px solid var(--border);
+        }
+        .state-word:hover { border-color: var(--accent); color: var(--accent); }
+        .state-word.selected { background: var(--accent); color: var(--bg-primary); border-color: var(--accent); }
+
+        /* Respiro */
+        .respiro-step { text-align: center; padding: 2rem 0; }
+        .respiro-visual {
+            width: 140px;
+            height: 140px;
+            margin: 0 auto 2rem;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+        .respiro-visual .gradus-large { display: flex; align-items: center; gap: 6px; height: 80px; }
+        .respiro-visual .gradus-large .gradus-bar { width: 6px; border-radius: 3px; }
+        .respiro-visual.step-halt { border-color: var(--status-failed); box-shadow: 0 0 20px rgba(224, 82, 82, 0.2); }
+        .respiro-visual.step-halt .gradus-bar { background: var(--status-failed); }
+        .respiro-visual.step-retreat { animation: contractVisual 3s ease-in-out infinite; }
+        .respiro-visual.step-breathe { animation: breatheVisual 4s ease-in-out infinite; }
+        .respiro-visual.step-reflect { border-color: #E9A84A; box-shadow: 0 0 20px rgba(233, 168, 74, 0.2); }
+        .respiro-visual.step-reflect .gradus-bar { background: #E9A84A; }
+        .respiro-visual.step-resolve { border-color: var(--status-confirmed); box-shadow: 0 0 20px rgba(76, 175, 80, 0.2); }
+        .respiro-visual.step-resolve .gradus-bar { background: var(--status-confirmed); }
+        @keyframes contractVisual { 0%, 100% { transform: scale(1); } 50% { transform: scale(0.85); } }
+        @keyframes breatheVisual { 0%, 100% { transform: scale(0.9); } 50% { transform: scale(1.1); } }
+        .respiro-title {
+            font-family: 'Archivo', sans-serif;
+            font-size: 1.75rem;
+            font-weight: 300;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+        .respiro-instruction {
+            font-size: 1rem;
+            font-weight: 300;
+            color: var(--text-secondary);
+            max-width: 280px;
+            margin: 0 auto 2rem;
+        }
+        .respiro-nav { display: flex; gap: 1rem; justify-content: center; }
+        .respiro-dots { display: flex; gap: 0.5rem; justify-content: center; margin-bottom: 1.5rem; }
+        .respiro-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 4px;
+            background: var(--border);
+            transition: all 0.2s ease;
+        }
+        .respiro-dot.active { background: var(--accent); width: 24px; }
+
+        /* Breathing Pacer */
+        .breathing-pacer {
+            width: 160px;
+            height: 160px;
+            margin: 2rem auto;
+            border-radius: 8px;
+            background: var(--bg-card);
+            border: 2px solid var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: breathePacer 8s ease-in-out infinite;
+            box-shadow: var(--shadow-glow);
+        }
+        .breathing-pacer-text {
+            font-family: 'Archivo', sans-serif;
+            font-size: 0.875rem;
+            font-weight: 300;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: var(--accent);
+        }
+        @keyframes breathePacer {
+            0%, 100% { transform: scale(0.8); opacity: 0.6; }
+            12.5% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1); opacity: 1; }
+            62.5% { transform: scale(0.8); opacity: 0.6; }
+        }
+
+        /* Urgentia */
+        .urgentia-header {
+            background: var(--status-failed);
+            color: var(--text-primary);
+            padding: 1.25rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        .urgentia-header h2 {
+            font-family: 'Archivo', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 300;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            margin-bottom: 0.25rem;
+        }
+        .urgentia-header p { font-size: 0.875rem; font-weight: 300; opacity: 0.9; }
+        .protocol-scripts { display: flex; flex-direction: column; gap: 0.75rem; }
+        .protocol-script {
+            background: var(--bg-card);
+            border-radius: 8px;
+            padding: 1rem 1.25rem;
+            border-left: 3px solid var(--accent);
+        }
+        .protocol-script-label {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.625rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            margin-bottom: 0.375rem;
+        }
+        .protocol-script-text { font-size: 0.9375rem; font-weight: 300; color: var(--text-primary); line-height: 1.5; }
+
+        /* Filius Mood Grid */
+        .filius-mood-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.5rem; margin: 2rem 0; }
+        .mood-btn {
+            aspect-ratio: 1;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: var(--bg-card);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .mood-btn .gradus-mood { display: flex; align-items: flex-end; gap: 2px; height: 24px; }
+        .mood-btn .gradus-mood .gradus-bar { width: 3px; border-radius: 1.5px; transition: all 0.2s ease; }
+        .mood-btn[data-mood="1"] .gradus-bar { background: var(--status-failed); }
+        .mood-btn[data-mood="1"] .gradus-bar:nth-child(1) { height: 6px; }
+        .mood-btn[data-mood="1"] .gradus-bar:nth-child(2) { height: 4px; }
+        .mood-btn[data-mood="1"] .gradus-bar:nth-child(3) { height: 2px; }
+        .mood-btn[data-mood="2"] .gradus-bar { background: #E9A84A; }
+        .mood-btn[data-mood="2"] .gradus-bar:nth-child(1) { height: 8px; }
+        .mood-btn[data-mood="2"] .gradus-bar:nth-child(2) { height: 6px; }
+        .mood-btn[data-mood="2"] .gradus-bar:nth-child(3) { height: 4px; }
+        .mood-btn[data-mood="3"] .gradus-bar { background: var(--text-muted); }
+        .mood-btn[data-mood="3"] .gradus-bar:nth-child(1) { height: 10px; }
+        .mood-btn[data-mood="3"] .gradus-bar:nth-child(2) { height: 10px; }
+        .mood-btn[data-mood="3"] .gradus-bar:nth-child(3) { height: 10px; }
+        .mood-btn[data-mood="4"] .gradus-bar { background: var(--accent); }
+        .mood-btn[data-mood="4"] .gradus-bar:nth-child(1) { height: 10px; }
+        .mood-btn[data-mood="4"] .gradus-bar:nth-child(2) { height: 14px; }
+        .mood-btn[data-mood="4"] .gradus-bar:nth-child(3) { height: 18px; }
+        .mood-btn[data-mood="5"] .gradus-bar { background: var(--status-confirmed); }
+        .mood-btn[data-mood="5"] .gradus-bar:nth-child(1) { height: 14px; }
+        .mood-btn[data-mood="5"] .gradus-bar:nth-child(2) { height: 18px; }
+        .mood-btn[data-mood="5"] .gradus-bar:nth-child(3) { height: 22px; }
+        .mood-btn:active { transform: scale(0.95); }
+        .mood-btn.selected { border-color: var(--accent); box-shadow: var(--shadow-glow); }
+
+        /* Forms */
+        .form-group { margin-bottom: 1.25rem; }
+        .form-label {
+            display: block;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.6875rem;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+        .form-input, .form-textarea {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9375rem;
+            font-weight: 300;
+            color: var(--text-primary);
+            background: var(--bg-card);
+            transition: all 0.2s ease;
+        }
+        .form-input:focus, .form-textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: var(--shadow-glow);
+        }
+        .form-textarea { min-height: 100px; resize: vertical; }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(26, 29, 33, 0.85);
+            backdrop-filter: blur(4px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 200;
+            padding: 1.5rem;
+        }
+        .modal-overlay.active { display: flex; }
+        .modal {
+            background: var(--bg-card);
+            border-radius: 8px;
+            padding: 2rem;
+            width: 100%;
+            max-width: 320px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+            border: 1px solid var(--border);
+            animation: modalIn 0.3s ease;
+        }
+        @keyframes modalIn {
+            from { opacity: 0; transform: scale(0.95) translateY(10px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        .modal-title {
+            font-family: 'Archivo', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 300;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            text-align: center;
+            margin-bottom: 0.75rem;
+        }
+        .modal-icon { display: flex; justify-content: center; margin-bottom: 1rem; }
+        .modal-icon .gradus-confirm { display: flex; align-items: center; gap: 4px; height: 48px; }
+        .modal-icon .gradus-confirm .gradus-bar { width: 4px; background: var(--status-confirmed); }
+        .modal-icon .gradus-confirm .gradus-bar:nth-child(1) { height: 16px; }
+        .modal-icon .gradus-confirm .gradus-bar:nth-child(2) { height: 28px; }
+        .modal-icon .gradus-confirm .gradus-bar:nth-child(3) { height: 40px; }
+
+        /* Bottom Nav */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 600px;
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-around;
+            padding: 0.75rem 0;
+            padding-bottom: calc(0.75rem + env(safe-area-inset-bottom, 0));
+            z-index: 100;
+        }
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.25rem;
+            padding: 0.5rem 1rem;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-family: 'Fira Code', monospace;
+            font-size: 0.5625rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            cursor: pointer;
+            border-radius: 6px;
+        }
+        .nav-item .nav-icon { display: flex; align-items: center; gap: 2px; height: 20px; }
+        .nav-item .nav-icon .gradus-bar { width: 2px; background: currentColor; border-radius: 1px; }
+        .nav-item .nav-icon .gradus-bar:nth-child(1) { height: 6px; }
+        .nav-item .nav-icon .gradus-bar:nth-child(2) { height: 10px; }
+        .nav-item .nav-icon .gradus-bar:nth-child(3) { height: 14px; }
+        .nav-item.active { color: var(--accent); }
+
+        /* Mood Scale */
+        .mood-scale { display: flex; gap: 0.5rem; justify-content: center; margin: 1rem 0; }
+        .mood-scale-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+            background: var(--bg-card);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .mood-scale-btn .gradus-scale { display: flex; align-items: flex-end; gap: 2px; height: 20px; }
+        .mood-scale-btn .gradus-scale .gradus-bar { width: 2px; background: var(--accent); border-radius: 1px; }
+        .mood-scale-btn[data-mood="1"] .gradus-scale .gradus-bar:nth-child(1) { height: 4px; }
+        .mood-scale-btn[data-mood="1"] .gradus-scale .gradus-bar:nth-child(2) { height: 3px; }
+        .mood-scale-btn[data-mood="1"] .gradus-scale .gradus-bar:nth-child(3) { height: 2px; }
+        .mood-scale-btn[data-mood="2"] .gradus-scale .gradus-bar:nth-child(1) { height: 6px; }
+        .mood-scale-btn[data-mood="2"] .gradus-scale .gradus-bar:nth-child(2) { height: 5px; }
+        .mood-scale-btn[data-mood="2"] .gradus-scale .gradus-bar:nth-child(3) { height: 4px; }
+        .mood-scale-btn[data-mood="3"] .gradus-scale .gradus-bar:nth-child(1) { height: 8px; }
+        .mood-scale-btn[data-mood="3"] .gradus-scale .gradus-bar:nth-child(2) { height: 8px; }
+        .mood-scale-btn[data-mood="3"] .gradus-scale .gradus-bar:nth-child(3) { height: 8px; }
+        .mood-scale-btn[data-mood="4"] .gradus-scale .gradus-bar:nth-child(1) { height: 8px; }
+        .mood-scale-btn[data-mood="4"] .gradus-scale .gradus-bar:nth-child(2) { height: 12px; }
+        .mood-scale-btn[data-mood="4"] .gradus-scale .gradus-bar:nth-child(3) { height: 16px; }
+        .mood-scale-btn[data-mood="5"] .gradus-scale .gradus-bar:nth-child(1) { height: 12px; }
+        .mood-scale-btn[data-mood="5"] .gradus-scale .gradus-bar:nth-child(2) { height: 16px; }
+        .mood-scale-btn[data-mood="5"] .gradus-scale .gradus-bar:nth-child(3) { height: 20px; }
+        .mood-scale-btn.selected { border-color: var(--accent); box-shadow: var(--shadow-glow); }
+
+        /* Praxis Skills */
+        .praxis-skills { display: flex; flex-direction: column; gap: 0.5rem; }
+        .praxis-skill {
+            padding: 0.75rem 1rem;
+            background: var(--bg-elevated);
+            border-radius: 6px;
+            border-left: 3px solid var(--accent);
+            font-size: 0.875rem;
+        }
+        .praxis-skill strong { color: var(--accent); font-weight: 500; }
+
+        /* Calendar */
+        .progressio-calendar { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; margin: 1rem 0; }
+        .calendar-day {
+            aspect-ratio: 1;
+            border-radius: 4px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.625rem;
+            color: var(--text-muted);
+        }
+        .calendar-day.completed { background: var(--accent); border-color: var(--accent); color: var(--bg-primary); }
+        .calendar-day.today { border-color: var(--accent); box-shadow: var(--shadow-glow); }
+
+        /* Utility */
+        .text-center { text-align: center; }
+        .mb-sm { margin-bottom: 0.5rem; }
+        .mb-md { margin-bottom: 1rem; }
+        .mb-lg { margin-bottom: 1.5rem; }
+        .mt-md { margin-top: 1rem; }
+        .mt-lg { margin-top: 1.5rem; }
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 0;
+            background: none;
+            border: none;
+            color: var(--accent);
+            font-family: 'Fira Code', monospace;
+            font-size: 0.6875rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            cursor: pointer;
+            margin-bottom: 1rem;
+        }
+
+        @media (max-width: 380px) {
+            .theme-toggle { position: static; transform: none; margin-left: auto; }
+            .theme-label { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <header class="header">
+            <div class="header-content">
+                <div class="logo">
+                    <div class="logo-gradus animated">
+                        <div class="gradus-bar"></div>
+                        <div class="gradus-bar"></div>
+                        <div class="gradus-bar"></div>
+                    </div>
+                    <div class="logo-text">
+                        <span class="logo-title">Praxia-1</span>
+                        <span class="logo-protocol">[ Cadencia ]</span>
+                    </div>
+                </div>
+                <div class="user-toggle">
+                    <button class="toggle-btn active" id="toggle-custos" onclick="switchUser('custos')">Custos</button>
+                    <button class="toggle-btn" id="toggle-filius" onclick="switchUser('filius')">Filius</button>
+                </div>
+                <div class="theme-toggle" onclick="toggleTheme()" title="Toggle theme">
+                    <span class="theme-label" id="themeLabel">[ NOX ]</span>
+                    <div class="theme-indicator">
+                        <div class="gradus-bar"></div>
+                        <div class="gradus-bar"></div>
+                        <div class="gradus-bar"></div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <!-- Custos Home -->
+            <section id="view-custos-home" class="view active">
+                <h1 class="page-title">Salve</h1>
+                <p class="page-subtitle">Building connection, one praxis at a time</p>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value" id="stat-streak">0</div>
+                        <div class="stat-label">Consecutio</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="stat-sessions">0</div>
+                        <div class="stat-label">Sessions</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="stat-skills">0</div>
+                        <div class="stat-label">Skills</div>
+                    </div>
+                </div>
+                <div class="card action-card" onclick="showView('view-praxis-setup')">
+                    <div class="card-icon"><div class="gradus-mini"><div class="gradus-bar"></div><div class="gradus-bar"></div><div class="gradus-bar"></div></div></div>
+                    <div class="card-content">
+                        <div class="card-title">[ Initiate Praxis ]</div>
+                        <div class="card-subtitle">15 minutes of focused connection</div>
+                    </div>
+                    <span class="chevron">›</span>
+                </div>
+                <div class="card action-card" onclick="showView('view-status-checkin')">
+                    <div class="card-icon"><div class="gradus-mini"><div class="gradus-bar"></div><div class="gradus-bar"></div><div class="gradus-bar"></div></div></div>
+                    <div class="card-content">
+                        <div class="card-title">[ Status Check ]</div>
+                        <div class="card-subtitle">Track state and build awareness</div>
+                    </div>
+                    <span class="chevron">›</span>
+                </div>
+                <div class="card action-card" onclick="showView('view-respiro')">
+                    <div class="card-icon"><div class="gradus-mini"><div class="gradus-bar"></div><div class="gradus-bar"></div><div class="gradus-bar"></div></div></div>
+                    <div class="card-content">
+                        <div class="card-title">[ Respiro ]</div>
+                        <div class="card-subtitle">Guided calming protocol</div>
+                    </div>
+                    <span class="chevron">›</span>
+                </div>
+                <div class="card action-card" onclick="showView('view-urgentia')">
+                    <div class="card-icon"><div class="gradus-mini"><div class="gradus-bar" style="background:var(--status-failed)"></div><div class="gradus-bar" style="background:var(--status-failed)"></div><div class="gradus-bar" style="background:var(--status-failed)"></div></div></div>
+                    <div class="card-content">
+                        <div class="card-title">[ Urgentia ]</div>
+                        <div class="card-subtitle">In-the-moment support and scripts</div>
+                    </div>
+                    <span class="chevron">›</span>
+                </div>
+                <div class="card action-card" onclick="showView('view-log-episode')">
+                    <div class="card-icon"><div class="gradus-mini"><div class="gradus-bar"></div><div class="gradus-bar"></div><div class="gradus-bar"></div></div></div>
+                    <div class="card-content">
+                        <div class="card-title">[ Log Episode ]</div>
+                        <div class="card-subtitle">Record for pattern tracking</div>
+                    </div>
+                    <span class="chevron">›</span>
+                </div>
+            </section>
+font-size:2rem;">Halt</h2>
+                    <p class="respiro-instruction" id="filius-respiro-instruction" style="font-size:1.125rem;">Freeze like a statue!</p>
+                </div>
+                <div class="respiro-nav">
+                    <button class="btn btn-secondary btn-large" id="filius-respiro-prev" onclick="filiusRespiroPrev()" disabled>←</button>
+                    <button class="btn btn-primary btn-large" id="filius-respiro-next" onclick="filiusRespiroNext()">[ Next ]</button>
+                </div>
+            </section>
+
+            <!-- Filius Breathe -->
+            <section id="view-filius-breathe" class="view">
+                <button class="back-btn" onclick="showView('view-filius-home')">← Revert</button>
+                <h1 class="page-title text-center" style="font-size:1.5rem;margin-top:2rem;">Breathe With Me</h1>
+                <p class="page-subtitle text-center" style="font-size:1rem;">Follow the pacer</p>
+                <div class="breathing-pacer" style="width:180px;height:180px;margin-top:2rem;"><span class="breathing-pacer-text" id="filius-breathing-text" style="font-size:1rem;">Breathe</span></div>
+                <p class="text-center mt-lg" style="color:var(--text-secondary);font-size:1rem;font-weight:300;">Expand = breathe in<br>Contract = breathe out</p>
+                <button class="btn btn-secondary btn-large btn-block mt-lg" onclick="showView('view-filius-home')">[ Confirmed ]</button>
+            </section>
+        </main>
+
+        <nav class="bottom-nav" id="bottom-nav">
+            <button class="nav-item active" onclick="navigateTo('home')"><span class="nav-icon"><div class="gradus-bar"></div><div class="gradus-bar"></div><div class="gradus-bar"></div></span><span>Home</span></button>
+            <button class="nav-item" onclick="navigateTo('progressio')"><span class="nav-icon"><div class="gradus-bar"></div><div class="gradus-bar"></div><div class="gradus-bar"></div></span><span>Progressio</span></button>
+        </nav>
+
+        <div class="modal-overlay" id="modal-confirm">
+            <div class="modal">
+                <div class="text-center">
+                    <div class="modal-icon"><div class="gradus-confirm"><div class="gradus-bar"></div><div class="gradus-bar"></div><div class="gradus-bar"></div></div></div>
+                    <h3 class="modal-title" id="modal-title">Confirmed</h3>
+                    <p style="color:var(--text-secondary);margin-bottom:1.5rem;font-weight:300;" id="modal-message">Your data has been recorded.</p>
+                    <button class="btn btn-primary" onclick="hideModal()">[ Dismiss ]</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const state = {currentUser:'custos',currentView:'view-custos-home',statusLevel:5,episodeIntensity:5,selectedState:null,selectedInterventions:[],praxisSession:{active:false,startTime:null,preMood:null,postMood:null,skills:{praise:0,reflect:0,describe:0},currentSkillIndex:0,timer:null,secondsRemaining:900},filiusMood:null,respiroStep:0,filiusRespiroStep:0};
+        const skillPrompts=[{skill:'praise',text:'Labeled Praise',hint:'"I love how carefully you\'re building that!"'},{skill:'praise',text:'Specific Praise',hint:'"You\'re being so patient!"'},{skill:'reflect',text:'Reflect Their Words',hint:'Child: "Look at my tower!" You: "You built a tall tower!"'},{skill:'reflect',text:'Reflect Feelings',hint:'"You seem really excited about that!"'},{skill:'describe',text:'Describe Actions',hint:'"You\'re putting the blue block on top."'},{skill:'describe',text:'Describe Choices',hint:'"You decided to use all the red pieces."'}];
+        const respiroSteps=[{class:'step-halt',title:'Halt',instruction:'Freeze. Do not react. Pause here.'},{class:'step-retreat',title:'Retreat',instruction:'Imagine going into your shell. Pull your arms close.'},{class:'step-breathe',title:'Breathe',instruction:'Take 3 deep breaths. In through nose, out through mouth.'},{class:'step-reflect',title:'Reflect',instruction:'Ask yourself: "What am I feeling? What do I need?"'},{class:'step-resolve',title:'Resolve',instruction:'Now you can think clearly. What\'s one small step forward?'}];
+        const filiusRespiroSteps=[{class:'step-halt',title:'Halt',instruction:'Freeze like a statue!'},{class:'step-retreat',title:'Shell',instruction:'Hug yourself like going into a shell'},{class:'step-breathe',title:'Breathe',instruction:'Smell the flower, blow out the candle'},{class:'step-reflect',title:'Think',instruction:'How do I feel? What happened?'},{class:'step-resolve',title:'Try',instruction:'What can I do now?'}];
+        const stateVocabulary={low:['calm','content','peaceful','relaxed','stable','neutral'],medium:['uncertain','unsettled','agitated','uncomfortable','stressed','anxious'],high:['frustrated','elevated','overwhelmed','intense','dysregulated','critical']};
+        const STORAGE_KEY='praxia_data';
+        
+        // Theme
+        const html=document.documentElement,themeLabel=document.getElementById('themeLabel');
+        function getPreferredTheme(){const s=localStorage.getItem('praxia-theme');return s?s:(window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light');}
+        function setTheme(t){html.setAttribute('data-theme',t);localStorage.setItem('praxia-theme',t);if(themeLabel)themeLabel.textContent=t==='dark'?'[ NOX ]':'[ LUX ]';}
+        function toggleTheme(){setTheme(html.getAttribute('data-theme')==='dark'?'light':'dark');}
+        setTheme(getPreferredTheme());
+        
+        // Data
+        function loadData(){try{const s=localStorage.getItem(STORAGE_KEY);return s?JSON.parse(s):{sessions:[],episodes:[],statusCheckins:[],filiusCheckins:[],streak:0,lastPraxisDate:null};}catch(e){return{sessions:[],episodes:[],statusCheckins:[],filiusCheckins:[],streak:0,lastPraxisDate:null};}}
+        function saveData(d){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(d));}catch(e){}}
+        
+        // Views
+        function showView(id){document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));document.getElementById(id).classList.add('active');state.currentView=id;document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));document.querySelectorAll('.nav-item')[id.includes('progressio')?1:0].classList.add('active');if(id==='view-status-checkin'){initGauge('gauge-track','gauge-handle',v=>{state.statusLevel=v;updateStateVocabulary();});updateStateVocabulary();}else if(id==='view-log-episode'){initGauge('episode-gauge-track','episode-gauge-handle',v=>{state.episodeIntensity=v;});}else if(id==='view-progressio'){updateProgressioView();}else if(id==='view-custos-home'||id==='view-filius-home'){updateDashboard();}else if(id==='view-respiro'){state.respiroStep=0;updateRespiroStep();}else if(id==='view-filius-respiro'){state.filiusRespiroStep=0;updateFiliusRespiroStep();}}
+        function switchUser(u){state.currentUser=u;document.getElementById('toggle-custos').classList.toggle('active',u==='custos');document.getElementById('toggle-filius').classList.toggle('active',u==='filius');showView(u==='custos'?'view-custos-home':'view-filius-home');}
+        function navigateTo(p){if(state.currentUser==='custos'){showView(p==='home'?'view-custos-home':'view-progressio');}else{showView('view-filius-home');}}
+        
+        // Dashboard
+        function updateDashboard(){const d=loadData(),streak=calculateStreak(d.sessions),totalSkills=d.sessions.reduce((s,x)=>s+(x.skills?.praise||0)+(x.skills?.reflect||0)+(x.skills?.describe||0),0);document.getElementById('stat-streak').textContent=streak;document.getElementById('stat-sessions').textContent=d.sessions.length;document.getElementById('stat-skills').textContent=totalSkills;}
+        function calculateStreak(sessions){if(!sessions.length)return 0;const today=new Date();today.setHours(0,0,0,0);const dates=[...new Set(sessions.map(s=>{const d=new Date(s.date);d.setHours(0,0,0,0);return d.getTime();}))].sort((a,b)=>b-a);let streak=0,check=today.getTime();for(const date of dates){if(date===check||date===check-86400000){streak++;check=date;}else if(date<check-86400000)break;}return streak;}
+        
+        // Praxis
+        function selectPreMood(m){state.praxisSession.preMood=m;document.querySelectorAll('#pre-mood-scale .mood-scale-btn').forEach(b=>b.classList.toggle('selected',parseInt(b.dataset.mood)===m));document.getElementById('start-praxis-btn').disabled=false;}
+        function selectPostMood(m){state.praxisSession.postMood=m;document.querySelectorAll('#post-mood-scale .mood-scale-btn').forEach(b=>b.classList.toggle('selected',parseInt(b.dataset.mood)===m));document.getElementById('save-session-btn').disabled=false;}
+        function startPraxis(){state.praxisSession.active=true;state.praxisSession.startTime=Date.now();state.praxisSession.secondsRemaining=900;state.praxisSession.skills={praise:0,reflect:0,describe:0};state.praxisSession.currentSkillIndex=0;showView('view-praxis-active');updateSkillPrompt();startTimer();}
+        function startTimer(){updateTimerDisplay();state.praxisSession.timer=setInterval(()=>{state.praxisSession.secondsRemaining--;updateTimerDisplay();if(state.praxisSession.secondsRemaining<=0)endPraxis();},1000);}
+        function updateTimerDisplay(){const s=state.praxisSession.secondsRemaining,m=Math.floor(s/60),sec=s%60;document.getElementById('timer-display').textContent=`${m}:${sec.toString().padStart(2,'0')}`;const progress=1-(s/900),circ=2*Math.PI*90,offset=circ*(1-progress);document.getElementById('timer-progress').style.strokeDashoffset=offset;}
+        function updateSkillPrompt(){const p=skillPrompts[state.praxisSession.currentSkillIndex];document.getElementById('skill-prompt-text').textContent=p.text;document.getElementById('skill-prompt-hint').textContent=p.hint;document.getElementById('skill-count').textContent=state.praxisSession.skills[p.skill];}
+        function incrementSkill(){const p=skillPrompts[state.praxisSession.currentSkillIndex];state.praxisSession.skills[p.skill]++;document.getElementById('skill-count').textContent=state.praxisSession.skills[p.skill];}
+        function decrementSkill(){const p=skillPrompts[state.praxisSession.currentSkillIndex];if(state.praxisSession.skills[p.skill]>0){state.praxisSession.skills[p.skill]--;document.getElementById('skill-count').textContent=state.praxisSession.skills[p.skill];}}
+        function nextSkillPrompt(){state.praxisSession.currentSkillIndex=(state.praxisSession.currentSkillIndex+1)%skillPrompts.length;updateSkillPrompt();}
+        function endPraxisEarly(){if(confirm('Terminate session early?'))endPraxis();}
+        function endPraxis(){clearInterval(state.praxisSession.timer);state.praxisSession.active=false;const dur=Math.round((900-state.praxisSession.secondsRemaining)/60);document.getElementById('session-duration').textContent=dur||1;document.getElementById('final-praise').textContent=state.praxisSession.skills.praise;document.getElementById('final-reflect').textContent=state.praxisSession.skills.reflect;document.getElementById('final-describe').textContent=state.praxisSession.skills.describe;showView('view-praxis-complete');}
+        function saveSession(){const d=loadData();d.sessions.push({id:Date.now(),date:new Date().toISOString(),duration:Math.round((900-state.praxisSession.secondsRemaining)/60)||1,preMood:state.praxisSession.preMood,postMood:state.praxisSession.postMood,skills:{...state.praxisSession.skills},notes:document.getElementById('session-notes').value});d.lastPraxisDate=new Date().toISOString().split('T')[0];saveData(d);state.praxisSession.preMood=null;state.praxisSession.postMood=null;document.getElementById('session-notes').value='';document.querySelectorAll('#pre-mood-scale .mood-scale-btn,#post-mood-scale .mood-scale-btn').forEach(b=>b.classList.remove('selected'));showModal('Confirmed','Praxis session recorded successfully.');setTimeout(()=>{hideModal();showView('view-custos-home');},2000);}
+        
+        // Status Check-In
+        function initGauge(trackId,handleId,onChange){const track=document.getElementById(trackId),handle=document.getElementById(handleId);if(!track||!handle)return;let dragging=false;function update(x){const rect=track.getBoundingClientRect();let pct=(x-rect.left)/rect.width;pct=Math.max(0,Math.min(1,pct));const val=Math.round(pct*9)+1;handle.style.left=`${pct*100}%`;handle.textContent=val;if(onChange)onChange(val);}handle.addEventListener('mousedown',()=>dragging=true);handle.addEventListener('touchstart',()=>dragging=true);document.addEventListener('mousemove',e=>{if(dragging)update(e.clientX);});document.addEventListener('touchmove',e=>{if(dragging)update(e.touches[0].clientX);});document.addEventListener('mouseup',()=>dragging=false);document.addEventListener('touchend',()=>dragging=false);track.addEventListener('click',e=>update(e.clientX));}
+        function updateStateVocabulary(){const c=document.getElementById('state-vocabulary');if(!c)return;let words=state.statusLevel<=3?stateVocabulary.low:state.statusLevel<=6?stateVocabulary.medium:stateVocabulary.high;c.innerHTML=words.map(w=>`<span class="state-word" onclick="selectStateWord(this,'${w}')">${w}</span>`).join('');}
+        function selectStateWord(el,w){document.querySelectorAll('#state-vocabulary .state-word').forEach(x=>x.classList.remove('selected'));el.classList.add('selected');state.selectedState=w;}
+        function saveStatusCheckin(){const d=loadData();d.statusCheckins.push({id:Date.now(),timestamp:new Date().toISOString(),intensity:state.statusLevel,state:state.selectedState,context:document.getElementById('status-context').value});saveData(d);state.statusLevel=5;state.selectedState=null;document.getElementById('status-context').value='';showModal('Confirmed','Status check recorded.');setTimeout(()=>{hideModal();showView('view-custos-home');},1500);}
+        
+        // Respiro
+        function updateRespiroStep(){const s=respiroSteps[state.respiroStep];document.getElementById('respiro-visual').className='respiro-visual '+s.class;document.getElementById('respiro-title').textContent=s.title;document.getElementById('respiro-instruction').textContent=s.instruction;document.querySelectorAll('#respiro-dots .respiro-dot').forEach((d,i)=>d.classList.toggle('active',i===state.respiroStep));document.getElementById('respiro-prev').disabled=state.respiroStep===0;document.getElementById('respiro-next').textContent=state.respiroStep===respiroSteps.length-1?'[ Confirmed ]':'[ Next ]';}
+        function respiroNext(){if(state.respiroStep<respiroSteps.length-1){state.respiroStep++;updateRespiroStep();}else{showModal('Confirmed','Respiro protocol completed.');setTimeout(()=>{hideModal();showView('view-custos-home');},1500);}}
+        function respiroPrev(){if(state.respiroStep>0){state.respiroStep--;updateRespiroStep();}}
+        function updateFiliusRespiroStep(){const s=filiusRespiroSteps[state.filiusRespiroStep];document.getElementById('filius-respiro-visual').className='respiro-visual '+s.class;document.getElementById('filius-respiro-title').textContent=s.title;document.getElementById('filius-respiro-instruction').textContent=s.instruction;document.querySelectorAll('#filius-respiro-dots .respiro-dot').forEach((d,i)=>d.classList.toggle('active',i===state.filiusRespiroStep));document.getElementById('filius-respiro-prev').disabled=state.filiusRespiroStep===0;document.getElementById('filius-respiro-next').textContent=state.filiusRespiroStep===filiusRespiroSteps.length-1?'[ Confirmed ]':'[ Next ]';}
+        function filiusRespiroNext(){if(state.filiusRespiroStep<filiusRespiroSteps.length-1){state.filiusRespiroStep++;updateFiliusRespiroStep();}else{showModal('Confirmed','Great work calming down!');setTimeout(()=>{hideModal();showView('view-filius-home');},1500);}}
+        function filiusRespiroPrev(){if(state.filiusRespiroStep>0){state.filiusRespiroStep--;updateFiliusRespiroStep();}}
+        
+        // Episodes
+        function toggleIntervention(el,i){el.classList.toggle('selected');const idx=state.selectedInterventions.indexOf(i);if(idx===-1)state.selectedInterventions.push(i);else state.selectedInterventions.splice(idx,1);}
+        function saveEpisode(){const d=loadData();d.episodes.push({id:Date.now(),timestamp:new Date().toISOString(),intensity:state.episodeIntensity,trigger:document.getElementById('episode-trigger').value,interventions:[...state.selectedInterventions],duration:parseInt(document.getElementById('episode-duration').value)||null,notes:document.getElementById('episode-notes').value});saveData(d);state.episodeIntensity=5;state.selectedInterventions=[];document.getElementById('episode-trigger').value='';document.getElementById('episode-duration').value='';document.getElementById('episode-notes').value='';document.querySelectorAll('#intervention-options .state-word').forEach(w=>w.classList.remove('selected'));showModal('Confirmed','Episode logged for pattern analysis.');setTimeout(()=>{hideModal();showView('view-custos-home');},1500);}
+        
+        // Filius
+        function selectFiliusMood(m,btn){state.filiusMood=m;document.querySelectorAll('#filius-mood-grid .mood-btn').forEach(b=>b.classList.remove('selected'));btn.classList.add('selected');const d=loadData();d.filiusCheckins.push({id:Date.now(),timestamp:new Date().toISOString(),mood:m});saveData(d);showModal('Confirmed','Status recorded.');setTimeout(()=>{hideModal();btn.classList.remove('selected');},1500);}
+        
+        // Progressio
+        function updateProgressioView(){const d=loadData(),streak=calculateStreak(d.sessions);document.getElementById('progress-streak').textContent=streak;document.getElementById('progress-sessions').textContent=d.sessions.length;document.getElementById('progress-episodes').textContent=d.episodes.length;const oneWeekAgo=new Date();oneWeekAgo.setDate(oneWeekAgo.getDate()-7);const weekly=d.sessions.filter(s=>new Date(s.date)>=oneWeekAgo).reduce((a,s)=>({praise:a.praise+(s.skills?.praise||0),reflect:a.reflect+(s.skills?.reflect||0),describe:a.describe+(s.skills?.describe||0)}),{praise:0,reflect:0,describe:0});document.getElementById('weekly-praise').textContent=weekly.praise;document.getElementById('weekly-reflect').textContent=weekly.reflect;document.getElementById('weekly-describe').textContent=weekly.describe;const cal=document.getElementById('progressio-calendar'),today=new Date(),dayLabels=['S','M','T','W','T','F','S'],days=[];for(let i=6;i>=0;i--){const x=new Date(today);x.setDate(x.getDate()-i);days.push(x);}const sessionDates=new Set(d.sessions.map(s=>s.date.split('T')[0]));cal.innerHTML=days.map(x=>{const ds=x.toISOString().split('T')[0],isToday=ds===today.toISOString().split('T')[0],done=sessionDates.has(ds);return`<div class="calendar-day ${done?'completed':''} ${isToday?'today':''}">${dayLabels[x.getDay()]}</div>`;}).join('');}
+        
+        // Modal
+        function showModal(t,m){document.getElementById('modal-title').textContent=t;document.getElementById('modal-message').textContent=m;document.getElementById('modal-confirm').classList.add('active');}
+        function hideModal(){document.getElementById('modal-confirm').classList.remove('active');}
+        
+        // Breathing
+        (function(){const texts=['Inhale','Hold','Exhale','Hold'],durs=[4000,1000,4000,1000];let i=0;function update(){const p=document.getElementById('breathing-text'),f=document.getElementById('filius-breathing-text');if(p)p.textContent=texts[i];if(f)f.textContent=texts[i];setTimeout(()=>{i=(i+1)%texts.length;update();},durs[i]);}update();})();
+        
+        document.addEventListener('DOMContentLoaded',()=>updateDashboard());
+    </script>
+</body>
+</html>

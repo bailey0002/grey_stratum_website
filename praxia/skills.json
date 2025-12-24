@@ -1,0 +1,432 @@
+{
+  "meta": {
+    "version": "1.0.0",
+    "name": "Praxia Skills Library",
+    "description": "Evidence-based skill definitions with prompts, examples, and research rationale"
+  },
+  "prideSkills": {
+    "praise": {
+      "id": "praise",
+      "name": "Labeled Praise",
+      "latinName": "Laudatio",
+      "icon": "gradus-ascending",
+      "color": "accent",
+      "shortDescription": "Specific, behavior-focused praise",
+      "fullDescription": "Labeled praise identifies the exact behavior you're praising. Instead of 'Good job!' you say 'I love how gently you shared that toy with your sister!' This teaches children exactly which behaviors earn positive attention.",
+      "research": {
+        "source": "PCIT International",
+        "finding": "Labeled praise increases the target behavior by 30-50% compared to unlabeled praise.",
+        "citation": "Eyberg, S. M., & Funderburk, B. (2011). Parent-Child Interaction Therapy Protocol."
+      },
+      "targetPerSession": 10,
+      "prompts": [
+        {
+          "text": "Labeled Praise",
+          "hint": "\"I love how carefully you're building that!\""
+        },
+        {
+          "text": "Effort Praise",
+          "hint": "\"You're working so hard on that!\""
+        },
+        {
+          "text": "Behavior Praise",
+          "hint": "\"Thank you for using your gentle hands!\""
+        },
+        {
+          "text": "Patience Praise",
+          "hint": "\"You're being so patient waiting for your turn!\""
+        },
+        {
+          "text": "Specific Praise",
+          "hint": "\"I noticed you shared with your brotherâ€”that was kind!\""
+        }
+      ],
+      "examples": {
+        "good": [
+          "I love how gently you're petting the cat.",
+          "Thank you for putting your shoes by the door.",
+          "You're being so patient waiting for your turn!",
+          "I noticed you used your words to ask for thatâ€”great job!",
+          "You're really concentrating on that puzzle."
+        ],
+        "avoid": [
+          "Good job!",
+          "Nice!",
+          "That's great!",
+          "You're so smart!",
+          "You're the best!"
+        ]
+      },
+      "commonMistakes": [
+        "Using generic praise without specifying the behavior",
+        "Praising only outcomes instead of effort",
+        "Sounding insincere or forced",
+        "Praising too infrequently"
+      ]
+    },
+    "reflect": {
+      "id": "reflect",
+      "name": "Reflection",
+      "latinName": "Speculum",
+      "icon": "gradus-mirror",
+      "color": "accent",
+      "shortDescription": "Mirroring your child's words",
+      "fullDescription": "Reflection means repeating or paraphrasing what your child says. When they say 'Look at my tower!' you respond 'You built a tall tower!' This shows you're truly listening and validates their experience.",
+      "research": {
+        "source": "PCIT International",
+        "finding": "Reflections increase child verbal output by 40% and strengthen the parent-child bond.",
+        "citation": "McNeil, C. B., & Hembree-Kigin, T. L. (2010). Parent-Child Interaction Therapy."
+      },
+      "targetPerSession": 10,
+      "prompts": [
+        {
+          "text": "Word Reflection",
+          "hint": "Child: \"I made it blue!\" â†’ \"You chose blue!\""
+        },
+        {
+          "text": "Feeling Reflection",
+          "hint": "\"You seem really excited about that!\""
+        },
+        {
+          "text": "Paraphrase",
+          "hint": "Child: \"This is hard!\" â†’ \"That part is tricky.\""
+        },
+        {
+          "text": "Expand",
+          "hint": "Child: \"Big truck!\" â†’ \"That's a really big truck!\""
+        }
+      ],
+      "examples": {
+        "good": [
+          "Child: 'Look what I made!' â†’ 'You made that all by yourself!'",
+          "Child: 'It's a dinosaur!' â†’ 'It's a dinosaur!'",
+          "Child: 'I don't like this.' â†’ 'You don't like this part.'",
+          "Child: 'Watch me!' â†’ 'I'm watching you!'"
+        ],
+        "avoid": [
+          "Turning reflections into questions: 'Is that a dinosaur?'",
+          "Correcting: 'Actually, that's a brontosaurus.'",
+          "Adding opinions: 'That's a dinosaur, and it's beautiful!'"
+        ]
+      },
+      "commonMistakes": [
+        "Turning reflections into questions",
+        "Adding your own interpretation",
+        "Correcting facts or grammar",
+        "Ignoring emotional content"
+      ]
+    },
+    "imitate": {
+      "id": "imitate",
+      "name": "Imitation",
+      "latinName": "Imago",
+      "icon": "gradus-parallel",
+      "color": "accent",
+      "shortDescription": "Copying your child's play",
+      "fullDescription": "Imitation means doing what your child does during play. If they stack blocks, you stack blocks nearby. This communicates 'What you're doing is important' and shifts the power dynamic in their favor.",
+      "research": {
+        "source": "Developmental Psychology",
+        "finding": "Parental imitation of child behavior increases positive affect and decreases oppositional behavior.",
+        "citation": "Harrist, A. W., & Waugh, R. M. (2002). Dyadic synchrony."
+      },
+      "targetPerSession": 5,
+      "prompts": [
+        {
+          "text": "Parallel Play",
+          "hint": "Build what they're building, draw what they're drawing"
+        },
+        {
+          "text": "Action Mirroring",
+          "hint": "If they jump, you jump (if you can!)"
+        },
+        {
+          "text": "Sound Imitation",
+          "hint": "Make the same sound effects they make"
+        }
+      ],
+      "examples": {
+        "good": [
+          "They stack red blocks, you stack red blocks nearby",
+          "They draw circles, you draw circles",
+          "They make car sounds, you make car sounds",
+          "They use the dinosaur, you pick up another dinosaur"
+        ],
+        "avoid": [
+          "Making yours 'better' or more elaborate",
+          "Taking over their activity",
+          "Competing with their creation"
+        ]
+      },
+      "commonMistakes": [
+        "Making your version 'better'",
+        "Moving faster than them",
+        "Taking over the activity",
+        "Not narrating that you're copying"
+      ]
+    },
+    "describe": {
+      "id": "describe",
+      "name": "Description",
+      "latinName": "Narratio",
+      "icon": "gradus-flow",
+      "color": "accent",
+      "shortDescription": "Narrating your child's actions",
+      "fullDescription": "Behavioral description is like being a sportscaster. You narrate what your child is doing without evaluation: 'You're putting the red block on the blue one.' This shows attention and keeps you engaged.",
+      "research": {
+        "source": "PCIT International",
+        "finding": "Behavioral descriptions maintain child attention and increase on-task behavior by 25%.",
+        "citation": "Eyberg, S. M. (1988). Parent-Child Interaction Therapy."
+      },
+      "targetPerSession": 10,
+      "prompts": [
+        {
+          "text": "Action Description",
+          "hint": "\"You're putting the blocks together.\""
+        },
+        {
+          "text": "Choice Description",
+          "hint": "\"You decided to use the blue crayon.\""
+        },
+        {
+          "text": "Process Description",
+          "hint": "\"You're thinking about where to put that piece.\""
+        },
+        {
+          "text": "Creation Description",
+          "hint": "\"You're making the tower even taller.\""
+        }
+      ],
+      "examples": {
+        "good": [
+          "You're drawing a big circle.",
+          "You picked up the red truck.",
+          "Now you're putting them in a line.",
+          "You're using lots of different colors."
+        ],
+        "avoid": [
+          "Adding evaluation: 'You're drawing a BEAUTIFUL circle'",
+          "Asking questions: 'What are you drawing?'",
+          "Over-describing (too much narration)"
+        ]
+      },
+      "commonMistakes": [
+        "Adding evaluations or judgments",
+        "Asking questions instead",
+        "Narrating too much (overwhelming)",
+        "Missing what they're actually doing"
+      ]
+    },
+    "enjoy": {
+      "id": "enjoy",
+      "name": "Enjoyment",
+      "latinName": "Gaudium",
+      "icon": "gradus-warm",
+      "color": "status-confirmed",
+      "shortDescription": "Showing genuine enthusiasm",
+      "fullDescription": "Enjoyment is the heart of PRIDE. It means being genuinely presentâ€”putting away distractions, getting on their level, showing real interest. Children detect fake enthusiasm instantly.",
+      "research": {
+        "source": "Attachment Theory",
+        "finding": "Parental warmth and attunement are the strongest predictors of secure attachment and behavioral outcomes.",
+        "citation": "Ainsworth, M. D. S. (1979). Infant-mother attachment."
+      },
+      "targetPerSession": "continuous",
+      "prompts": [
+        {
+          "text": "Full Attention",
+          "hint": "Phone away, eyes on child, fully present"
+        },
+        {
+          "text": "Physical Engagement",
+          "hint": "Get on their level, lean in, open posture"
+        },
+        {
+          "text": "Warm Affect",
+          "hint": "Genuine smiles, relaxed expression"
+        },
+        {
+          "text": "Curiosity",
+          "hint": "Be genuinely interested in their play"
+        }
+      ],
+      "examples": {
+        "good": [
+          "Genuine laughter when something is funny",
+          "Leaning in with interest",
+          "Making warm eye contact",
+          "Relaxed, open body language"
+        ],
+        "avoid": [
+          "Checking your phone",
+          "Flat or distracted affect",
+          "Rushing through the session",
+          "Forced or fake enthusiasm"
+        ]
+      },
+      "commonMistakes": [
+        "Being distracted by devices",
+        "Going through the motions",
+        "Fake or exaggerated enthusiasm",
+        "Not getting on their physical level"
+      ]
+    }
+  },
+  "respiroSteps": [
+    {
+      "id": "halt",
+      "name": "Halt",
+      "latinName": "Subsiste",
+      "icon": "gradus-stop",
+      "color": "status-failed",
+      "instruction": "Freeze. Do not react. Pause here.",
+      "childInstruction": "Freeze like a statue!",
+      "rationale": "Stopping automatic reactions breaks the escalation cycle. Even a 2-second pause can prevent regrettable responses.",
+      "visualState": "step-halt",
+      "duration": 5
+    },
+    {
+      "id": "retreat",
+      "name": "Retreat",
+      "latinName": "Recede",
+      "icon": "gradus-contract",
+      "color": "accent",
+      "instruction": "Create space. Lower stimulation. Step back if needed.",
+      "childInstruction": "Hug yourself like going into a shell.",
+      "rationale": "Physical withdrawal reduces sensory input and signals to the brain that the threat level is decreasing.",
+      "visualState": "step-retreat",
+      "duration": 10
+    },
+    {
+      "id": "breathe",
+      "name": "Breathe",
+      "latinName": "Respira",
+      "icon": "gradus-breathe",
+      "color": "accent",
+      "instruction": "Take 3 deep breaths. In through nose, out through mouth.",
+      "childInstruction": "Smell the flower, blow out the candle.",
+      "rationale": "Slow breathing activates the parasympathetic nervous system, lowering heart rate and cortisol within 30 seconds.",
+      "visualState": "step-breathe",
+      "duration": 20,
+      "breathingPattern": {
+        "default": { "in": 4, "hold": 0, "out": 4 },
+        "advanced": { "in": 4, "hold": 7, "out": 8 }
+      }
+    },
+    {
+      "id": "reflect",
+      "name": "Reflect",
+      "latinName": "Contempla",
+      "icon": "gradus-think",
+      "color": "warmth",
+      "instruction": "Ask yourself: What am I feeling? What do I need?",
+      "childInstruction": "How do I feel? What happened?",
+      "rationale": "Naming emotions engages the prefrontal cortex, which helps regulate the amygdala's fear response.",
+      "visualState": "step-reflect",
+      "duration": 15,
+      "reflectionPrompts": [
+        "What emotion am I experiencing?",
+        "What triggered this feeling?",
+        "What do I actually need right now?",
+        "What would help me feel better?"
+      ]
+    },
+    {
+      "id": "resolve",
+      "name": "Resolve",
+      "latinName": "Resolve",
+      "icon": "gradus-ascending",
+      "color": "status-confirmed",
+      "instruction": "Now you can think clearly. What's one small step forward?",
+      "childInstruction": "What can I do now?",
+      "rationale": "Choosing a next action restores agency and moves from reactive to proactive mode.",
+      "visualState": "step-resolve",
+      "duration": 10
+    }
+  ],
+  "emotionVocabulary": {
+    "intensity": {
+      "1-2": {
+        "label": "Calm",
+        "color": "status-confirmed",
+        "words": ["peaceful", "content", "relaxed", "calm", "serene", "at ease"]
+      },
+      "3-4": {
+        "label": "Stable",
+        "color": "accent",
+        "words": ["fine", "okay", "neutral", "balanced", "steady", "alright"]
+      },
+      "5-6": {
+        "label": "Unsettled",
+        "color": "warmth",
+        "words": ["uncertain", "uncomfortable", "uneasy", "worried", "stressed", "tense"]
+      },
+      "7-8": {
+        "label": "Elevated",
+        "color": "warmth",
+        "words": ["frustrated", "agitated", "irritated", "anxious", "upset", "on edge"]
+      },
+      "9-10": {
+        "label": "Critical",
+        "color": "status-failed",
+        "words": ["overwhelmed", "furious", "out of control", "panicked", "explosive", "dysregulated"]
+      }
+    },
+    "categories": {
+      "anger": ["annoyed", "irritated", "frustrated", "angry", "furious", "enraged"],
+      "sadness": ["disappointed", "down", "sad", "hurt", "heartbroken", "devastated"],
+      "fear": ["nervous", "worried", "anxious", "scared", "terrified", "panicked"],
+      "joy": ["pleased", "happy", "excited", "thrilled", "elated", "overjoyed"],
+      "calm": ["relaxed", "peaceful", "content", "serene", "tranquil", "at ease"]
+    }
+  },
+  "urgentiaScripts": [
+    {
+      "id": "validate",
+      "name": "Validate",
+      "latinName": "Confirma",
+      "script": "I can see you're really upset right now. That's okay.",
+      "purpose": "Acknowledges the emotion without judgment",
+      "when": "First response to visible distress"
+    },
+    {
+      "id": "early-prompt",
+      "name": "Early Prompt",
+      "latinName": "Praemonitio",
+      "script": "I notice your body is getting tense. Let's take a breath together.",
+      "purpose": "Intervenes before full escalation",
+      "when": "Early warning signs visible (level 4-5)"
+    },
+    {
+      "id": "offer-choice",
+      "name": "Offer Choice",
+      "latinName": "Optio",
+      "script": "Would you like to squeeze something or go to your calm spot?",
+      "purpose": "Restores sense of control",
+      "when": "Child is dysregulated but can still process language"
+    },
+    {
+      "id": "selective-ignore",
+      "name": "Selective Ignore",
+      "latinName": "Praetermitte",
+      "script": "Stay present. Don't engage with provocations. Wait for calm.",
+      "purpose": "Avoids reinforcing negative attention-seeking",
+      "when": "Child is using behaviors designed to provoke"
+    },
+    {
+      "id": "post-calm-repair",
+      "name": "Post-Calm Repair",
+      "latinName": "Reconcilia",
+      "script": "That was hard. I'm glad you calmed down. Want to talk about what happened?",
+      "purpose": "Reconnects and processes after the storm",
+      "when": "After child has returned to baseline"
+    }
+  ],
+  "interventions": [
+    { "id": "validation", "name": "Validation", "icon": "check" },
+    { "id": "early-prompt", "name": "Early Prompt", "icon": "alert" },
+    { "id": "breathing", "name": "Co-Breathing", "icon": "wind" },
+    { "id": "choice", "name": "Offered Choice", "icon": "fork" },
+    { "id": "space", "name": "Gave Space", "icon": "expand" },
+    { "id": "respiro", "name": "Respiro", "icon": "turtle" },
+    { "id": "ignore", "name": "Selective Ignore", "icon": "pause" }
+  ]
+}

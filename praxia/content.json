@@ -1,0 +1,261 @@
+{
+  "meta": {
+    "version": "1.0.0",
+    "name": "Praxia Content Library",
+    "description": "Educational content, research citations, help text, and UI copy"
+  },
+  "app": {
+    "name": "Praxia-1",
+    "tagline": "Building connection, one praxis at a time",
+    "protocol": "Cadencia",
+    "brand": "Grey Stratum",
+    "version": "1.0.0"
+  },
+  "spaces": {
+    "schola": {
+      "name": "Schola",
+      "subtitle": "The Classroom",
+      "description": "Parent-led structured lessons and curriculum",
+      "icon": "gradus-ascending",
+      "access": ["custos"]
+    },
+    "ludus": {
+      "name": "Ludus",
+      "subtitle": "The Playground",
+      "description": "Child self-directed skill practice",
+      "icon": "gradus-play",
+      "access": ["filius"]
+    },
+    "consilium": {
+      "name": "Consilium",
+      "subtitle": "The Council",
+      "description": "Parent dashboard for progress and coordination",
+      "icon": "gradus-chart",
+      "access": ["custos"]
+    },
+    "bibliotheca": {
+      "name": "Bibliotheca",
+      "subtitle": "The Library",
+      "description": "Reference materials and research",
+      "icon": "gradus-book",
+      "access": ["custos", "filius"]
+    }
+  },
+  "navigation": {
+    "custos": [
+      { "id": "home", "label": "Home", "view": "custos-home" },
+      { "id": "schola", "label": "Schola", "view": "schola" },
+      { "id": "consilium", "label": "Consilium", "view": "consilium" },
+      { "id": "bibliotheca", "label": "Bibliotheca", "view": "bibliotheca" }
+    ],
+    "filius": [
+      { "id": "home", "label": "Home", "view": "filius-home" },
+      { "id": "ludus", "label": "Ludus", "view": "ludus" },
+      { "id": "bibliotheca", "label": "Library", "view": "bibliotheca-filius" }
+    ]
+  },
+  "onboarding": {
+    "custos": {
+      "welcome": {
+        "title": "Salve, Custos",
+        "subtitle": "Welcome to Praxia",
+        "content": "Praxia is your daily companion for evidence-based parenting techniques. Based on Parent-Child Interaction Therapy (PCIT) and Incredible Years research, this app guides you through structured lessons and daily practice to build connection and reduce challenging behaviors."
+      },
+      "steps": [
+        {
+          "title": "The Science",
+          "content": "Research shows that 10-15 minutes of daily child-directed play significantly reduces oppositional behavior. PRIDE skillsâ€”Praise, Reflect, Imitate, Describe, Enjoyâ€”are the foundation.",
+          "action": "Learn about PRIDE"
+        },
+        {
+          "title": "The Curriculum",
+          "content": "Praxia guides you through four phases: Fundamentum (Foundation), Praxis (Practice), Imperium (Mastery), and Autonomia (Independence). Each phase builds on the last.",
+          "action": "View curriculum"
+        },
+        {
+          "title": "Daily Practice",
+          "content": "Success comes from consistency. You'll complete timed practice sessions, track your skill usage, and monitor progress over time.",
+          "action": "Start your first session"
+        },
+        {
+          "title": "Family Together",
+          "content": "Praxia supports your whole family. Each parent has their own profile, and children have a separate, age-appropriate interface with their own progress tracking.",
+          "action": "Set up your family"
+        }
+      ]
+    },
+    "filius": {
+      "welcome": {
+        "title": "Salve!",
+        "subtitle": "Welcome to Praxia",
+        "content": "This is your special place to learn cool skills and have fun with your family!"
+      },
+      "steps": [
+        {
+          "title": "How You Feel",
+          "content": "Every day, you can tell us how you're feeling. Just tap the bars that match your mood!",
+          "action": "Try it now"
+        },
+        {
+          "title": "Calm Down Steps",
+          "content": "When big feelings come, you have special steps to feel better. It's called Respiro!",
+          "action": "Learn Respiro"
+        },
+        {
+          "title": "Earn Rewards",
+          "content": "The more you practice, the more cool things you unlock! Watch your Gradus bars grow!",
+          "action": "See rewards"
+        }
+      ]
+    }
+  },
+  "help": {
+    "praxis-session": {
+      "title": "About Praxis Sessions",
+      "content": "A Praxis session is 10-15 minutes of special time with your child. You follow their lead in play while practicing PRIDE skills. The timer helps you stay focused, and skill prompts remind you what to practice.",
+      "tips": [
+        "Let your child choose the activity",
+        "Put away all distractions",
+        "Get on their physical level",
+        "Don't teach, question, or correct during this time"
+      ]
+    },
+    "respiro": {
+      "title": "About Respiro",
+      "content": "Respiro is our adaptation of the Turtle Technique, a research-backed calming protocol. The five stepsâ€”Halt, Retreat, Breathe, Reflect, Resolveâ€”guide you or your child from escalation to calm.",
+      "tips": [
+        "Practice during calm moments first",
+        "Make it a game with young children",
+        "Use it yourself to model regulation",
+        "Don't force it during peak escalation"
+      ]
+    },
+    "status-check": {
+      "title": "About Status Checks",
+      "content": "Status checks build emotional awareness. Use the gauge to rate current intensity (1-10), select words that fit, and optionally note what's happening. Over time, patterns emerge that help you intervene earlier.",
+      "tips": [
+        "Do regular check-ins, not just during crisis",
+        "Notice body signals that go with each level",
+        "Use the vocabulary to expand emotional range",
+        "Review trends in your dashboard"
+      ]
+    },
+    "urgentia": {
+      "title": "About Urgentia",
+      "content": "Urgentia is your in-the-moment support during challenging situations. It provides breathing guidance, validated scripts, and quick access to Respiro. Use it when you need help staying calm.",
+      "tips": [
+        "Your calm is contagiousâ€”breathe first",
+        "Use early prompts before full escalation",
+        "After calm, always repair the connection",
+        "Log episodes for pattern analysis"
+      ]
+    },
+    "episodes": {
+      "title": "About Episode Logging",
+      "content": "Logging episodes helps identify patterns. Track intensity, triggers, what helped, and duration. Over time, you'll see which interventions work best and which situations to prepare for.",
+      "tips": [
+        "Log as soon as possible after the event",
+        "Be specific about triggers",
+        "Note what worked AND what didn't",
+        "Review weekly for patterns"
+      ]
+    }
+  },
+  "research": {
+    "pcit": {
+      "name": "Parent-Child Interaction Therapy (PCIT)",
+      "description": "PCIT is an evidence-based treatment for young children with behavioral problems. It focuses on improving the quality of the parent-child relationship and changing parent-child interaction patterns.",
+      "effectiveness": "Meta-analyses show large effect sizes (d = 1.0+) for reducing disruptive behavior and improving parenting skills.",
+      "source": "PCIT International",
+      "citation": "Eyberg, S. M., & Funderburk, B. (2011). Parent-Child Interaction Therapy Protocol. PCIT International."
+    },
+    "pride": {
+      "name": "PRIDE Skills",
+      "description": "PRIDE stands for Praise (labeled), Reflect, Imitate, Describe, and Enjoy. These are the core child-directed interaction skills that build the relationship foundation.",
+      "effectiveness": "Children of parents who master PRIDE skills show 40-60% reduction in disruptive behaviors within 8-12 weeks.",
+      "source": "PCIT Research",
+      "citation": "McNeil, C. B., & Hembree-Kigin, T. L. (2010). Parent-Child Interaction Therapy (2nd ed.). Springer."
+    },
+    "turtleTechnique": {
+      "name": "Turtle Technique",
+      "description": "The Turtle Technique teaches children to recognize anger, stop, go into their 'shell,' take deep breaths, and think of solutions. Praxia adapts this as Respiro.",
+      "effectiveness": "Studies show significant improvements in emotional regulation and problem-solving when practiced consistently.",
+      "source": "Incredible Years / PATHS Curriculum",
+      "citation": "Webster-Stratton, C. (2012). Incredible Years Parent, Teacher, and Child Training Series."
+    },
+    "emotionCoaching": {
+      "name": "Emotion Coaching",
+      "description": "Emotion coaching involves recognizing emotions, seeing them as opportunities for connection, helping children label feelings, and problem-solving together.",
+      "effectiveness": "Children of emotion-coaching parents have better emotional regulation, social skills, and academic performance.",
+      "source": "John Gottman Research",
+      "citation": "Gottman, J. M., Katz, L. F., & Hooven, C. (1996). Parental meta-emotion philosophy and the emotional life of families."
+    }
+  },
+  "ui": {
+    "actions": {
+      "confirm": "[ Confirm ]",
+      "dismiss": "[ Dismiss ]",
+      "next": "[ Next ]",
+      "back": "â† Revert",
+      "start": "[ Initiate ]",
+      "save": "[ Save ]",
+      "cancel": "[ Cancel ]",
+      "complete": "[ Complete ]"
+    },
+    "status": {
+      "active": "ACTIVE",
+      "confirmed": "CONFIRMED",
+      "failed": "FAILED",
+      "pending": "PENDING",
+      "standby": "STANDBY"
+    },
+    "labels": {
+      "streak": "Consecutio",
+      "sessions": "Sessions",
+      "skills": "Skills",
+      "phase": "Phase",
+      "level": "Level",
+      "points": "Points",
+      "achievements": "Achievements"
+    },
+    "time": {
+      "remaining": "Remaining",
+      "elapsed": "Elapsed",
+      "duration": "Duration"
+    },
+    "prompts": {
+      "preMood": "Current State Assessment",
+      "postMood": "Post-Session State",
+      "intensity": "Intensity Level",
+      "context": "Context (Optional)"
+    }
+  },
+  "notifications": {
+    "sessionComplete": {
+      "title": "Session Complete",
+      "message": "Great work! You've completed today's practice."
+    },
+    "achievementUnlocked": {
+      "title": "Achievement Unlocked",
+      "message": "You've earned a new achievement!"
+    },
+    "streakMilestone": {
+      "title": "Streak Milestone",
+      "message": "Congratulations on your practice streak!"
+    },
+    "lessonAvailable": {
+      "title": "New Lesson Available",
+      "message": "A new lesson is ready for you in Schola."
+    },
+    "reminder": {
+      "title": "Time for Practice",
+      "message": "Ready for today's Praxis session?"
+    }
+  },
+  "errors": {
+    "saveFailure": "Unable to save. Please try again.",
+    "loadFailure": "Unable to load data. Please refresh.",
+    "sessionInterrupt": "Session interrupted. Progress has been saved.",
+    "networkError": "Connection issue. Working offline."
+  }
+}

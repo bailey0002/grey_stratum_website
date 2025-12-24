@@ -1,0 +1,231 @@
+{
+  "meta": {
+    "version": "1.0.0",
+    "name": "Praxia User System",
+    "description": "User roles, profiles, and family structure definitions"
+  },
+  "roles": {
+    "custos": {
+      "id": "custos",
+      "name": "Custos",
+      "displayName": "Parent",
+      "description": "Parent or guardian with full access to curriculum, dashboard, and child management",
+      "permissions": [
+        "view-all-progress",
+        "manage-children",
+        "create-assignments",
+        "view-research",
+        "access-consilium",
+        "access-schola",
+        "access-bibliotheca",
+        "log-episodes",
+        "run-praxis-sessions"
+      ],
+      "defaultView": "custos-home",
+      "theme": "default",
+      "features": {
+        "praxisSession": true,
+        "statusCheck": true,
+        "respiro": true,
+        "urgentia": true,
+        "logEpisode": true,
+        "progressio": true,
+        "curriculum": true,
+        "assignments": true
+      }
+    },
+    "filius": {
+      "id": "filius",
+      "name": "Filius",
+      "displayName": "Child",
+      "description": "Child user with age-appropriate interface and gamified experience",
+      "permissions": [
+        "view-own-progress",
+        "complete-activities",
+        "earn-rewards",
+        "access-ludus",
+        "access-bibliotheca-child"
+      ],
+      "defaultView": "filius-home",
+      "theme": "default",
+      "features": {
+        "moodCheckin": true,
+        "respiro": true,
+        "breathe": true,
+        "rewards": true,
+        "assignments": true
+      }
+    }
+  },
+  "profileSchema": {
+    "base": {
+      "id": { "type": "string", "required": true },
+      "familyId": { "type": "string", "required": true },
+      "role": { "type": "string", "enum": ["custos", "filius"], "required": true },
+      "name": { "type": "string", "required": true },
+      "createdAt": { "type": "datetime", "required": true },
+      "lastActive": { "type": "datetime", "required": true },
+      "settings": { "type": "object", "required": false }
+    },
+    "custos": {
+      "extends": "base",
+      "additionalFields": {
+        "email": { "type": "string", "required": false },
+        "linkedChildren": { "type": "array", "items": "string", "required": false },
+        "notificationPreferences": { "type": "object", "required": false },
+        "curriculumProgress": { "type": "object", "required": false }
+      }
+    },
+    "filius": {
+      "extends": "base",
+      "additionalFields": {
+        "age": { "type": "number", "required": false },
+        "avatar": { "type": "string", "required": false },
+        "linkedCustodes": { "type": "array", "items": "string", "required": false },
+        "rewards": { "type": "object", "required": false },
+        "assignments": { "type": "array", "required": false }
+      }
+    }
+  },
+  "familySchema": {
+    "id": { "type": "string", "required": true },
+    "name": { "type": "string", "required": true },
+    "createdAt": { "type": "datetime", "required": true },
+    "members": { 
+      "type": "array", 
+      "items": {
+        "userId": "string",
+        "role": "string",
+        "joinedAt": "datetime"
+      },
+      "required": true 
+    },
+    "settings": {
+      "timezone": { "type": "string", "default": "America/New_York" },
+      "weekStartsOn": { "type": "number", "default": 0 },
+      "reminderTime": { "type": "string", "default": "18:00" }
+    },
+    "sharedProgress": {
+      "familyStreak": { "type": "number", "default": 0 },
+      "familyPoints": { "type": "number", "default": 0 },
+      "familyAchievements": { "type": "array", "default": [] }
+    }
+  },
+  "defaultProfiles": {
+    "custos1": {
+      "id": "custos-1",
+      "role": "custos",
+      "name": "Parent 1",
+      "displayLabel": "Custos Primus"
+    },
+    "custos2": {
+      "id": "custos-2", 
+      "role": "custos",
+      "name": "Parent 2",
+      "displayLabel": "Custos Secundus"
+    },
+    "filius1": {
+      "id": "filius-1",
+      "role": "filius",
+      "name": "Child 1",
+      "displayLabel": "Filius"
+    },
+    "filius2": {
+      "id": "filius-2",
+      "role": "filius",
+      "name": "Child 2",
+      "displayLabel": "Filia"
+    }
+  },
+  "settings": {
+    "defaults": {
+      "theme": "dark",
+      "soundEnabled": true,
+      "notificationsEnabled": true,
+      "hapticEnabled": true,
+      "sessionDuration": 15,
+      "breathingPattern": "default"
+    },
+    "custos": {
+      "showResearchNotes": true,
+      "showSkillHints": true,
+      "autoAdvancePrompts": false,
+      "sessionReminders": true,
+      "weeklyDigest": true
+    },
+    "filius": {
+      "simplifiedInterface": true,
+      "largerText": false,
+      "extendedAnimations": true,
+      "celebrationEffects": true
+    }
+  },
+  "dataSchema": {
+    "session": {
+      "id": "string",
+      "date": "datetime",
+      "userId": "string",
+      "type": "string",
+      "durationMinutes": "number",
+      "preMood": "number",
+      "postMood": "number",
+      "skills": {
+        "praise": "number",
+        "reflect": "number",
+        "imitate": "number",
+        "describe": "number",
+        "enjoy": "boolean"
+      },
+      "notes": "string",
+      "lessonId": "string|null",
+      "assignmentId": "string|null"
+    },
+    "episode": {
+      "id": "string",
+      "date": "datetime",
+      "loggedBy": "string",
+      "intensity": "number",
+      "trigger": "string",
+      "interventions": "array",
+      "durationMinutes": "number|null",
+      "outcome": "string",
+      "notes": "string"
+    },
+    "statusCheckin": {
+      "id": "string",
+      "date": "datetime",
+      "userId": "string",
+      "intensity": "number",
+      "words": "array",
+      "context": "string"
+    },
+    "moodCheckin": {
+      "id": "string",
+      "date": "datetime",
+      "userId": "string",
+      "mood": "number"
+    },
+    "respiroCompletion": {
+      "id": "string",
+      "date": "datetime",
+      "userId": "string",
+      "guided": "boolean",
+      "guidedBy": "string|null",
+      "preIntensity": "number|null",
+      "postIntensity": "number|null"
+    },
+    "assignment": {
+      "id": "string",
+      "createdAt": "datetime",
+      "createdBy": "string",
+      "assignedTo": "string",
+      "type": "string",
+      "description": "string",
+      "targetCount": "number",
+      "currentCount": "number",
+      "dueDate": "datetime|null",
+      "completed": "boolean",
+      "completedAt": "datetime|null"
+    }
+  }
+}

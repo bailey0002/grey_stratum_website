@@ -1,0 +1,374 @@
+{
+  "meta": {
+    "version": "1.0.0",
+    "name": "Praxia Rewards System",
+    "description": "Gamification elements including achievements, streaks, and unlockable rewards"
+  },
+  "philosophy": {
+    "principle": "Intrinsic motivation supported by meaningful recognition",
+    "notes": [
+      "Rewards acknowledge effort and growth, not just outcomes",
+      "Mystery and surprise maintain engagement without dependency",
+      "Family achievements encourage cooperation over competition",
+      "Visual progression (Gradus growth) provides ambient feedback"
+    ]
+  },
+  "streakSystem": {
+    "name": "Consecutio",
+    "description": "Consecutive days of practice",
+    "milestones": [
+      { "days": 3, "reward": "streak-bronze", "name": "Initium", "description": "Three days of practice" },
+      { "days": 7, "reward": "streak-silver", "name": "Hebdomas", "description": "One week of practice" },
+      { "days": 14, "reward": "streak-gold", "name": "Fortnight", "description": "Two weeks of practice" },
+      { "days": 30, "reward": "streak-platinum", "name": "Mensis", "description": "One month of practice" },
+      { "days": 60, "reward": "streak-diamond", "name": "Bimensis", "description": "Two months of practice" },
+      { "days": 100, "reward": "streak-legendary", "name": "Centum", "description": "One hundred days" }
+    ],
+    "recoveryGrace": 1,
+    "freezeTokens": {
+      "earnedPer": 7,
+      "maxStored": 3
+    }
+  },
+  "achievements": {
+    "custos": [
+      {
+        "id": "first-praxis",
+        "name": "Prima Praxis",
+        "description": "Complete your first practice session",
+        "icon": "gradus-1",
+        "category": "milestone",
+        "criteria": { "type": "sessions", "count": 1 },
+        "points": 10,
+        "hidden": false
+      },
+      {
+        "id": "pride-natural",
+        "name": "Naturalis",
+        "description": "Use all 5 PRIDE skills in a single session",
+        "icon": "gradus-full",
+        "category": "skill",
+        "criteria": { "type": "all-pride-single-session" },
+        "points": 25,
+        "hidden": false
+      },
+      {
+        "id": "praise-master",
+        "name": "Laudator",
+        "description": "Use 100 labeled praises",
+        "icon": "gradus-praise",
+        "category": "skill",
+        "criteria": { "type": "skill-count", "skill": "praise", "count": 100 },
+        "points": 50,
+        "hidden": false
+      },
+      {
+        "id": "reflect-master",
+        "name": "Speculator",
+        "description": "Use 100 reflections",
+        "icon": "gradus-reflect",
+        "category": "skill",
+        "criteria": { "type": "skill-count", "skill": "reflect", "count": 100 },
+        "points": 50,
+        "hidden": false
+      },
+      {
+        "id": "describe-master",
+        "name": "Narrator",
+        "description": "Use 100 behavioral descriptions",
+        "icon": "gradus-describe",
+        "category": "skill",
+        "criteria": { "type": "skill-count", "skill": "describe", "count": 100 },
+        "points": 50,
+        "hidden": false
+      },
+      {
+        "id": "week-warrior",
+        "name": "Bellator Hebdomadis",
+        "description": "Complete all sessions in a week",
+        "icon": "gradus-week",
+        "category": "consistency",
+        "criteria": { "type": "weekly-complete" },
+        "points": 30,
+        "hidden": false
+      },
+      {
+        "id": "early-bird",
+        "name": "Matutinus",
+        "description": "Complete a session before 8am",
+        "icon": "gradus-sun",
+        "category": "special",
+        "criteria": { "type": "time-of-day", "before": "08:00" },
+        "points": 15,
+        "hidden": true
+      },
+      {
+        "id": "night-owl",
+        "name": "Noctua",
+        "description": "Complete a session after 8pm",
+        "icon": "gradus-moon",
+        "category": "special",
+        "criteria": { "type": "time-of-day", "after": "20:00" },
+        "points": 15,
+        "hidden": true
+      },
+      {
+        "id": "fundamentum-complete",
+        "name": "Fundamentum",
+        "description": "Complete Phase 1: Foundation",
+        "icon": "gradus-phase-1",
+        "category": "milestone",
+        "criteria": { "type": "phase-complete", "phase": "fundamentum" },
+        "points": 100,
+        "hidden": false
+      },
+      {
+        "id": "praxis-complete",
+        "name": "Praxis",
+        "description": "Complete Phase 2: Practice",
+        "icon": "gradus-phase-2",
+        "category": "milestone",
+        "criteria": { "type": "phase-complete", "phase": "praxis" },
+        "points": 150,
+        "hidden": false
+      },
+      {
+        "id": "imperium-complete",
+        "name": "Imperium",
+        "description": "Complete Phase 3: Mastery",
+        "icon": "gradus-phase-3",
+        "category": "milestone",
+        "criteria": { "type": "phase-complete", "phase": "imperium" },
+        "points": 200,
+        "hidden": false
+      },
+      {
+        "id": "equanimity-master",
+        "name": "Aequanimitas",
+        "description": "Log 10 episodes with successful de-escalation",
+        "icon": "gradus-calm",
+        "category": "mastery",
+        "criteria": { "type": "successful-episodes", "count": 10 },
+        "points": 75,
+        "hidden": false
+      },
+      {
+        "id": "respiro-guide",
+        "name": "Dux Respiri",
+        "description": "Guide 20 Respiro sessions",
+        "icon": "gradus-breathe",
+        "category": "skill",
+        "criteria": { "type": "respiro-guided", "count": 20 },
+        "points": 60,
+        "hidden": false
+      }
+    ],
+    "filius": [
+      {
+        "id": "first-checkin",
+        "name": "Prima Vox",
+        "description": "Complete your first mood check-in",
+        "icon": "gradus-1",
+        "category": "milestone",
+        "criteria": { "type": "checkins", "count": 1 },
+        "points": 10,
+        "hidden": false
+      },
+      {
+        "id": "respiro-solo",
+        "name": "Respirator",
+        "description": "Complete Respiro on your own",
+        "icon": "gradus-breathe",
+        "category": "skill",
+        "criteria": { "type": "respiro-independent", "count": 1 },
+        "points": 25,
+        "hidden": false
+      },
+      {
+        "id": "respiro-master",
+        "name": "Magister Respiri",
+        "description": "Complete Respiro 10 times",
+        "icon": "gradus-breathe-master",
+        "category": "skill",
+        "criteria": { "type": "respiro-count", "count": 10 },
+        "points": 50,
+        "hidden": false
+      },
+      {
+        "id": "emotion-explorer",
+        "name": "Explorator",
+        "description": "Use 10 different emotion words",
+        "icon": "gradus-words",
+        "category": "skill",
+        "criteria": { "type": "unique-emotions", "count": 10 },
+        "points": 30,
+        "hidden": false
+      },
+      {
+        "id": "calm-champion",
+        "name": "Campion Quietis",
+        "description": "Successfully calm down from a high-intensity moment",
+        "icon": "gradus-victory",
+        "category": "mastery",
+        "criteria": { "type": "self-regulation-success" },
+        "points": 40,
+        "hidden": false
+      },
+      {
+        "id": "week-checkins",
+        "name": "Vigilis",
+        "description": "Check in every day for a week",
+        "icon": "gradus-week",
+        "category": "consistency",
+        "criteria": { "type": "daily-checkins", "days": 7 },
+        "points": 35,
+        "hidden": false
+      },
+      {
+        "id": "breath-counter",
+        "name": "Numerator",
+        "description": "Complete 50 breathing cycles",
+        "icon": "gradus-50",
+        "category": "practice",
+        "criteria": { "type": "breath-cycles", "count": 50 },
+        "points": 25,
+        "hidden": true
+      }
+    ],
+    "family": [
+      {
+        "id": "first-together",
+        "name": "Familia Prima",
+        "description": "Complete a practice session as a family",
+        "icon": "gradus-family",
+        "category": "milestone",
+        "criteria": { "type": "family-session" },
+        "points": 50,
+        "hidden": false
+      },
+      {
+        "id": "week-together",
+        "name": "Hebdomas Familiae",
+        "description": "Complete all weekly sessions together",
+        "icon": "gradus-family-week",
+        "category": "consistency",
+        "criteria": { "type": "family-weekly-complete" },
+        "points": 75,
+        "hidden": false
+      },
+      {
+        "id": "phase-together",
+        "name": "Progressio Communis",
+        "description": "Complete a curriculum phase as a family",
+        "icon": "gradus-family-phase",
+        "category": "milestone",
+        "criteria": { "type": "family-phase-complete" },
+        "points": 150,
+        "hidden": false
+      },
+      {
+        "id": "respiro-team",
+        "name": "Respiramus",
+        "description": "Complete Respiro together 5 times",
+        "icon": "gradus-breathe-together",
+        "category": "skill",
+        "criteria": { "type": "family-respiro", "count": 5 },
+        "points": 60,
+        "hidden": false
+      }
+    ]
+  },
+  "unlockables": {
+    "themes": [
+      {
+        "id": "theme-dawn",
+        "name": "Aurora",
+        "description": "Warm sunrise colors",
+        "unlockCriteria": { "type": "points", "count": 100 },
+        "preview": {
+          "accent": "#E9A84A",
+          "background": "#2A2420"
+        }
+      },
+      {
+        "id": "theme-forest",
+        "name": "Silva",
+        "description": "Deep forest greens",
+        "unlockCriteria": { "type": "points", "count": 200 },
+        "preview": {
+          "accent": "#4A8A66",
+          "background": "#1A221E"
+        }
+      },
+      {
+        "id": "theme-ocean",
+        "name": "Oceanus",
+        "description": "Deep ocean blues",
+        "unlockCriteria": { "type": "points", "count": 300 },
+        "preview": {
+          "accent": "#4A6A8A",
+          "background": "#1A1E22"
+        }
+      }
+    ],
+    "gradusStyles": [
+      {
+        "id": "gradus-glow",
+        "name": "Lucens",
+        "description": "Glowing Gradus bars",
+        "unlockCriteria": { "type": "streak", "days": 14 }
+      },
+      {
+        "id": "gradus-pulse",
+        "name": "Pulsus",
+        "description": "Pulsing animation",
+        "unlockCriteria": { "type": "streak", "days": 30 }
+      },
+      {
+        "id": "gradus-rainbow",
+        "name": "Iris",
+        "description": "Color-shifting Gradus",
+        "unlockCriteria": { "type": "achievement", "id": "phase-together" }
+      }
+    ],
+    "sounds": [
+      {
+        "id": "sound-chime",
+        "name": "Tintinnabulum",
+        "description": "Gentle chime for completions",
+        "unlockCriteria": { "type": "sessions", "count": 5 }
+      },
+      {
+        "id": "sound-nature",
+        "name": "Natura",
+        "description": "Nature sounds for breathing",
+        "unlockCriteria": { "type": "respiro-count", "count": 10 }
+      }
+    ]
+  },
+  "pointsEconomy": {
+    "sessionComplete": 10,
+    "skillUsed": 1,
+    "dailyCheckin": 5,
+    "respiroComplete": 8,
+    "lessonComplete": 15,
+    "assignmentComplete": 20,
+    "streakBonus": {
+      "7": 25,
+      "14": 50,
+      "30": 100
+    }
+  },
+  "levelSystem": {
+    "name": "Gradus Level",
+    "levels": [
+      { "level": 1, "name": "Initiatus", "pointsRequired": 0, "title": "Beginner" },
+      { "level": 2, "name": "Discipulus", "pointsRequired": 50, "title": "Student" },
+      { "level": 3, "name": "Practicus", "pointsRequired": 150, "title": "Practitioner" },
+      { "level": 4, "name": "Peritus", "pointsRequired": 300, "title": "Skilled" },
+      { "level": 5, "name": "Expertus", "pointsRequired": 500, "title": "Expert" },
+      { "level": 6, "name": "Magister", "pointsRequired": 750, "title": "Master" },
+      { "level": 7, "name": "Dominus", "pointsRequired": 1000, "title": "Grandmaster" }
+    ]
+  }
+}
