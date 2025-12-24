@@ -6,7 +6,8 @@
 const PraxiaUsers = (function() {
   'use strict';
 
-  const ROLES = {
+  // Default roles as fallback, will be overwritten by loadRoles
+  let rolesConfig = {
     custos: {
       id: 'custos',
       name: 'Custos',
@@ -22,6 +23,27 @@ const PraxiaUsers = (function() {
       permissions: ['view-own-progress', 'complete-activities', 'earn-rewards']
     }
   };
+
+  /**
+   * Load roles configuration from users.json
+   */
+  async function loadRoles() {
+    try {
+      const response = await fetch('./users.json');
+      const data = await response.json();
+      if (data && data.roles) {
+        rolesConfig = data.roles;
+      }
+      return rolesConfig;
+    } catch (e) {
+      console.warn('[Users] Load error, using defaults:', e);
+      return rolesConfig;
+    }
+  }
+
+  function getRoles() {
+    return rolesConfig;
+  }
 
   function initializeFamily(familyName) {
     const familyId = PraxiaStorage.generateId();
@@ -42,7 +64,7 @@ const PraxiaUsers = (function() {
     if (!data.family) { initializeFamily(); data.family = PraxiaStorage.get('family'); }
 
     const userId = PraxiaStorage.generateId();
-    const role = ROLES[userData.role] || ROLES.custos;
+    const role = rolesConfig[userData.role] || rolesConfig.custos;
     
     const user = {
       id: userId,
@@ -145,7 +167,7 @@ const PraxiaUsers = (function() {
   function hasPermission(userId, permission) {
     const user = getUser(userId);
     if (!user) return false;
-    const role = ROLES[user.role];
+    const role = rolesConfig[user.role];
     return role && role.permissions.includes(permission);
   }
 
@@ -169,7 +191,8 @@ const PraxiaUsers = (function() {
   }
 
   return {
-    ROLES,
+    loadRoles,
+    getRoles,
     initializeFamily,
     createUser,
     getUser,
