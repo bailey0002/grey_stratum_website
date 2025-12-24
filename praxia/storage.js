@@ -1,13 +1,16 @@
 /**
  * Praxia Storage Module
  * Handles all data persistence with localStorage
- * Backend-ready abstraction layer
+ * Includes in-memory caching for performance
  */
 
 const PraxiaStorage = (function() {
   'use strict';
 
   const STORAGE_KEY = 'praxia_v2';
+  
+  // Cache variable to prevent expensive JSON.parse on every read
+  let memoryCache = null;
   
   const DEFAULT_DATA = {
     version: '2.0.0',
@@ -29,27 +32,41 @@ const PraxiaStorage = (function() {
   };
 
   /**
-   * Load all data from storage
+   * Load all data from storage (uses cache if available)
    */
   function load() {
+    // Return cache if it exists to avoid blocking main thread
+    if (memoryCache) {
+      return memoryCache;
+    }
+
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
       if (raw) {
         const parsed = JSON.parse(raw);
-        return { ...DEFAULT_DATA, ...parsed };
+        // Merge with default to ensure new schema fields exist
+        memoryCache = { ...DEFAULT_DATA, ...parsed };
+      } else {
+        memoryCache = structuredClone(DEFAULT_DATA);
       }
     } catch (e) {
       console.error('[Storage] Load error:', e);
+      // Fallback to defaults on error, but don't overwrite storage yet
+      return structuredClone(DEFAULT_DATA);
     }
-    return structuredClone(DEFAULT_DATA);
+    
+    return memoryCache;
   }
 
   /**
-   * Save all data to storage
+   * Save all data to storage and update cache
    */
   function save(data) {
     try {
       data.lastModified = new Date().toISOString();
+      // Update cache immediately
+      memoryCache = data;
+      // Write to disk
       localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
       return true;
     } catch (e) {
@@ -154,9 +171,12 @@ const PraxiaStorage = (function() {
   }
 
   /**
-   * Generate unique ID
+   * Generate unique ID using Crypto API
    */
   function generateId() {
+    if (typeof crypto !== 'undefined' && crypto.randomUUID) {
+      return crypto.randomUUID();
+    }
     return `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
   }
 
@@ -165,6 +185,7 @@ const PraxiaStorage = (function() {
    */
   function clear() {
     localStorage.removeItem(STORAGE_KEY);
+    memoryCache = null; // Clear cache
     return true;
   }
 
