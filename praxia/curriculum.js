@@ -15,7 +15,7 @@ const PraxiaCurriculum = (function() {
     if (curriculumData) return curriculumData;
     
     try {
-      const response = await fetch('./config/curriculum.json');
+      const response = await fetch('./curriculum.json');
       curriculumData = await response.json();
       return curriculumData;
     } catch (e) {

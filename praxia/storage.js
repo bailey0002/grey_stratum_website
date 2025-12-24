@@ -146,6 +146,14 @@ const PraxiaStorage = (function() {
   }
 
   /**
+   * Get all items from an array key
+   */
+  function getAll(key) {
+    const data = load();
+    return data[key] || [];
+  }
+
+  /**
    * Generate unique ID
    */
   function generateId() {
@@ -158,6 +166,19 @@ const PraxiaStorage = (function() {
   function clear() {
     localStorage.removeItem(STORAGE_KEY);
     return true;
+  }
+
+  /**
+   * Clear a specific key (reset array to empty)
+   */
+  function clearKey(key) {
+    const data = load();
+    if (Array.isArray(data[key])) {
+      data[key] = [];
+    } else {
+      delete data[key];
+    }
+    return save(data);
   }
 
   /**
@@ -192,8 +213,10 @@ const PraxiaStorage = (function() {
     update,
     remove,
     query,
+    getAll,
     generateId,
     clear,
+    clearKey,
     exportData,
     importData
   };

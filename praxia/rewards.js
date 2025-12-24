@@ -14,7 +14,7 @@ const PraxiaRewards = (function() {
   async function loadRewards() {
     if (rewardsData) return rewardsData;
     try {
-      const response = await fetch('./config/rewards.json');
+      const response = await fetch('./rewards.json');
       rewardsData = await response.json();
       return rewardsData;
     } catch (e) {
@@ -24,6 +24,13 @@ const PraxiaRewards = (function() {
   }
 
   function getRewardsConfig() {
+    return rewardsData;
+  }
+
+  /**
+   * Alias for getRewardsConfig (backward compatibility)
+   */
+  function getRewards() {
     return rewardsData;
   }
 
@@ -287,6 +294,7 @@ const PraxiaRewards = (function() {
   return {
     loadRewards,
     getRewardsConfig,
+    getRewards,
     calculateStreak,
     updateStreak,
     getAchievements,

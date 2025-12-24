@@ -83,7 +83,7 @@
   --z-header: 100;
   --z-modal: 200;
   --z-toast: 300;
-  --container-max: 600px;
+  --container-max: 480px;
   --header-height: 72px;
   --nav-height: 64px;
 }
@@ -136,8 +136,6 @@ body {
    ---------------------------------------- */
 
 .app-container { max-width: var(--container-max); margin: 0 auto; min-height: 100vh; min-height: 100dvh; background: var(--bg-primary); position: relative; }
-@media (min-width: 768px) { .app-container { max-width: 680px; } }
-@media (min-width: 1024px) { .app-container { max-width: 760px; } }
 .main-content { padding: var(--space-lg); padding-bottom: calc(var(--nav-height) + var(--space-xl)); }
 .view { display: none; animation: fadeIn var(--transition-slow) ease; }
 .view.active { display: block; }
