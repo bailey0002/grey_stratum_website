@@ -13,6 +13,7 @@ const Praxia = (function() {
     praxisSession: {
       active: false,
       startTime: null,
+      targetEndTime: null, // Used for drift-proof timing
       timer: null,
       secondsRemaining: 900,
       preMood: null,
@@ -25,6 +26,15 @@ const Praxia = (function() {
     gauge: { value: 5 },
     selectedWords: new Set(),
     selectedInterventions: new Set()
+  };
+
+  // DOM Cache to prevent thrashing
+  const domCache = {
+    timerDisplay: null,
+    timerProgress: null,
+    skillCount: null,
+    skillText: null,
+    skillHint: null
   };
 
   // Skill prompts
@@ -62,7 +72,8 @@ const Praxia = (function() {
     // Load configurations
     await Promise.all([
       PraxiaCurriculum.loadCurriculum(),
-      PraxiaRewards.loadRewards()
+      PraxiaRewards.loadRewards(),
+      PraxiaUsers.loadRoles() // Ensure roles are loaded from JSON
     ]);
 
     // Initialize or load user data
@@ -78,15 +89,36 @@ const Praxia = (function() {
     initGauges();
     startBreathingAnimation();
     
-    // Navigate to home
-    const user = PraxiaUsers.getActiveUser();
-    navigateToHome(user?.role || 'custos');
+    // Check for active session persistence (Resume if crashed/refreshed)
+    const savedSession = localStorage.getItem('praxia_active_session');
+    if (savedSession) {
+      try {
+        const sessionData = JSON.parse(savedSession);
+        // Only resume if valid and not expired
+        if (sessionData && sessionData.targetEndTime > Date.now()) {
+          resumePraxis(sessionData);
+        } else {
+          localStorage.removeItem('praxia_active_session');
+          navigateToHomeDefault();
+        }
+      } catch (e) {
+        console.error('Error resuming session', e);
+        navigateToHomeDefault();
+      }
+    } else {
+      navigateToHomeDefault();
+    }
     
     // Update dashboard
     updateDashboard();
     
     state.initialized = true;
     console.log('[Praxia] Initialized');
+  }
+
+  function navigateToHomeDefault() {
+    const user = PraxiaUsers.getActiveUser();
+    navigateToHome(user?.role || 'custos');
   }
 
   /**
@@ -298,74 +330,116 @@ const Praxia = (function() {
   }
 
   function startPraxis() {
+    const durationSeconds = 900; // 15 mins
+    
     state.praxisSession.active = true;
     state.praxisSession.startTime = Date.now();
-    state.praxisSession.secondsRemaining = 900;
+    // Drift-proof timing: Use target end time
+    state.praxisSession.targetEndTime = Date.now() + (durationSeconds * 1000);
+    state.praxisSession.secondsRemaining = durationSeconds;
     state.praxisSession.skills = { praise: 0, reflect: 0, imitate: 0, describe: 0, enjoy: 0 };
     state.praxisSession.currentSkillIndex = 0;
 
+    // Cache DOM elements for performance
+    cacheTimerDOM();
+    
     showView('view-praxis-active');
     updateSkillPrompt();
     updateTimerDisplay();
-    setTimerProgress(state.praxisSession.secondsRemaining, 900);
+    setTimerProgress(durationSeconds, 900);
+    
+    startTimerLoop();
+    saveActiveSessionState();
+  }
 
+  function resumePraxis(savedSession) {
+    state.praxisSession = savedSession;
+    state.praxisSession.active = true;
+    
+    cacheTimerDOM();
+    showView('view-praxis-active');
+    updateSkillPrompt();
+    startTimerLoop();
+  }
+
+  function cacheTimerDOM() {
+    domCache.timerDisplay = document.getElementById('timer-display');
+    domCache.timerProgress = document.getElementById('timer-progress');
+    domCache.skillCount = document.getElementById('skill-count');
+    domCache.skillText = document.getElementById('skill-prompt-text');
+    domCache.skillHint = document.getElementById('skill-prompt-hint');
+  }
+
+  function startTimerLoop() {
+    if (state.praxisSession.timer) clearInterval(state.praxisSession.timer);
+    
     state.praxisSession.timer = setInterval(() => {
-      state.praxisSession.secondsRemaining--;
-      updateTimerDisplay();
-      setTimerProgress(state.praxisSession.secondsRemaining, 900);
+      // Calculate remaining time based on current time vs target (fixes background drift)
+      const now = Date.now();
+      const remaining = Math.ceil((state.praxisSession.targetEndTime - now) / 1000);
       
-      if (state.praxisSession.secondsRemaining <= 0) {
+      state.praxisSession.secondsRemaining = remaining;
+      updateTimerDisplay();
+      setTimerProgress(remaining, 900);
+      
+      // Persist state occasionally (every 5s) or just save on change
+      // For simplicity, we save state on important skill interactions, not every second
+      
+      if (remaining <= 0) {
         completePraxis();
       }
     }, 1000);
   }
 
+  function saveActiveSessionState() {
+    if (!state.praxisSession.active) return;
+    localStorage.setItem('praxia_active_session', JSON.stringify(state.praxisSession));
+  }
+
   function updateTimerDisplay() {
-    const sec = state.praxisSession.secondsRemaining;
+    const sec = Math.max(0, state.praxisSession.secondsRemaining);
     const m = Math.floor(sec / 60);
     const s = sec % 60;
-    const el = document.getElementById('timer-display');
-    if (el) el.textContent = `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+    
+    if (domCache.timerDisplay) {
+        domCache.timerDisplay.textContent = `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+    }
   }
 
   function setTimerProgress(remaining, total) {
-    const circle = document.getElementById('timer-progress');
-    if (!circle) return;
+    if (!domCache.timerProgress) return;
     const circumference = 565;
-    const progress = remaining / total;
-    circle.style.strokeDashoffset = String(circumference * (1 - progress));
+    const progress = Math.max(0, remaining) / total;
+    domCache.timerProgress.style.strokeDashoffset = String(circumference * (1 - progress));
   }
 
   function updateSkillPrompt() {
     const prompt = SKILL_PROMPTS[state.praxisSession.currentSkillIndex];
-    const textEl = document.getElementById('skill-prompt-text');
-    const hintEl = document.getElementById('skill-prompt-hint');
-    const countEl = document.getElementById('skill-count');
-
-    if (textEl) textEl.textContent = prompt.text;
-    if (hintEl) hintEl.textContent = prompt.hint;
-    if (countEl) countEl.textContent = String(state.praxisSession.skills[prompt.skill] || 0);
+    if (domCache.skillText) domCache.skillText.textContent = prompt.text;
+    if (domCache.skillHint) domCache.skillHint.textContent = prompt.hint;
+    if (domCache.skillCount) domCache.skillCount.textContent = String(state.praxisSession.skills[prompt.skill] || 0);
   }
 
   function incrementSkill() {
     const prompt = SKILL_PROMPTS[state.praxisSession.currentSkillIndex];
     state.praxisSession.skills[prompt.skill]++;
-    const countEl = document.getElementById('skill-count');
-    if (countEl) countEl.textContent = String(state.praxisSession.skills[prompt.skill]);
+    if (domCache.skillCount) domCache.skillCount.textContent = String(state.praxisSession.skills[prompt.skill]);
+    saveActiveSessionState();
   }
 
   function decrementSkill() {
     const prompt = SKILL_PROMPTS[state.praxisSession.currentSkillIndex];
     if (state.praxisSession.skills[prompt.skill] > 0) {
       state.praxisSession.skills[prompt.skill]--;
-      const countEl = document.getElementById('skill-count');
-      if (countEl) countEl.textContent = String(state.praxisSession.skills[prompt.skill]);
+      if (domCache.skillCount) domCache.skillCount.textContent = String(state.praxisSession.skills[prompt.skill]);
+      saveActiveSessionState();
     }
   }
 
   function nextSkillPrompt() {
     state.praxisSession.currentSkillIndex = (state.praxisSession.currentSkillIndex + 1) % SKILL_PROMPTS.length;
     updateSkillPrompt();
+    saveActiveSessionState();
   }
 
   function endPraxisEarly() {
@@ -377,6 +451,7 @@ const Praxia = (function() {
   function completePraxis() {
     clearInterval(state.praxisSession.timer);
     state.praxisSession.active = false;
+    localStorage.removeItem('praxia_active_session');
 
     const duration = Math.max(1, Math.round((900 - state.praxisSession.secondsRemaining) / 60));
     
@@ -482,6 +557,7 @@ const Praxia = (function() {
     else if (state.gauge.value <= 6) words = STATE_WORDS.medium;
     else words = STATE_WORDS.high;
 
+    // Use textContent binding where possible, but here we rebuild buttons
     container.innerHTML = words.map(w => 
       `<span class="state-word ${state.selectedWords.has(w) ? 'selected' : ''}" data-word="${w}">${w}</span>`
     ).join('');
@@ -1128,7 +1204,6 @@ const Praxia = (function() {
   }
 
   function executeReset() {
-    // Fixed: Use clearKey instead of clear for specific keys
     PraxiaStorage.clearKey('sessions');
     PraxiaStorage.clearKey('episodes');
     PraxiaStorage.set('curriculumProgress', { currentWeek: 1, completedLessons: [] });
