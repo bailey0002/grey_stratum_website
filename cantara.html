@@ -3,34 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="color-scheme" content="light dark">
-    <title>Cantara — Grey Stratum</title>
-
-        <link rel="icon" type="image/png" href="/my-favicon/favicon-96x96.png" sizes="96x96">
-    <link rel="icon" type="image/svg+xml" href="/my-favicon/favicon.svg">
-    <link rel="shortcut icon" href="/my-favicon/favicon.ico">
-    <link rel="apple-touch-icon" sizes="180x180" href="/my-favicon/apple-touch-icon.png">
-    <link rel="manifest" href="/my-favicon/site.webmanifest">
+    <title>Cantara | Grey Stratum</title>
+    <meta name="description" content="AI-powered music creation with section-by-section control.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="icon" type="image/png" href="/my-favicon/favicon-96x96.png" sizes="96x96">
-    <link rel="icon" type="image/svg+xml" href="/my-favicon/favicon.svg">
-    <link rel="shortcut icon" href="/my-favicon/favicon.ico">
-    <link rel="apple-touch-icon" sizes="180x180" href="/my-favicon/apple-touch-icon.png">
-    <link rel="manifest" href="/my-favicon/site.webmanifest">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Archivo:wght@300;400;500&family=Fira+Code:wght@400&display=swap" rel="stylesheet">
-
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@300;400;500&family=Inter:wght@300;400;500&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        /* Light Theme */
-        :root, [data-theme="light"] {
+        :root {
+            /* Light Mode */
             --bg-primary: #f8f9fa;
-            --bg-secondary: #99ACB0;
             --bg-card: #ffffff;
             --text-primary: #1a1a1a;
             --text-secondary: #4a4f54;
@@ -38,124 +19,86 @@
             --text-faint: #7a818a;
             --gray-muted: #99ACB0;
             --border-color: #d8dce0;
-            --border-light: #c8ccd0;
             --cyan-accent: #5BA4B5;
-            --card-gradient-end: #e8ebed;
         }
 
-        /* Dark Theme */
         [data-theme="dark"] {
             --bg-primary: #1a1d21;
-            --bg-secondary: #2d333b;
             --bg-card: #22272e;
             --text-primary: #e6edf3;
             --text-secondary: #adbac7;
             --text-muted: #768390;
             --text-faint: #636e7b;
-            --gray-muted: #768390;
             --border-color: #373e47;
-            --border-light: #444c56;
-            --cyan-accent: #5BA4B5;
-            --card-gradient-end: #2d333b;
         }
 
-        html {
-            background-color: var(--bg-primary);
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'Inter', sans-serif;
             background-color: var(--bg-primary);
             color: var(--text-primary);
-            line-height: 1.7;
+            line-height: 1.6;
             font-weight: 300;
-            transition: background-color 0.4s ease, color 0.4s ease;
+            min-height: 100vh;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
-
-        /* Header */
-        header {
-            padding: 2rem;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            border-bottom: 1px solid var(--border-color);
-            background-color: var(--bg-primary);
-            transition: background-color 0.4s ease, border-color 0.4s ease;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            font-family: 'Archivo', sans-serif;
-            font-size: 1.6rem;
-            font-weight: 300;
-            letter-spacing: 0.35em;
-            text-transform: uppercase;
-            text-decoration: none;
-        }
-
-        .logo-grey { color: var(--gray-muted); transition: color 0.4s ease; }
-        .logo-stratum { color: var(--text-primary); transition: color 0.4s ease; }
-
-        .logo-gradus {
-            display: flex;
-            align-items: center;
-            gap: 3px;
-            margin: 0 1rem;
-            height: 1.2em;
-        }
-
-        .gradus-bar {
-            width: 3px;
-            background-color: var(--cyan-accent);
-            border-radius: 1.5px;
-            transition: height 0.3s ease, opacity 0.3s ease;
-        }
-
-        .gradus-bar:nth-child(1) { height: 40%; opacity: 0.5; }
-        .gradus-bar:nth-child(2) { height: 65%; opacity: 0.75; }
-        .gradus-bar:nth-child(3) { height: 90%; opacity: 1; }
-
-        [data-theme="dark"] .gradus-bar:nth-child(1) { height: 90%; opacity: 1; }
-        [data-theme="dark"] .gradus-bar:nth-child(2) { height: 65%; opacity: 0.75; }
-        [data-theme="dark"] .gradus-bar:nth-child(3) { height: 40%; opacity: 0.5; }
 
         /* Navigation */
-        nav {
-            padding: 1.25rem 2rem;
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 1.5rem 3rem;
             display: flex;
-            justify-content: center;
+            justify-content: space-between;
             align-items: center;
-            gap: 3.5rem;
+            background: var(--bg-primary);
             border-bottom: 1px solid var(--border-color);
-            background-color: var(--bg-primary);
-            transition: background-color 0.4s ease, border-color 0.4s ease;
+            z-index: 100;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
         }
 
-        nav a {
-            position: relative;
-            font-size: 0.7rem;
+        .nav-brand {
+            font-family: 'Archivo', sans-serif;
+            font-weight: 300;
+            font-size: 0.75rem;
             letter-spacing: 0.25em;
             text-transform: uppercase;
-            text-decoration: none;
             color: var(--text-muted);
-            transition: color 0.3s ease;
+            text-decoration: none;
+            transition: color 0.2s ease;
         }
 
-        nav a:hover, nav a.active { color: var(--text-primary); }
-
-        nav a::after {
-            content: '';
-            position: absolute;
-            bottom: -4px;
-            left: 0;
-            width: 0;
-            height: 1px;
-            background-color: var(--cyan-accent);
-            transition: width 0.3s ease;
+        .nav-brand:hover {
+            color: var(--text-primary);
         }
 
-        nav a:hover::after, nav a.active::after { width: 100%; }
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            font-family: 'Archivo', sans-serif;
+            font-weight: 400;
+            font-size: 0.7rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--text-primary);
+        }
 
         /* Dropdown */
         .nav-dropdown {
@@ -163,26 +106,21 @@
         }
 
         .nav-dropdown-trigger {
+            font-family: 'Archivo', sans-serif;
+            font-weight: 400;
             font-size: 0.7rem;
-            letter-spacing: 0.25em;
+            letter-spacing: 0.15em;
             text-transform: uppercase;
             color: var(--text-muted);
+            text-decoration: none;
             cursor: pointer;
-            transition: color 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 0.4rem;
+            background: none;
+            border: none;
+            transition: color 0.2s ease;
         }
 
-        .nav-dropdown-trigger:hover,
-        .nav-dropdown-trigger.active {
+        .nav-dropdown-trigger:hover {
             color: var(--text-primary);
-        }
-
-        .nav-dropdown-trigger::after {
-            content: '▾';
-            font-size: 0.6rem;
-            opacity: 0.6;
         }
 
         .nav-dropdown-menu {
@@ -190,14 +128,15 @@
             top: 100%;
             left: 50%;
             transform: translateX(-50%);
-            margin-top: 1rem;
-            background: var(--bg-primary);
+            background: var(--bg-card);
             border: 1px solid var(--border-color);
-            min-width: 140px;
+            border-radius: 6px;
+            padding: 0.75rem 0;
+            min-width: 180px;
             opacity: 0;
             visibility: hidden;
             transition: all 0.3s ease;
-            z-index: 100;
+            margin-top: 0;
         }
 
         .nav-dropdown:hover .nav-dropdown-menu {
@@ -206,561 +145,486 @@
             margin-top: 0.5rem;
         }
 
-        .nav-dropdown-menu a {
+        .nav-dropdown-item {
             display: block;
-            padding: 0.75rem 1rem;
-            font-size: 0.65rem;
-            letter-spacing: 0.15em;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .nav-dropdown-menu a:last-child {
-            border-bottom: none;
-        }
-
-        .nav-dropdown-menu a:hover {
-            background: var(--bg-card);
-        }
-
-        .nav-dropdown-menu a::after {
-            display: none;
-        }
-
-        .nav-divider {
-            width: 1px;
-            height: 12px;
-            background-color: var(--border-light);
-            transition: background-color 0.4s ease;
-        }
-
-        .theme-toggle {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
-            user-select: none;
-        }
-
-        .toggle-label {
-            font-family: 'Fira Code', monospace;
-            font-size: 0.6rem;
-            letter-spacing: 0.15em;
-            color: var(--text-faint);
-            transition: color 0.3s ease;
-        }
-
-        .toggle-indicator {
-            display: flex;
-            align-items: center;
-            gap: 2px;
-        }
-
-        .toggle-bar {
-            width: 2px;
-            background-color: var(--cyan-accent);
-            border-radius: 1px;
-            transition: height 0.3s ease, opacity 0.3s ease;
-        }
-
-        .toggle-bar:nth-child(1) { height: 8px; opacity: 0.5; }
-        .toggle-bar:nth-child(2) { height: 12px; opacity: 0.75; }
-        .toggle-bar:nth-child(3) { height: 16px; opacity: 1; }
-
-        [data-theme="dark"] .toggle-bar:nth-child(1) { height: 16px; opacity: 1; }
-        [data-theme="dark"] .toggle-bar:nth-child(2) { height: 12px; opacity: 0.75; }
-        [data-theme="dark"] .toggle-bar:nth-child(3) { height: 8px; opacity: 0.5; }
-
-        .theme-toggle:hover .toggle-label { color: var(--cyan-accent); }
-
-        /* Code text */
-        .code-text {
-            font-family: 'Fira Code', monospace;
-            font-size: 0.65rem;
-            letter-spacing: 0.15em;
-            color: var(--text-faint);
-            transition: color 0.4s ease;
-        }
-
-        .code-text.cyan { color: var(--cyan-accent); }
-
-        /* Hero Section */
-        .hero {
-            padding: 5rem 2rem 4rem;
-            text-align: center;
-            max-width: 850px;
-            margin: 0 auto;
-            background-color: var(--bg-primary);
-            transition: background-color 0.4s ease;
-        }
-
-        .hero-logo {
-            width: 72px;
-            height: 72px;
-            margin: 0 auto 2rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            background: var(--bg-card);
-            transition: all 0.4s ease;
-        }
-
-        .hero-logo img {
-            width: 48px;
-            height: auto;
-            opacity: 0.9;
-        }
-
-        .hero h1 {
+            padding: 0.5rem 1.25rem;
             font-family: 'Archivo', sans-serif;
-            font-size: 2.8rem;
-            font-weight: 300;
-            letter-spacing: 0.25em;
-            text-transform: uppercase;
-            color: var(--text-primary);
-            margin-bottom: 0.5rem;
-            transition: color 0.4s ease;
-        }
-
-        .hero .subtitle {
-            font-size: 0.85rem;
-            letter-spacing: 0.2em;
+            font-size: 0.65rem;
+            letter-spacing: 0.1em;
             text-transform: uppercase;
             color: var(--text-muted);
-            margin-bottom: 2.5rem;
+            text-decoration: none;
+            transition: all 0.2s ease;
         }
 
-        .hero .instrumentum {
+        .nav-dropdown-item:hover {
+            color: var(--cyan-accent);
+            background: rgba(91, 164, 181, 0.1);
+        }
+
+        /* Theme Toggle */
+        .theme-toggle {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 0.1em;
+            color: var(--cyan-accent);
+            background: none;
+            border: 1px solid var(--cyan-accent);
+            padding: 0.4rem 0.75rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .theme-toggle:hover {
+            background: rgba(91, 164, 181, 0.1);
+        }
+
+        /* Hero */
+        .hero {
+            padding: 10rem 3rem 5rem;
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .protocol-badge {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.7rem;
+            color: var(--cyan-accent);
+            letter-spacing: 0.15em;
+            margin-bottom: 2rem;
+        }
+
+        .hero-title {
+            font-family: 'Archivo', sans-serif;
+            font-weight: 300;
+            font-size: 3.5rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--text-primary);
+            margin-bottom: 0.75rem;
+        }
+
+        .hero-instrumentum {
             font-family: 'Fira Code', monospace;
             font-size: 0.75rem;
-            letter-spacing: 0.2em;
-            color: var(--cyan-accent);
-            margin-bottom: 0.5rem;
-        }
-
-        .hero p {
-            font-size: 1.05rem;
-            color: var(--text-secondary);
-            max-width: 520px;
-            margin: 0 auto 3rem auto;
-            line-height: 1.85;
-        }
-
-        /* Buttons */
-        .btn-ghost {
-            display: inline-block;
-            padding: 1rem 2.5rem;
-            border: 1px solid var(--text-primary);
-            color: var(--text-primary);
-            text-decoration: none;
-            font-size: 0.7rem;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            transition: all 0.4s ease;
-            background: transparent;
-            cursor: pointer;
-            margin: 0 0.5rem;
-        }
-
-        .btn-ghost:hover {
-            background-color: var(--text-primary);
-            color: var(--bg-primary);
-        }
-
-        .btn-ghost.secondary {
-            border-color: var(--border-light);
             color: var(--text-muted);
+            letter-spacing: 0.1em;
+            margin-bottom: 2rem;
         }
 
-        .btn-ghost.secondary:hover {
-            border-color: var(--text-primary);
-            color: var(--text-primary);
-            background: transparent;
-        }
-
-        /* Divider */
-        .divider-row {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 2rem 0;
-            gap: 1rem;
-        }
-
-        .divider-line {
-            width: 80px;
-            height: 1px;
-            background-color: var(--border-color);
-            transition: background-color 0.4s ease;
-        }
-
-        .divider-dot {
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background-color: var(--cyan-accent);
-        }
-
-        /* Capabilities Section */
-        .capabilities {
-            padding: 3rem 2rem 4rem;
-            text-align: center;
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-
-        .capabilities-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
-            margin-top: 2.5rem;
-        }
-
-        .card {
-            background: linear-gradient(180deg, var(--bg-card), var(--card-gradient-end));
-            border: 1px solid var(--border-color);
-            padding: 2rem;
-            text-align: left;
-            transition: all 0.4s ease;
-        }
-
-        .card:hover {
-            border-color: var(--cyan-accent);
-        }
-
-        .card h3 {
-            font-family: 'Archivo', sans-serif;
-            font-size: 1rem;
-            font-weight: 400;
-            letter-spacing: 0.08em;
-            margin-bottom: 0.75rem;
-            color: var(--text-primary);
-        }
-
-        .card p {
-            font-size: 0.9rem;
+        .hero-description {
+            font-size: 1.1rem;
             color: var(--text-secondary);
-            line-height: 1.7;
+            max-width: 600px;
+            margin: 0 auto 3rem;
+            line-height: 1.8;
         }
 
-        /* Architecture Section */
-        .architecture {
-            padding: 3rem 2rem 4rem;
-            text-align: center;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .arch-diagram {
-            margin-top: 2rem;
-            padding: 2rem;
-            border: 1px solid var(--border-color);
-            background: var(--bg-card);
-            transition: all 0.4s ease;
-        }
-
-        .arch-flow {
+        .hero-actions {
             display: flex;
-            align-items: center;
-            justify-content: center;
             gap: 1rem;
+            justify-content: center;
             flex-wrap: wrap;
         }
 
-        .arch-node {
-            padding: 0.6rem 1rem;
-            font-size: 0.75rem;
+        /* Buttons */
+        .btn-bracket {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.875rem 1.75rem;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.7rem;
             letter-spacing: 0.1em;
             text-transform: uppercase;
-            border: 1px solid var(--border-color);
-            background: var(--bg-primary);
-            color: var(--text-secondary);
-            transition: all 0.4s ease;
-        }
-
-        .arch-node.accent {
-            border-color: var(--cyan-accent);
+            text-decoration: none;
+            border: 1px solid var(--cyan-accent);
+            border-radius: 4px;
+            background: transparent;
             color: var(--cyan-accent);
+            cursor: pointer;
+            transition: all 0.2s ease;
         }
 
-        .arch-arrow {
-            color: var(--text-faint);
-            font-size: 1rem;
+        .btn-bracket:hover {
+            background: rgba(91, 164, 181, 0.1);
+            box-shadow: 0 0 20px rgba(91, 164, 181, 0.2);
         }
 
-        /* Use Cases */
-        .use-cases {
-            padding: 3rem 2rem 4rem;
-            max-width: 800px;
+        .btn-bracket-primary {
+            background: var(--cyan-accent);
+            color: var(--bg-primary);
+        }
+
+        .btn-bracket-primary:hover {
+            background: #4A8A99;
+            box-shadow: 0 0 30px rgba(91, 164, 181, 0.3);
+        }
+
+        /* Sections */
+        .section {
+            padding: 5rem 3rem;
+            max-width: 1100px;
             margin: 0 auto;
         }
 
-        .use-case-list {
-            margin-top: 2rem;
+        .section-label {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 2.5rem;
+            text-align: center;
         }
 
-        .use-case-item {
+        /* Instrumentum Grid */
+        .instrumentum-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+
+        .instrumentum-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 2rem;
+            transition: all 0.2s ease;
+        }
+
+        .instrumentum-card:hover {
+            border-color: var(--cyan-accent);
+            box-shadow: 0 0 0 1px rgba(91, 164, 181, 0.3);
+        }
+
+        .card-header {
             display: flex;
-            align-items: flex-start;
+            align-items: center;
             gap: 1rem;
-            padding: 1.25rem 0;
-            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 1rem;
         }
 
-        .use-case-item:last-child {
-            border-bottom: none;
+        .gradus-mark {
+            display: flex;
+            align-items: flex-end;
+            gap: 3px;
+            height: 24px;
         }
 
-        .use-case-icon {
-            color: var(--cyan-accent);
-            font-size: 0.6rem;
-            margin-top: 0.5rem;
+        .gradus-bar {
+            width: 4px;
+            border-radius: 9999px;
+            background: linear-gradient(180deg, #6BB8C9, #4A7C8A);
         }
 
-        .use-case-item p {
+        .gradus-bar-1 { height: 40%; }
+        .gradus-bar-2 { height: 65%; }
+        .gradus-bar-3 { height: 90%; }
+
+        .card-title {
+            font-family: 'Archivo', sans-serif;
+            font-weight: 300;
+            font-size: 1.25rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--text-primary);
+        }
+
+        .card-description {
+            font-size: 0.9375rem;
             color: var(--text-secondary);
-            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
             line-height: 1.7;
         }
 
-        .use-case-item strong {
-            color: var(--text-primary);
-            font-weight: 400;
-        }
-
-        /* Footer */
-        footer {
-            text-align: center;
-            padding: 3rem 2rem;
-            border-top: 1px solid var(--border-color);
-        }
-
-        .footer-logo {
+        .card-status {
             display: flex;
             align-items: center;
-            justify-content: center;
-            gap: 0.75rem;
-            margin-bottom: 1rem;
-            font-family: 'Archivo', sans-serif;
-            font-size: 0.8rem;
-            letter-spacing: 0.25em;
+            gap: 0.5rem;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 0.1em;
             text-transform: uppercase;
         }
 
-        .footer-logo .logo-grey { color: var(--gray-muted); }
-        .footer-logo .logo-stratum { color: var(--text-primary); }
-
-        .footer-divider {
-            width: 1px;
-            height: 10px;
-            background-color: var(--cyan-accent);
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
         }
 
-        footer .code-text {
-            margin-top: 0.5rem;
+        .status-active {
+            background: var(--cyan-accent);
+            box-shadow: 0 0 8px var(--cyan-accent);
+        }
+
+        .status-pending {
+            background: var(--text-muted);
+        }
+
+        /* Capability Grid */
+        .capability-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 2rem;
+        }
+
+        .capability-item {
+            padding: 1.5rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .capability-number {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.65rem;
+            color: var(--cyan-accent);
+            margin-bottom: 0.75rem;
+        }
+
+        .capability-title {
+            font-family: 'Archivo', sans-serif;
+            font-weight: 400;
+            font-size: 0.85rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .capability-text {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* Footer */
+        .footer {
+            padding: 3rem;
+            text-align: center;
+            border-top: 1px solid var(--border-color);
+            margin-top: 4rem;
+        }
+
+        .footer-text {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-tagline {
+            font-family: 'Archivo', sans-serif;
+            font-size: 0.65rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--text-faint);
         }
 
         /* Responsive */
         @media (max-width: 768px) {
-            .logo { font-size: 1.2rem; }
-            nav { gap: 2rem; padding: 1rem; }
-            nav a { font-size: 0.6rem; }
-            .hero h1 { font-size: 2rem; letter-spacing: 0.15em; }
-            .arch-flow { flex-direction: column; }
-            .arch-arrow { transform: rotate(90deg); }
+            .nav {
+                padding: 1rem 1.5rem;
+            }
+            .nav-links {
+                gap: 1.5rem;
+            }
+            .hero {
+                padding: 8rem 1.5rem 4rem;
+            }
+            .hero-title {
+                font-size: 2.5rem;
+                letter-spacing: 0.2em;
+            }
+            .section {
+                padding: 3rem 1.5rem;
+            }
         }
     </style>
-    <!-- Microsoft Clarity -->
-    <script type="text/javascript">
-        (function(c,l,a,r,i,t,y){
-            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-        })(window, document, "clarity", "script", "uj1i9ybj7x");
-    </script>
 </head>
 <body>
+    <!-- Navigation -->
+    <nav class="nav">
+        <a href="../index.html" class="nav-brand">Grey Stratum</a>
+        <div class="nav-links">
+            <div class="nav-dropdown">
+                <button class="nav-dropdown-trigger">Protocol ▼</button>
+                <div class="nav-dropdown-menu">
+                    <a href="/protocols/concordia.html" class="nav-dropdown-item">001 Concordia</a>
+                    <a href="/protocols/cantara.html" class="nav-dropdown-item">002 Cantara</a>
+                    <a href="/protocols/cadencia.html" class="nav-dropdown-item">003 Cadencia</a>
+                </div>
+            </div>
+            <a href="../portal.html" class="nav-link">Signal</a>
+            <a href="../consultum.html" class="nav-link">Consultum</a>
+            <button class="theme-toggle" onclick="toggleTheme()">[ LUX ]</button>
+        </div>
+    </nav>
 
-<header>
-    <a href="index.html" class="logo">
-        <span class="logo-grey">Grey</span>
-        <div class="logo-gradus">
-            <div class="gradus-bar"></div>
-            <div class="gradus-bar"></div>
-            <div class="gradus-bar"></div>
-        </div>
-        <span class="logo-stratum">Stratum</span>
-    </a>
-</header>
+    <!-- Hero -->
+    <section class="hero">
+        <div class="protocol-badge">[ PROTOCOL 002 ]</div>
+        <h1 class="hero-title">Cantara</h1>
+        <p class="hero-instrumentum">Instrumentum: Music+</p>
+        <p class="hero-description">
+            AI-powered music creation with section-by-section control. 
+            Write lyrics, generate melodies, synthesize voices—craft songs 
+            with precision instruments, not black boxes.
+        </p>
+        <div class="hero-actions">
+            <a href="https://songcraft-six.vercel.app" class="btn-bracket btn-bracket-primary" target="_blank" rel="noopener">
+                [ Launch Craft ]
+            </a>
+            <a href="cantara-console.html" class="btn-bracket">
+                [ Launch TTS ]
+            </a>
+            <a href="instrumentum-003/index.html" class="btn-bracket" rel="noopener">
+                [ Launch AcePrep ]
+            </a>
 
-<nav>
-    <div class="nav-dropdown">
-        <span class="nav-dropdown-trigger active">Protocol</span>
-        <div class="nav-dropdown-menu">
-            <a href="protocol.html">Concordia</a>
-            <a href="cantara.html" class="active">Cantara</a>
         </div>
-    </div>
-    <a href="portal.html">Signal</a>
-        <a href="consultum.html">Consultum</a>
-    <div class="nav-divider"></div>
-    <div class="theme-toggle" onclick="toggleTheme()">
-        <span class="toggle-label" id="themeLabel">[ NOX ]</span>
-        <div class="toggle-indicator">
-            <div class="toggle-bar"></div>
-            <div class="toggle-bar"></div>
-            <div class="toggle-bar"></div>
-        </div>
-    </div>
-</nav>
+    </section>
 
-<section class="hero">
-    <p class="code-text cyan">[ PROTOCOL 002 ]</p>
-    
-    <div class="hero-logo">
-        <img src="assets/Cantara_Logo_G_New.png" alt="Cantara">
-    </div>
-    
-    <h1>Cantara</h1>
-    <p class="instrumentum">Instrumentum: TTS+</p>
-    <p class="subtitle">Neural Voice Synthesis</p>
-    
-    <p>
-        Text-to-speech with precision control. SSML markup made visual. 
-        Azure Neural Voices with emphasis, prosody, and timing — 
-        all without touching code.
-    </p>
-    
-    <div>
-        <a href="cantara-app.html" class="btn-ghost">Launch Console</a>
-        <a href="#architecture" class="btn-ghost secondary">How It Works</a>
-    </div>
-</section>
+    <!-- Instrumentum -->
+    <section class="section">
+        <div class="section-label">[ Instrumentum ]</div>
+        <div class="instrumentum-grid">
+            <div class="instrumentum-card">
+                <div class="card-header">
+                    <div class="gradus-mark">
+                        <div class="gradus-bar gradus-bar-1"></div>
+                        <div class="gradus-bar gradus-bar-2"></div>
+                        <div class="gradus-bar gradus-bar-3"></div>
+                    </div>
+                    <h3 class="card-title">Craft</h3>
+                </div>
+                <p class="card-description">
+                    Full music creation studio. Section-by-section songwriting with AI-powered 
+                    lyrics generation, multi-platform music synthesis, and voice integration. 
+                    Built for those who want control over every verse, chorus, and bridge.
+                </p>
+                <div class="card-status">
+                    <span class="status-dot status-active"></span>
+                    <span style="color: var(--cyan-accent);">Active</span>
+                </div>
+            </div>
+            
+            <div class="instrumentum-card">
+                <div class="card-header">
+                    <div class="gradus-mark">
+                        <div class="gradus-bar gradus-bar-1"></div>
+                        <div class="gradus-bar gradus-bar-2"></div>
+                        <div class="gradus-bar gradus-bar-3"></div>
+                    </div>
+                    <h3 class="card-title">TTS</h3>
+                </div>
+                <p class="card-description">
+                    Neural voice synthesis. Access hundreds of premium voices across 
+                    languages and styles. Convert text to natural speech with precise 
+                    control over tone, pace, and emotional delivery.
+                </p>
+                <div class="card-status">
+                    <span class="status-dot status-active"></span>
+                    <span style="color: var(--cyan-accent);">Active</span>
+                </div>
+            </div>
 
-<div class="divider-row">
-    <div class="divider-line"></div>
-    <div class="divider-dot"></div>
-    <div class="divider-line"></div>
-</div>
+            <div class="instrumentum-card">
+                <div class="card-header">
+                    <div class="gradus-mark">
+                        <div class="gradus-bar gradus-bar-1"></div>
+                        <div class="gradus-bar gradus-bar-2"></div>
+                        <div class="gradus-bar gradus-bar-3"></div>
+                    </div>
+                    <h3 class="card-title">AcePrep</h3>
+                </div>
+                <p class="card-description">
+                    Basic Pitch → Ace-ready MIDI. Upload a vocal stem, extract the melody,
+                    inspect blobs + contour, apply cleanup heuristics, then export MIDI for Ace Studio.
+                </p>
+                <div class="hero-actions" style="justify-content:flex-start;">
+                    <a href="instrumentum-003/index.html" class="btn-bracket btn-bracket-primary">
+                        [ Launch AcePrep ]
+                    </a>
+                </div>
+                <div class="card-status" style="margin-top:1rem;">
+                    <span class="status-dot status-active"></span>
+                    <span style="color: var(--cyan-accent);">Active</span>
+                </div>
+            </div>
+        </div>
+    </section>
 
-<section class="capabilities" id="capabilities">
-    <p class="code-text">[ CAPABILITY MATRIX ]</p>
-    
-    <div class="capabilities-grid">
-        <div class="card">
-            <p class="code-text cyan">001</p>
-            <h3>Neural Voice Library</h3>
-            <p>Access the full Azure Cognitive Services voice catalog. 400+ neural voices across 140+ languages and variants.</p>
+    <!-- Capabilities -->
+    <section class="section">
+        <div class="section-label">[ Capability Matrix ]</div>
+        <div class="capability-grid">
+            <div class="capability-item">
+                <div class="capability-number">001</div>
+                <h4 class="capability-title">Section Control</h4>
+                <p class="capability-text">
+                    Build songs piece by piece. Craft each intro, verse, chorus, bridge, 
+                    and outro independently. Keep lyrics while regenerating music, or vice versa.
+                </p>
+            </div>
+            <div class="capability-item">
+                <div class="capability-number">002</div>
+                <h4 class="capability-title">AI Collaboration</h4>
+                <p class="capability-text">
+                    Claude as creative partner. Generate lyrics from prompts, refine 
+                    existing lines, or ask for suggestions on arrangement and structure.
+                </p>
+            </div>
+            <div class="capability-item">
+                <div class="capability-number">003</div>
+                <h4 class="capability-title">Multi-Platform Synthesis</h4>
+                <p class="capability-text">
+                    Generate music through Suno and Udio integration. Compare variations, 
+                    select favorites, iterate until perfect.
+                </p>
+            </div>
+            <div class="capability-item">
+                <div class="capability-number">004</div>
+                <h4 class="capability-title">Voice Integration</h4>
+                <p class="capability-text">
+                    Azure Neural Voices for speech synthesis. Hundreds of voices, 
+                    dozens of languages. Premium quality, enterprise infrastructure.
+                </p>
+            </div>
         </div>
-        
-        <div class="card">
-            <p class="code-text cyan">002</p>
-            <h3>Visual SSML Editor</h3>
-            <p>Select text, apply effects. Emphasis, pitch shifts, rate changes, and strategic pauses — rendered as visual annotations.</p>
-        </div>
-        
-        <div class="card">
-            <p class="code-text cyan">003</p>
-            <h3>Style Expressions</h3>
-            <p>Neural voice styles — newscast, cheerful, empathetic, conversational. Dial in the emotional register with precision.</p>
-        </div>
-        
-        <div class="card">
-            <p class="code-text cyan">004</p>
-            <h3>Export Flexibility</h3>
-            <p>MP3, WAV, OGG/Opus at multiple bitrates. Download synthesized audio for any production pipeline.</p>
-        </div>
-    </div>
-</section>
+    </section>
 
-<div class="divider-row">
-    <div class="divider-line"></div>
-    <div class="divider-dot"></div>
-    <div class="divider-line"></div>
-</div>
+    <!-- Footer -->
+    <footer class="footer">
+        <p class="footer-text">© 2025 Grey Stratum — Precision instruments for the meticulous</p>
+        <p class="footer-tagline">Real expertise. Unreal intelligence.™</p>
+    </footer>
 
-<section class="architecture" id="architecture">
-    <p class="code-text">[ SIGNAL FLOW ]</p>
-    
-    <div class="arch-diagram">
-        <div class="arch-flow">
-            <div class="arch-node">Text Input</div>
-            <span class="arch-arrow">→</span>
-            <div class="arch-node">SSML Builder</div>
-            <span class="arch-arrow">→</span>
-            <div class="arch-node accent">Azure Neural TTS</div>
-            <span class="arch-arrow">→</span>
-            <div class="arch-node">Audio Output</div>
-        </div>
-    </div>
-</section>
-
-<div class="divider-row">
-    <div class="divider-line"></div>
-    <div class="divider-dot"></div>
-    <div class="divider-line"></div>
-</div>
-
-<section class="use-cases">
-    <p class="code-text" style="text-align: center;">[ APPLICATION VECTORS ]</p>
-    
-    <div class="use-case-list">
-        <div class="use-case-item">
-            <span class="use-case-icon">◆</span>
-            <p><strong>Content Production</strong> — Podcast intros, video narration, audiobook prototyping. Professional voice output without studio time.</p>
-        </div>
-        
-        <div class="use-case-item">
-            <span class="use-case-icon">◆</span>
-            <p><strong>Accessibility Testing</strong> — Evaluate how content sounds when read aloud. Test pronunciation, pacing, and comprehension.</p>
-        </div>
-        
-        <div class="use-case-item">
-            <span class="use-case-icon">◆</span>
-            <p><strong>Language Learning</strong> — Native pronunciation with adjustable speed. Practice listening comprehension with authentic voices.</p>
-        </div>
-        
-        <div class="use-case-item">
-            <span class="use-case-icon">◆</span>
-            <p><strong>Rapid Prototyping</strong> — Voice UI mockups, IVR system testing, chatbot voice previews. Iterate before committing to production.</p>
-        </div>
-    </div>
-</section>
-
-<footer>
-    <div class="footer-logo">
-        <span class="logo-grey">Grey</span>
-        <div class="footer-divider"></div>
-        <span class="logo-stratum">Stratum</span>
-    </div>
-    <p class="code-text">© 2025 — Precision instruments for the meticulous</p>
-</footer>
-
-<script>
-    function toggleTheme() {
-        const html = document.documentElement;
-        const label = document.getElementById('themeLabel');
-        if (html.getAttribute('data-theme') === 'dark') {
-            html.setAttribute('data-theme', 'light');
-            label.textContent = '[ LUX ]';
-            localStorage.setItem('theme', 'light');
-        } else {
-            html.setAttribute('data-theme', 'dark');
-            label.textContent = '[ NOX ]';
-            localStorage.setItem('theme', 'dark');
+    <script>
+        function toggleTheme() {
+            const html = document.documentElement;
+            const btn = document.querySelector('.theme-toggle');
+            if (html.getAttribute('data-theme') === 'dark') {
+                html.setAttribute('data-theme', 'light');
+                btn.textContent = '[ NOX ]';
+                localStorage.setItem('theme', 'light');
+            } else {
+                html.setAttribute('data-theme', 'dark');
+                btn.textContent = '[ LUX ]';
+                localStorage.setItem('theme', 'dark');
+            }
         }
-    }
 
-    // Initialize theme
-    (function() {
-        const saved = localStorage.getItem('theme');
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        const theme = saved || (prefersDark ? 'dark' : 'light');
-        document.documentElement.setAttribute('data-theme', theme);
-        document.getElementById('themeLabel').textContent = theme === 'dark' ? '[ NOX ]' : '[ LUX ]';
-    })();
-</script>
-
+        // Load saved theme
+        document.addEventListener('DOMContentLoaded', () => {
+            const saved = localStorage.getItem('theme');
+            const btn = document.querySelector('.theme-toggle');
+            if (saved === 'light') {
+                document.documentElement.setAttribute('data-theme', 'light');
+                btn.textContent = '[ NOX ]';
+            }
+        });
+    </script>
 </body>
 </html>
