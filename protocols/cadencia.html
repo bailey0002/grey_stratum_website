@@ -5,19 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="color-scheme" content="light dark">
     <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <title>Cadencia | Grey Stratum</title>
 
-        <link rel="icon" type="image/png" href="/my-favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/my-favicon/favicon-96x96.png" sizes="96x96">
     <link rel="icon" type="image/svg+xml" href="/my-favicon/favicon.svg">
     <link rel="shortcut icon" href="/my-favicon/favicon.ico">
     <link rel="apple-touch-icon" sizes="180x180" href="/my-favicon/apple-touch-icon.png">
     <link rel="manifest" href="/my-favicon/site.webmanifest">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="icon" type="image/png" href="/my-favicon/favicon-96x96.png" sizes="96x96">
-    <link rel="icon" type="image/svg+xml" href="/my-favicon/favicon.svg">
-    <link rel="shortcut icon" href="/my-favicon/favicon.ico">
-    <link rel="apple-touch-icon" sizes="180x180" href="/my-favicon/apple-touch-icon.png">
-    <link rel="manifest" href="/my-favicon/site.webmanifest">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Archivo:wght@300;400;500&family=Fira+Code:wght@400&display=swap" rel="stylesheet">
 
@@ -28,9 +24,10 @@
             box-sizing: border-box;
         }
 
+        /* Light Theme (Default) */
         :root, [data-theme="light"] {
             --bg-primary: #f8f9fa;
-            --bg-secondary: #ffffff;
+            --bg-secondary: #99ACB0;
             --bg-card: #ffffff;
             --text-primary: #1a1a1a;
             --text-secondary: #4a4f54;
@@ -38,26 +35,37 @@
             --text-faint: #7a818a;
             --gray-muted: #99ACB0;
             --border-color: #d8dce0;
+            --border-light: #c8ccd0;
             --cyan-accent: #5BA4B5;
+            --card-gradient-end: #e8ebed;
+            --code-bg: transparent;
+            --section-text: #ffffff;
             --dropdown-bg: #ffffff;
             --dropdown-border: #d8dce0;
             --dropdown-shadow: rgba(0, 0, 0, 0.1);
+            --error-color: #c53030;
         }
 
+        /* Dark Theme */
         [data-theme="dark"] {
             --bg-primary: #1a1d21;
-            --bg-secondary: #22272e;
-            --bg-card: #2d333b;
+            --bg-secondary: #2d333b;
+            --bg-card: #22272e;
             --text-primary: #e6edf3;
             --text-secondary: #adbac7;
             --text-muted: #768390;
             --text-faint: #636e7b;
             --gray-muted: #768390;
             --border-color: #373e47;
+            --border-light: #444c56;
             --cyan-accent: #5BA4B5;
+            --card-gradient-end: #2d333b;
+            --code-bg: rgba(91, 164, 181, 0.1);
+            --section-text: #e6edf3;
             --dropdown-bg: #22272e;
             --dropdown-border: #373e47;
             --dropdown-shadow: rgba(0, 0, 0, 0.3);
+            --error-color: #fc8181;
         }
 
         html {
@@ -72,16 +80,54 @@
             font-weight: 300;
             transition: background-color 0.4s ease, color 0.4s ease;
             -webkit-tap-highlight-color: transparent;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
         }
+
+        /* Animations */
+        @keyframes pulse {
+            0%, 100% { 
+                opacity: 0.6; 
+                box-shadow: 0 0 8px rgba(91, 164, 181, 0.3); 
+            }
+            50% { 
+                opacity: 1; 
+                box-shadow: 0 0 16px rgba(91, 164, 181, 0.6); 
+            }
+        }
+
+        @keyframes breathe {
+            0%, 100% { transform: scaleY(1); }
+            50% { transform: scaleY(1.1); }
+        }
+
+        @keyframes fadeUp {
+            from { 
+                opacity: 0; 
+                transform: translateY(20px); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
+            }
+        }
+
+        .cyan-bar {
+            animation: pulse 3s ease-in-out infinite, breathe 3s ease-in-out infinite;
+        }
+
+        .fade-in {
+            opacity: 0;
+            animation: fadeUp 0.8s ease-out forwards;
+        }
+
+        .fade-in-delay-1 { animation-delay: 0.2s; }
+        .fade-in-delay-2 { animation-delay: 0.4s; }
+        .fade-in-delay-3 { animation-delay: 0.6s; }
 
         /* Header */
         header {
-            padding: 1.5rem 2rem;
+            padding: 2.5rem 2rem;
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
             border-bottom: 1px solid var(--border-color);
             background-color: var(--bg-primary);
@@ -92,29 +138,31 @@
             display: flex;
             align-items: center;
             font-family: 'Archivo', sans-serif;
-            font-size: 1.4rem;
+            font-size: 2.1rem;
             font-weight: 300;
             letter-spacing: 0.35em;
             text-transform: uppercase;
             text-decoration: none;
+            color: inherit;
         }
 
         .logo-grey { color: var(--gray-muted); transition: color 0.4s ease; }
         .logo-stratum { color: var(--text-primary); transition: color 0.4s ease; }
 
+        /* The Gradus - Tri-bar logo element */
         .logo-gradus {
             display: flex;
             align-items: center;
-            gap: 2px;
-            margin: 0 0.8rem;
-            margin-right: 1rem;
-            height: 1.2em;
+            gap: 3px;
+            margin: 0 1.1rem 0 1.1rem;
+            margin-right: 1.4rem;
+            height: 1.4em;
         }
 
         .gradus-bar {
-            width: 2px;
+            width: 3px;
             background-color: var(--cyan-accent);
-            border-radius: 1px;
+            border-radius: 1.5px;
             transition: height 0.3s ease, opacity 0.3s ease;
         }
 
@@ -122,20 +170,109 @@
         .gradus-bar:nth-child(2) { height: 65%; opacity: 0.75; }
         .gradus-bar:nth-child(3) { height: 90%; opacity: 1; }
 
+        /* Invert pattern in dark mode */
         [data-theme="dark"] .gradus-bar:nth-child(1) { height: 90%; opacity: 1; }
         [data-theme="dark"] .gradus-bar:nth-child(2) { height: 65%; opacity: 0.75; }
         [data-theme="dark"] .gradus-bar:nth-child(3) { height: 40%; opacity: 0.5; }
 
-        /* Navigation */
-        .header-nav {
-            display: flex;
-            align-items: center;
-            gap: 2rem;
+        /* Gradus illumination sweep animation */
+        @keyframes illuminateSweep {
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 1; }
         }
 
-        .header-nav a, .nav-dropdown-trigger {
+        .logo-gradus.animated .gradus-bar:nth-child(1) { 
+            animation: illuminateSweep 2.4s ease-in-out infinite;
+            animation-delay: 0s;
+        }
+        .logo-gradus.animated .gradus-bar:nth-child(2) { 
+            animation: illuminateSweep 2.4s ease-in-out infinite;
+            animation-delay: 0.3s;
+        }
+        .logo-gradus.animated .gradus-bar:nth-child(3) { 
+            animation: illuminateSweep 2.4s ease-in-out infinite;
+            animation-delay: 0.6s;
+        }
+
+        /* Theme Toggle */
+        .nav-divider {
+            width: 1px;
+            height: 12px;
+            background-color: var(--border-light);
+            margin: 0 0.5rem;
+            transition: background-color 0.4s ease;
+        }
+
+        .theme-toggle {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            user-select: none;
+            padding: 0.5rem;
+        }
+
+        .toggle-label {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.6rem;
+            letter-spacing: 0.15em;
+            color: var(--text-faint);
+            transition: color 0.3s ease;
+        }
+
+        .toggle-indicator {
+            display: flex;
+            align-items: center;
+            gap: 2px;
+        }
+
+        .toggle-bar {
+            width: 2px;
+            background-color: var(--cyan-accent);
+            border-radius: 1px;
+            transition: height 0.3s ease, opacity 0.3s ease;
+        }
+
+        .toggle-bar:nth-child(1) { height: 8px; opacity: 0.5; }
+        .toggle-bar:nth-child(2) { height: 12px; opacity: 0.75; }
+        .toggle-bar:nth-child(3) { height: 16px; opacity: 1; }
+
+        [data-theme="dark"] .toggle-bar:nth-child(1) { height: 16px; opacity: 1; }
+        [data-theme="dark"] .toggle-bar:nth-child(2) { height: 12px; opacity: 0.75; }
+        [data-theme="dark"] .toggle-bar:nth-child(3) { height: 8px; opacity: 0.5; }
+
+        .theme-toggle:hover .toggle-label {
+            color: var(--cyan-accent);
+        }
+
+        .theme-toggle:hover .toggle-bar {
+            opacity: 1;
+        }
+
+        /* Navigation */
+        nav {
+            padding: 1.25rem 2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 3.5rem;
+            border-bottom: 1px solid var(--border-color);
+            background-color: var(--bg-primary);
+            transition: background-color 0.4s ease, border-color 0.4s ease;
+            position: relative;
+            z-index: 100;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 3.5rem;
+        }
+
+        nav a, .nav-dropdown-trigger {
+            position: relative;
             font-size: 0.7rem;
-            letter-spacing: 0.2em;
+            letter-spacing: 0.25em;
             text-transform: uppercase;
             text-decoration: none;
             color: var(--text-muted);
@@ -147,9 +284,20 @@
             padding: 0.5rem 0;
         }
 
-        .header-nav a:hover,
-        .header-nav a.active,
-        .nav-dropdown-trigger:hover { color: var(--cyan-accent); }
+        nav a:hover, .nav-dropdown-trigger:hover { color: var(--text-primary); }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background-color: var(--cyan-accent);
+            transition: width 0.3s ease;
+        }
+
+        nav a:hover::after { width: 100%; }
 
         /* Protocol Dropdown */
         .nav-dropdown {
@@ -221,6 +369,10 @@
             color: var(--cyan-accent);
         }
 
+        .nav-dropdown-menu a::after {
+            display: none;
+        }
+
         .protocol-label {
             font-family: 'Fira Code', monospace;
             font-size: 0.5rem;
@@ -228,179 +380,42 @@
             margin-right: 0.5rem;
         }
 
-        .nav-divider {
-            width: 1px;
-            height: 12px;
-            background-color: var(--border-color);
-        }
-
-        .theme-toggle {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
-            user-select: none;
-            padding: 0.5rem;
-        }
-
-        .toggle-label {
-            font-family: 'Fira Code', monospace;
-            font-size: 0.55rem;
-            letter-spacing: 0.15em;
-            color: var(--text-faint);
-            transition: color 0.3s ease;
-        }
-
-        .toggle-indicator {
-            display: flex;
-            align-items: center;
-            gap: 2px;
-        }
-
-        .toggle-bar {
-            width: 2px;
-            background-color: var(--cyan-accent);
-            border-radius: 1px;
-            transition: height 0.3s ease, opacity 0.3s ease;
-        }
-
-        .toggle-bar:nth-child(1) { height: 8px; opacity: 0.5; }
-        .toggle-bar:nth-child(2) { height: 12px; opacity: 0.75; }
-        .toggle-bar:nth-child(3) { height: 16px; opacity: 1; }
-
-        [data-theme="dark"] .toggle-bar:nth-child(1) { height: 16px; opacity: 1; }
-        [data-theme="dark"] .toggle-bar:nth-child(2) { height: 12px; opacity: 0.75; }
-        [data-theme="dark"] .toggle-bar:nth-child(3) { height: 8px; opacity: 0.5; }
-
-        .theme-toggle:hover .toggle-label { color: var(--cyan-accent); }
-
-        /* Main Content */
-        main {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 4rem 2rem;
+        /* Hero Section */
+        .hero {
+            padding: 5rem 2rem 4rem;
             text-align: center;
         }
 
-        .protocol-tag {
-            font-family: 'Fira Code', monospace;
-            font-size: 0.75rem;
-            letter-spacing: 0.2em;
-            color: var(--cyan-accent);
+        .hero-tag {
             margin-bottom: 1rem;
         }
 
-        h1 {
+        .hero h1 {
             font-family: 'Archivo', sans-serif;
-            font-size: 3.5rem;
+            font-size: 2.8rem;
             font-weight: 300;
-            letter-spacing: 0.25em;
+            letter-spacing: 0.3em;
             text-transform: uppercase;
             margin-bottom: 0.5rem;
-            color: var(--text-primary);
+            line-height: 1.2;
         }
 
-        .instrumentum {
+        .hero-subtitle {
             font-family: 'Fira Code', monospace;
-            font-size: 0.8rem;
-            letter-spacing: 0.15em;
+            font-size: 0.7rem;
+            letter-spacing: 0.2em;
             color: var(--text-muted);
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
         }
 
-        .subtitle {
-            font-size: 1.1rem;
-            color: var(--cyan-accent);
-            margin-bottom: 2rem;
-            font-style: italic;
-        }
-
-        .description {
-            font-size: 1rem;
-            color: var(--text-secondary);
-            max-width: 500px;
-            margin: 0 auto 3rem;
-            line-height: 1.8;
-        }
-
-        /* Status Badge */
-        .status-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.75rem 1.5rem;
-            background-color: var(--bg-card);
-            border: 1px solid var(--border-color);
-            font-family: 'Fira Code', monospace;
-            font-size: 0.65rem;
-            letter-spacing: 0.15em;
-            color: var(--text-muted);
-            margin-bottom: 2rem;
-        }
-
-        .status-dot {
-            width: 6px;
-            height: 6px;
-            background-color: var(--cyan-accent);
-            border-radius: 50%;
-            animation: pulse 2s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 0.5; }
-            50% { opacity: 1; }
-        }
-
-        /* Planned Modules */
-        .modules-preview {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 1rem;
+        .hero p {
             max-width: 600px;
-            margin: 0 auto;
+            margin: 0 auto 2rem;
+            color: var(--text-secondary);
+            font-size: 1.05rem;
         }
 
-        .module-tag {
-            padding: 0.5rem 1rem;
-            background-color: var(--bg-card);
-            border: 1px solid var(--border-color);
-            font-family: 'Fira Code', monospace;
-            font-size: 0.6rem;
-            letter-spacing: 0.1em;
-            color: var(--text-faint);
-            opacity: 0.6;
-        }
-
-        /* Notify Link */
-        .notify-link {
-            margin-top: 3rem;
-        }
-
-        .notify-link a {
-            font-size: 0.75rem;
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-            text-decoration: none;
-            color: var(--text-muted);
-            transition: color 0.3s ease;
-        }
-
-        .notify-link a:hover {
-            color: var(--cyan-accent);
-        }
-
-        /* Footer */
-        footer {
-            padding: 2rem;
-            text-align: center;
-            border-top: 1px solid var(--border-color);
-            background-color: var(--bg-primary);
-        }
-
+        /* Code Text */
         .code-text {
             font-family: 'Fira Code', monospace;
             font-size: 0.65rem;
@@ -408,30 +423,325 @@
             color: var(--text-faint);
         }
 
+        /* Button */
+        .btn-ghost {
+            display: inline-block;
+            padding: 0.9rem 2.2rem;
+            border: 1px solid var(--border-color);
+            background: transparent;
+            color: var(--text-primary);
+            font-family: 'Archivo', sans-serif;
+            font-size: 0.7rem;
+            font-weight: 400;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-ghost:hover {
+            border-color: var(--cyan-accent);
+            color: var(--cyan-accent);
+        }
+
+        /* Divider */
+        .divider-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 0;
+        }
+
+        .divider-line {
+            width: 80px;
+            height: 1px;
+            background-color: var(--border-color);
+        }
+
+        .divider-dot {
+            width: 6px;
+            height: 6px;
+            background-color: var(--cyan-accent);
+            border-radius: 50%;
+            margin: 0 1rem;
+        }
+
+        /* Instrumentum Section */
+        .instrumentum {
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .instrumentum h2 {
+            font-family: 'Archivo', sans-serif;
+            font-size: 2rem;
+            font-weight: 300;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            margin: 1rem 0;
+        }
+
+        .instrumentum p {
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .instrumentum .subtext {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            max-width: 500px;
+            margin: 0 auto 2rem;
+        }
+
+        /* Features Grid */
+        .features {
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            max-width: 900px;
+            margin: 2rem auto 0;
+        }
+
+        .card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            padding: 2rem;
+            text-align: left;
+            transition: all 0.4s ease;
+        }
+
+        .card:hover {
+            border-color: var(--cyan-accent);
+        }
+
+        .card h3 {
+            font-family: 'Archivo', sans-serif;
+            font-size: 1rem;
+            font-weight: 400;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin: 1rem 0;
+        }
+
+        .card p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* Footer */
+        footer {
+            padding: 3rem 2rem;
+            text-align: center;
+            border-top: 1px solid var(--border-color);
+            background-color: var(--bg-primary);
+            transition: all 0.4s ease;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Archivo', sans-serif;
+            font-size: 1rem;
+            font-weight: 300;
+            letter-spacing: 0.35em;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        .footer-gradus {
+            display: flex;
+            align-items: center;
+            gap: 2px;
+            margin: 0 0.6rem;
+            height: 1em;
+        }
+
+        /* Password Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            width: 90%;
+            max-width: 400px;
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            padding: 2.5rem;
+            box-shadow: 0 24px 64px rgba(0, 0, 0, 0.5);
+            text-align: center;
+        }
+
+        .modal-gradus {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            height: 48px;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-gradus .gradus-bar {
+            width: 4px;
+        }
+
+        .modal-gradus .gradus-bar:nth-child(1) { height: 16px; }
+        .modal-gradus .gradus-bar:nth-child(2) { height: 28px; }
+        .modal-gradus .gradus-bar:nth-child(3) { height: 40px; }
+
+        .modal-title {
+            font-family: 'Archivo', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 300;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        .modal-subtitle {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 0.15em;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+        }
+
+        .password-input {
+            width: 100%;
+            padding: 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+            letter-spacing: 0.1em;
+            text-align: center;
+            margin-bottom: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .password-input:focus {
+            outline: none;
+            border-color: var(--cyan-accent);
+        }
+
+        .password-input.error {
+            border-color: var(--error-color);
+            animation: shake 0.4s ease;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-8px); }
+            40%, 80% { transform: translateX(8px); }
+        }
+
+        .error-message {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.65rem;
+            color: var(--error-color);
+            margin-bottom: 1rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .error-message.visible {
+            opacity: 1;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .btn-cancel {
+            padding: 0.75rem 1.5rem;
+            border: 1px solid var(--border-color);
+            background: transparent;
+            color: var(--text-muted);
+            font-family: 'Fira Code', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-cancel:hover {
+            border-color: var(--text-muted);
+            color: var(--text-primary);
+        }
+
+        .btn-submit {
+            padding: 0.75rem 1.5rem;
+            border: 1px solid var(--cyan-accent);
+            background: var(--cyan-accent);
+            color: var(--bg-primary);
+            font-family: 'Fira Code', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-submit:hover {
+            background: transparent;
+            color: var(--cyan-accent);
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
-            header {
-                flex-direction: column;
-                gap: 1rem;
-                padding: 1rem;
-            }
-
-            .logo { font-size: 1.2rem; }
-
-            .header-nav {
+            .logo { font-size: 1.5rem; }
+            .hero h1 { font-size: 2rem; letter-spacing: 0.2em; }
+            .instrumentum h2 { font-size: 1.5rem; }
+            
+            nav { 
+                gap: 1.5rem; 
+                padding: 1rem 1.5rem;
                 flex-wrap: wrap;
-                justify-content: center;
-                gap: 1rem;
             }
-
-            h1 { 
-                font-size: 2.2rem; 
-                letter-spacing: 0.15em;
+            
+            .nav-links {
+                gap: 1.5rem;
             }
-
-            main { padding: 2.5rem 1.5rem; }
-
-            .toggle-label { display: none; }
+            
+            .features-grid { gap: 1.5rem; }
+            
+            .toggle-label {
+                display: none;
+            }
+            
+            .nav-divider {
+                margin: 0 0.25rem;
+            }
 
             .nav-dropdown-menu {
                 position: fixed;
@@ -440,6 +750,14 @@
                 transform: translateX(-50%);
                 width: 90%;
                 max-width: 280px;
+            }
+
+            header {
+                padding: 1.5rem 1rem;
+            }
+
+            .modal-content {
+                padding: 2rem 1.5rem;
             }
         }
 
@@ -451,32 +769,6 @@
             }
         }
     </style>
-    <!-- Theme/Dropdown scripts in head to ensure defined before onclick handlers -->
-    <script>
-        (function() {
-            var saved = localStorage.getItem('theme');
-            var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-            var theme = saved || (prefersDark ? 'dark' : 'light');
-            document.documentElement.setAttribute('data-theme', theme);
-        })();
-        
-        function toggleTheme() {
-            var html = document.documentElement;
-            var current = html.getAttribute('data-theme');
-            var newTheme = current === 'dark' ? 'light' : 'dark';
-            html.setAttribute('data-theme', newTheme);
-            localStorage.setItem('theme', newTheme);
-            var label = document.getElementById('themeLabel');
-            if (label) label.textContent = newTheme === 'dark' ? '[ NOX ]' : '[ LUX ]';
-        }
-        
-        function toggleDropdown(event) {
-            event.preventDefault();
-            event.stopPropagation();
-            var dropdown = document.getElementById('protocolDropdown');
-            if (dropdown) dropdown.classList.toggle('active');
-        }
-    </script>
     <!-- Microsoft Clarity -->
     <script type="text/javascript">
         (function(c,l,a,r,i,t,y){
@@ -491,16 +783,17 @@
 <header>
     <a href="../index.html" class="logo">
         <span class="logo-grey">GREY</span>
-        <div class="logo-gradus">
+        <div class="logo-gradus animated">
             <div class="gradus-bar"></div>
             <div class="gradus-bar"></div>
             <div class="gradus-bar"></div>
         </div>
         <span class="logo-stratum">STRATUM</span>
     </a>
-    <nav class="header-nav">
-        
-        
+</header>
+
+<nav>
+    <div class="nav-links">
         <!-- Protocol Dropdown -->
         <div class="nav-dropdown" id="protocolDropdown">
             <button class="nav-dropdown-trigger" onclick="toggleDropdown(event)">
@@ -513,54 +806,121 @@
                 <a href="cantara.html">
                     <span class="protocol-label">002</span> Cantara
                 </a>
-                <a href="cadencia.html" class="active">
+                <a href="cadencia.html">
                     <span class="protocol-label">003</span> Cadencia
+                </a>
+                <a href="mandatum.html">
+                    <span class="protocol-label">004</span> Mandatum
                 </a>
             </div>
         </div>
         
         <a href="../portal.html">Signal</a>
         <a href="../consultum.html">Consultum</a>
-        <div class="nav-divider"></div>
-        <div class="theme-toggle" onclick="toggleTheme()" title="Toggle theme">
-            <span class="toggle-label" id="themeLabel">[ LUX ]</span>
-            <div class="toggle-indicator">
-                <div class="toggle-bar"></div>
-                <div class="toggle-bar"></div>
-                <div class="toggle-bar"></div>
-            </div>
+    </div>
+    
+    <div class="nav-divider"></div>
+    
+    <div class="theme-toggle" onclick="toggleTheme()" title="Toggle theme">
+        <span class="toggle-label" id="themeLabel">[ LUX ]</span>
+        <div class="toggle-indicator">
+            <div class="toggle-bar"></div>
+            <div class="toggle-bar"></div>
+            <div class="toggle-bar"></div>
         </div>
-    </nav>
-</header>
+    </div>
+</nav>
 
-<main>
-    <p class="protocol-tag">[ PROTOCOL 003 ]</p>
-    <h1>Cadencia</h1>
-    <p class="instrumentum">Instrumentum: Behavioral</p>
-    <p class="subtitle">Rhythm. Regulation. Resonance.</p>
-    <p class="description">Tools for behavioral insight and personal calibration. Currently in development.</p>
-    
-    <div class="status-badge">
-        <span class="status-dot"></span>
-        <span>IN DEVELOPMENT</span>
+<section class="hero">
+    <p class="code-text fade-in">[ PROTOCOL 003 ]</p>
+    <h1 class="fade-in fade-in-delay-1">Cadencia</h1>
+    <p class="hero-subtitle fade-in fade-in-delay-1">Behavioral Rhythm & Connection</p>
+    <p class="fade-in fade-in-delay-2">Structured interventions for building connection and emotional regulation. Evidence-based protocols translated into intuitive instruments.</p>
+</section>
+
+<div class="divider-row">
+    <div class="divider-line"></div>
+    <div class="divider-dot cyan-bar"></div>
+    <div class="divider-line"></div>
+</div>
+
+<!-- INSTRUMENTUM Section -->
+<section class="instrumentum">
+    <p class="code-text">[ INSTRUMENTUM ]</p>
+    <h2>Praxia-1</h2>
+    <p>Parent-child interaction companion.</p>
+    <p class="subtext">PCIT-informed skill practice. Timed sessions. Emotional state tracking.<br>Structured protocols for moments that matter.</p>
+    <button class="btn-ghost" onclick="openPasswordModal()">Enter</button>
+</section>
+
+<div class="divider-row">
+    <div class="divider-line"></div>
+    <div class="divider-dot cyan-bar"></div>
+    <div class="divider-line"></div>
+</div>
+
+<section class="features">
+    <p class="code-text">[ CAPABILITY MATRIX ]</p>
+    <div class="features-grid">
+        <div class="card">
+            <p class="code-text">001</p>
+            <h3>Praxis Sessions</h3>
+            <p>Timed 15-minute sessions for practicing PRIDE skills. Track labeled praise, reflection, and description counts in real-time.</p>
+        </div>
+        <div class="card">
+            <p class="code-text">002</p>
+            <h3>Respiro Protocol</h3>
+            <p>Five-step guided calming sequence. Halt, Retreat, Breathe, Reflect, Resolve. Available for both caregiver and child modes.</p>
+        </div>
+        <div class="card">
+            <p class="code-text">003</p>
+            <h3>State Tracking</h3>
+            <p>Intensity assessments and emotional vocabulary tagging. Pattern recognition over time reveals what works.</p>
+        </div>
     </div>
-    
-    <div class="modules-preview">
-        <span class="module-tag">ParentCoach</span>
-        <span class="module-tag">CalmLab</span>
-        <span class="module-tag">StateShifter</span>
-    </div>
-    
-    <div class="notify-link">
-        <a href="mailto:mark@greystratum.com?subject=Cadencia%20Interest">Request Early Access →</a>
-    </div>
-</main>
+</section>
 
 <footer>
-    <p class="code-text">© 2025 Grey Stratum — Precision instruments for the meticulous</p>
+    <div class="footer-logo">
+        <span class="logo-grey">GREY</span>
+        <div class="footer-gradus">
+            <div class="gradus-bar"></div>
+            <div class="gradus-bar"></div>
+            <div class="gradus-bar"></div>
+        </div>
+        <span class="logo-stratum">STRATUM</span>
+    </div>
+    <p class="code-text">© 2025 — Precision instruments for the meticulous</p>
 </footer>
 
+<!-- Password Modal -->
+<div class="modal-overlay" id="passwordModal" onclick="closeModalOnOverlay(event)">
+    <div class="modal-content">
+        <div class="modal-gradus">
+            <div class="gradus-bar"></div>
+            <div class="gradus-bar"></div>
+            <div class="gradus-bar"></div>
+        </div>
+        <h3 class="modal-title">Access Required</h3>
+        <p class="modal-subtitle">[ Praxia-1 — Preview Build ]</p>
+        <input 
+            type="password" 
+            class="password-input" 
+            id="passwordInput" 
+            placeholder="Enter access code"
+            onkeydown="handlePasswordKeydown(event)"
+            autocomplete="off"
+        >
+        <p class="error-message" id="errorMessage">Invalid access code</p>
+        <div class="modal-actions">
+            <button class="btn-cancel" onclick="closePasswordModal()">Cancel</button>
+            <button class="btn-submit" onclick="validatePassword()">Enter</button>
+        </div>
+    </div>
+</div>
+
 <script>
+    // Theme Toggle
     const html = document.documentElement;
     const themeLabel = document.getElementById('themeLabel');
     
@@ -583,15 +943,17 @@
         setTheme(current === 'dark' ? 'light' : 'dark');
     }
     
+    // Initialize theme
     setTheme(getPreferredTheme());
     
+    // Listen for system preference changes
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
         if (!localStorage.getItem('theme')) {
             setTheme(e.matches ? 'dark' : 'light');
         }
     });
 
-    // Protocol Dropdown
+    // Protocol Dropdown (Mobile-friendly)
     function toggleDropdown(event) {
         event.preventDefault();
         event.stopPropagation();
@@ -599,6 +961,7 @@
         dropdown.classList.toggle('active');
     }
 
+    // Close dropdown when clicking outside
     document.addEventListener('click', function(event) {
         const dropdown = document.getElementById('protocolDropdown');
         if (!dropdown.contains(event.target)) {
@@ -606,11 +969,60 @@
         }
     });
 
+    // Close dropdown on escape key
     document.addEventListener('keydown', function(event) {
         if (event.key === 'Escape') {
             document.getElementById('protocolDropdown').classList.remove('active');
+            closePasswordModal();
         }
     });
+
+    // Password Modal
+    const passwordModal = document.getElementById('passwordModal');
+    const passwordInput = document.getElementById('passwordInput');
+    const errorMessage = document.getElementById('errorMessage');
+
+    function openPasswordModal() {
+        passwordModal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        setTimeout(() => passwordInput.focus(), 100);
+    }
+
+    function closePasswordModal() {
+        passwordModal.classList.remove('active');
+        passwordInput.value = '';
+        passwordInput.classList.remove('error');
+        errorMessage.classList.remove('visible');
+        document.body.style.overflow = 'auto';
+    }
+
+    function closeModalOnOverlay(event) {
+        if (event.target === passwordModal) {
+            closePasswordModal();
+        }
+    }
+
+    function handlePasswordKeydown(event) {
+        if (event.key === 'Enter') {
+            validatePassword();
+        }
+    }
+
+    function validatePassword() {
+        const password = passwordInput.value.toLowerCase().trim();
+        
+        if (password === 'stratum') {
+            // Redirect to Praxia-1
+            window.location.href = '../cadencia/praxia.html';
+        } else {
+            passwordInput.classList.add('error');
+            errorMessage.classList.add('visible');
+            
+            setTimeout(() => {
+                passwordInput.classList.remove('error');
+            }, 400);
+        }
+    }
 </script>
 
 </body>
