@@ -83,7 +83,7 @@ export default function App(){
 
   // Model asset path: put TFJS model files in /public/models/
   const modelPaths = useMemo(() => ({
-    modelUrl: "/models/model.json"
+    modelUrl: "./models/model.json"
   }), []);
 
   async function decodeAudioToMonoFloat32(audioFile){
