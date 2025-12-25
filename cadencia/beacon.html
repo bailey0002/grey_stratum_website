@@ -73,7 +73,30 @@
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
         html { font-size: 16px; background: var(--bg-primary); scroll-behavior: smooth; }
         body { font-family: 'Inter', -apple-system, sans-serif; font-weight: 300; background: var(--bg-primary); color: var(--text-primary); min-height: 100vh; line-height: 1.7; -webkit-font-smoothing: antialiased; transition: background-color 0.3s ease, color 0.3s ease; }
-        .app-container { max-width: 520px; margin: 0 auto; min-height: 100vh; background: var(--bg-primary); position: relative; overflow: hidden; }
+        
+        /* Responsive container - centers on desktop, full-width on mobile */
+        .app-container { 
+            max-width: 520px; 
+            margin: 0 auto; 
+            min-height: 100vh; 
+            background: var(--bg-primary); 
+            position: relative; 
+            overflow: hidden;
+            /* Desktop: add shadow to distinguish from background */
+            box-shadow: 0 0 60px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Desktop enhancements */
+        @media (min-width: 600px) {
+            body {
+                background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
+            }
+            .app-container {
+                margin-top: 0;
+                border-left: 1px solid var(--border-glass);
+                border-right: 1px solid var(--border-glass);
+            }
+        }
         
         /* Noise + Gradient Background */
         .app-background {
@@ -100,13 +123,22 @@
             pointer-events: none;
         }
         
-        /* Pure Signal beacon animation */
-        @keyframes beaconRipple1 { 0% { opacity: 0.6; } 50% { opacity: 0.2; } 100% { opacity: 0.6; } }
-        @keyframes beaconRipple2 { 0% { opacity: 0.4; } 50% { opacity: 0.15; } 100% { opacity: 0.4; } }
-        @keyframes beaconRipple3 { 0% { opacity: 0.2; } 50% { opacity: 0.08; } 100% { opacity: 0.2; } }
-        .beacon-r1 { animation: beaconRipple1 3s ease-in-out infinite; }
-        .beacon-r2 { animation: beaconRipple2 3s ease-in-out infinite 0.3s; }
-        .beacon-r3 { animation: beaconRipple3 3s ease-in-out infinite 0.6s; }
+        /* Pure Signal beacon animation - Gradus colors */
+        @keyframes beaconPulse1 { 
+            0%, 100% { opacity: 0.9; transform: scale(1); } 
+            50% { opacity: 0.4; transform: scale(1.05); } 
+        }
+        @keyframes beaconPulse2 { 
+            0%, 100% { opacity: 0.7; transform: scale(1); } 
+            50% { opacity: 0.25; transform: scale(1.03); } 
+        }
+        @keyframes beaconPulse3 { 
+            0%, 100% { opacity: 0.5; transform: scale(1); } 
+            50% { opacity: 0.15; transform: scale(1.02); } 
+        }
+        .beacon-r1 { animation: beaconPulse1 2.5s ease-in-out infinite; transform-origin: center; }
+        .beacon-r2 { animation: beaconPulse2 2.5s ease-in-out infinite 0.4s; transform-origin: center; }
+        .beacon-r3 { animation: beaconPulse3 2.5s ease-in-out infinite 0.8s; transform-origin: center; }
         
         /* Header - Glassmorphism */
         .header { 
@@ -118,6 +150,22 @@
             position: sticky; 
             top: 0; 
             z-index: 100; 
+        }
+        .header-top {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.75rem;
+        }
+        .back-to-parent {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.625rem;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+        .back-to-parent:hover {
+            color: var(--accent);
         }
         .header-content { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; flex-wrap: wrap; }
         .logo { display: flex; align-items: center; gap: 0.75rem; }
@@ -378,6 +426,8 @@
         .btn-primary:hover { background: var(--accent-hover); box-shadow: var(--shadow-glow); }
         .btn-success { background: transparent; color: var(--accent); border: 1px solid var(--accent); }
         .btn-success:hover { background: var(--accent-light); box-shadow: var(--shadow-glow); }
+        .btn-ghost { background: transparent; border: none; color: var(--text-muted); }
+        .btn-ghost:hover { color: var(--accent); }
         .btn-block { width: 100%; }
         .btn-lg { padding: 1rem 2rem; font-size: 0.8125rem; }
         
@@ -491,10 +541,10 @@
         <div id="setup-screen" class="setup-container">
             <div class="setup-beacon">
                 <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="40" cy="40" r="6" fill="var(--text-primary)" opacity="0.9"/>
-                    <circle class="beacon-r1" cx="40" cy="40" r="14" stroke="var(--text-primary)" stroke-width="1.5" fill="none" opacity="0.5"/>
-                    <circle class="beacon-r2" cx="40" cy="40" r="24" stroke="var(--text-primary)" stroke-width="1" fill="none" opacity="0.3"/>
-                    <circle class="beacon-r3" cx="40" cy="40" r="34" stroke="var(--text-primary)" stroke-width="0.75" fill="none" opacity="0.15"/>
+                    <circle cx="40" cy="40" r="6" fill="#CAA9B1"/>
+                    <circle class="beacon-r1" cx="40" cy="40" r="14" stroke="#CAA9B1" stroke-width="2" fill="none"/>
+                    <circle class="beacon-r2" cx="40" cy="40" r="24" stroke="#D4B8BF" stroke-width="1.5" fill="none"/>
+                    <circle class="beacon-r3" cx="40" cy="40" r="34" stroke="#E0C9CF" stroke-width="1" fill="none"/>
                 </svg>
             </div>
             <h1 class="setup-title">Beacon</h1>
@@ -513,14 +563,17 @@
         
         <div id="main-app" style="display: none;">
             <header class="header">
+                <div class="header-top">
+                    <a href="https://greystratum.com/protocols/cadencia.html" class="back-to-parent">← Back to Cadencia</a>
+                </div>
                 <div class="header-content">
                     <div class="logo">
                         <div class="logo-beacon">
                             <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <circle cx="40" cy="40" r="6" fill="var(--text-primary)" opacity="0.9"/>
-                                <circle class="beacon-r1" cx="40" cy="40" r="14" stroke="var(--text-primary)" stroke-width="1.5" fill="none" opacity="0.5"/>
-                                <circle class="beacon-r2" cx="40" cy="40" r="24" stroke="var(--text-primary)" stroke-width="1" fill="none" opacity="0.3"/>
-                                <circle class="beacon-r3" cx="40" cy="40" r="34" stroke="var(--text-primary)" stroke-width="0.75" fill="none" opacity="0.15"/>
+                                <circle cx="40" cy="40" r="6" fill="#CAA9B1"/>
+                                <circle class="beacon-r1" cx="40" cy="40" r="14" stroke="#CAA9B1" stroke-width="2" fill="none"/>
+                                <circle class="beacon-r2" cx="40" cy="40" r="24" stroke="#D4B8BF" stroke-width="1.5" fill="none"/>
+                                <circle class="beacon-r3" cx="40" cy="40" r="34" stroke="#E0C9CF" stroke-width="1" fill="none"/>
                             </svg>
                         </div>
                         <div class="logo-text">
@@ -588,6 +641,7 @@
                         <div class="stat-card"><div class="stat-value" id="prog-days">0</div><div class="stat-label">Days</div></div>
                     </div>
                     <div class="card"><div class="card-title" style="margin-bottom:1rem;">Week by Week</div><div id="progress-weeks-list"></div></div>
+                    <button class="btn btn-ghost btn-block mt-lg" onclick="resetJourney()" style="color: var(--text-muted); font-size: 0.625rem;">[ Reset Journey ]</button>
                 </section>
             </main>
             
@@ -662,6 +716,16 @@ function completeDay(){const week=WEEKS[data.currentWeek-1];if(!data.progress[we
 function updateProgressView(){const completedWeeks=Object.values(data.progress).filter(p=>p.complete).length;const totalDays=Object.values(data.progress).reduce((sum,p)=>sum+(p.days?.length||0),0);document.getElementById('prog-streak').textContent=calculateStreak();document.getElementById('prog-weeks').textContent=completedWeeks;document.getElementById('prog-days').textContent=totalDays;const list=document.getElementById('progress-weeks-list');list.innerHTML='';WEEKS.forEach(week=>{const progress=data.progress[week.week]||{days:[],complete:false};const dayCount=progress.days?.length||0;const item=document.createElement('div');item.className='prompt-item';item.style.cursor='pointer';item.innerHTML=`<div style="display:flex;justify-content:space-between;align-items:center;"><div><div class="prompt-number">WEEK ${week.week}</div><div class="prompt-text" style="font-size:0.875rem;">${week.title}</div></div><div style="text-align:right;"><div style="font-size:0.875rem;color:${progress.complete?'var(--success)':'var(--text-muted)'};">${progress.complete?'✓ Complete':`${dayCount}/6 days`}</div></div></div>`;item.onclick=()=>{data.currentWeek=week.week;data.currentDay=1;saveData(data);openWeek();};list.appendChild(item);});}
 function showModal(title,message){document.getElementById('modal-title').textContent=title;document.getElementById('modal-message').textContent=message;document.getElementById('modal-complete').classList.add('active');}
 function hideModal(){document.getElementById('modal-complete').classList.remove('active');}
+function resetJourney(){
+    if(confirm('This will clear all your progress and journal entries. Are you sure?')){
+        localStorage.removeItem(STORAGE_KEY);
+        data = structuredClone(DEFAULT_DATA);
+        document.getElementById('main-app').style.display='none';
+        document.getElementById('setup-screen').style.display='flex';
+        document.getElementById('partner1-name').value='';
+        document.getElementById('partner2-name').value='';
+    }
+}
 document.addEventListener('DOMContentLoaded',()=>{if(data.partner1&&data.partner2){showMainApp();}});
 </script>
 </body>
