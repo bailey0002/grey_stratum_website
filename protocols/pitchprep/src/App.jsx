@@ -230,16 +230,24 @@ export default function App(){
       
       const noteEvents = noteFramesToTime(withBends);
       console.log('noteFramesToTime result:', noteEvents?.length, noteEvents);
+      
+      // Log first note structure to see property names
+      if (noteEvents?.length > 0) {
+        console.log('First note structure:', JSON.stringify(noteEvents[0], null, 2));
+        console.log('First note keys:', Object.keys(noteEvents[0]));
+      }
 
       const extracted = noteEvents
         .map(n => ({
           start: n.startTimeSeconds,
-          end: n.endTimeSeconds,
+          end: n.startTimeSeconds + n.durationSeconds,
           midi: n.pitchMidi,
           velocity: clamp(n.amplitude ?? 0.9, 0.05, 1.0)
         }))
         .filter(n => Number.isFinite(n.start) && Number.isFinite(n.end) && Number.isFinite(n.midi) && n.end > n.start)
         .sort((a,b)=>a.start-b.start);
+      
+      console.log('Extracted notes:', extracted.length, extracted.slice(0, 5));
 
       setRawNotes(extracted);
       setStatus("CONFIRMED");
