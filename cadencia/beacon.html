@@ -68,6 +68,11 @@
         .header-content { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; flex-wrap: wrap; }
         .logo { display: flex; align-items: center; gap: 0.75rem; }
         
+        /* Logo image */
+        .logo-image { width: 36px; height: 36px; object-fit: contain; }
+        @keyframes logoPulse { 0%, 100% { opacity: 0.85; transform: scale(1); } 50% { opacity: 1; transform: scale(1.03); } }
+        .logo-image.animated { animation: logoPulse 3s ease-in-out infinite; }
+        
         /* Gradus logo element */
         .logo-gradus { display: flex; align-items: center; gap: 3px; height: 1.5rem; }
         .gradus-bar { width: 3px; background-color: var(--accent); border-radius: 1.5px; transition: height 0.3s ease, opacity 0.3s ease; }
@@ -192,7 +197,8 @@
         .btn:active { transform: scale(0.96); }
         .btn-primary { background: var(--accent); color: var(--bg-primary); border-color: var(--accent); }
         .btn-primary:hover { background: var(--accent-hover); box-shadow: var(--shadow-glow); }
-        .btn-success { background: var(--success); color: white; }
+        .btn-success { background: transparent; color: var(--accent); border: 1px solid var(--accent); }
+        .btn-success:hover { background: var(--accent-light); box-shadow: var(--shadow-glow); }
         .btn-block { width: 100%; }
         .btn-lg { padding: 1rem 2rem; font-size: 0.8125rem; }
         
@@ -224,7 +230,7 @@
         .modal { background: var(--bg-card); border-radius: 8px; padding: 2rem; width: 100%; max-width: 320px; box-shadow: var(--shadow-lg); text-align: center; border: 1px solid var(--border); }
         .modal-icon { display: flex; justify-content: center; margin-bottom: 1rem; }
         .modal-icon .gradus-confirm { display: flex; align-items: center; gap: 4px; height: 48px; }
-        .modal-icon .gradus-confirm .gradus-bar { width: 4px; background: var(--success); border-radius: 2px; }
+        .modal-icon .gradus-confirm .gradus-bar { width: 4px; background: var(--accent); border-radius: 2px; }
         .modal-icon .gradus-confirm .gradus-bar:nth-child(1) { height: 16px; }
         .modal-icon .gradus-confirm .gradus-bar:nth-child(2) { height: 28px; }
         .modal-icon .gradus-confirm .gradus-bar:nth-child(3) { height: 40px; }
@@ -233,11 +239,8 @@
         
         /* Setup screen */
         .setup-container { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2rem; text-align: center; }
-        .setup-gradus { display: flex; align-items: center; gap: 6px; height: 80px; margin-bottom: 1.5rem; }
-        .setup-gradus .gradus-bar { width: 6px; background: var(--accent); border-radius: 3px; }
-        .setup-gradus .gradus-bar:nth-child(1) { height: 32px; opacity: 0.5; }
-        .setup-gradus .gradus-bar:nth-child(2) { height: 52px; opacity: 0.75; }
-        .setup-gradus .gradus-bar:nth-child(3) { height: 72px; opacity: 1; }
+        .setup-logo-image { width: 80px; height: 80px; object-fit: contain; margin-bottom: 1.5rem; }
+        .setup-logo-image.animated { animation: logoPulse 3s ease-in-out infinite; }
         .setup-title { font-family: 'Archivo', sans-serif; font-size: 2rem; font-weight: 300; letter-spacing: 0.3em; text-transform: uppercase; color: var(--text-primary); margin-bottom: 0.5rem; }
         .setup-subtitle { font-size: 0.9375rem; color: var(--text-secondary); margin-bottom: 2rem; max-width: 300px; font-weight: 300; }
         .form-group { width: 100%; max-width: 300px; margin-bottom: 1rem; text-align: left; }
@@ -256,11 +259,7 @@
 <body>
     <div class="app-container">
         <div id="setup-screen" class="setup-container">
-            <div class="setup-gradus">
-                <div class="gradus-bar"></div>
-                <div class="gradus-bar"></div>
-                <div class="gradus-bar"></div>
-            </div>
+            <img src="beacon-logo.png" alt="Beacon" class="setup-logo-image animated">
             <h1 class="setup-title">Beacon</h1>
             <p class="setup-subtitle">A 52-week Bible study journey for married couples. Enter your names to begin.</p>
             <div class="form-group">
@@ -279,11 +278,7 @@
             <header class="header">
                 <div class="header-content">
                     <div class="logo">
-                        <div class="logo-gradus animated">
-                            <div class="gradus-bar"></div>
-                            <div class="gradus-bar"></div>
-                            <div class="gradus-bar"></div>
-                        </div>
+                        <img src="beacon-logo.png" alt="Beacon" class="logo-image animated">
                         <div class="logo-text">
                             <span class="logo-title">Beacon</span>
                             <span class="logo-protocol">[ Cadencia ]</span>
