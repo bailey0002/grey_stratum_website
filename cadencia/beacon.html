@@ -773,7 +773,22 @@ function resetJourney(){
         document.getElementById('partner2-name').value='';
     }
 }
-document.addEventListener('DOMContentLoaded',()=>{if(data.partner1&&data.partner2){showMainApp();}});
+
+// Audio prompt for setup screen
+const setupAudio = new Audio('/cadencia/Cantara_TTS_1766683981422.mp3');
+setupAudio.volume = 0.7;
+
+document.addEventListener('DOMContentLoaded',()=>{
+    if(data.partner1&&data.partner2){
+        showMainApp();
+    } else {
+        // Play audio prompt on setup screen (with user interaction fallback)
+        setupAudio.play().catch(() => {
+            // Autoplay blocked - play on first interaction
+            document.addEventListener('click', () => setupAudio.play(), { once: true });
+        });
+    }
+});
 </script>
 </body>
 </html>
