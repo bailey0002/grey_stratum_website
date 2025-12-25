@@ -91,7 +91,28 @@ export default function App(){
     const arrayBuffer = await audioFile.arrayBuffer();
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     const audioBuffer = await audioCtx.decodeAudioData(arrayBuffer);
-    return audioBuffer;
+    
+    // Basic Pitch requires 22050 Hz sample rate
+    const TARGET_SR = 22050;
+    if (audioBuffer.sampleRate === TARGET_SR) {
+      return audioBuffer;
+    }
+    
+    // Resample using OfflineAudioContext
+    const duration = audioBuffer.duration;
+    const offlineCtx = new OfflineAudioContext(
+      1, // mono
+      Math.ceil(duration * TARGET_SR),
+      TARGET_SR
+    );
+    
+    const source = offlineCtx.createBufferSource();
+    source.buffer = audioBuffer;
+    source.connect(offlineCtx.destination);
+    source.start(0);
+    
+    const resampledBuffer = await offlineCtx.startRendering();
+    return resampledBuffer;
   }
 
   function getMonoFromBuffer(audioBuffer){
