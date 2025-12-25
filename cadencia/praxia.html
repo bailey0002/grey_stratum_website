@@ -52,10 +52,37 @@
         html { font-size: 16px; background-color: var(--bg-primary); }
         body { font-family: 'Inter', -apple-system, sans-serif; font-weight: 300; background: var(--bg-primary); color: var(--text-primary); min-height: 100vh; line-height: 1.6; -webkit-font-smoothing: antialiased; transition: background-color 0.3s ease, color 0.3s ease; }
         
-        /* Responsive container - wider on desktop */
-        .app-container { max-width: 600px; margin: 0 auto; min-height: 100vh; background: var(--bg-primary); position: relative; }
-        @media (min-width: 768px) { .app-container { max-width: 680px; } }
-        @media (min-width: 1024px) { .app-container { max-width: 760px; } }
+        /* Responsive container - centers on desktop with shadow */
+        .app-container { 
+            max-width: 520px; 
+            margin: 0 auto; 
+            min-height: 100vh; 
+            background: var(--bg-primary); 
+            position: relative;
+            /* Desktop: add shadow to distinguish from background */
+            box-shadow: 0 0 60px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Desktop enhancements - wider on larger screens */
+        @media (min-width: 600px) {
+            body {
+                background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
+            }
+            .app-container {
+                border-left: 1px solid var(--border);
+                border-right: 1px solid var(--border);
+            }
+        }
+        @media (min-width: 768px) {
+            .app-container {
+                max-width: 680px;
+            }
+        }
+        @media (min-width: 1024px) {
+            .app-container {
+                max-width: 780px;
+            }
+        }
         
         /* Clean header */
         .header { background: var(--bg-secondary); padding: 1rem 1.5rem; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; }
@@ -280,7 +307,7 @@
         .mt-md { margin-top: 1rem; }
         .mt-lg { margin-top: 1.5rem; }
         .back-btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 0; background: none; border: none; color: var(--accent); font-family: 'Fira Code', monospace; font-size: 0.6875rem; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; margin-bottom: 1rem; }
-        @media (max-width: 480px) { .header-content { gap: 0.5rem; } .theme-label { display: none; } .logo-title { font-size: 1rem; letter-spacing: 0.15em; } .exit-link span { display: none; } }
+        @media (max-width: 480px) { .header-content { gap: 0.5rem; } .theme-label { display: none; } .logo-title { font-size: 1rem; letter-spacing: 0.15em; } .exit-link span { display: none; } .exit-link::after { content: 'Back'; font-size: 0.5rem; } }
     </style>
 </head>
 <body>
@@ -288,7 +315,7 @@
         <header class="header">
             <div class="header-content">
                 <div class="header-left">
-                    <a href="../protocols/cadencia.html" class="exit-link" title="Exit to Cadencia">← <span>Exit</span></a>
+                    <a href="https://greystratum.com/protocols/cadencia.html" class="exit-link" title="Back to Cadencia">← <span>Back to Cadencia</span></a>
                     <div class="logo">
                         <div class="logo-text">
                             <span class="logo-title">Praxia-1</span>

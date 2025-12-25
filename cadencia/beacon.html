@@ -86,15 +86,30 @@
             box-shadow: 0 0 60px rgba(0, 0, 0, 0.1);
         }
         
-        /* Desktop enhancements */
+        /* Desktop enhancements - wider on larger screens */
         @media (min-width: 600px) {
             body {
                 background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
             }
             .app-container {
-                margin-top: 0;
                 border-left: 1px solid var(--border-glass);
                 border-right: 1px solid var(--border-glass);
+            }
+        }
+        @media (min-width: 768px) {
+            .app-container {
+                max-width: 680px;
+            }
+            .app-background {
+                max-width: 680px;
+            }
+        }
+        @media (min-width: 1024px) {
+            .app-container {
+                max-width: 780px;
+            }
+            .app-background {
+                max-width: 780px;
             }
         }
         
