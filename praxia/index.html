@@ -15,6 +15,55 @@
   
   <!-- Styles -->
   <link rel="stylesheet" href="grey-stratum.css">
+  <style>
+    /* Desktop layout enhancements */
+    .app-container {
+      box-shadow: 0 0 60px rgba(0, 0, 0, 0.1);
+    }
+    
+    @media (min-width: 600px) {
+      body {
+        background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
+      }
+      .app-container {
+        border-left: 1px solid var(--border);
+        border-right: 1px solid var(--border);
+      }
+    }
+    @media (min-width: 768px) {
+      .app-container {
+        max-width: 680px;
+      }
+    }
+    @media (min-width: 1024px) {
+      .app-container {
+        max-width: 780px;
+      }
+    }
+    
+    /* Back to Cadencia link */
+    .header-top {
+      padding-bottom: 0.5rem;
+      margin-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .back-to-parent {
+      font-family: 'Fira Code', monospace;
+      font-size: 0.625rem;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+    .back-to-parent:hover {
+      color: var(--accent);
+    }
+    @media (max-width: 480px) {
+      .back-to-parent span {
+        display: none;
+      }
+    }
+  </style>>
 </head>
 <body>
   <div class="app-container">
@@ -23,6 +72,9 @@
          HEADER
          ======================================== -->
     <header class="header">
+      <div class="header-top">
+        <a href="https://www.greystratum.com/protocols/cadencia.html" class="back-to-parent">← <span>Back to Cadencia</span></a>
+      </div>
       <div class="header-content">
         <div class="logo">
           <div class="logo-gradus animated">
