@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
@@ -77,500 +76,497 @@
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
         html { font-size: 16px; background: var(--bg-primary); scroll-behavior: smooth; }
         body { font-family: 'Inter', -apple-system, sans-serif; font-weight: 300; background: var(--bg-primary); color: var(--text-primary); min-height: 100vh; line-height: 1.7; -webkit-font-smoothing: antialiased; transition: background-color 0.3s ease, color 0.3s ease; }
-
-```
-    /* Responsive container - centers on desktop, full-width on mobile */
-    .app-container { 
-        max-width: 520px; 
-        margin: 0 auto; 
-        min-height: 100vh; 
-        background: var(--bg-primary); 
-        position: relative; 
-        overflow: hidden;
-        /* Desktop: add shadow to distinguish from background */
-        box-shadow: 0 0 60px rgba(0, 0, 0, 0.1);
-    }
-    
-    /* Desktop enhancements - wider on larger screens */
-    @media (min-width: 600px) {
-        body {
-            background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
+        
+        /* Responsive container - centers on desktop, full-width on mobile */
+        .app-container { 
+            max-width: 520px; 
+            margin: 0 auto; 
+            min-height: 100vh; 
+            background: var(--bg-primary); 
+            position: relative; 
+            overflow: hidden;
+            /* Desktop: add shadow to distinguish from background */
+            box-shadow: 0 0 60px rgba(0, 0, 0, 0.1);
         }
-        .app-container {
-            border-left: 1px solid var(--border-glass);
+        
+        /* Desktop enhancements - wider on larger screens */
+        @media (min-width: 600px) {
+            body {
+                background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
+            }
+            .app-container {
+                border-left: 1px solid var(--border-glass);
+                border-right: 1px solid var(--border-glass);
+            }
+        }
+        @media (min-width: 768px) {
+            .app-container {
+                max-width: 680px;
+            }
+            .app-background {
+                max-width: 680px;
+            }
+        }
+        @media (min-width: 1024px) {
+            .app-container {
+                max-width: 780px;
+            }
+            .app-background {
+                max-width: 780px;
+            }
+        }
+        
+        /* Noise + Gradient Background */
+        .app-background {
+            position: fixed;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 520px;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+            background: 
+                radial-gradient(ellipse at 30% 0%, rgba(202, 169, 177, 0.25) 0%, transparent 50%),
+                radial-gradient(ellipse at 70% 100%, rgba(91, 164, 181, 0.2) 0%, transparent 50%),
+                var(--bg-primary);
+        }
+        .app-background::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+            opacity: 0.03;
+            pointer-events: none;
+        }
+        
+        /* Pure Signal beacon animation - Gradus colors */
+        @keyframes beaconPulse1 { 
+            0%, 100% { opacity: 0.9; transform: scale(1); } 
+            50% { opacity: 0.4; transform: scale(1.05); } 
+        }
+        @keyframes beaconPulse2 { 
+            0%, 100% { opacity: 0.7; transform: scale(1); } 
+            50% { opacity: 0.25; transform: scale(1.03); } 
+        }
+        @keyframes beaconPulse3 { 
+            0%, 100% { opacity: 0.5; transform: scale(1); } 
+            50% { opacity: 0.15; transform: scale(1.02); } 
+        }
+        .beacon-r1 { animation: beaconPulse1 2.5s ease-in-out infinite; transform-origin: center; }
+        .beacon-r2 { animation: beaconPulse2 2.5s ease-in-out infinite 0.4s; transform-origin: center; }
+        .beacon-r3 { animation: beaconPulse3 2.5s ease-in-out infinite 0.8s; transform-origin: center; }
+        
+        /* Header - Glassmorphism */
+        .header { 
+            background: var(--bg-glass-header); 
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            padding: 1.25rem 1.5rem; 
+            border-bottom: 1px solid var(--border-glass); 
+            position: sticky; 
+            top: 0; 
+            z-index: 100; 
+        }
+        .header-top {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.75rem;
+        }
+        .back-to-parent {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.625rem;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+        .back-to-parent:hover {
+            color: var(--accent);
+        }
+        .header-content { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; }
+        .header-right { display: flex; align-items: center; gap: 0.25rem; flex-shrink: 0; }
+        .logo { display: flex; align-items: center; gap: 0.75rem; min-width: 0; }
+        
+        /* Pure Signal beacon icon */
+        .logo-beacon { width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; }
+        .logo-beacon svg { width: 100%; height: 100%; }
+        .setup-beacon { width: 100px; height: 100px; margin-bottom: 1.5rem; }
+        .setup-beacon svg { width: 100%; height: 100%; }
+        
+        /* Gradus logo element */
+        .logo-gradus { display: flex; align-items: center; gap: 3px; height: 1.5rem; }
+        .gradus-bar { width: 3px; background-color: var(--accent); border-radius: 1.5px; transition: height 0.3s ease, opacity 0.3s ease; }
+        .gradus-bar:nth-child(1) { height: 40%; opacity: 0.5; }
+        .gradus-bar:nth-child(2) { height: 65%; opacity: 0.75; }
+        .gradus-bar:nth-child(3) { height: 90%; opacity: 1; }
+        [data-theme="dark"] .gradus-bar:nth-child(1) { height: 90%; opacity: 1; }
+        [data-theme="dark"] .gradus-bar:nth-child(2) { height: 65%; opacity: 0.75; }
+        [data-theme="dark"] .gradus-bar:nth-child(3) { height: 40%; opacity: 0.5; }
+        
+        @keyframes gradusIlluminate { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
+        .logo-gradus.animated .gradus-bar:nth-child(1) { animation: gradusIlluminate 2.4s ease-in-out infinite 0s; }
+        .logo-gradus.animated .gradus-bar:nth-child(2) { animation: gradusIlluminate 2.4s ease-in-out infinite 0.15s; }
+        .logo-gradus.animated .gradus-bar:nth-child(3) { animation: gradusIlluminate 2.4s ease-in-out infinite 0.3s; }
+        
+        .logo-text { display: flex; flex-direction: column; }
+        .logo-title { font-family: 'Archivo', sans-serif; font-size: 1.25rem; font-weight: 300; letter-spacing: 0.25em; text-transform: uppercase; color: var(--text-primary); }
+        .logo-protocol { font-family: 'Fira Code', monospace; font-size: 0.625rem; letter-spacing: 0.15em; color: var(--text-muted); }
+        
+        /* Theme toggle - Praxia style */
+        .theme-toggle { display: flex; align-items: center; gap: 0.5rem; cursor: pointer; padding: 0.5rem; }
+        .theme-label { font-family: 'Fira Code', monospace; font-size: 0.5625rem; letter-spacing: 0.15em; color: var(--text-muted); }
+        .theme-indicator { display: flex; align-items: center; gap: 2px; }
+        .theme-indicator .gradus-bar { width: 2px; background: var(--accent); border-radius: 1px; }
+        .theme-indicator .gradus-bar:nth-child(1) { height: 6px; opacity: 0.5; }
+        .theme-indicator .gradus-bar:nth-child(2) { height: 10px; opacity: 0.75; }
+        .theme-indicator .gradus-bar:nth-child(3) { height: 14px; opacity: 1; }
+        [data-theme="dark"] .theme-indicator .gradus-bar:nth-child(1) { height: 14px; opacity: 1; }
+        [data-theme="dark"] .theme-indicator .gradus-bar:nth-child(2) { height: 10px; opacity: 0.75; }
+        [data-theme="dark"] .theme-indicator .gradus-bar:nth-child(3) { height: 6px; opacity: 0.5; }
+        
+        /* Help link - book icon */
+        .help-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.5rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+        .help-link:hover {
+            color: var(--accent);
+        }
+        
+        .main-content { padding: 1.5rem; padding-bottom: 100px; position: relative; z-index: 1; }
+        .view { display: none; animation: fadeIn 0.3s ease; }
+        .view.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+        
+        /* Typography - Grey Stratum style */
+        .page-title { font-family: 'Archivo', sans-serif; font-size: 1.5rem; font-weight: 300; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-primary); margin-bottom: 0.25rem; line-height: 1.3; }
+        .page-subtitle { font-size: 0.9375rem; color: var(--text-secondary); margin-bottom: 1.5rem; font-weight: 300; }
+        .section-label { font-family: 'Fira Code', monospace; font-size: 0.6875rem; letter-spacing: 0.15em; color: var(--cyan-accent); text-transform: uppercase; margin-bottom: 0.5rem; }
+        
+        /* Cards - Glassmorphism */
+        .card { 
+            background: var(--bg-glass); 
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-radius: 12px; 
+            padding: 1.25rem; 
+            box-shadow: var(--shadow), inset 0 1px 0 rgba(255, 255, 255, 0.08); 
+            margin-bottom: 1rem; 
+            border: 1px solid var(--border-glass); 
+            transition: all 0.2s ease; 
+        }
+        .card:hover { 
+            background: var(--bg-glass-hover);
+            border-color: var(--border-glass-hover);
+            box-shadow: var(--shadow-lg), inset 0 1px 0 rgba(255, 255, 255, 0.1); 
+        }
+        .card-title { font-family: 'Archivo', sans-serif; font-size: 0.875rem; font-weight: 400; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-primary); margin-bottom: 0.25rem; }
+        .card-subtitle { font-size: 0.8125rem; color: var(--text-secondary); font-weight: 300; }
+        
+        /* Week Card - Tinted Glassmorphism */
+        .week-card { 
+            background: linear-gradient(135deg, rgba(202, 169, 177, 0.85) 0%, rgba(202, 169, 177, 0.7) 100%);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            color: var(--bg-primary); 
+            border-radius: 16px; 
+            padding: 1.5rem; 
+            margin-bottom: 1.5rem; 
+            cursor: pointer; 
+            transition: all 0.2s ease; 
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 12px 40px rgba(202, 169, 177, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        }
+        .week-card:hover { 
+            transform: translateY(-2px); 
+            box-shadow: 0 16px 48px rgba(202, 169, 177, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+        }
+        .week-card:active { transform: scale(0.98); }
+        .week-card-label { font-family: 'Fira Code', monospace; font-size: 0.6875rem; letter-spacing: 0.15em; opacity: 0.8; margin-bottom: 0.5rem; text-transform: uppercase; }
+        .week-card-title { font-family: 'Archivo', sans-serif; font-size: 1.25rem; font-weight: 300; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.25rem; }
+        .week-card-theme { font-size: 0.875rem; opacity: 0.9; font-weight: 300; }
+        .week-card-progress { display: flex; gap: 0.5rem; margin-top: 1rem; }
+        .progress-dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(26, 29, 33, 0.3); transition: all 0.2s ease; }
+        .progress-dot.complete { background: var(--cyan-accent); }
+        .progress-dot.current { background: var(--bg-primary); box-shadow: 0 0 0 3px rgba(255,255,255,0.3); }
+        
+        /* Stats - Glassmorphism */
+        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; margin-bottom: 1.5rem; }
+        .stat-card { 
+            background: var(--bg-glass); 
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 12px; 
+            padding: 1rem; 
+            text-align: center; 
+            border: 1px solid var(--border-glass);
+            box-shadow: var(--shadow), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        }
+        .stat-value { font-family: 'Archivo', sans-serif; font-size: 1.75rem; font-weight: 300; color: var(--accent); }
+        .stat-label { font-family: 'Fira Code', monospace; font-size: 0.625rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 0.25rem; }
+        
+        /* Calendar - Glassmorphism */
+        .calendar-grid { display: grid; grid-template-columns: repeat(8, 1fr); gap: 6px; margin: 1rem 0; }
+        .calendar-week { 
+            aspect-ratio: 1; 
+            border-radius: 8px; 
+            background: var(--bg-glass); 
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid var(--border-glass); 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-family: 'Fira Code', monospace; 
+            font-size: 0.625rem; 
+            color: var(--text-muted); 
+            cursor: pointer; 
+            transition: all 0.2s ease; 
+        }
+        .calendar-week:hover { border-color: var(--accent); background: var(--bg-glass-hover); }
+        .calendar-week.complete { background: var(--accent); color: var(--bg-primary); border-color: var(--accent); }
+        .calendar-week.current { border-color: var(--cyan-accent); box-shadow: 0 0 0 2px var(--cyan-glow); }
+        
+        /* Day tabs - Glassmorphism */
+        .day-tabs { 
+            display: flex; 
+            gap: 0.25rem; 
+            background: var(--bg-glass); 
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 4px; 
+            border-radius: 10px; 
+            margin-bottom: 1.5rem; 
+            overflow-x: auto;
+            border: 1px solid var(--border-glass);
+        }
+        .day-tab { flex: 1; min-width: 50px; padding: 0.625rem 0.5rem; border: none; background: transparent; font-family: 'Fira Code', monospace; font-size: 0.6rem; letter-spacing: 0.05em; color: var(--text-muted); cursor: pointer; border-radius: 8px; transition: all 0.2s ease; text-align: center; text-transform: uppercase; }
+        .day-tab:hover { color: var(--text-primary); }
+        .day-tab.active { background: var(--bg-card); color: var(--accent); box-shadow: var(--shadow); }
+        .day-tab.complete { color: var(--success); }
+        
+        /* Scripture block - Glassmorphism */
+        .scripture-block { 
+            background: var(--bg-glass); 
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 12px; 
+            padding: 1.5rem; 
+            margin: 1rem 0; 
+            border-left: 3px solid var(--cyan-accent);
+            border-top: 1px solid var(--border-glass);
             border-right: 1px solid var(--border-glass);
+            border-bottom: 1px solid var(--border-glass);
         }
-    }
-    @media (min-width: 768px) {
-        .app-container {
-            max-width: 680px;
+        .scripture-ref { font-family: 'Fira Code', monospace; font-size: 0.75rem; color: var(--cyan-accent); margin-bottom: 0.75rem; letter-spacing: 0.05em; }
+        .scripture-text { font-family: 'Inter', sans-serif; font-size: 0.9375rem; font-style: italic; line-height: 1.8; color: var(--text-primary); font-weight: 300; }
+        .scripture-version { font-family: 'Fira Code', monospace; font-size: 0.625rem; color: var(--text-muted); margin-top: 0.75rem; text-align: right; }
+        
+        /* Devotional */
+        .devotional-text { font-size: 0.9375rem; line-height: 1.8; color: var(--text-secondary); margin: 1rem 0; font-weight: 300; }
+        .devotional-text p { margin-bottom: 1rem; }
+        
+        /* Prompts - Glassmorphism */
+        .prompts-list { margin: 1rem 0; }
+        .prompt-item { 
+            background: var(--bg-glass); 
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 12px; 
+            padding: 1rem; 
+            margin-bottom: 0.75rem; 
+            border: 1px solid var(--border-glass);
+            box-shadow: var(--shadow), inset 0 1px 0 rgba(255, 255, 255, 0.05);
         }
-        .app-background {
-            max-width: 680px;
+        .prompt-number { font-family: 'Fira Code', monospace; font-size: 0.625rem; color: var(--cyan-accent); margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.1em; }
+        .prompt-text { font-size: 0.875rem; color: var(--text-primary); line-height: 1.6; font-weight: 300; }
+        
+        /* Journal - Glassmorphism */
+        .journal-entry { margin-top: 0.75rem; }
+        .journal-textarea { 
+            width: 100%; 
+            min-height: 80px; 
+            padding: 0.875rem; 
+            border: 1px solid var(--border-glass); 
+            border-radius: 8px; 
+            font-family: 'Inter', sans-serif; 
+            font-size: 0.875rem; 
+            line-height: 1.6; 
+            color: var(--text-primary); 
+            background: var(--bg-glass); 
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            resize: vertical; 
+            font-weight: 300;
+            transition: all 0.2s ease;
         }
-    }
-    @media (min-width: 1024px) {
-        .app-container {
-            max-width: 780px;
+        .journal-textarea:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow); }
+        .journal-saved { font-family: 'Fira Code', monospace; font-size: 0.625rem; color: var(--success); margin-top: 0.5rem; opacity: 0; transition: opacity 0.3s ease; }
+        .journal-saved.visible { opacity: 1; }
+        
+        /* Prayer block - Glassmorphism */
+        .prayer-block { 
+            background: var(--bg-glass); 
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 12px; 
+            padding: 1.5rem; 
+            margin: 1rem 0;
+            border: 1px solid var(--border-glass);
         }
-        .app-background {
-            max-width: 780px;
+        .prayer-label { font-family: 'Fira Code', monospace; font-size: 0.6875rem; color: var(--accent); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 0.75rem; }
+        .prayer-text { font-family: 'Inter', sans-serif; font-size: 0.9375rem; font-style: italic; line-height: 1.8; color: var(--text-primary); font-weight: 300; }
+        
+        /* Challenge block - Glassmorphism */
+        .challenge-block { 
+            background: var(--accent-glow); 
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 12px; 
+            padding: 1.5rem; 
+            margin: 1rem 0; 
+            border: 1px solid var(--accent); 
         }
-    }
-    
-    /* Noise + Gradient Background */
-    .app-background {
-        position: fixed;
-        top: 0;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 100%;
-        max-width: 520px;
-        height: 100%;
-        z-index: 0;
-        pointer-events: none;
-        background: 
-            radial-gradient(ellipse at 30% 0%, rgba(202, 169, 177, 0.25) 0%, transparent 50%),
-            radial-gradient(ellipse at 70% 100%, rgba(91, 164, 181, 0.2) 0%, transparent 50%),
-            var(--bg-primary);
-    }
-    .app-background::after {
-        content: '';
-        position: absolute;
-        inset: 0;
-        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-        opacity: 0.03;
-        pointer-events: none;
-    }
-    
-    /* Pure Signal beacon animation - Gradus colors */
-    @keyframes beaconPulse1 { 
-        0%, 100% { opacity: 0.9; transform: scale(1); } 
-        50% { opacity: 0.4; transform: scale(1.05); } 
-    }
-    @keyframes beaconPulse2 { 
-        0%, 100% { opacity: 0.7; transform: scale(1); } 
-        50% { opacity: 0.25; transform: scale(1.03); } 
-    }
-    @keyframes beaconPulse3 { 
-        0%, 100% { opacity: 0.5; transform: scale(1); } 
-        50% { opacity: 0.15; transform: scale(1.02); } 
-    }
-    .beacon-r1 { animation: beaconPulse1 2.5s ease-in-out infinite; transform-origin: center; }
-    .beacon-r2 { animation: beaconPulse2 2.5s ease-in-out infinite 0.4s; transform-origin: center; }
-    .beacon-r3 { animation: beaconPulse3 2.5s ease-in-out infinite 0.8s; transform-origin: center; }
-    
-    /* Header - Glassmorphism */
-    .header { 
-        background: var(--bg-glass-header); 
-        backdrop-filter: blur(16px);
-        -webkit-backdrop-filter: blur(16px);
-        padding: 1.25rem 1.5rem; 
-        border-bottom: 1px solid var(--border-glass); 
-        position: sticky; 
-        top: 0; 
-        z-index: 100; 
-    }
-    .header-top {
-        display: flex;
-        align-items: center;
-        margin-bottom: 0.75rem;
-    }
-    .back-to-parent {
-        font-family: 'Fira Code', monospace;
-        font-size: 0.625rem;
-        letter-spacing: 0.1em;
-        color: var(--text-muted);
-        text-decoration: none;
-        transition: color 0.2s ease;
-    }
-    .back-to-parent:hover {
-        color: var(--accent);
-    }
-    .header-content { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; }
-    .header-right { display: flex; align-items: center; gap: 0.25rem; flex-shrink: 0; }
-    .logo { display: flex; align-items: center; gap: 0.75rem; min-width: 0; }
-    
-    /* Pure Signal beacon icon */
-    .logo-beacon { width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; }
-    .logo-beacon svg { width: 100%; height: 100%; }
-    .setup-beacon { width: 100px; height: 100px; margin-bottom: 1.5rem; }
-    .setup-beacon svg { width: 100%; height: 100%; }
-    
-    /* Gradus logo element */
-    .logo-gradus { display: flex; align-items: center; gap: 3px; height: 1.5rem; }
-    .gradus-bar { width: 3px; background-color: var(--accent); border-radius: 1.5px; transition: height 0.3s ease, opacity 0.3s ease; }
-    .gradus-bar:nth-child(1) { height: 40%; opacity: 0.5; }
-    .gradus-bar:nth-child(2) { height: 65%; opacity: 0.75; }
-    .gradus-bar:nth-child(3) { height: 90%; opacity: 1; }
-    [data-theme="dark"] .gradus-bar:nth-child(1) { height: 90%; opacity: 1; }
-    [data-theme="dark"] .gradus-bar:nth-child(2) { height: 65%; opacity: 0.75; }
-    [data-theme="dark"] .gradus-bar:nth-child(3) { height: 40%; opacity: 0.5; }
-    
-    @keyframes gradusIlluminate { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
-    .logo-gradus.animated .gradus-bar:nth-child(1) { animation: gradusIlluminate 2.4s ease-in-out infinite 0s; }
-    .logo-gradus.animated .gradus-bar:nth-child(2) { animation: gradusIlluminate 2.4s ease-in-out infinite 0.15s; }
-    .logo-gradus.animated .gradus-bar:nth-child(3) { animation: gradusIlluminate 2.4s ease-in-out infinite 0.3s; }
-    
-    .logo-text { display: flex; flex-direction: column; }
-    .logo-title { font-family: 'Archivo', sans-serif; font-size: 1.25rem; font-weight: 300; letter-spacing: 0.25em; text-transform: uppercase; color: var(--text-primary); }
-    .logo-protocol { font-family: 'Fira Code', monospace; font-size: 0.625rem; letter-spacing: 0.15em; color: var(--text-muted); }
-    
-    /* Theme toggle - Praxia style */
-    .theme-toggle { display: flex; align-items: center; gap: 0.5rem; cursor: pointer; padding: 0.5rem; }
-    .theme-label { font-family: 'Fira Code', monospace; font-size: 0.5625rem; letter-spacing: 0.15em; color: var(--text-muted); }
-    .theme-indicator { display: flex; align-items: center; gap: 2px; }
-    .theme-indicator .gradus-bar { width: 2px; background: var(--accent); border-radius: 1px; }
-    .theme-indicator .gradus-bar:nth-child(1) { height: 6px; opacity: 0.5; }
-    .theme-indicator .gradus-bar:nth-child(2) { height: 10px; opacity: 0.75; }
-    .theme-indicator .gradus-bar:nth-child(3) { height: 14px; opacity: 1; }
-    [data-theme="dark"] .theme-indicator .gradus-bar:nth-child(1) { height: 14px; opacity: 1; }
-    [data-theme="dark"] .theme-indicator .gradus-bar:nth-child(2) { height: 10px; opacity: 0.75; }
-    [data-theme="dark"] .theme-indicator .gradus-bar:nth-child(3) { height: 6px; opacity: 0.5; }
-    
-    /* Help link - book icon */
-    .help-link {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 0.5rem;
-        color: var(--text-muted);
-        text-decoration: none;
-        transition: color 0.2s ease;
-    }
-    .help-link:hover {
-        color: var(--accent);
-    }
-    
-    .main-content { padding: 1.5rem; padding-bottom: 100px; position: relative; z-index: 1; }
-    .view { display: none; animation: fadeIn 0.3s ease; }
-    .view.active { display: block; }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
-    
-    /* Typography - Grey Stratum style */
-    .page-title { font-family: 'Archivo', sans-serif; font-size: 1.5rem; font-weight: 300; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-primary); margin-bottom: 0.25rem; line-height: 1.3; }
-    .page-subtitle { font-size: 0.9375rem; color: var(--text-secondary); margin-bottom: 1.5rem; font-weight: 300; }
-    .section-label { font-family: 'Fira Code', monospace; font-size: 0.6875rem; letter-spacing: 0.15em; color: var(--cyan-accent); text-transform: uppercase; margin-bottom: 0.5rem; }
-    
-    /* Cards - Glassmorphism */
-    .card { 
-        background: var(--bg-glass); 
-        backdrop-filter: blur(16px);
-        -webkit-backdrop-filter: blur(16px);
-        border-radius: 12px; 
-        padding: 1.25rem; 
-        box-shadow: var(--shadow), inset 0 1px 0 rgba(255, 255, 255, 0.08); 
-        margin-bottom: 1rem; 
-        border: 1px solid var(--border-glass); 
-        transition: all 0.2s ease; 
-    }
-    .card:hover { 
-        background: var(--bg-glass-hover);
-        border-color: var(--border-glass-hover);
-        box-shadow: var(--shadow-lg), inset 0 1px 0 rgba(255, 255, 255, 0.1); 
-    }
-    .card-title { font-family: 'Archivo', sans-serif; font-size: 0.875rem; font-weight: 400; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-primary); margin-bottom: 0.25rem; }
-    .card-subtitle { font-size: 0.8125rem; color: var(--text-secondary); font-weight: 300; }
-    
-    /* Week Card - Tinted Glassmorphism */
-    .week-card { 
-        background: linear-gradient(135deg, rgba(202, 169, 177, 0.85) 0%, rgba(202, 169, 177, 0.7) 100%);
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
-        color: var(--bg-primary); 
-        border-radius: 16px; 
-        padding: 1.5rem; 
-        margin-bottom: 1.5rem; 
-        cursor: pointer; 
-        transition: all 0.2s ease; 
-        border: 1px solid rgba(255, 255, 255, 0.15);
-        box-shadow: 0 12px 40px rgba(202, 169, 177, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2);
-    }
-    .week-card:hover { 
-        transform: translateY(-2px); 
-        box-shadow: 0 16px 48px rgba(202, 169, 177, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.25);
-    }
-    .week-card:active { transform: scale(0.98); }
-    .week-card-label { font-family: 'Fira Code', monospace; font-size: 0.6875rem; letter-spacing: 0.15em; opacity: 0.8; margin-bottom: 0.5rem; text-transform: uppercase; }
-    .week-card-title { font-family: 'Archivo', sans-serif; font-size: 1.25rem; font-weight: 300; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.25rem; }
-    .week-card-theme { font-size: 0.875rem; opacity: 0.9; font-weight: 300; }
-    .week-card-progress { display: flex; gap: 0.5rem; margin-top: 1rem; }
-    .progress-dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(26, 29, 33, 0.3); transition: all 0.2s ease; }
-    .progress-dot.complete { background: var(--cyan-accent); }
-    .progress-dot.current { background: var(--bg-primary); box-shadow: 0 0 0 3px rgba(255,255,255,0.3); }
-    
-    /* Stats - Glassmorphism */
-    .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; margin-bottom: 1.5rem; }
-    .stat-card { 
-        background: var(--bg-glass); 
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        border-radius: 12px; 
-        padding: 1rem; 
-        text-align: center; 
-        border: 1px solid var(--border-glass);
-        box-shadow: var(--shadow), inset 0 1px 0 rgba(255, 255, 255, 0.05);
-    }
-    .stat-value { font-family: 'Archivo', sans-serif; font-size: 1.75rem; font-weight: 300; color: var(--accent); }
-    .stat-label { font-family: 'Fira Code', monospace; font-size: 0.625rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 0.25rem; }
-    
-    /* Calendar - Glassmorphism */
-    .calendar-grid { display: grid; grid-template-columns: repeat(8, 1fr); gap: 6px; margin: 1rem 0; }
-    .calendar-week { 
-        aspect-ratio: 1; 
-        border-radius: 8px; 
-        background: var(--bg-glass); 
-        backdrop-filter: blur(8px);
-        -webkit-backdrop-filter: blur(8px);
-        border: 1px solid var(--border-glass); 
-        display: flex; 
-        align-items: center; 
-        justify-content: center; 
-        font-family: 'Fira Code', monospace; 
-        font-size: 0.625rem; 
-        color: var(--text-muted); 
-        cursor: pointer; 
-        transition: all 0.2s ease; 
-    }
-    .calendar-week:hover { border-color: var(--accent); background: var(--bg-glass-hover); }
-    .calendar-week.complete { background: var(--accent); color: var(--bg-primary); border-color: var(--accent); }
-    .calendar-week.current { border-color: var(--cyan-accent); box-shadow: 0 0 0 2px var(--cyan-glow); }
-    
-    /* Day tabs - Glassmorphism */
-    .day-tabs { 
-        display: flex; 
-        gap: 0.25rem; 
-        background: var(--bg-glass); 
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        padding: 4px; 
-        border-radius: 10px; 
-        margin-bottom: 1.5rem; 
-        overflow-x: auto;
-        border: 1px solid var(--border-glass);
-    }
-    .day-tab { flex: 1; min-width: 50px; padding: 0.625rem 0.5rem; border: none; background: transparent; font-family: 'Fira Code', monospace; font-size: 0.6rem; letter-spacing: 0.05em; color: var(--text-muted); cursor: pointer; border-radius: 8px; transition: all 0.2s ease; text-align: center; text-transform: uppercase; }
-    .day-tab:hover { color: var(--text-primary); }
-    .day-tab.active { background: var(--bg-card); color: var(--accent); box-shadow: var(--shadow); }
-    .day-tab.complete { color: var(--success); }
-    
-    /* Scripture block - Glassmorphism */
-    .scripture-block { 
-        background: var(--bg-glass); 
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        border-radius: 12px; 
-        padding: 1.5rem; 
-        margin: 1rem 0; 
-        border-left: 3px solid var(--cyan-accent);
-        border-top: 1px solid var(--border-glass);
-        border-right: 1px solid var(--border-glass);
-        border-bottom: 1px solid var(--border-glass);
-    }
-    .scripture-ref { font-family: 'Fira Code', monospace; font-size: 0.75rem; color: var(--cyan-accent); margin-bottom: 0.75rem; letter-spacing: 0.05em; }
-    .scripture-text { font-family: 'Inter', sans-serif; font-size: 0.9375rem; font-style: italic; line-height: 1.8; color: var(--text-primary); font-weight: 300; }
-    .scripture-version { font-family: 'Fira Code', monospace; font-size: 0.625rem; color: var(--text-muted); margin-top: 0.75rem; text-align: right; }
-    
-    /* Devotional */
-    .devotional-text { font-size: 0.9375rem; line-height: 1.8; color: var(--text-secondary); margin: 1rem 0; font-weight: 300; }
-    .devotional-text p { margin-bottom: 1rem; }
-    
-    /* Prompts - Glassmorphism */
-    .prompts-list { margin: 1rem 0; }
-    .prompt-item { 
-        background: var(--bg-glass); 
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        border-radius: 12px; 
-        padding: 1rem; 
-        margin-bottom: 0.75rem; 
-        border: 1px solid var(--border-glass);
-        box-shadow: var(--shadow), inset 0 1px 0 rgba(255, 255, 255, 0.05);
-    }
-    .prompt-number { font-family: 'Fira Code', monospace; font-size: 0.625rem; color: var(--cyan-accent); margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.1em; }
-    .prompt-text { font-size: 0.875rem; color: var(--text-primary); line-height: 1.6; font-weight: 300; }
-    
-    /* Journal - Glassmorphism */
-    .journal-entry { margin-top: 0.75rem; }
-    .journal-textarea { 
-        width: 100%; 
-        min-height: 80px; 
-        padding: 0.875rem; 
-        border: 1px solid var(--border-glass); 
-        border-radius: 8px; 
-        font-family: 'Inter', sans-serif; 
-        font-size: 0.875rem; 
-        line-height: 1.6; 
-        color: var(--text-primary); 
-        background: var(--bg-glass); 
-        backdrop-filter: blur(8px);
-        -webkit-backdrop-filter: blur(8px);
-        resize: vertical; 
-        font-weight: 300;
-        transition: all 0.2s ease;
-    }
-    .journal-textarea:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow); }
-    .journal-saved { font-family: 'Fira Code', monospace; font-size: 0.625rem; color: var(--success); margin-top: 0.5rem; opacity: 0; transition: opacity 0.3s ease; }
-    .journal-saved.visible { opacity: 1; }
-    
-    /* Prayer block - Glassmorphism */
-    .prayer-block { 
-        background: var(--bg-glass); 
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        border-radius: 12px; 
-        padding: 1.5rem; 
-        margin: 1rem 0;
-        border: 1px solid var(--border-glass);
-    }
-    .prayer-label { font-family: 'Fira Code', monospace; font-size: 0.6875rem; color: var(--accent); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 0.75rem; }
-    .prayer-text { font-family: 'Inter', sans-serif; font-size: 0.9375rem; font-style: italic; line-height: 1.8; color: var(--text-primary); font-weight: 300; }
-    
-    /* Challenge block - Glassmorphism */
-    .challenge-block { 
-        background: var(--accent-glow); 
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        border-radius: 12px; 
-        padding: 1.5rem; 
-        margin: 1rem 0; 
-        border: 1px solid var(--accent); 
-    }
-    .challenge-title { font-family: 'Archivo', sans-serif; font-size: 1rem; font-weight: 400; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-primary); margin-bottom: 0.75rem; }
-    .challenge-steps { list-style: none; margin: 0.75rem 0; }
-    .challenge-steps li { position: relative; padding-left: 1.5rem; margin-bottom: 0.75rem; font-size: 0.875rem; line-height: 1.6; color: var(--text-secondary); font-weight: 300; }
-    .challenge-steps li::before { content: '→'; position: absolute; left: 0; color: var(--cyan-accent); }
-    
-    /* Couple study - Glassmorphism */
-    .couple-study { 
-        background: var(--bg-glass); 
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        border-radius: 12px; 
-        padding: 1.5rem; 
-        margin: 1rem 0;
-        border: 1px solid var(--border-glass);
-    }
-    .couple-study-title { font-family: 'Archivo', sans-serif; font-size: 0.875rem; font-weight: 400; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.75rem; }
-    .couple-study-text { font-size: 0.875rem; line-height: 1.7; color: var(--text-secondary); font-weight: 300; }
-    
-    /* Buttons */
-    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; padding: 0.875rem 1.5rem; border: 1px solid transparent; border-radius: 6px; font-family: 'Fira Code', monospace; font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; cursor: pointer; transition: all 0.2s ease; }
-    .btn:active { transform: scale(0.96); }
-    .btn-primary { background: var(--accent); color: var(--bg-primary); border-color: var(--accent); }
-    .btn-primary:hover { background: var(--accent-hover); box-shadow: var(--shadow-glow); }
-    .btn-success { background: transparent; color: var(--accent); border: 1px solid var(--accent); }
-    .btn-success:hover { background: var(--accent-light); box-shadow: var(--shadow-glow); }
-    .btn-ghost { background: transparent; border: none; color: var(--text-muted); }
-    .btn-ghost:hover { color: var(--accent); }
-    .btn-block { width: 100%; }
-    .btn-lg { padding: 1rem 2rem; font-size: 0.8125rem; }
-    
-    /* Back button */
-    .back-btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 0; background: none; border: none; color: var(--accent); font-family: 'Fira Code', monospace; font-size: 0.6875rem; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; margin-bottom: 1rem; }
-    
-    /* Couple card - Glassmorphism */
-    .couple-card { 
-        background: var(--bg-glass); 
-        backdrop-filter: blur(16px);
-        -webkit-backdrop-filter: blur(16px);
-        border-radius: 12px; 
-        padding: 1.25rem; 
-        margin-bottom: 1.5rem; 
-        border: 1px solid var(--border-glass); 
-        display: flex; 
-        align-items: center; 
-        gap: 1rem;
-        box-shadow: var(--shadow), inset 0 1px 0 rgba(255, 255, 255, 0.08);
-    }
-    .couple-avatars { display: flex; }
-    .avatar { width: 44px; height: 44px; border-radius: 50%; background: var(--accent); color: var(--bg-primary); display: flex; align-items: center; justify-content: center; font-family: 'Archivo', sans-serif; font-size: 1rem; font-weight: 400; border: 3px solid var(--bg-card); }
-    .avatar:nth-child(2) { margin-left: -12px; background: var(--cyan-accent); color: var(--bg-primary); }
-    .couple-info { flex: 1; }
-    .couple-names { font-family: 'Archivo', sans-serif; font-size: 0.875rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-primary); }
-    .couple-status { font-family: 'Fira Code', monospace; font-size: 0.625rem; color: var(--text-muted); letter-spacing: 0.1em; }
-    
-    /* Bottom nav - Glassmorphism */
-    .bottom-nav { 
-        position: fixed; 
-        bottom: 0; 
-        left: 50%; 
-        transform: translateX(-50%); 
-        width: 100%; 
-        max-width: 520px; 
-        background: var(--bg-glass-header); 
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
-        border-top: 1px solid var(--border-glass); 
-        display: flex; 
-        justify-content: space-around; 
-        padding: 0.75rem 0; 
-        padding-bottom: calc(0.75rem + env(safe-area-inset-bottom, 0)); 
-        z-index: 100; 
-    }
-    .nav-item { display: flex; flex-direction: column; align-items: center; gap: 0.25rem; padding: 0.5rem 1rem; background: none; border: none; color: var(--text-muted); font-family: 'Fira Code', monospace; font-size: 0.5625rem; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; border-radius: 6px; }
-    .nav-item .nav-icon { display: flex; align-items: center; gap: 2px; height: 20px; }
-    .nav-item .nav-icon .gradus-bar { width: 2px; background: currentColor; border-radius: 1px; }
-    .nav-item .nav-icon .gradus-bar:nth-child(1) { height: 6px; }
-    .nav-item .nav-icon .gradus-bar:nth-child(2) { height: 10px; }
-    .nav-item .nav-icon .gradus-bar:nth-child(3) { height: 14px; }
-    .nav-item:hover, .nav-item.active { color: var(--accent); }
-    
-    /* Modal - Glassmorphism */
-    .modal-overlay { position: fixed; inset: 0; background: rgba(26, 29, 33, 0.7); backdrop-filter: blur(8px); display: none; align-items: center; justify-content: center; z-index: 200; padding: 1.5rem; }
-    .modal-overlay.active { display: flex; }
-    .modal { 
-        background: var(--bg-glass); 
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
-        border-radius: 16px; 
-        padding: 2rem; 
-        width: 100%; 
-        max-width: 320px; 
-        box-shadow: var(--shadow-lg); 
-        text-align: center; 
-        border: 1px solid var(--border-glass); 
-    }
-    .modal-icon { display: flex; justify-content: center; margin-bottom: 1rem; }
-    .modal-icon .gradus-confirm { display: flex; align-items: center; gap: 4px; height: 48px; }
-    .modal-icon .gradus-confirm .gradus-bar { width: 4px; background: var(--accent); border-radius: 2px; }
-    .modal-icon .gradus-confirm .gradus-bar:nth-child(1) { height: 16px; }
-    .modal-icon .gradus-confirm .gradus-bar:nth-child(2) { height: 28px; }
-    .modal-icon .gradus-confirm .gradus-bar:nth-child(3) { height: 40px; }
-    .modal-title { font-family: 'Archivo', sans-serif; font-size: 1.25rem; font-weight: 300; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-primary); margin-bottom: 0.5rem; }
-    .modal-message { font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 1.5rem; line-height: 1.6; font-weight: 300; }
-    
-    /* Setup screen - Glassmorphism */
-    .setup-container { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2rem; text-align: center; position: relative; z-index: 1; }
-    .setup-title { font-family: 'Archivo', sans-serif; font-size: 2rem; font-weight: 300; letter-spacing: 0.3em; text-transform: uppercase; color: var(--text-primary); margin-bottom: 0.5rem; }
-    .setup-subtitle { font-size: 0.9375rem; color: var(--text-secondary); margin-bottom: 2rem; max-width: 300px; font-weight: 300; }
-    .form-group { width: 100%; max-width: 300px; margin-bottom: 1rem; text-align: left; }
-    .form-label { display: block; font-family: 'Fira Code', monospace; font-size: 0.6875rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-secondary); margin-bottom: 0.5rem; }
-    .form-input { 
-        width: 100%; 
-        padding: 0.875rem 1rem; 
-        border: 1px solid var(--border-glass); 
-        border-radius: 8px; 
-        font-family: 'Inter', sans-serif; 
-        font-size: 0.9375rem; 
-        color: var(--text-primary); 
-        background: var(--bg-glass); 
-        backdrop-filter: blur(8px);
-        -webkit-backdrop-filter: blur(8px);
-        font-weight: 300;
-        transition: all 0.2s ease;
-    }
-    .form-input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow); }
-    .mt-lg { margin-top: 1.5rem; }
-    .setup-protocol { font-family: 'Fira Code', monospace; font-size: 0.625rem; letter-spacing: 0.15em; color: var(--text-muted); margin-top: 1.5rem; }
-    
-    @media (max-width: 380px) { 
-        .header-content { flex-wrap: wrap; justify-content: center; gap: 0.5rem; } 
-        .theme-label { display: none; } 
-    }
-</style>
-```
-
+        .challenge-title { font-family: 'Archivo', sans-serif; font-size: 1rem; font-weight: 400; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-primary); margin-bottom: 0.75rem; }
+        .challenge-steps { list-style: none; margin: 0.75rem 0; }
+        .challenge-steps li { position: relative; padding-left: 1.5rem; margin-bottom: 0.75rem; font-size: 0.875rem; line-height: 1.6; color: var(--text-secondary); font-weight: 300; }
+        .challenge-steps li::before { content: '→'; position: absolute; left: 0; color: var(--cyan-accent); }
+        
+        /* Couple study - Glassmorphism */
+        .couple-study { 
+            background: var(--bg-glass); 
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 12px; 
+            padding: 1.5rem; 
+            margin: 1rem 0;
+            border: 1px solid var(--border-glass);
+        }
+        .couple-study-title { font-family: 'Archivo', sans-serif; font-size: 0.875rem; font-weight: 400; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.75rem; }
+        .couple-study-text { font-size: 0.875rem; line-height: 1.7; color: var(--text-secondary); font-weight: 300; }
+        
+        /* Buttons */
+        .btn { display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; padding: 0.875rem 1.5rem; border: 1px solid transparent; border-radius: 6px; font-family: 'Fira Code', monospace; font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; cursor: pointer; transition: all 0.2s ease; }
+        .btn:active { transform: scale(0.96); }
+        .btn-primary { background: var(--accent); color: var(--bg-primary); border-color: var(--accent); }
+        .btn-primary:hover { background: var(--accent-hover); box-shadow: var(--shadow-glow); }
+        .btn-success { background: transparent; color: var(--accent); border: 1px solid var(--accent); }
+        .btn-success:hover { background: var(--accent-light); box-shadow: var(--shadow-glow); }
+        .btn-ghost { background: transparent; border: none; color: var(--text-muted); }
+        .btn-ghost:hover { color: var(--accent); }
+        .btn-block { width: 100%; }
+        .btn-lg { padding: 1rem 2rem; font-size: 0.8125rem; }
+        
+        /* Back button */
+        .back-btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 0; background: none; border: none; color: var(--accent); font-family: 'Fira Code', monospace; font-size: 0.6875rem; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; margin-bottom: 1rem; }
+        
+        /* Couple card - Glassmorphism */
+        .couple-card { 
+            background: var(--bg-glass); 
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-radius: 12px; 
+            padding: 1.25rem; 
+            margin-bottom: 1.5rem; 
+            border: 1px solid var(--border-glass); 
+            display: flex; 
+            align-items: center; 
+            gap: 1rem;
+            box-shadow: var(--shadow), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+        }
+        .couple-avatars { display: flex; }
+        .avatar { width: 44px; height: 44px; border-radius: 50%; background: var(--accent); color: var(--bg-primary); display: flex; align-items: center; justify-content: center; font-family: 'Archivo', sans-serif; font-size: 1rem; font-weight: 400; border: 3px solid var(--bg-card); }
+        .avatar:nth-child(2) { margin-left: -12px; background: var(--cyan-accent); color: var(--bg-primary); }
+        .couple-info { flex: 1; }
+        .couple-names { font-family: 'Archivo', sans-serif; font-size: 0.875rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-primary); }
+        .couple-status { font-family: 'Fira Code', monospace; font-size: 0.625rem; color: var(--text-muted); letter-spacing: 0.1em; }
+        
+        /* Bottom nav - Glassmorphism */
+        .bottom-nav { 
+            position: fixed; 
+            bottom: 0; 
+            left: 50%; 
+            transform: translateX(-50%); 
+            width: 100%; 
+            max-width: 520px; 
+            background: var(--bg-glass-header); 
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-top: 1px solid var(--border-glass); 
+            display: flex; 
+            justify-content: space-around; 
+            padding: 0.75rem 0; 
+            padding-bottom: calc(0.75rem + env(safe-area-inset-bottom, 0)); 
+            z-index: 100; 
+        }
+        .nav-item { display: flex; flex-direction: column; align-items: center; gap: 0.25rem; padding: 0.5rem 1rem; background: none; border: none; color: var(--text-muted); font-family: 'Fira Code', monospace; font-size: 0.5625rem; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; border-radius: 6px; }
+        .nav-item .nav-icon { display: flex; align-items: center; gap: 2px; height: 20px; }
+        .nav-item .nav-icon .gradus-bar { width: 2px; background: currentColor; border-radius: 1px; }
+        .nav-item .nav-icon .gradus-bar:nth-child(1) { height: 6px; }
+        .nav-item .nav-icon .gradus-bar:nth-child(2) { height: 10px; }
+        .nav-item .nav-icon .gradus-bar:nth-child(3) { height: 14px; }
+        .nav-item:hover, .nav-item.active { color: var(--accent); }
+        
+        /* Modal - Glassmorphism */
+        .modal-overlay { position: fixed; inset: 0; background: rgba(26, 29, 33, 0.7); backdrop-filter: blur(8px); display: none; align-items: center; justify-content: center; z-index: 200; padding: 1.5rem; }
+        .modal-overlay.active { display: flex; }
+        .modal { 
+            background: var(--bg-glass); 
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 16px; 
+            padding: 2rem; 
+            width: 100%; 
+            max-width: 320px; 
+            box-shadow: var(--shadow-lg); 
+            text-align: center; 
+            border: 1px solid var(--border-glass); 
+        }
+        .modal-icon { display: flex; justify-content: center; margin-bottom: 1rem; }
+        .modal-icon .gradus-confirm { display: flex; align-items: center; gap: 4px; height: 48px; }
+        .modal-icon .gradus-confirm .gradus-bar { width: 4px; background: var(--accent); border-radius: 2px; }
+        .modal-icon .gradus-confirm .gradus-bar:nth-child(1) { height: 16px; }
+        .modal-icon .gradus-confirm .gradus-bar:nth-child(2) { height: 28px; }
+        .modal-icon .gradus-confirm .gradus-bar:nth-child(3) { height: 40px; }
+        .modal-title { font-family: 'Archivo', sans-serif; font-size: 1.25rem; font-weight: 300; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-primary); margin-bottom: 0.5rem; }
+        .modal-message { font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 1.5rem; line-height: 1.6; font-weight: 300; }
+        
+        /* Setup screen - Glassmorphism */
+        .setup-container { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2rem; text-align: center; position: relative; z-index: 1; }
+        .setup-title { font-family: 'Archivo', sans-serif; font-size: 2rem; font-weight: 300; letter-spacing: 0.3em; text-transform: uppercase; color: var(--text-primary); margin-bottom: 0.5rem; }
+        .setup-subtitle { font-size: 0.9375rem; color: var(--text-secondary); margin-bottom: 2rem; max-width: 300px; font-weight: 300; }
+        .form-group { width: 100%; max-width: 300px; margin-bottom: 1rem; text-align: left; }
+        .form-label { display: block; font-family: 'Fira Code', monospace; font-size: 0.6875rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-secondary); margin-bottom: 0.5rem; }
+        .form-input { 
+            width: 100%; 
+            padding: 0.875rem 1rem; 
+            border: 1px solid var(--border-glass); 
+            border-radius: 8px; 
+            font-family: 'Inter', sans-serif; 
+            font-size: 0.9375rem; 
+            color: var(--text-primary); 
+            background: var(--bg-glass); 
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            font-weight: 300;
+            transition: all 0.2s ease;
+        }
+        .form-input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow); }
+        .mt-lg { margin-top: 1.5rem; }
+        .setup-protocol { font-family: 'Fira Code', monospace; font-size: 0.625rem; letter-spacing: 0.15em; color: var(--text-muted); margin-top: 1.5rem; }
+        
+        @media (max-width: 380px) { 
+            .header-content { flex-wrap: wrap; justify-content: center; gap: 0.5rem; } 
+            .theme-label { display: none; } 
+        }
+    </style>
 </head>
 <body>
     <div class="app-container">
@@ -597,142 +593,140 @@
             <button class="btn btn-primary btn-lg btn-block mt-lg" onclick="startJourney()">[ Begin Journey ]</button>
             <p class="setup-protocol">[ Cadencia · Protocol 003 · Grey Stratum ]</p>
         </div>
-
-```
-    <div id="main-app" style="display: none;">
-        <header class="header">
-            <div class="header-top">
-                <a href="https://www.greystratum.com/protocols/cadencia.html" class="back-to-parent">← Back to Cadencia</a>
-            </div>
-            <div class="header-content">
-                <div class="logo">
-                    <div class="logo-beacon">
-                        <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <circle cx="40" cy="40" r="6" fill="#CAA9B1"/>
-                            <circle class="beacon-r1" cx="40" cy="40" r="14" stroke="#CAA9B1" stroke-width="2" fill="none"/>
-                            <circle class="beacon-r2" cx="40" cy="40" r="24" stroke="#D4B8BF" stroke-width="1.5" fill="none"/>
-                            <circle class="beacon-r3" cx="40" cy="40" r="34" stroke="#E0C9CF" stroke-width="1" fill="none"/>
-                        </svg>
-                    </div>
-                    <div class="logo-text">
-                        <span class="logo-title">Beacon</span>
-                        <span class="logo-protocol">[ Cadencia ]</span>
-                    </div>
+        
+        <div id="main-app" style="display: none;">
+            <header class="header">
+                <div class="header-top">
+                    <a href="https://www.greystratum.com/protocols/cadencia.html" class="back-to-parent">← Back to Cadencia</a>
                 </div>
-                <div class="header-right">
-                    <div class="theme-toggle" onclick="toggleTheme()" title="Toggle theme">
-                        <span class="theme-label" id="themeLabel">[ LUX ]</span>
-                        <div class="theme-indicator">
-                            <div class="gradus-bar"></div>
-                            <div class="gradus-bar"></div>
-                            <div class="gradus-bar"></div>
+                <div class="header-content">
+                    <div class="logo">
+                        <div class="logo-beacon">
+                            <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="40" cy="40" r="6" fill="#CAA9B1"/>
+                                <circle class="beacon-r1" cx="40" cy="40" r="14" stroke="#CAA9B1" stroke-width="2" fill="none"/>
+                                <circle class="beacon-r2" cx="40" cy="40" r="24" stroke="#D4B8BF" stroke-width="1.5" fill="none"/>
+                                <circle class="beacon-r3" cx="40" cy="40" r="34" stroke="#E0C9CF" stroke-width="1" fill="none"/>
+                            </svg>
+                        </div>
+                        <div class="logo-text">
+                            <span class="logo-title">Beacon</span>
+                            <span class="logo-protocol">[ Cadencia ]</span>
                         </div>
                     </div>
-                    <a href="/cadencia/beacon_user_guide.pdf" target="_blank" class="help-link" title="User Guide">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
-                            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
-                        </svg>
-                    </a>
-                    <a href="/cadencia/beacon_companion_guide.pdf" target="_blank" class="help-link" title="Companion Guide">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
-                            <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
-                        </svg>
-                    </a>
-                </div>
-            </div>
-        </header>
-        
-        <main class="main-content">
-            <section id="view-dashboard" class="view active">
-                <div class="couple-card">
-                    <div class="couple-avatars">
-                        <div class="avatar" id="avatar1">M</div>
-                        <div class="avatar" id="avatar2">S</div>
-                    </div>
-                    <div class="couple-info">
-                        <div class="couple-names" id="couple-names">Mark & Sarah</div>
-                        <div class="couple-status">Covenant Journey · Week <span id="current-week-num">1</span></div>
+                    <div class="header-right">
+                        <div class="theme-toggle" onclick="toggleTheme()" title="Toggle theme">
+                            <span class="theme-label" id="themeLabel">[ LUX ]</span>
+                            <div class="theme-indicator">
+                                <div class="gradus-bar"></div>
+                                <div class="gradus-bar"></div>
+                                <div class="gradus-bar"></div>
+                            </div>
+                        </div>
+                        <a href="/cadencia/beacon_user_guide.pdf" target="_blank" class="help-link" title="User Guide">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                            </svg>
+                        </a>
+                        <a href="/cadencia/beacon_companion_guide.pdf" target="_blank" class="help-link" title="Companion Guide">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+                                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+                            </svg>
+                        </a>
                     </div>
                 </div>
-                
-                <div class="week-card" onclick="openWeek()">
-                    <div class="week-card-label">WEEK <span id="wk-num">1</span> OF 52</div>
-                    <div class="week-card-title" id="wk-title">God's Design for Marriage</div>
-                    <div class="week-card-theme" id="wk-theme">Understanding Marriage as Divine Institution</div>
-                    <div class="week-card-progress" id="wk-dots"></div>
-                </div>
-                
-                <div class="stats-grid">
-                    <div class="stat-card"><div class="stat-value" id="stat-streak">0</div><div class="stat-label">Streak</div></div>
-                    <div class="stat-card"><div class="stat-value" id="stat-weeks">0</div><div class="stat-label">Weeks</div></div>
-                    <div class="stat-card"><div class="stat-value">8</div><div class="stat-label">Pilot</div></div>
-                </div>
-                
-                <div class="section-label">[ Journey Progress ]</div>
-                <div class="calendar-grid" id="calendar-grid"></div>
-            </section>
+            </header>
             
-            <section id="view-week" class="view">
-                <button class="back-btn" onclick="showView('view-dashboard'); updateDashboard();">← Revert</button>
-                <div class="section-label">WEEK <span id="week-view-num">1</span></div>
-                <h1 class="page-title" id="week-view-title">God's Design for Marriage</h1>
-                <p class="page-subtitle" id="week-view-theme">Understanding Marriage as Divine Institution</p>
-                <div class="day-tabs" id="day-tabs"></div>
-                <div id="day-content"></div>
-                <button class="btn btn-success btn-block btn-lg mt-lg" id="complete-day-btn" onclick="completeDay()">[ Mark Day Complete ]</button>
-            </section>
+            <main class="main-content">
+                <section id="view-dashboard" class="view active">
+                    <div class="couple-card">
+                        <div class="couple-avatars">
+                            <div class="avatar" id="avatar1">M</div>
+                            <div class="avatar" id="avatar2">S</div>
+                        </div>
+                        <div class="couple-info">
+                            <div class="couple-names" id="couple-names">Mark & Sarah</div>
+                            <div class="couple-status">Covenant Journey · Week <span id="current-week-num">1</span></div>
+                        </div>
+                    </div>
+                    
+                    <div class="week-card" onclick="openWeek()">
+                        <div class="week-card-label">WEEK <span id="wk-num">1</span> OF 52</div>
+                        <div class="week-card-title" id="wk-title">God's Design for Marriage</div>
+                        <div class="week-card-theme" id="wk-theme">Understanding Marriage as Divine Institution</div>
+                        <div class="week-card-progress" id="wk-dots"></div>
+                    </div>
+                    
+                    <div class="stats-grid">
+                        <div class="stat-card"><div class="stat-value" id="stat-streak">0</div><div class="stat-label">Streak</div></div>
+                        <div class="stat-card"><div class="stat-value" id="stat-weeks">0</div><div class="stat-label">Weeks</div></div>
+                        <div class="stat-card"><div class="stat-value">8</div><div class="stat-label">Pilot</div></div>
+                    </div>
+                    
+                    <div class="section-label">[ Journey Progress ]</div>
+                    <div class="calendar-grid" id="calendar-grid"></div>
+                </section>
+                
+                <section id="view-week" class="view">
+                    <button class="back-btn" onclick="showView('view-dashboard'); updateDashboard();">← Revert</button>
+                    <div class="section-label">WEEK <span id="week-view-num">1</span></div>
+                    <h1 class="page-title" id="week-view-title">God's Design for Marriage</h1>
+                    <p class="page-subtitle" id="week-view-theme">Understanding Marriage as Divine Institution</p>
+                    <div class="day-tabs" id="day-tabs"></div>
+                    <div id="day-content"></div>
+                    <button class="btn btn-success btn-block btn-lg mt-lg" id="complete-day-btn" onclick="completeDay()">[ Mark Day Complete ]</button>
+                </section>
+                
+                <section id="view-progress" class="view">
+                    <h1 class="page-title">Progressio</h1>
+                    <p class="page-subtitle">Your path through the 8-week pilot</p>
+                    <div class="stats-grid">
+                        <div class="stat-card"><div class="stat-value" id="prog-streak">0</div><div class="stat-label">Streak</div></div>
+                        <div class="stat-card"><div class="stat-value" id="prog-weeks">0</div><div class="stat-label">Complete</div></div>
+                        <div class="stat-card"><div class="stat-value" id="prog-days">0</div><div class="stat-label">Days</div></div>
+                    </div>
+                    <div class="card"><div class="card-title" style="margin-bottom:1rem;">Week by Week</div><div id="progress-weeks-list"></div></div>
+                    <button class="btn btn-ghost btn-block mt-lg" onclick="resetJourney()" style="color: var(--text-muted); font-size: 0.625rem;">[ Reset Journey ]</button>
+                </section>
+            </main>
             
-            <section id="view-progress" class="view">
-                <h1 class="page-title">Progressio</h1>
-                <p class="page-subtitle">Your path through the 8-week pilot</p>
-                <div class="stats-grid">
-                    <div class="stat-card"><div class="stat-value" id="prog-streak">0</div><div class="stat-label">Streak</div></div>
-                    <div class="stat-card"><div class="stat-value" id="prog-weeks">0</div><div class="stat-label">Complete</div></div>
-                    <div class="stat-card"><div class="stat-value" id="prog-days">0</div><div class="stat-label">Days</div></div>
-                </div>
-                <div class="card"><div class="card-title" style="margin-bottom:1rem;">Week by Week</div><div id="progress-weeks-list"></div></div>
-                <button class="btn btn-ghost btn-block mt-lg" onclick="resetJourney()" style="color: var(--text-muted); font-size: 0.625rem;">[ Reset Journey ]</button>
-            </section>
-        </main>
+            <nav class="bottom-nav">
+                <button class="nav-item active" onclick="navigateTo('dashboard')">
+                    <div class="nav-icon">
+                        <div class="gradus-bar"></div>
+                        <div class="gradus-bar"></div>
+                        <div class="gradus-bar"></div>
+                    </div>
+                    <span>Home</span>
+                </button>
+                <button class="nav-item" onclick="navigateTo('progress')">
+                    <div class="nav-icon">
+                        <div class="gradus-bar"></div>
+                        <div class="gradus-bar"></div>
+                        <div class="gradus-bar"></div>
+                    </div>
+                    <span>Progressio</span>
+                </button>
+            </nav>
+        </div>
         
-        <nav class="bottom-nav">
-            <button class="nav-item active" onclick="navigateTo('dashboard')">
-                <div class="nav-icon">
-                    <div class="gradus-bar"></div>
-                    <div class="gradus-bar"></div>
-                    <div class="gradus-bar"></div>
+        <div class="modal-overlay" id="modal-complete">
+            <div class="modal">
+                <div class="modal-icon">
+                    <div class="gradus-confirm">
+                        <div class="gradus-bar"></div>
+                        <div class="gradus-bar"></div>
+                        <div class="gradus-bar"></div>
+                    </div>
                 </div>
-                <span>Home</span>
-            </button>
-            <button class="nav-item" onclick="navigateTo('progress')">
-                <div class="nav-icon">
-                    <div class="gradus-bar"></div>
-                    <div class="gradus-bar"></div>
-                    <div class="gradus-bar"></div>
-                </div>
-                <span>Progressio</span>
-            </button>
-        </nav>
-    </div>
-    
-    <div class="modal-overlay" id="modal-complete">
-        <div class="modal">
-            <div class="modal-icon">
-                <div class="gradus-confirm">
-                    <div class="gradus-bar"></div>
-                    <div class="gradus-bar"></div>
-                    <div class="gradus-bar"></div>
-                </div>
+                <h3 class="modal-title" id="modal-title">Confirmed</h3>
+                <p class="modal-message" id="modal-message">Great work continuing your journey together.</p>
+                <button class="btn btn-primary" onclick="hideModal()">[ Dismiss ]</button>
             </div>
-            <h3 class="modal-title" id="modal-title">Confirmed</h3>
-            <p class="modal-message" id="modal-message">Great work continuing your journey together.</p>
-            <button class="btn btn-primary" onclick="hideModal()">[ Dismiss ]</button>
         </div>
     </div>
-</div>
-```
 
 <script>
 const WEEKS=[{week:1,title:"God's Design for Marriage",theme:"In the Beginning — Understanding Marriage as Divine Institution",couple:"Adam & Eve",coupleDesc:"The First Marriage",days:{1:{title:"Theme Introduction",scriptureRef:"Genesis 2:18, 21-24",scriptureText:`"Then the LORD God said, 'It is not good that the man should be alone; I will make him a helper fit for him.'... So the LORD God caused a deep sleep to fall upon the man, and while he slept took one of his ribs and closed up its place with flesh. And the rib that the LORD God had taken from the man he made into a woman and brought her to the man. Then the man said, 'This at last is bone of my bones and flesh of my flesh; she shall be called Woman, because she was taken out of Man.' Therefore a man shall leave his father and his mother and hold fast to his wife, and they shall become one flesh."`,devotional:`<p>Before there was sin, before there was struggle, before there was any brokenness in the world — there was marriage. God looked at His perfect creation and declared something "not good": Adam's aloneness.</p><p>Marriage is not a human invention or cultural construct — it is God's idea, born in paradise, designed for flourishing. Your marriage is a divine institution with eternal significance.</p>`},2:{title:"Individual Reflection",scriptureRef:"Genesis 1:27-28",scriptureText:`"So God created man in his own image, in the image of God he created him; male and female he created them. And God blessed them."`,prompts:["What does it mean to you that marriage was God's idea, not humanity's invention?","How does knowing you are made in God's image affect how you see your spouse?","Reflect on the phrase 'helper fit for him' (Hebrew: ezer kenegdo). This same word 'helper' is used of God Himself in Psalm 54:4."]},3:{title:"Individual Reflection",scriptureRef:"Matthew 19:4-6",scriptureText:`"He answered, 'Have you not read that he who created them from the beginning made them male and female... So they are no longer two but one flesh. What therefore God has joined together, let not man separate.'"`,prompts:["Jesus quotes Genesis when discussing marriage. Why do you think He points back to 'the beginning'?","'What God has joined together' — take a moment to thank God for joining you to your spouse."]},4:{title:"Couple Discussion",coupleStudy:`Adam and Eve's marriage was unique — they had no parents to leave, no cultural baggage. Yet their story establishes patterns we still follow: leaving, cleaving, becoming one flesh. Their story reminds us that marriage requires active partnership, not passive presence.`,prompts:["What was your understanding of marriage before we got married? How has it changed?","What does emotional and spiritual 'nakedness without shame' look like in our marriage?","How can we be more intentional about facing challenges as a united team?","What does it mean practically for us to 'hold fast' to each other in this season?","If marriage is God's idea, how should that change how we approach difficult seasons?","What is one thing you want our marriage to reflect about God's character?"]},5:{title:"Practical Challenge",challengeTitle:'"Back to the Beginning" Date',challengeDesc:"Remember and celebrate God's work in bringing you together.",challengeSteps:["Share stories: Take turns sharing how you met and your first impressions.","Trace God's hand: Identify 3-5 moments where you can see God orchestrating your relationship.","Create a timeline: Sketch out key moments from meeting to present.","Thank God together: End by praying together, thanking God for bringing you together."]},7:{title:"Joint Prayer & Reflection",reflectionQuestions:["What is one insight from this week that you want to carry forward?","How did the practical challenge impact your perspective?","What is one way you want to grow in the coming week?"],prayer:`Heavenly Father, thank You for the gift of marriage — Your idea, Your design, Your blessing. Thank You for bringing us together and joining us as one. Teach us to see our union through Your eyes. Help us to hold fast to one another in every season. May our marriage reflect Your faithful, covenant love to everyone who sees us. In Jesus' name, Amen.`}}},{week:2,title:"Covenant vs. Contract",theme:"The Binding Promise — Understanding Marriage as Sacred Covenant",couple:"God & Israel",coupleDesc:"The Ultimate Covenant Model",days:{1:{title:"Theme Introduction",scriptureRef:"Malachi 2:14-16",scriptureText:`"Because the LORD was witness between you and the wife of your youth, to whom you have been faithless, though she is your companion and your wife by covenant... So guard yourselves in your spirit, and do not be faithless."`,devotional:`<p>In our culture, marriage is often treated as a contract. But Scripture presents marriage as something far deeper — a <em>covenant</em>.</p><p>A covenant is a sacred bond witnessed by God Himself. When challenges come, a contract-mindset asks, "What am I getting out of this?" A covenant-mindset asks, "How can I remain faithful to my promise before God?"</p>`},2:{title:"Individual Reflection",scriptureRef:"Proverbs 2:17",scriptureText:`"...who forsakes the companion of her youth and forgets the covenant of her God."`,prompts:["How does your relationship with God affect your commitment to your spouse?","What does it mean that your spouse is the 'companion of your youth'?","Where are you tempted to treat your marriage more like a contract than a covenant?"]},3:{title:"Individual Reflection",scriptureRef:"Ephesians 5:31-32",scriptureText:`"'Therefore a man shall leave his father and mother and hold fast to his wife, and the two shall become one flesh.' This mystery is profound, and I am saying that it refers to Christ and the church."`,prompts:["Paul calls marriage a 'profound mystery' that points to Christ and the church. What does this tell you about your marriage's spiritual significance?","How does Christ's covenant faithfulness to the church model what your marriage should look like?"]},4:{title:"Couple Discussion",coupleStudy:`Throughout Scripture, God uses marriage language to describe His relationship with His people. He calls Israel His "bride," grieves over her unfaithfulness, and promises to betroth her forever. Human marriage is designed to reflect divine love.`,prompts:["What promises did we make on our wedding day? Can you remember them?","Where do you see contract thinking creeping into our marriage?","God remained faithful to Israel even when Israel was unfaithful. How does this shape your understanding of commitment?","What practical difference does it make that God was a 'witness' to our marriage?","Is there any area where we need to renew our commitment to each other?"]},5:{title:"Practical Challenge",challengeTitle:'"Covenant Renewal" Exercise',challengeDesc:"Revisit and renew your covenant commitment.",challengeSteps:["Find your vows: Locate your original wedding vows.","Read them aloud: Set aside 15-20 minutes to read your vows to each other.","Add specifics: Each spouse shares one specific way to honor that covenant this year.","Seal it: End by holding hands and praying together."]},7:{title:"Joint Prayer & Reflection",reflectionQuestions:["How did renewing your vows affect you?","What 'contract' mindset do you want to replace with 'covenant' thinking?","How can you remind each other of your covenant when challenges arise?"],prayer:`Lord God, You are the covenant-keeping God. You have never broken a promise. We confess that we sometimes treat our marriage like a contract. Transform our hearts to embrace covenant love — love that gives without demanding, that perseveres without conditions. In Jesus' name, Amen.`}}},{week:3,title:"Leaving and Cleaving",theme:"New Family Identity — Establishing Healthy Boundaries",couple:"Isaac & Rebekah",coupleDesc:"A Divinely Arranged Union",days:{1:{title:"Theme Introduction",scriptureRef:"Genesis 2:24",scriptureText:`"Therefore a man shall leave his father and his mother and hold fast to his wife, and they shall become one flesh."`,devotional:`<p>This verse contains God's three-part blueprint for marriage: <strong>leave, cleave, become one</strong>. Leaving comes first. Before you can fully unite with your spouse, you must establish appropriate separation from your family of origin.</p><p>"Cleaving" (Hebrew: dabaq) means to cling, stick, or be glued to. It implies fierce loyalty. You chose each other. Now you must continue to choose each other.</p>`},2:{title:"Individual Reflection",scriptureRef:"Genesis 24:67",scriptureText:`"Then Isaac brought her into the tent of Sarah his mother and took Rebekah, and she became his wife, and he loved her."`,prompts:["Isaac had been grieving his mother's death. Rebekah became his comfort. What does this tell us about the role spouses play?","Love followed commitment in Isaac's story. How does this challenge modern assumptions?","Are there ways you still haven't fully 'left' your family of origin?"]},3:{title:"Individual Reflection",scriptureRef:"Ruth 1:16-17",scriptureText:`"But Ruth said, 'Do not urge me to leave you... For where you go I will go, and where you lodge I will lodge. Your people shall be my people, and your God my God.'"`,prompts:["What would it look like to speak these words of commitment to your spouse?","'Your people shall be my people' — How well have you embraced your spouse's family?"]},4:{title:"Couple Discussion",coupleStudy:`Isaac and Rebekah's marriage began with one of the most dramatic "leaving" stories in Scripture. Rebekah left everything — family, homeland, culture — to marry a man she had never met. Her answer was "I will go." Their story shows both the courage required to leave and the intentionality required to cleave.`,prompts:["On a scale of 1-10, how well have we 'left' our families of origin?","Are there ways either of our parents has inappropriate influence in our marriage?","How do we balance honoring our parents with prioritizing our marriage?","What does 'cleaving' look like practically in this season?","Is there a decision we've been letting parents overly influence?"]},5:{title:"Practical Challenge",challengeTitle:'"United Front" Exercise',challengeDesc:"Establish and communicate healthy boundaries.",challengeSteps:["Identify one boundary: Where would a boundary with extended family strengthen your marriage?","Agree on the approach: Discuss the boundary and how to communicate it. Present a united front.","Pray together: Ask God for wisdom, courage, and grace.","Take action: Begin to communicate or implement this boundary."]},7:{title:"Joint Prayer & Reflection",reflectionQuestions:["What did you discover about your 'leaving' and 'cleaving'?","How did the boundary conversation go?","How do you want to prioritize cleaving to each other more?"],prayer:`Father, thank You for our families of origin. We honor them as You command. Yet we recognize that You have called us to leave and cleave. Give us wisdom to honor our parents while prioritizing our marriage. Help us cling to each other with fierce loyalty. In Jesus' name, Amen.`}}},{week:4,title:"Becoming One Flesh",theme:"Spiritual Unity — The Mystery of Two Becoming One",couple:"Christ & the Church",coupleDesc:"The Ultimate Picture of Oneness",days:{1:{title:"Theme Introduction",scriptureRef:"Ecclesiastes 4:9-12",scriptureText:`"Two are better than one... For if they fall, one will lift up his fellow... And though a man might prevail against one who is alone, two will withstand him—a threefold cord is not quickly broken."`,devotional:`<p>"One flesh" speaks to a union that transcends the physical — an interweaving of two lives into one shared existence.</p><p>Solomon highlights mutual support, mutual comfort, and mutual protection. "A threefold cord is not quickly broken." What is the third strand? God Himself. A marriage with Christ at the center has a strength that human love alone cannot provide.</p>`},2:{title:"Individual Reflection",scriptureRef:"1 Corinthians 6:16-17",scriptureText:`"Or do you not know that he who is joined to a prostitute becomes one body with her?... But he who is joined to the Lord becomes one spirit with him."`,prompts:["How does your union with Christ shape your union with your spouse?","In what areas do you and your spouse operate more as 'two' than as 'one'?"]},3:{title:"Individual Reflection",scriptureRef:"John 17:21-23",scriptureText:`"...that they may all be one, just as you, Father, are in me, and I in you... that they may become perfectly one, so that the world may know that you sent me."`,prompts:["The Trinity models perfect unity in diversity. How can this shape your marriage?","What does your marital unity communicate to those around you?"]},4:{title:"Couple Discussion",coupleStudy:`The deepest picture of marital oneness is Christ's union with His bride, the Church. Christ gave everything for His bride. He doesn't abandon her in her failures. He is patient with her growth. This is the oneness your marriage is designed to reflect.`,prompts:["Where do you feel most 'one' right now? Where most disconnected?","How central is God in our marriage currently?","Are there areas where we're operating as two individuals rather than one unit?","What spiritual practices could we develop together to strengthen our 'threefold cord'?","How can we support each other better?"]},5:{title:"Practical Challenge",challengeTitle:'"Three-Strand" Spiritual Practice',challengeDesc:"Establish or deepen a shared spiritual practice.",challengeSteps:["Choose a practice: Pray before bed, read a Gospel chapter together, take a prayer walk.","Schedule it: Put specific times on your calendar.","Start simple: If praying together feels awkward, start with written prayers.","Evaluate together: How did this practice affect your sense of unity?"]},7:{title:"Joint Prayer & Reflection",reflectionQuestions:["How did the shared spiritual practice affect your connection?","What insight about 'oneness' do you want to remember?","Do you want to continue this practice?"],prayer:`Lord Jesus, You prayed that Your followers would be one as You and the Father are one. We ask that unity for our marriage. Weave us together more tightly. Be the third strand in our cord. Help us lift each other up, comfort each other, and stand together. In Your name, Amen.`}}},{week:5,title:"Self-Centeredness: The Enemy of Marriage",theme:"Dying to Self — The Path to Thriving Together",couple:"Abraham & Sarah",coupleDesc:"When Self-Protection Hurts Marriage",days:{1:{title:"Theme Introduction",scriptureRef:"Philippians 2:3-5",scriptureText:`"Do nothing from selfish ambition or conceit, but in humility count others more significant than yourselves. Let each of you look not only to his own interests, but also to the interests of others."`,devotional:`<p>Timothy Keller identifies self-centeredness as the main enemy of every marriage. Not conflict. Not finances. Not incompatibility. <em>Self-centeredness</em>.</p><p>Jesus modeled a radically different approach. Though He had every right to demand service, He served. In marriage, this means: stop keeping score, stop demanding your rights, stop protecting your comfort at your spouse's expense.</p>`},2:{title:"Individual Reflection",scriptureRef:"Matthew 20:26-28",scriptureText:`"But whoever would be great among you must be your servant... even as the Son of Man came not to be served but to serve."`,prompts:["What would it look like to pursue 'greatness' in your marriage through serving?","In what ways are you self-centered in your marriage?","What expectation might be rooted in self-centeredness?"]},3:{title:"Individual Reflection",scriptureRef:"Galatians 5:13",scriptureText:`"For you were called to freedom, brothers. Only do not use your freedom as an opportunity for the flesh, but through love serve one another."`,prompts:["Christian freedom is freedom to serve others. How does this reframe marriage?","What is one way you could 'through love serve' your spouse today?"]},4:{title:"Couple Discussion",coupleStudy:`Abraham and Sarah's faith is legendary, but their marriage also shows the damage self-centeredness can cause. Twice, Abraham asked Sarah to say she was his sister to protect himself. Sarah pushed Abraham toward Hagar when she grew impatient. Both instances show self-protection damaging their partnership.`,prompts:["Without blaming, share: Where does self-centeredness show up in our marriage?","What expectations did you bring into marriage that might have been self-focused?","What would it look like to 'count the other more significant' this week?","How can we help each other grow in selflessness without nagging?","Is there an area where you need to ask forgiveness for being self-centered?"]},5:{title:"Practical Challenge",challengeTitle:'"Secret Service" Week',challengeDesc:"Serve your spouse without expecting recognition.",challengeSteps:["Identify their love language: What makes your spouse feel most loved?","Perform 3 secret acts of service: Serve without telling them it's an 'assignment.'","Don't keep score: Resist tracking whether they notice or reciprocate.","Reflect: What does this reveal about your own self-centeredness?"]},7:{title:"Joint Prayer & Reflection",reflectionQuestions:["What did the 'Secret Service' challenge reveal about your heart?","Where did you see self-centeredness in yourself?","How can you continue to serve each other?"],prayer:`Lord Jesus, You came not to be served but to serve. We confess that we often expect to be served. Forgive our self-centeredness. Give us Your servant heart. Help us consider each other more significant than ourselves. When we want to keep score, remind us of the cross. In Your name, Amen.`}}},{week:6,title:"Biblical Roles: Headship & Submission",theme:"Mutual Honor — Understanding Ephesians 5",couple:"Christ & the Church",coupleDesc:"Sacrificial Leadership and Joyful Response",days:{1:{title:"Theme Introduction",scriptureRef:"Ephesians 5:21-25",scriptureText:`"...submitting to one another out of reverence for Christ. Wives, submit to your own husbands, as to the Lord... Husbands, love your wives, as Christ loved the church and gave himself up for her."`,devotional:`<p>Few passages generate more controversy than Ephesians 5. Yet we find something beautiful: mutual self-giving that reflects Christ's love.</p><p>Paul begins with "submitting to <em>one another</em>" — mutual deference is the context. Husbands are called to love "as Christ loved" — not domineering leadership but sacrificial service. Both roles require dying to self. Neither is about power; both are about love.</p>`},2:{title:"Individual Reflection",scriptureRef:"1 Peter 3:7",scriptureText:`"Likewise, husbands, live with your wives in an understanding way, showing honor to the woman... so that your prayers may not be hindered."`,prompts:["'Live in an understanding way' — How well do you understand your spouse?","Peter connects how husbands treat wives to prayer effectiveness. How does this motivate you?"]},3:{title:"Individual Reflection",scriptureRef:"Colossians 3:18-19",scriptureText:`"Wives, submit to your husbands, as is fitting in the Lord. Husbands, love your wives, and do not be harsh with them."`,prompts:["'Do not be harsh' — Where might harshness be creeping into your marriage?","What has shaped your understanding of roles — culture, family, past teaching?"]},4:{title:"Couple Discussion",coupleStudy:`The model for biblical roles is Christ Himself. He leads the church not by demanding obedience but by dying for her. His headship is expressed in sacrifice, not control. The church responds not out of fear but out of love for One who gave everything.`,prompts:["What was modeled about marriage roles in your families growing up?","Husbands: Where are you leading sacrificially? Where do you need to grow?","Wives: Where is it easy or difficult to trust your husband's leadership?","How do you handle disagreements about direction?","What would 'mutual submission' look like in a specific area?"]},5:{title:"Practical Challenge",challengeTitle:'"Honor Your Spouse" Week',challengeDesc:"Live out biblical roles in practical ways.",challengeSteps:["For husbands: Take responsibility for planning one meaningful thing without being asked.","For wives: Express respect and appreciation for your husband at least once daily.","Both: Share at week's end how it felt to give and receive this honor."]},7:{title:"Joint Prayer & Reflection",reflectionQuestions:["How did this week's focus on roles affect your marriage?","What felt natural? What felt challenging?","How can you continue to honor each other in your respective roles?"],prayer:`Lord Jesus, thank You for loving the church sacrificially. Help us reflect that love. For the husband: Give me courage to lead with sacrifice, not selfishness. For the wife: Give me grace to respect and trust. Together: Make our marriage a picture of the Gospel. In Jesus' name, Amen.`}}},{week:7,title:"Communication: Speaking Truth in Love",theme:"Words That Build — The Power of the Tongue",couple:"Priscilla & Aquila",coupleDesc:"Partners in Ministry and Communication",days:{1:{title:"Theme Introduction",scriptureRef:"Ephesians 4:29, 32",scriptureText:`"Let no corrupting talk come out of your mouths, but only such as is good for building up, as fits the occasion, that it may give grace to those who hear... Be kind to one another, tenderhearted, forgiving one another."`,devotional:`<p>Communication is the lifeblood of marriage. Paul gives us a masterclass: <strong>Truth-telling</strong> — no hiding or deceiving. <strong>Timely resolution</strong> — don't let anger fester. <strong>Building up</strong> — every word should give grace. <strong>Kindness and forgiveness</strong> — the foundation of all communication.</p>`},2:{title:"Individual Reflection",scriptureRef:"James 1:19-20",scriptureText:`"Let every person be quick to hear, slow to speak, slow to anger; for the anger of man does not produce the righteousness of God."`,prompts:["Rate yourself: Are you quicker to listen or speak?","What triggers quick anger in marital conversations?"]},3:{title:"Individual Reflection",scriptureRef:"Proverbs 15:1, 4",scriptureText:`"A soft answer turns away wrath, but a harsh word stirs up anger... A gentle tongue is a tree of life, but perverseness in it breaks the spirit."`,prompts:["Think of a recent conflict. What would a 'soft answer' have looked like?","How have gentle words given you life? How have harsh words broken your spirit?"]},4:{title:"Couple Discussion",coupleStudy:`Priscilla and Aquila are always mentioned together in Scripture — a picture of true partnership. In Acts 18:26, they correct Apollos's theology privately and graciously. They model communicating truth with love, addressing difficult topics with grace, and working as a team.`,prompts:["What are our communication strengths? Where do we struggle most?","Do we let the sun go down on our anger?","What words or phrases feel most hurtful to you?","How can we create space for difficult conversations that feel safe?","Is there anything said recently that needs an apology?"]},5:{title:"Practical Challenge",challengeTitle:'"Grace-Giving Words" Exercise',challengeDesc:"Transform how you communicate.",challengeSteps:["Establish a 'time out' signal: When heated, take 20 minutes to cool down and pray.","Speaker-listener technique: The listener repeats back what they heard before responding.","Daily encouragement: End each day by sharing one specific appreciation.","No criticism fast: For 48 hours, commit to zero criticism or complaints."]},7:{title:"Joint Prayer & Reflection",reflectionQuestions:["How did the communication exercises affect your conversations?","What was the hardest part of the 'no criticism fast'?","What communication practice do you want to continue?"],prayer:`Lord, You spoke the world into being. Words have power. Forgive us for tearing down rather than building up. Create in us clean hearts that overflow with grace-giving words. Help us be quick to listen, slow to speak, slow to anger. May our home be filled with encouragement and kindness. In Jesus' name, Amen.`}}},{week:8,title:"Listening Hearts",theme:"The Gift of Presence — Hearing Beyond Words",couple:"Elkanah & Hannah",coupleDesc:"A Husband Who Saw His Wife's Pain",days:{1:{title:"Theme Introduction",scriptureRef:"Proverbs 18:2, 13",scriptureText:`"A fool takes no pleasure in understanding, but only in expressing his opinion... If one gives an answer before he hears, it is his folly and shame."`,devotional:`<p>Last week we focused on speaking; this week we focus on <em>listening</em>.</p><p>True listening is an act of love. It says, "You matter. Your thoughts matter." Listening requires <strong>presence, patience, curiosity, and empathy</strong>. When your spouse feels truly heard, walls come down, trust grows, intimacy deepens.</p>`},2:{title:"Individual Reflection",scriptureRef:"1 Samuel 1:8",scriptureText:`"And Elkanah, her husband, said to her, 'Hannah, why do you weep? And why do you not eat? And why is your heart sad? Am I not more to you than ten sons?'"`,prompts:["Elkanah noticed Hannah's pain and asked questions. How attentive are you to your spouse's emotional state?","His final question shows he didn't fully understand her pain. When have you tried to 'fix' feelings rather than just listening?","What might your spouse be feeling right now that you haven't asked about?"]},3:{title:"Individual Reflection",scriptureRef:"Proverbs 20:5",scriptureText:`"The purpose in a man's heart is like deep water, but a man of understanding will draw it out."`,prompts:["Your spouse has thoughts and feelings that lie beneath the surface. What questions could help draw them out?","'A man of understanding' — What distractions prevent you from really listening?"]},4:{title:"Couple Discussion",coupleStudy:`Elkanah loved Hannah deeply. He noticed her tears, her loss of appetite, her sadness. He asked questions. Yet even his loving presence couldn't fully ease her pain. He tried to be enough when what she needed was for him to sit with her in her pain. Sometimes our spouse doesn't need solutions; they need presence.`,prompts:["On a scale of 1-10, how heard do you feel in our marriage?","What gets in the way of us really listening to each other?","When you're upset, what do you need most — solutions, empathy, or space?","Are there topics we tend to avoid because they're hard to discuss?","What question could I ask you more often to 'draw out' what's in your heart?","How can we balance listening to each other with pointing each other to God?"]},5:{title:"Practical Challenge",challengeTitle:'"Deep Listening" Conversations',challengeDesc:"Create intentional space for deep listening.",challengeSteps:["Schedule 20 uninterrupted minutes: Phones away, TV off. Face each other.","Take turns sharing: One spouse shares for 8-10 minutes about something on their heart. The other listens without interrupting.","Reflect back: The listener says 'What I heard you say is...' and 'It sounds like you're feeling...' No fixing, just understanding.","Switch roles: Give the other spouse the same experience.","Close in prayer: Pray for what your spouse shared."]},7:{title:"Joint Prayer & Reflection",reflectionQuestions:["How did the 'deep listening' exercise feel? What did you learn?","What made it hard to listen without responding or fixing?","How can you build more intentional listening into your rhythms?"],prayer:`Father, You are the God who hears. You invite us to pour out our hearts to You, and You listen. Teach us to listen to each other the way You listen to us — with patience, without judgment, with full attention. Forgive us for the times we've been too distracted, too defensive, or too quick to fix. Give us ears to hear not just words but hearts. Thank You for these eight weeks of growing together. Continue the work You've started in us. In Jesus' name, Amen.`}}}];
@@ -763,25 +757,23 @@ function openWeek(){showView('view-week');renderWeekView();}
 function renderWeekView(){const week=WEEKS[data.currentWeek-1];document.getElementById('week-view-num').textContent=week.week;document.getElementById('week-view-title').textContent=week.title;document.getElementById('week-view-theme').textContent=week.theme;renderDayTabs();renderDayContent();updateCompleteButton();}
 function renderDayTabs(){const container=document.getElementById('day-tabs');container.innerHTML='';const week=WEEKS[data.currentWeek-1];const weekProgress=data.progress[week.week]||{days:[]};const dayLabels=[{day:1,label:'Day 1'},{day:2,label:'Day 2'},{day:3,label:'Day 3'},{day:4,label:'Day 4'},{day:5,label:'Days 5-6'},{day:7,label:'Day 7'}];dayLabels.forEach(({day,label})=>{const tab=document.createElement('button');tab.className='day-tab';tab.textContent=label;if(day===data.currentDay)tab.classList.add('active');if(weekProgress.days.includes(day))tab.classList.add('complete');tab.onclick=()=>{data.currentDay=day;saveData(data);renderDayTabs();renderDayContent();updateCompleteButton();};container.appendChild(tab);});}
 function renderDayContent(){const container=document.getElementById('day-content');const week=WEEKS[data.currentWeek-1];const dayData=week.days[data.currentDay];if(!dayData){container.innerHTML='<p>No content for this day.</p>';return;}let html=`<h2 class="card-title" style="margin-bottom:1rem;">${dayData.title}</h2>`;if(dayData.scriptureRef){html+=`<div class="scripture-block"><div class="scripture-ref">${dayData.scriptureRef}</div><div class="scripture-text">${dayData.scriptureText}</div><div class="scripture-version">— ESV</div></div>`;}if(dayData.devotional){html+=`<div class="devotional-text">${dayData.devotional}</div>`;}if(dayData.coupleStudy){html+=`<div class="couple-study"><div class="couple-study-title">Biblical Couple: ${week.couple}</div><div class="couple-study-text">${dayData.coupleStudy}</div></div>`;}if(dayData.prompts){html+=`<div class="section-label" style="margin-top:1.5rem;">[ Journal Prompts ]</div><div class="prompts-list">`;dayData.prompts.forEach((prompt,i)=>{const journalKey=`${week.week}-${data.currentDay}-${i}`;const savedEntry=data.journals[journalKey]||'';html+=`<div class="prompt-item"><div class="prompt-number">PROMPT ${i+1}</div><div class="prompt-text">${prompt}</div><div class="journal-entry"><textarea class="journal-textarea" placeholder="Write your thoughts..." data-key="${journalKey}" onchange="saveJournal(this)">${savedEntry}</textarea><div class="journal-saved" id="saved-${journalKey}">Saved</div></div></div>`;});html+=`</div>`;}if(dayData.challengeTitle){html+=`<div class="challenge-block"><div class="section-label">[ Practical Challenge ]</div><h3 class="challenge-title">${dayData.challengeTitle}</h3><p class="devotional-text">${dayData.challengeDesc}</p><ul class="challenge-steps">${dayData.challengeSteps.map(step=>`<li>${step}</li>`).join('')}</ul></div>`;}if(dayData.reflectionQuestions){html+=`<div class="section-label" style="margin-top:1.5rem;">[ Reflection Questions ]</div><div class="prompts-list">`;dayData.reflectionQuestions.forEach((q,i)=>{html+=`<div class="prompt-item"><div class="prompt-number">QUESTION ${i+1}</div><div class="prompt-text">${q}</div></div>`;});html+=`</div>`;}if(dayData.prayer){html+=`<div class="prayer-block"><div class="prayer-label">[ Guided Couple Prayer ]</div><div class="prayer-text">${dayData.prayer}</div></div>`;}container.innerHTML=html;}
-
-function saveJournal(textarea){const key=textarea.dataset.key;data.journals[key]=textarea.value;saveData(data);const indicator=document.getElementById(`saved-${key}`);if(indicator){indicator.classList.add(‘visible’);setTimeout(()=>indicator.classList.remove(‘visible’),2000);}}
-function updateCompleteButton(){const btn=document.getElementById(‘complete-day-btn’);const week=WEEKS[data.currentWeek-1];const weekProgress=data.progress[week.week]||{days:[]};if(weekProgress.days.includes(data.currentDay)){btn.textContent=’[ ✓ Day Complete ]’;btn.disabled=true;btn.style.opacity=‘0.6’;}else{btn.textContent=’[ Mark Day Complete ]’;btn.disabled=false;btn.style.opacity=‘1’;}}
-function completeDay(){const week=WEEKS[data.currentWeek-1];if(!data.progress[week.week]){data.progress[week.week]={days:[],complete:false};}if(!data.progress[week.week].days.includes(data.currentDay)){data.progress[week.week].days.push(data.currentDay);}const allDays=[1,2,3,4,5,7];const isWeekComplete=allDays.every(d=>data.progress[week.week].days.includes(d));if(isWeekComplete){data.progress[week.week].complete=true;if(data.currentWeek<8){showModal(‘Week Complete’,`Congratulations! You've completed Week ${week.week}. Ready to begin Week ${week.week+1}?`);data.currentWeek++;data.currentDay=1;}else{showModal(‘Pilot Complete’,`Amazing! You've completed all 8 weeks of Beacon. May God continue to bless your marriage!`);}}else{const dayOrder=[1,2,3,4,5,7];const currentIdx=dayOrder.indexOf(data.currentDay);if(currentIdx<dayOrder.length-1){data.currentDay=dayOrder[currentIdx+1];}showModal(‘Confirmed’,‘Great work continuing your journey together.’);}saveData(data);renderWeekView();updateDashboard();}
-function updateProgressView(){const completedWeeks=Object.values(data.progress).filter(p=>p.complete).length;const totalDays=Object.values(data.progress).reduce((sum,p)=>sum+(p.days?.length||0),0);document.getElementById(‘prog-streak’).textContent=calculateStreak();document.getElementById(‘prog-weeks’).textContent=completedWeeks;document.getElementById(‘prog-days’).textContent=totalDays;const list=document.getElementById(‘progress-weeks-list’);list.innerHTML=’’;WEEKS.forEach(week=>{const progress=data.progress[week.week]||{days:[],complete:false};const dayCount=progress.days?.length||0;const item=document.createElement(‘div’);item.className=‘prompt-item’;item.style.cursor=‘pointer’;item.innerHTML=`<div style="display:flex;justify-content:space-between;align-items:center;"><div><div class="prompt-number">WEEK ${week.week}</div><div class="prompt-text" style="font-size:0.875rem;">${week.title}</div></div><div style="text-align:right;"><div style="font-size:0.875rem;color:${progress.complete?'var(--success)':'var(--text-muted)'};">${progress.complete?'✓ Complete':`${dayCount}/6 days`}</div></div></div>`;item.onclick=()=>{data.currentWeek=week.week;data.currentDay=1;saveData(data);openWeek();};list.appendChild(item);});}
-function showModal(title,message){document.getElementById(‘modal-title’).textContent=title;document.getElementById(‘modal-message’).textContent=message;document.getElementById(‘modal-complete’).classList.add(‘active’);}
-function hideModal(){document.getElementById(‘modal-complete’).classList.remove(‘active’);}
+function saveJournal(textarea){const key=textarea.dataset.key;data.journals[key]=textarea.value;saveData(data);const indicator=document.getElementById(`saved-${key}`);if(indicator){indicator.classList.add('visible');setTimeout(()=>indicator.classList.remove('visible'),2000);}}
+function updateCompleteButton(){const btn=document.getElementById('complete-day-btn');const week=WEEKS[data.currentWeek-1];const weekProgress=data.progress[week.week]||{days:[]};if(weekProgress.days.includes(data.currentDay)){btn.textContent='[ ✓ Day Complete ]';btn.disabled=true;btn.style.opacity='0.6';}else{btn.textContent='[ Mark Day Complete ]';btn.disabled=false;btn.style.opacity='1';}}
+function completeDay(){const week=WEEKS[data.currentWeek-1];if(!data.progress[week.week]){data.progress[week.week]={days:[],complete:false};}if(!data.progress[week.week].days.includes(data.currentDay)){data.progress[week.week].days.push(data.currentDay);}const allDays=[1,2,3,4,5,7];const isWeekComplete=allDays.every(d=>data.progress[week.week].days.includes(d));if(isWeekComplete){data.progress[week.week].complete=true;if(data.currentWeek<8){showModal('Week Complete',`Congratulations! You've completed Week ${week.week}. Ready to begin Week ${week.week+1}?`);data.currentWeek++;data.currentDay=1;}else{showModal('Pilot Complete',`Amazing! You've completed all 8 weeks of Beacon. May God continue to bless your marriage!`);}}else{const dayOrder=[1,2,3,4,5,7];const currentIdx=dayOrder.indexOf(data.currentDay);if(currentIdx<dayOrder.length-1){data.currentDay=dayOrder[currentIdx+1];}showModal('Confirmed','Great work continuing your journey together.');}saveData(data);renderWeekView();updateDashboard();}
+function updateProgressView(){const completedWeeks=Object.values(data.progress).filter(p=>p.complete).length;const totalDays=Object.values(data.progress).reduce((sum,p)=>sum+(p.days?.length||0),0);document.getElementById('prog-streak').textContent=calculateStreak();document.getElementById('prog-weeks').textContent=completedWeeks;document.getElementById('prog-days').textContent=totalDays;const list=document.getElementById('progress-weeks-list');list.innerHTML='';WEEKS.forEach(week=>{const progress=data.progress[week.week]||{days:[],complete:false};const dayCount=progress.days?.length||0;const item=document.createElement('div');item.className='prompt-item';item.style.cursor='pointer';item.innerHTML=`<div style="display:flex;justify-content:space-between;align-items:center;"><div><div class="prompt-number">WEEK ${week.week}</div><div class="prompt-text" style="font-size:0.875rem;">${week.title}</div></div><div style="text-align:right;"><div style="font-size:0.875rem;color:${progress.complete?'var(--success)':'var(--text-muted)'};">${progress.complete?'✓ Complete':`${dayCount}/6 days`}</div></div></div>`;item.onclick=()=>{data.currentWeek=week.week;data.currentDay=1;saveData(data);openWeek();};list.appendChild(item);});}
+function showModal(title,message){document.getElementById('modal-title').textContent=title;document.getElementById('modal-message').textContent=message;document.getElementById('modal-complete').classList.add('active');}
+function hideModal(){document.getElementById('modal-complete').classList.remove('active');}
 function resetJourney(){
-if(confirm(‘This will clear all your progress and journal entries. Are you sure?’)){
-localStorage.removeItem(STORAGE_KEY);
-data = structuredClone(DEFAULT_DATA);
-document.getElementById(‘main-app’).style.display=‘none’;
-document.getElementById(‘setup-screen’).style.display=‘flex’;
-document.getElementById(‘partner1-name’).value=’’;
-document.getElementById(‘partner2-name’).value=’’;
+    if(confirm('This will clear all your progress and journal entries. Are you sure?')){
+        localStorage.removeItem(STORAGE_KEY);
+        data = structuredClone(DEFAULT_DATA);
+        document.getElementById('main-app').style.display='none';
+        document.getElementById('setup-screen').style.display='flex';
+        document.getElementById('partner1-name').value='';
+        document.getElementById('partner2-name').value='';
+    }
 }
-}
-document.addEventListener(‘DOMContentLoaded’,()=>{if(data.partner1&&data.partner2){showMainApp();}});
+document.addEventListener('DOMContentLoaded',()=>{if(data.partner1&&data.partner2){showMainApp();}});
 </script>
-
 </body>
 </html>
