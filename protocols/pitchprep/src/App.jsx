@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import "./styles.css";
 
-import { BasicPitch } from "@spotify/basic-pitch";
+import { BasicPitch, noteFramesToTime, addPitchBendsToNoteEvents, outputToNotesPoly } from "@spotify/basic-pitch";
 import { Midi } from "@tonejs/midi";
 
 function clamp(v, min, max){ return Math.max(min, Math.min(max, v)); }
@@ -55,6 +55,7 @@ export default function App(){
 
   const [file, setFile] = useState(null);
   const [status, setStatus] = useState("STANDBY");
+  const [progress, setProgress] = useState(0);
 
   const [rawNotes, setRawNotes] = useState([]);
   const [notes, setNotes] = useState([]);
@@ -86,18 +87,21 @@ export default function App(){
     modelUrl: "./models/model.json"
   }), []);
 
-  async function decodeAudioToMonoFloat32(audioFile){
+  async function decodeAudioToBuffer(audioFile){
     const arrayBuffer = await audioFile.arrayBuffer();
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     const audioBuffer = await audioCtx.decodeAudioData(arrayBuffer);
+    return audioBuffer;
+  }
 
+  function getMonoFromBuffer(audioBuffer){
     const ch0 = audioBuffer.getChannelData(0);
     const ch1 = audioBuffer.numberOfChannels > 1 ? audioBuffer.getChannelData(1) : null;
     const mono = new Float32Array(audioBuffer.length);
     for(let i=0;i<audioBuffer.length;i++){
       mono[i] = ch1 ? 0.5*(ch0[i]+ch1[i]) : ch0[i];
     }
-    return { mono, sampleRate: audioBuffer.sampleRate, seconds: audioBuffer.duration };
+    return mono;
   }
 
   // Quick diagnostic pitch (not used for MIDI export)
@@ -149,24 +153,56 @@ export default function App(){
     if(!file) return;
 
     setStatus("ACTIVE");
+    setProgress(0);
     setRawNotes([]);
     setNotes([]);
     setF0(null);
 
     try{
-      const { mono, sampleRate, seconds } = await decodeAudioToMonoFloat32(file);
+      // Decode audio to AudioBuffer (what Basic Pitch expects)
+      const audioBuffer = await decodeAudioToBuffer(file);
+      const mono = getMonoFromBuffer(audioBuffer);
+      const sampleRate = audioBuffer.sampleRate;
+      const seconds = audioBuffer.duration;
+
       setDuration(seconds);
       setF0(computeF0Quick(mono, sampleRate));
 
-      const bp = new BasicPitch(modelPaths.modelUrl);
-      const result = await bp.evaluateModel(mono, sampleRate);
+      // Basic Pitch uses callbacks, not return values
+      const frames = [];
+      const onsets = [];
+      const contours = [];
 
-      const extracted = (result?.notes || [])
+      const bp = new BasicPitch(modelPaths.modelUrl);
+      
+      await bp.evaluateModel(
+        audioBuffer,
+        (f, o, c) => {
+          // Accumulate frames, onsets, contours
+          frames.push(...f);
+          onsets.push(...o);
+          contours.push(...c);
+        },
+        (p) => {
+          // Progress callback (0-1)
+          setProgress(Math.round(p * 100));
+        }
+      );
+
+      // Convert raw model output to note events
+      const noteEvents = noteFramesToTime(
+        addPitchBendsToNoteEvents(
+          contours,
+          outputToNotesPoly(frames, onsets, 0.25, 0.25, 5)
+        )
+      );
+
+      const extracted = noteEvents
         .map(n => ({
-          start: n.startTimeSeconds ?? n.startTime ?? n.start,
-          end: n.endTimeSeconds ?? n.endTime ?? n.end,
-          midi: n.midiPitch ?? n.pitchMidi ?? (n.frequencyHz ? hzToMidi(n.frequencyHz) : n.pitch),
-          velocity: clamp(n.velocity ?? 0.9, 0.05, 1.0)
+          start: n.startTimeSeconds,
+          end: n.endTimeSeconds,
+          midi: n.pitchMidi,
+          velocity: clamp(n.amplitude ?? 0.9, 0.05, 1.0)
         }))
         .filter(n => Number.isFinite(n.start) && Number.isFinite(n.end) && Number.isFinite(n.midi) && n.end > n.start)
         .sort((a,b)=>a.start-b.start);
@@ -347,7 +383,7 @@ export default function App(){
         <div className="brand">
           <div className="gradus">▌▌▌</div>
           <h1 className="title">Grey Stratum</h1>
-          <div className="tag">Instrumentum 003 — AcePrep</div>
+          <div className="tag">Instrumentum 003 – AcePrep</div>
         </div>
 
         <div className="toolbar">
@@ -375,7 +411,7 @@ export default function App(){
           />
 
           <div className="kv">
-            <div className="small">status: <b style={{color:"var(--cyan)"}}>{status}</b></div>
+            <div className="small">status: <b style={{color:"var(--cyan)"}}>{status}{status === "ACTIVE" && progress > 0 ? ` (${progress}%)` : ""}</b></div>
             <div className="small">{file ? file.name : ""}</div>
           </div>
 
