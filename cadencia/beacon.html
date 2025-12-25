@@ -69,9 +69,9 @@
         .logo { display: flex; align-items: center; gap: 0.75rem; }
         
         /* Logo image */
-        .logo-image { width: 36px; height: 36px; object-fit: contain; }
-        @keyframes logoPulse { 0%, 100% { opacity: 0.85; transform: scale(1); } 50% { opacity: 1; transform: scale(1.03); } }
-        .logo-image.animated { animation: logoPulse 3s ease-in-out infinite; }
+        .logo-image { width: 48px; height: 48px; object-fit: contain; }
+        @keyframes logoBlink { 0%, 90%, 100% { opacity: 1; } 95% { opacity: 0.4; } }
+        .logo-image.animated { animation: logoBlink 4s ease-in-out infinite; }
         
         /* Gradus logo element */
         .logo-gradus { display: flex; align-items: center; gap: 3px; height: 1.5rem; }
@@ -239,8 +239,8 @@
         
         /* Setup screen */
         .setup-container { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2rem; text-align: center; }
-        .setup-logo-image { width: 80px; height: 80px; object-fit: contain; margin-bottom: 1.5rem; }
-        .setup-logo-image.animated { animation: logoPulse 3s ease-in-out infinite; }
+        .setup-logo-image { width: 100px; height: 100px; object-fit: contain; margin-bottom: 1.5rem; }
+        .setup-logo-image.animated { animation: logoBlink 4s ease-in-out infinite; }
         .setup-title { font-family: 'Archivo', sans-serif; font-size: 2rem; font-weight: 300; letter-spacing: 0.3em; text-transform: uppercase; color: var(--text-primary); margin-bottom: 0.5rem; }
         .setup-subtitle { font-size: 0.9375rem; color: var(--text-secondary); margin-bottom: 2rem; max-width: 300px; font-weight: 300; }
         .form-group { width: 100%; max-width: 300px; margin-bottom: 1rem; text-align: left; }

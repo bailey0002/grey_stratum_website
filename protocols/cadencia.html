@@ -30,7 +30,7 @@
             --gray-muted: #99ACB0;
             --border-color: #d8dce0;
             --cyan-accent: #5BA4B5;
-            --gold-accent: #D4A853;
+            --gold-accent: #CAA9B1;
             --error-color: #c53030;
         }
 
@@ -435,6 +435,19 @@
             margin-bottom: 1.5rem;
         }
 
+        .modal-logo-image {
+            width: 56px;
+            height: 56px;
+            object-fit: contain;
+            margin-bottom: 1.5rem;
+            display: none;
+        }
+
+        @keyframes logoBlink { 0%, 90%, 100% { opacity: 1; } 95% { opacity: 0.4; } }
+        .modal-logo-image.animated { animation: logoBlink 4s ease-in-out infinite; }
+        .modal-logo-image.visible { display: block; }
+        .modal-gradus.hidden { display: none; }
+
         .modal-gradus .gradus-bar {
             width: 4px;
             background-color: var(--cyan-accent);
@@ -536,7 +549,7 @@
 
         .btn-submit:hover { background: #4A8A99; border-color: #4A8A99; }
         .btn-submit.gold { background: var(--gold-accent); border-color: var(--gold-accent); }
-        .btn-submit.gold:hover { background: #C49943; border-color: #C49943; }
+        .btn-submit.gold:hover { background: #B8949C; border-color: #B8949C; }
 
         @media (max-width: 768px) {
             .nav { padding: 1rem 1.5rem; }
@@ -656,6 +669,7 @@
 <!-- Password Modal -->
 <div class="modal-overlay" id="passwordModal" onclick="closeModalOnOverlay(event)">
     <div class="modal-content">
+        <img src="/cadencia/beacon-logo.png" alt="Beacon" class="modal-logo-image animated" id="modalLogo">
         <div class="modal-gradus" id="modalGradus">
             <div class="gradus-bar"></div>
             <div class="gradus-bar"></div>
@@ -712,6 +726,7 @@
     const errorMessage = document.getElementById('errorMessage');
     const modalSubtitle = document.getElementById('modalSubtitle');
     const modalGradus = document.getElementById('modalGradus');
+    const modalLogo = document.getElementById('modalLogo');
     const submitBtn = document.getElementById('submitBtn');
 
     function openPasswordModal(target) {
@@ -720,11 +735,13 @@
         // Update modal styling based on target
         if (target === 'beacon') {
             modalSubtitle.textContent = '[ Beacon — Preview Build ]';
-            modalGradus.classList.add('gold');
+            modalGradus.classList.add('hidden');
+            modalLogo.classList.add('visible');
             submitBtn.classList.add('gold');
         } else {
             modalSubtitle.textContent = '[ Praxia-1 — Preview Build ]';
-            modalGradus.classList.remove('gold');
+            modalGradus.classList.remove('hidden');
+            modalLogo.classList.remove('visible');
             submitBtn.classList.remove('gold');
         }
         
