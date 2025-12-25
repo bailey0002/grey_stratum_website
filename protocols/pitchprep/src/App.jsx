@@ -210,13 +210,26 @@ export default function App(){
         }
       );
 
+      // Debug logging
+      console.log('Basic Pitch output:', { 
+        framesLength: frames.length, 
+        onsetsLength: onsets.length, 
+        contoursLength: contours.length 
+      });
+      
+      if (frames.length > 0) {
+        console.log('Sample frame:', frames[0]);
+      }
+
       // Convert raw model output to note events
-      const noteEvents = noteFramesToTime(
-        addPitchBendsToNoteEvents(
-          contours,
-          outputToNotesPoly(frames, onsets, 0.25, 0.25, 5)
-        )
-      );
+      const polyNotes = outputToNotesPoly(frames, onsets, 0.25, 0.25, 5);
+      console.log('outputToNotesPoly result:', polyNotes?.length, polyNotes);
+      
+      const withBends = addPitchBendsToNoteEvents(contours, polyNotes);
+      console.log('addPitchBendsToNoteEvents result:', withBends?.length, withBends);
+      
+      const noteEvents = noteFramesToTime(withBends);
+      console.log('noteFramesToTime result:', noteEvents?.length, noteEvents);
 
       const extracted = noteEvents
         .map(n => ({
